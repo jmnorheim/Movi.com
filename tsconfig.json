@@ -23,7 +23,9 @@
   "include": [
     "./frontend/eslintrc.cjs",
     "./frontend/vite.config.ts",
-    "./frontend/src"
+    "./frontend/vitest.config.ts",
+    "./frontend/src",
+    "./frontend/__tests__"
   ],
   "references": [{ "path": "./frontend/tsconfig.node.json" }]
 }
