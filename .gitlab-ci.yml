@@ -23,7 +23,7 @@ testing:
   before_script:
     - npm run setup
   script:
-    -npm run test
+    - npm run test
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
