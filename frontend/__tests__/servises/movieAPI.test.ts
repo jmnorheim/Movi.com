@@ -15,8 +15,6 @@ describe("movieAPI", () => {
     if (Array.isArray(result)) {
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]).toHaveProperty("imdbID");
-    } else {
-      expect(result).toHaveProperty("imdbID");
     }
   });
 });

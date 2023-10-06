@@ -6,11 +6,6 @@ import react from "@vitejs/plugin-react-swc";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  test: {
-    globals: true,
-    environment: "jedom",
-    setupFiles: ["./src/setupTests.ts"],
-  },
   server: {
     host: "0.0.0.0",
   },
