@@ -1,27 +1,27 @@
 /* Global style for importing the Roboto font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 /* Styling for the app bar to span the entire viewport width */
 .app-bar {
-    width: 100vw;
+  width: 100vw;
 }
 
 /* Toolbar layout to position items on the left, center, and right */
 .toolbar {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Icon button layout for containing icon and text below */
 .icon-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Style for the Møvie brand name */
 .movie-brand {
-    font-family: 'Roboto, sans-serif';
-    text-decoration: none;
-    color: inherit;
+  font-family: "Roboto, sans-serif";
+  text-decoration: none;
+  color: inherit;
 }
