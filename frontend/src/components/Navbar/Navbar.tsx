@@ -19,12 +19,30 @@ const NavBar: React.FC = (): JSX.Element => {
       <AppBar position="static" className="app-bar" sx={{ backgroundColor: '#001F3F' }}>
         <Toolbar className="toolbar">
           <Box />
-          <Typography variant="h6" component={Link} to="/" className="movie-brand">Møvie</Typography>
+
+          {/* "Movie" in middle of navbar */}
+          <Typography 
+            sx={{ 
+                position: 'absolute', 
+                top: '50%', 
+                left: '50%', 
+                transform: 'translate(-50%, -50%)' 
+            }} 
+            variant="h6" 
+            component={Link} 
+            to="/" 
+            className="movie-brand">
+            Movie
+          </Typography>
+          
           <Box style={{ display: 'flex', gap: '16px' }}>
+            {/* My library icon with text */}
             <IconButton color="inherit" component={Link} to="/my-library" className="icon-button">
               <LibraryBooksIcon />
               <Typography variant="caption">My Library</Typography>
             </IconButton>
+
+            {/* Profile or Login icon with text */}
             <IconButton color="inherit" component={Link} to={isLoggedIn ? "/profile" : "/login"} className="icon-button">
               {isLoggedIn ? <AccountCircleIcon /> : <LoginIcon />}
               <Typography variant="caption">{isLoggedIn ? 'Profile' : 'Login'}</Typography>
