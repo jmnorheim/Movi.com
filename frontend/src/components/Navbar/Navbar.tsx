@@ -5,6 +5,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
 import "./navbar.css";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
+import { useAuth } from "../../AuthContext";
 
 /**
  * Render navbar.
@@ -12,7 +13,7 @@ import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
  * @returns {JSX.Element}
  */
 const NavBar: React.FC = (): JSX.Element => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { isLoggedIn } = useAuth();
 
   return (
     <>
@@ -32,15 +33,17 @@ const NavBar: React.FC = (): JSX.Element => {
             Møvie
           </Typography>
           <Box style={{ display: "flex", gap: "16px" }}>
-            <IconButton
-              color="inherit"
-              component={Link}
-              to="/my-library"
-              className="icon-button"
-            >
-              <LibraryBooksIcon />
-              <Typography variant="caption">My Library</Typography>
-            </IconButton>
+            {isLoggedIn && (
+              <IconButton
+                color="inherit"
+                component={Link}
+                to="/my-library"
+                className="icon-button"
+              >
+                <LibraryBooksIcon />
+                <Typography variant="caption">My Library</Typography>
+              </IconButton>
+            )}
             <IconButton
               color="inherit"
               component={Link}

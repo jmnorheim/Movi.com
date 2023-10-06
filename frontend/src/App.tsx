@@ -7,8 +7,9 @@ import MyLibraryPage from "./pages/MyLibraryPage/MyLibraryPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
-import Navbar from "./components/navbar/Navbar";
 import { Container } from "@mui/material";
+import { AuthProvider } from "./AuthContext";
+import NavBar from "./components/Navbar/Navbar";
 
 /**
  * Render the App component.
@@ -17,18 +18,21 @@ import { Container } from "@mui/material";
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Router basename="/project2">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/movie/:movieId" element={<MoviePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/my-library" element={<MyLibraryPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element={<div>404 Not found </div>} />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router basename="/project2">
+          <NavBar />
+
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/movie/:movieId" element={<MoviePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/my-library" element={<MyLibraryPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="*" element={<div>404 Not found </div>} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 };
