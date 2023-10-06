@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-import HomePage from './pages/HomePage/HomePage';
-import MoviePage from './pages/MoviePage/MoviePage';
-import ProfilePage from './pages/ProfilePage/ProfilePage';
-import MyLibraryPage from './pages/MyLibraryPage/MyLibraryPage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
+import HomePage from "./pages/HomePage/HomePage";
+import MoviePage from "./pages/MoviePage/MoviePage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import MyLibraryPage from "./pages/MyLibraryPage/MyLibraryPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 /**
  * Render the App component.
@@ -25,6 +25,6 @@ const App: React.FC = () => {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

@@ -9,7 +9,7 @@
     "build": "cd frontend && npm run tsc && vite build",
     "test": "cd frontend && npm run test",
     "lint": "cd frontend && npm run lint",
-    "lint:fix": "npx prettier -w . && cd frontend && npm run lint:fix"
+    "lint:fix": "cd frontend && npx prettier -w . && npm run lint:fix"
   },
   "author": "Group 29",
   "license": "ISC"
