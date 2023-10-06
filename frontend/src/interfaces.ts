@@ -1,4 +1,4 @@
-export interface IMovieContent {
+export interface MovieContent {
   imdbID: string;
   primaryTitle: string;
   originalTitle: string;
