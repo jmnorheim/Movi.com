@@ -1,6 +1,6 @@
-import { IMovieContent } from "../interfaces";
+import { MovieContent } from "../interfaces";
 
-const movies: IMovieContent[] = [
+const movies: MovieContent[] = [
   {
     imdbID: "tt0076759",
     primaryTitle: "Star Wars: Episode IV - A New Hope",
@@ -42,7 +42,7 @@ const movies: IMovieContent[] = [
   },
 ];
 
-const movieAPI = (): Promise<IMovieContent | IMovieContent[]> => {
+const movieAPI = (): Promise<MovieContent | MovieContent[]> => {
   return new Promise((resolve, reject) => {
     try {
       // const movie = movies[0];
