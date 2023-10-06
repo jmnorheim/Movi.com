@@ -5,6 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
 import './navbar.css';
+import { useAuth } from '../../AuthContext';
 
 /**
  * Render navbar.
@@ -12,7 +13,7 @@ import './navbar.css';
  * @returns {JSX.Element}
  */
 const NavBar: React.FC = (): JSX.Element => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { isLoggedIn } = useAuth();
   
   return (
     <>
@@ -21,10 +22,10 @@ const NavBar: React.FC = (): JSX.Element => {
           <Box />
           <Typography variant="h6" component={Link} to="/" className="movie-brand">Møvie</Typography>
           <Box style={{ display: 'flex', gap: '16px' }}>
-            <IconButton color="inherit" component={Link} to="/my-library" className="icon-button">
+            {isLoggedIn && <IconButton color="inherit" component={Link} to="/my-library" className="icon-button">
               <LibraryBooksIcon />
               <Typography variant="caption">My Library</Typography>
-            </IconButton>
+            </IconButton>}
             <IconButton color="inherit" component={Link} to={isLoggedIn ? "/profile" : "/login"} className="icon-button">
               {isLoggedIn ? <AccountCircleIcon /> : <LoginIcon />}
               <Typography variant="caption">{isLoggedIn ? 'Profile' : 'Login'}</Typography>

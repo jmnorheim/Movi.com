@@ -9,6 +9,8 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 import Navbar from './components/Navbar/Navbar';
 import { Container } from '@mui/material';
+import { AuthProvider } from './AuthContext';
+import NavBar from './components/Navbar/Navbar';
 
 /**
  * Render the App component.
@@ -17,8 +19,10 @@ import { Container } from '@mui/material';
 const App: React.FC = () => {
   return (
     <div className="App">
+      <AuthProvider>
         <Router basename="/project2" >
-          <Navbar />
+          <NavBar/>
+
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/movie/:movieId" element={<MoviePage />} />
@@ -29,6 +33,7 @@ const App: React.FC = () => {
             <Route path="*" element={<div>404 Not found </div>} />
           </Routes>
         </Router>
+      </AuthProvider>
     </div>
   );
 };
