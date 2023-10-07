@@ -79,6 +79,45 @@ const movies: MovieContent[] = [
     poster:
       "https://m.media-amazon.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg",
   },
+  {
+    imdbID: "tt0295297",
+    primaryTitle: "Harry Potter and the Chamber of Secrets",
+    originalTitle: "Harry Potter and the Chamber of Secrets",
+    isAdult: false,
+    startYear: 2002,
+    runtimeMinutes: 161,
+    genres: ["Adventure", "Family", "Fantasy"],
+    averageRating: 4.2,
+    totalVotes: 452352,
+    poster:
+      "https://m.media-amazon.com/images/M/MV5BMjE0YjUzNDUtMjc5OS00MTU3LTgxMmUtODhkOThkMzdjNWI4XkEyXkFqcGdeQXVyMTA3MzQ4MTc0._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt0373889",
+    primaryTitle: "Harry Potter and the Order of the Phoenix",
+    originalTitle: "Harry Potter and the Order of the Phoenix",
+    isAdult: false,
+    startYear: 2007,
+    runtimeMinutes: 138,
+    genres: ["Adventure", "Family", "Fantasy"],
+    averageRating: 7.2,
+    totalVotes: 432252,
+    poster:
+      "https://m.media-amazon.com/images/M/MV5BOTA3MmRmZDgtOWU1Ny00ZDc5LWFkN2YtNzNlY2UxZmY0N2IyXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt0417741",
+    primaryTitle: "Harry Potter and the Half-Blood Prince",
+    originalTitle: "Harry Potter and the Half-Blood Prince",
+    isAdult: false,
+    startYear: 2009,
+    runtimeMinutes: 153,
+    genres: ["Adventure", "Family", "Fantasy"],
+    averageRating: 9.3,
+    totalVotes: 234731,
+    poster:
+      "https://m.media-amazon.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg",
+  },
 ];
 
 const movieAPI = (): Promise<MovieContent[]> => {
