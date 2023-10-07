@@ -11,7 +11,7 @@ import "./HomePage.css";
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originals, setOriginals] = useState<MovieContent[]>([]);
+  const [originals, setOriginals] = useState<MovieContent[] | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -29,7 +29,11 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="HomePageContainer">
-      <MovieContainerGrid />
+      {originals ? (
+        <MovieContainerGrid movies={originals} />
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
   );
 };
