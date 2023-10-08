@@ -62,7 +62,8 @@ const RegisterPage: React.FC = () => {
           Create your account
         </Typography>
 
-        <Box component="form" noValidate className="register-form">
+        <Box component="form" noValidate className="register-form" onSubmit={handleRegister}>
+
           {/* Username textfield */}
           <TextField
             variant="outlined"
