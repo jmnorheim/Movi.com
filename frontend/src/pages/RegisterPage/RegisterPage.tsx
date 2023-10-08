@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, TextField, Container, Typography, Box } from "@mui/material";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import { User } from "../../interfaces";
 
@@ -19,7 +19,7 @@ const RegisterPage: React.FC = () => {
    * Handles the registration process.
    * @param {React.FormEvent} event
    */
-  const handleRegister = async (event: React.FormEvent) => {
+  const handleRegister = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
@@ -30,11 +30,16 @@ const RegisterPage: React.FC = () => {
     const usersJSON = localStorage.getItem("users");
     console.log(usersJSON);
 
-    const users = usersJSON ? JSON.parse(usersJSON) : { users: [] };
+    let users: User[] = [];
+    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      users = JSON.parse(usersJSON);
+    }
+    // const users: User[] = usersJSON ? JSON.parse(usersJSON) : [];
     console.log(users);
-    
+
     // Check that username or email not exist in the list
-    const userExists = users.users.some(
+    const userExists = users.some(
       (user: User) => user.username === username || user.email === email
     );
 
@@ -47,7 +52,7 @@ const RegisterPage: React.FC = () => {
 
     const user: User = { username, email, password };
     console.log(user);
-    users.users.push(user);
+    users.push(user);
     console.log(users);
     localStorage.setItem("users", JSON.stringify(users));
 
@@ -62,8 +67,12 @@ const RegisterPage: React.FC = () => {
           Create your account
         </Typography>
 
-        <Box component="form" noValidate className="register-form" onSubmit={handleRegister}>
-
+        <Box
+          component="form"
+          noValidate
+          className="register-form"
+          onSubmit={handleRegister}
+        >
           {/* Username textfield */}
           <TextField
             variant="outlined"

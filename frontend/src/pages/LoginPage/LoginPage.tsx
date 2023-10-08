@@ -18,7 +18,7 @@ const LoginPage: React.FC = () => {
    * Handles the login process.
    * @param {React.FormEvent} event
    */
-  const handleLogin = async (event: React.FormEvent) => {
+  const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
 
     const usersJSON = localStorage.getItem("users");
@@ -27,9 +27,12 @@ const LoginPage: React.FC = () => {
       return;
     }
 
-    const users = JSON.parse(usersJSON);
-
-    const userExists = users.users.some(
+    let users: User[] = [];
+    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      users = JSON.parse(usersJSON);
+    }
+    const userExists = users.some(
       (user: User) => user.email === email && user.password === password
     );
 
