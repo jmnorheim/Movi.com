@@ -11,7 +11,10 @@ import "./HomePage.css";
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originals, setOriginals] = useState<MovieContent[] | null>(null);
+  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
+    null
+  ); // All movies
+  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -20,17 +23,38 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     if (data && data instanceof Array) {
-      setOriginals(data);
-      console.log("setts data");
+      const updatesMovies = data.map((movie) => ({
+        ...movie,
+        favorited: false,
+      }));
+      setMovies(updatesMovies);
+      setOriginalMovies(updatesMovies);
+      console.log("Data has been set");
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log("Movies =", movies);
+  }, [movies]);
+
+  const toggleFavorite = (imdbID: string) => {
+    setMovies((prevMovies) => {
+      if (!prevMovies) return null;
+      return prevMovies.map((movie) => {
+        if (movie.imdbID === imdbID) {
+          return { ...movie, favorited: !movie.favorited };
+        }
+        return movie;
+      });
+    });
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="HomePageContainer">
-      {originals ? (
-        <MovieContainerGrid movies={originals} />
+      {movies ? (
+        <MovieContainerGrid movies={movies} onToggleFavorite={toggleFavorite} />
       ) : (
         <h2>Loading...</h2>
       )}
