@@ -21,7 +21,10 @@ const MovieContainer = ({
         className={`star ${
           movieContent.favorited ? "star-filled" : "star-outline"
         }`}
-        onClick={() => onToggleFavorite(movieContent.imdbID)}
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggleFavorite(movieContent.imdbID);
+        }}
       >
         ★
       </div>
