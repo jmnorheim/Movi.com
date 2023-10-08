@@ -124,15 +124,20 @@ const HomePage: React.FC = () => {
     localStorage.setItem("users", JSON.stringify(users));
 
     // Update the movies state to reflect the favorite toggle
-    setMovies((prevMovies) => {
-      if (!prevMovies) return null;
-      return prevMovies.map((movie) => {
+    const updateFavoritedStatus = (movieList: MovieContent[] | null) => {
+      if (!movieList) return null;
+      return movieList.map((movie) => {
         if (movie.imdbID === imdbID) {
           return { ...movie, favorited: !movie.favorited };
         }
         return movie;
       });
-    });
+    };
+
+    setMovies((prevMovies) => updateFavoritedStatus(prevMovies));
+    setOriginalMovies((prevOriginalMovies) =>
+      updateFavoritedStatus(prevOriginalMovies)
+    );
   };
 
   // =======================================================================================================================
