@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import MovieContainer from "../../components/movieContainer/MovieContainer";
 import { MovieContent } from "../../interfaces";
 import "./MovieContainerGrid.css";
@@ -16,13 +14,10 @@ const MovieContainerGrid = ({
 }: MovieContainerGridProps) => {
   return (
     <div className="MovieContainerGrid">
-      {movies.map((movie) => (
-        <div>
+      {movies.map((movie, index) => (
+        <div key={index}>
           <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
-            <MovieContainer
-              movieContent={movie}
-              onToggleFavorite={onToggleFavorite}
-            />
+            <MovieContainer movieContent={movie} />
           </Link>
           <div
             className={`star ${

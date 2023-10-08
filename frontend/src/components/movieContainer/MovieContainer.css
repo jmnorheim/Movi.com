@@ -29,12 +29,9 @@ h4 {
   margin: 0;
 }
 
-
-
 @font-face {
   font-family: "GothicSSM";
   src: url("../../fonts/GothicSSM.otf");
   font-weight: normal;
   font-style: normal;
 }
-

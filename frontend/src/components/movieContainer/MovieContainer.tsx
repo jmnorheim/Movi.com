@@ -1,17 +1,11 @@
 import { MovieContent } from "../../interfaces";
 import "./MovieContainer.css";
-// import StarBorderIcon from "@mui/icons-material/StarBorder";
-// import StarIcon from "@mui/icons-material/Star";
 
 interface MovieContainerProps {
   movieContent: MovieContent;
-  onToggleFavorite: (imdbID: string) => void;
 }
 
-const MovieContainer = ({
-  movieContent,
-  onToggleFavorite,
-}: MovieContainerProps) => {
+const MovieContainer = ({ movieContent }: MovieContainerProps) => {
   return (
     <div className="MovieContainer">
       <img src={movieContent.poster} alt="poster" className="ImageContainer" />
