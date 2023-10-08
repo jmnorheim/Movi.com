@@ -9,4 +9,5 @@ export interface MovieContent {
   averageRating: number;
   totalVotes: number;
   poster: string;
+  favorited: boolean;
 }
