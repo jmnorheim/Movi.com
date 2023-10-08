@@ -1,13 +1,65 @@
-import React from "react";
+import { useState } from "react";
 import { Button, TextField, Container, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
+import { User } from "../../interfaces";
 
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
  */
 const RegisterPage: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+
+  /**
+   * Handles the registration process.
+   * @param {React.FormEvent} event
+   */
+  const handleRegister = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    const usersJSON = localStorage.getItem("users");
+    console.log(usersJSON);
+
+    let users: User[] = [];
+    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      users = JSON.parse(usersJSON);
+    }
+    // const users: User[] = usersJSON ? JSON.parse(usersJSON) : [];
+    console.log(users);
+
+    // Check that username or email not exist in the list
+    const userExists = users.some(
+      (user: User) => user.username === username || user.email === email
+    );
+
+    console.log(userExists);
+
+    if (userExists) {
+      alert("Username or Email already exists!");
+      return;
+    }
+
+    const user: User = { username, email, password };
+    console.log(user);
+    users.push(user);
+    console.log(users);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registered successfully!");
+    navigate("/login");
+  };
+
   return (
     <Container component="main" maxWidth="xs" className="register-container">
       <Box className="register-box">
@@ -15,7 +67,12 @@ const RegisterPage: React.FC = () => {
           Create your account
         </Typography>
 
-        <Box component="form" noValidate className="register-form">
+        <Box
+          component="form"
+          noValidate
+          className="register-form"
+          onSubmit={handleRegister}
+        >
           {/* Username textfield */}
           <TextField
             variant="outlined"
@@ -27,6 +84,7 @@ const RegisterPage: React.FC = () => {
             name="username"
             autoComplete="username"
             autoFocus
+            onChange={(e) => setUsername(e.target.value)}
           />
 
           {/* Email input textfield */}
@@ -39,6 +97,7 @@ const RegisterPage: React.FC = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           {/* Password input textfield */}
@@ -52,6 +111,7 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="new-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           {/* Confirm password input textfield */}
@@ -65,6 +125,7 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="confirm-password"
             autoComplete="new-password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
           {/* Register button */}

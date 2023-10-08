@@ -3,6 +3,7 @@ import { Button, TextField, Container, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import { useAuth } from "../../AuthContext";
+import { User } from "../../interfaces";
 
 /**
  * LoginPage component - User authentication login page.
@@ -17,18 +18,26 @@ const LoginPage: React.FC = () => {
    * Handles the login process.
    * @param {React.FormEvent} event
    */
-  const handleLogin = async (event: React.FormEvent) => {
+  const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const response = await fetch("/users.json");
-    const users = await response.json();
+    const usersJSON = localStorage.getItem("users");
+    if (!usersJSON) {
+      alert("Invalid email or password");
+      return;
+    }
 
-    const user = users.find(
-      (user: any) => user.email === email && user.password === password
+    let users: User[] = [];
+    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      users = JSON.parse(usersJSON);
+    }
+    const userExists = users.some(
+      (user: User) => user.email === email && user.password === password
     );
 
-    if (user) {
-      login(); // Use the login method
+    if (userExists) {
+      login(email); // Use the login method
       navigate("/profile");
     } else {
       alert("Invalid email or password");
@@ -88,7 +97,7 @@ const LoginPage: React.FC = () => {
           {/* Link to register page */}
           <Box className="register-link-box">
             <Typography variant="body2" className="register-link-text">
-              Don't have an account? <Link to="/register">Register</Link>
+              Do not have an account? <Link to="/register">Register</Link>
             </Typography>
           </Box>
         </Box>
