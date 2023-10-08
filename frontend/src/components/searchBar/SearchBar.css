@@ -1,3 +1,6 @@
-/* .SearchbarContainer {
-    width: 20%;
-} */
+.SearchbarContainer {
+    width: 25%;
+    min-width: 400px;
+    display: flex;
+    justify-content: center;
+}

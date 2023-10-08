@@ -13,6 +13,7 @@ interface Props {
 const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState("");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnSearch = useCallback(debounce(onSearch, 300), [onSearch]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -23,6 +24,7 @@ const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
 
   const handleClick = (): void => {
     setSearchValue("");
+    onSearch("");
   };
 
   return (

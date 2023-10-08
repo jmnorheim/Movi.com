@@ -50,7 +50,7 @@ const RegisterPage: React.FC = () => {
       return;
     }
 
-    let favorites: string[] = [];
+    const favorites: string[] = [];
     const user: User = { username, email, password, favorites };
     console.log("User = ", user);
     users.push(user);

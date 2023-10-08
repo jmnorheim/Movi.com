@@ -31,6 +31,9 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
+    if (currentSearch === "") {
+      setMovies(originalMovies);
+    }
     if (originalMovies) {
       const filteredMovies = originalMovies.filter((movie) =>
         movie.primaryTitle.toLowerCase().includes(currentSearch.toLowerCase())
@@ -44,8 +47,16 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
-      let users = JSON.parse(localStorage.getItem("users") || "[]");
-      let currentUser = users.find((user: User) => user.email === email);
+
+      const usersJSON = localStorage.getItem("users");
+      console.log(usersJSON);
+
+      let users: User[] = [];
+      if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        users = JSON.parse(usersJSON);
+      }
+      const currentUser = users.find((user: User) => user.email === email);
 
       console.log("Current user =", currentUser);
 
@@ -65,7 +76,7 @@ const HomePage: React.FC = () => {
       console.log("Data has been set");
       console.log("email =", email);
     }
-  }, [data]);
+  }, [data, email]);
 
   // =======================================================================================================================
 
@@ -80,8 +91,15 @@ const HomePage: React.FC = () => {
     if (!email) return;
 
     // Retrieve the user's data from localStorage
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
-    let currentUser = users.find((user: User) => user.email === email);
+    const usersJSON = localStorage.getItem("users");
+    console.log(usersJSON);
+
+    let users: User[] = [];
+    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      users = JSON.parse(usersJSON);
+    }
+    const currentUser = users.find((user: User) => user.email === email);
 
     if (!currentUser) return; // exit if user not found
 
@@ -133,7 +151,7 @@ const HomePage: React.FC = () => {
             onToggleFavorite={toggleFavorite}
           />
         ) : (
-          <h2>No matches found</h2>
+          <h2 className="noMatchesText">No matches found</h2>
         )}
       </div>
     </div>
