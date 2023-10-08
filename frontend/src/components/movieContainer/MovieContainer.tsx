@@ -17,17 +17,6 @@ const MovieContainer = ({
       <img src={movieContent.poster} alt="poster" className="ImageContainer" />
       <h3>{movieContent.primaryTitle}</h3>
       <h4>Rating: {movieContent.averageRating}</h4>
-      <div
-        className={`star ${
-          movieContent.favorited ? "star-filled" : "star-outline"
-        }`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggleFavorite(movieContent.imdbID);
-        }}
-      >
-        ★
-      </div>
     </div>
   );
 };

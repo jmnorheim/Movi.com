@@ -17,12 +17,24 @@ const MovieContainerGrid = ({
   return (
     <div className="MovieContainerGrid">
       {movies.map((movie) => (
-        <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
-          <MovieContainer
-            movieContent={movie}
-            onToggleFavorite={onToggleFavorite}
-          />
-        </Link>
+        <div>
+          <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
+            <MovieContainer
+              movieContent={movie}
+              onToggleFavorite={onToggleFavorite}
+            />
+          </Link>
+          <div
+            className={`star ${
+              movie.favorited ? "star-filled" : "star-outline"
+            }`}
+            onClick={() => {
+              onToggleFavorite(movie.imdbID);
+            }}
+          >
+            ★
+          </div>
+        </div>
       ))}
     </div>
   );
