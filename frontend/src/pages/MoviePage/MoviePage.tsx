@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getMovieById } from "../../services/movieAPI";
+import { useEffect, useState } from "react";
+import { Movie } from "../../interfaces";
 
 /**
  * Render the MoviePage component.
@@ -8,24 +10,33 @@ import { getMovieById } from "../../services/movieAPI";
  */
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
+  const [movie, setMovie] = useState<Movie | null>(null);
 
   if (!movieId) {
     throw new Error("Movie ID is required");
   }
 
-  const { data: movie, isLoading } = useQuery([movieId], () =>
-    getMovieById(movieId)
-  );
+  const { data, isLoading } = useQuery([movieId], () => getMovieById(movieId));
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    if (data) {
+      setMovie({ ...data, favorited: false });
+    }
+  }, [data]);
+
+  //TODO a check to see if the movie is already favorited
 
   return (
-    <div>
-      <h1>Movie Details</h1>
-      <p>Movie ID: {movieId}</p>
-    </div>
+    <>
+      {isLoading || movie == null ? (
+        <h2>Loading...</h2>
+      ) : (
+        <div>
+          <h1>{movie.primaryTitle}</h1>
+          <p>Movie ID: {movieId}</p>
+        </div>
+      )}
+    </>
   );
 };
 
