@@ -31,5 +31,8 @@ module.exports = {
     project: "./tsconfig.json",
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
-  rules: { peerDependencies: 0, "@typescript-eslint/no-unused-vars": 0 },
+  rules: {
+    peerDependencies: 0, "@typescript-eslint/no-unused-vars": 0,
+    "react/prop-types": "off"
+  },
 };

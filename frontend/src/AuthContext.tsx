@@ -5,7 +5,8 @@ import { createContext, useContext, useState } from "react";
  */
 type AuthContextType = {
   isLoggedIn: boolean;
-  login: () => void;
+  email: string;
+  login: (email: string) => void;
   logout: () => void;
 };
 
@@ -15,7 +16,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
- * Custom hook to access the authentication context.
+ * Custom hook. Used to access the authentication context.
  * @throws {Error}
  * @returns {AuthContextType}
  */
@@ -28,7 +29,7 @@ export const useAuth = () => {
 };
 
 /**
- * Type `AuthProvider` props.
+ * Type AuthProvider props.
  */
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -36,16 +37,20 @@ type AuthProviderProps = {
 
 /**
  * Provides authentication context to child components.
- * @param {AuthProviderProps} props - Props to be passed to component.
+ * @param {AuthProviderProps} props
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
 
-  const login = () => setIsLoggedIn(true);
+  const login = (email: string) => {
+    setIsLoggedIn(true);
+    setEmail(email);
+  };
   const logout = () => setIsLoggedIn(false);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, email, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

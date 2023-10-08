@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
     );
 
     if (userExists) {
-      login(); // Use the login method
+      login(email); // Use the login method
       navigate("/profile");
     } else {
       alert("Invalid email or password");
@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
           {/* Link to register page */}
           <Box className="register-link-box">
             <Typography variant="body2" className="register-link-text">
-              Don't have an account? <Link to="/register">Register</Link>
+              Do not have an account? <Link to="/register">Register</Link>
             </Typography>
           </Box>
         </Box>
