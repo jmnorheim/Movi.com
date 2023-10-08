@@ -3,6 +3,7 @@ import { Button, TextField, Container, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import { useAuth } from "../../AuthContext";
+import { User } from "../../interfaces";
 
 /**
  * LoginPage component - User authentication login page.
@@ -20,14 +21,19 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const response = await fetch("/users.json");
-    const users = await response.json();
+    const usersJSON = localStorage.getItem("users");
+    if (!usersJSON) {
+      alert("Invalid email or password");
+      return;
+    }
 
-    const user = users.find(
-      (user: any) => user.email === email && user.password === password
+    const users = JSON.parse(usersJSON);
+
+    const userExists = users.users.some(
+      (user: User) => user.email === email && user.password === password
     );
 
-    if (user) {
+    if (userExists) {
       login(); // Use the login method
       navigate("/profile");
     } else {

@@ -10,3 +10,9 @@ export interface MovieContent {
   totalVotes: number;
   poster: string;
 }
+
+export interface User {
+  username: string;
+  email: string;
+  password: string;
+}
