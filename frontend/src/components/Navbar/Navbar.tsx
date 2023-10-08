@@ -25,6 +25,12 @@ const NavBar: React.FC = (): JSX.Element => {
         <Toolbar className="toolbar">
           <Box />
           <Typography
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
             variant="h6"
             component={Link}
             to="/"
