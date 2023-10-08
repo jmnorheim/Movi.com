@@ -3,6 +3,12 @@ import { useParams } from "react-router-dom";
 import { getMovieById } from "../../services/movieAPI";
 import { useEffect, useState } from "react";
 import { Movie } from "../../interfaces";
+import { Typography } from "@mui/material";
+import {
+  StyledInfoContainer,
+  StyledMovieContainer,
+  StyledPoster,
+} from "./MoviePageStyles";
 
 /**
  * Render the MoviePage component.
@@ -29,12 +35,32 @@ const MoviePage: React.FC = () => {
   return (
     <>
       {isLoading || movie == null ? (
-        <h2>Loading...</h2>
+        <Typography variant="h4" align="center">
+          Loading...
+        </Typography>
       ) : (
-        <div>
-          <h1>{movie.primaryTitle}</h1>
-          <p>Movie ID: {movieId}</p>
-        </div>
+        <StyledMovieContainer>
+          <Typography variant="h2" gutterBottom align="center">
+            {movie.primaryTitle}
+          </Typography>
+          <StyledPoster src={movie.poster} alt="poster" />
+          <StyledInfoContainer>
+            <Typography variant="h5">
+              Original title: {movie.originalTitle}
+            </Typography>
+            <Typography variant="h5">Rating: {movie.averageRating}</Typography>
+            <Typography variant="h5">
+              Total votes: {movie.totalVotes}
+            </Typography>
+            <Typography variant="h5">
+              Runtime: {movie.runtimeMinutes} minutes
+            </Typography>
+            <Typography variant="h5">
+              Genres: {movie.genres.toString()}
+            </Typography>
+            <Typography variant="subtitle1">Movie ID: {movieId}</Typography>
+          </StyledInfoContainer>
+        </StyledMovieContainer>
       )}
     </>
   );
