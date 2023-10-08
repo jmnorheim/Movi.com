@@ -1,0 +1,22 @@
+.MovieContainerGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* This sets the minimum width for each container to be 300px and lets them fill the available space equally */
+  justify-content: center;
+  justify-items: center;
+  padding-top: 5rem;
+  row-gap: 2rem; /* Increased gap between rows */
+  column-gap: 1.5rem; /* Gap between columns */
+  max-width: 100%; /* Adjust this value if you want a different maximum width for the entire grid */
+  padding-left: 9%;
+  padding-right: 9%;
+}
+
+/* Media query for screens that are too small to fit 3 MovieContainers in a row */
+@media (max-width: 900px) {
+  .MovieContainerGrid {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+}

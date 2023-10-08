@@ -1,0 +1,74 @@
+.MovieContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px; /* Adjust as needed */
+  height: 400px; /* Adjust as needed */
+  border: 5px solid white;
+  border-radius: 30px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #001f3f;
+  color: white;
+  font-family: "GothicSSM", sans-serif;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.ImageContainer {
+  padding-top: 5%;
+  width: 200px;
+  height: 270px;
+  object-fit: contain;
+}
+
+h3 {
+  margin: 0.8rem;
+}
+
+h4 {
+  margin: 0;
+}
+
+.star {
+  position: relative;
+  bottom: 14%;
+  left: 39%;
+  font-size: 3em;
+  cursor: pointer;
+  transition:
+    color 0.3s,
+    transform 0.3s;
+  -webkit-text-stroke-width: 1px;
+}
+
+.star-outline {
+  color: transparent;
+  -webkit-text-stroke-color: gray;
+  -webkit-text-stroke-width: 3px;
+}
+
+.star-outline:hover {
+  transform: scale(1.1);
+}
+
+.star-filled {
+  color: rgb(255, 187, 0);
+}
+
+.star-filled:hover {
+  transform: scale(1.2);
+}
+
+@font-face {
+  font-family: "GothicSSM";
+  src: url("../../fonts/GothicSSM.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (max-width: 900px) {
+  .star {
+    font-size: 2em;
+    bottom: 12%;
+  }
+}

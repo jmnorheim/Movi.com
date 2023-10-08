@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
 .app-bar {
-    width: 100vw;
+  width: 100vw;
 }
 
 .toolbar {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .icon-button {
@@ -17,7 +17,7 @@
 }
 
 .movie-brand {
-    font-family: 'Roboto, sans-serif';
-    text-decoration: none;
-    color: inherit;
+  font-family: "Roboto, sans-serif";
+  text-decoration: none;
+  color: inherit;
 }
