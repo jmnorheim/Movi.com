@@ -50,10 +50,11 @@ const RegisterPage: React.FC = () => {
       return;
     }
 
-    const user: User = { username, email, password };
-    console.log(user);
+    let favorites: string[] = [];
+    const user: User = { username, email, password, favorites };
+    console.log("User = ", user);
     users.push(user);
-    console.log(users);
+    // console.log(users);
     localStorage.setItem("users", JSON.stringify(users));
 
     alert("Registered successfully!");
