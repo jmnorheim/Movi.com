@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { MovieContent } from "../../interfaces";
+import { Movie } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -11,10 +11,8 @@ import "./HomePage.css";
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
-    null
-  ); // All movies
-  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
+  const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
+  const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],

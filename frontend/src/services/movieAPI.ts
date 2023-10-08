@@ -131,4 +131,17 @@ const movieAPI = (): Promise<MovieContent[]> => {
   });
 };
 
+const getMovieById = (id: string): Promise<MovieContent> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const movie = movies.find((movie) => movie.imdbID === id);
+      if (movie === undefined) throw new Error("Movie not found");
+      resolve(movie);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export { getMovieById };
 export default movieAPI;
