@@ -7,6 +7,8 @@ import MovieContainerGrid from "../../components/movieContainerGrid/MovieContain
 import "./HomePage.css";
 import { useAuth } from "../../AuthContext";
 
+import SearchBar from "../../components/searchBar/SearchBar";
+
 /**
  * Render the HomePage component.
  * @returns {React.FC}
@@ -16,6 +18,8 @@ const HomePage: React.FC = () => {
     null
   ); // All movies
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
+
+  const [currentSearch, setCurrentSearch] = useState<string>("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -27,10 +31,32 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
+    if (currentSearch === "") {
+      setMovies(originalMovies);
+    }
+    if (originalMovies) {
+      const filteredMovies = originalMovies.filter((movie) =>
+        movie.primaryTitle.toLowerCase().includes(currentSearch.toLowerCase())
+      );
+      setMovies(filteredMovies);
+    }
+  }, [currentSearch, originalMovies]);
+
+  // =======================================================================================================================
+
+  useEffect(() => {
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
-      let users = JSON.parse(localStorage.getItem("users") || "[]");
-      let currentUser = users.find((user: User) => user.email === email);
+
+      const usersJSON = localStorage.getItem("users");
+      console.log(usersJSON);
+
+      let users: User[] = [];
+      if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        users = JSON.parse(usersJSON);
+      }
+      const currentUser = users.find((user: User) => user.email === email);
 
       console.log("Current user =", currentUser);
 
@@ -50,7 +76,7 @@ const HomePage: React.FC = () => {
       console.log("Data has been set");
       console.log("email =", email);
     }
-  }, [data]);
+  }, [data, email]);
 
   // =======================================================================================================================
 
@@ -65,8 +91,15 @@ const HomePage: React.FC = () => {
     if (!email) return;
 
     // Retrieve the user's data from localStorage
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
-    let currentUser = users.find((user: User) => user.email === email);
+    const usersJSON = localStorage.getItem("users");
+    console.log(usersJSON);
+
+    let users: User[] = [];
+    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      users = JSON.parse(usersJSON);
+    }
+    const currentUser = users.find((user: User) => user.email === email);
 
     if (!currentUser) return; // exit if user not found
 
@@ -107,14 +140,21 @@ const HomePage: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="HomePageContainer">
-      {movies ? (
-        <MovieContainerGrid movies={movies} onToggleFavorite={toggleFavorite} />
-      ) : (
-        <h2>Loading...</h2>
-      )}
+    <div className="homePageContainer">
+      <div className="searchBarContainer">
+        <SearchBar onSearch={setCurrentSearch} />
+      </div>
+      <div className="gridContainer">
+        {movies?.length ? (
+          <MovieContainerGrid
+            movies={movies}
+            onToggleFavorite={toggleFavorite}
+          />
+        ) : (
+          <h2 className="noMatchesText">No matches found</h2>
+        )}
+      </div>
     </div>
   );
 };
-
 export default HomePage;
