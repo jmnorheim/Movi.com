@@ -7,6 +7,8 @@ import MovieContainerGrid from "../../components/movieContainerGrid/MovieContain
 import "./HomePage.css";
 import { useAuth } from "../../AuthContext";
 
+import SearchBar from "../../components/searchBar/SearchBar";
+
 /**
  * Render the HomePage component.
  * @returns {React.FC}
@@ -17,12 +19,25 @@ const HomePage: React.FC = () => {
   ); // All movies
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
+  const [currentSearch, setCurrentSearch] = useState<string>("");
+
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
     queryFn: movieAPI,
   });
 
   const { email } = useAuth();
+
+  // =======================================================================================================================
+
+  useEffect(() => {
+    if (originalMovies) {
+      const filteredMovies = originalMovies.filter((movie) =>
+        movie.primaryTitle.toLowerCase().includes(currentSearch.toLowerCase())
+      );
+      setMovies(filteredMovies);
+    }
+  }, [currentSearch, originalMovies]);
 
   // =======================================================================================================================
 
@@ -107,14 +122,21 @@ const HomePage: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="HomePageContainer">
-      {movies ? (
-        <MovieContainerGrid movies={movies} onToggleFavorite={toggleFavorite} />
-      ) : (
-        <h2>Loading...</h2>
-      )}
+    <div className="homePageContainer">
+      <div className="searchBarContainer">
+        <SearchBar onSearch={setCurrentSearch} />
+      </div>
+      <div className="gridContainer">
+        {movies?.length ? (
+          <MovieContainerGrid
+            movies={movies}
+            onToggleFavorite={toggleFavorite}
+          />
+        ) : (
+          <h2>No matches found</h2>
+        )}
+      </div>
     </div>
   );
 };
-
 export default HomePage;
