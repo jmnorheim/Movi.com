@@ -47,7 +47,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoggedIn(true);
     setEmail(email);
   };
-  const logout = () => setIsLoggedIn(false);
+  const logout = () => {
+    setIsLoggedIn(false);
+    setEmail("");
+  };
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, email, login, logout }}>

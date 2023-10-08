@@ -57,7 +57,7 @@ const RegisterPage: React.FC = () => {
     localStorage.setItem("users", JSON.stringify(users));
 
     alert("Registered successfully!");
-    navigate("/login");
+    navigate("/profile");
   };
 
   return (
@@ -130,6 +130,7 @@ const RegisterPage: React.FC = () => {
 
           {/* Register button */}
           <Button
+            style={{ backgroundColor: "#001f3f" }}
             type="submit"
             fullWidth
             variant="contained"

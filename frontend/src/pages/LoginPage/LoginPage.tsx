@@ -6,7 +6,8 @@ import { useAuth } from "../../AuthContext";
 import { User } from "../../interfaces";
 
 /**
- * LoginPage component - User authentication login page.
+ * Render the LoginPage component.
+ * @returns {React.FC}
  */
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -86,6 +87,7 @@ const LoginPage: React.FC = () => {
 
           {/* Login button */}
           <Button
+            style={{ backgroundColor: "#001f3f" }}
             type="submit"
             fullWidth
             variant="contained"
