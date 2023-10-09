@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
   const [currentSearch, setCurrentSearch] = useState<string>("");
-  const [currentSort, setCurrentSort] = useState<string>("");
+  const [currentSort, setCurrentSort] = useState<SortType | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -126,14 +126,25 @@ const HomePage: React.FC = () => {
     localStorage.setItem("users", JSON.stringify(users));
 
     // Update the movies state to reflect the favorite toggle
-    const updateFavoritedStatus = (movieList: MovieContent[] | null) => {
+    const updateFavoritedStatus = (
+      movieList: MovieContent[] | null
+    ): MovieContent[] | null => {
       if (!movieList) return null;
-      return movieList.map((movie) => {
+
+      // Update favorite status of the movie with the given imdbID
+      const updatedMovieList = movieList.map((movie) => {
         if (movie.imdbID === imdbID) {
           return { ...movie, favorited: !movie.favorited };
         }
         return movie;
       });
+
+      // Reapply sort after updating favorite status if a sort type is active
+      if (currentSort) {
+        return applySort(updatedMovieList, currentSort);
+      }
+
+      return updatedMovieList;
     };
 
     setMovies((prevMovies) => updateFavoritedStatus(prevMovies));
@@ -145,9 +156,19 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   const handleSort = (sortType: SortType) => {
-    const sortedMovies = [...movies].sort((a, b) => {
-      if (!a || !b) return 0;
+    setCurrentSort(sortType); // Save the current sort type
 
+    if (!movies) return;
+
+    const sortedMovies = applySort(movies, sortType);
+    setMovies(sortedMovies);
+  };
+
+  const applySort = (
+    movieList: MovieContent[],
+    sortType: SortType
+  ): MovieContent[] => {
+    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
       switch (sortType) {
         case SortType.TitleAZ:
           return a.primaryTitle.localeCompare(b.primaryTitle);
@@ -169,7 +190,6 @@ const HomePage: React.FC = () => {
           return 0;
       }
     });
-    setMovies(sortedMovies);
   };
 
   if (isLoading) return <div>Loading...</div>;

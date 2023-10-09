@@ -17,17 +17,19 @@ interface SortMenuProps {
 }
 
 const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
+  const [selectedSort, setSelectedSort] = useState<SortType | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSort = (sortType: SortType) => {
     onSort(sortType);
+    setSelectedSort(sortType);
     setIsOpen(false);
   };
 
   return (
     <div className="sortMenuContainer">
       <button className="sortButton" onClick={() => setIsOpen(!isOpen)}>
-        Sort by
+        {selectedSort || "Sort by"}
         <span className={`arrow ${isOpen ? "down" : ""}`}></span>
       </button>
       <div className={`menuItems ${isOpen ? "open" : ""}`}>
