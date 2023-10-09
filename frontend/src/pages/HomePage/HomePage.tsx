@@ -58,7 +58,6 @@ const HomePage: React.FC = () => {
 
       console.log("Current user =", currentUser);
 
-      //TODO: Fix this bug where the currentUser is undefined sonetimes
       let userFavorites: string[] = [];
       if (currentUser) {
         userFavorites = currentUser.favorites;

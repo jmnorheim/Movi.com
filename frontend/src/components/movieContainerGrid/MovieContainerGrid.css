@@ -24,6 +24,7 @@
     transform 0.3s;
   -webkit-text-stroke-width: 1px;
   transform-origin: top left;
+  width: fit-content;
 }
 
 .star-outline {

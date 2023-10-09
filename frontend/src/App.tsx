@@ -6,8 +6,6 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import MyLibraryPage from "./pages/MyLibraryPage/MyLibraryPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
-
-import { Container } from "@mui/material";
 import { AuthProvider } from "./AuthContext";
 import NavBar from "./components/Navbar/Navbar";
 

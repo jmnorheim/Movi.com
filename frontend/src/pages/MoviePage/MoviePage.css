@@ -1,0 +1,30 @@
+.star-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.star {
+  /* position: relative; */
+  /* font-size: 3em; */
+  cursor: pointer;
+  transition:
+    color 0.3s,
+    transform 0.3s;
+  -webkit-text-stroke-width: 1px;
+  width: fit-content;
+}
+
+.star-outline {
+  color: transparent;
+  -webkit-text-stroke-color: gray;
+  -webkit-text-stroke-width: 3px;
+}
+
+.star-outline:hover {
+  transform: scale(1.05);
+}
+
+.star-filled {
+  color: rgb(255, 187, 0);
+}
