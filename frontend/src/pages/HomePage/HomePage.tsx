@@ -8,6 +8,7 @@ import "./HomePage.css";
 import { useAuth } from "../../AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
+import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
 
 /**
  * Render the HomePage component.
@@ -20,6 +21,7 @@ const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
   const [currentSearch, setCurrentSearch] = useState<string>("");
+  const [currentSort, setCurrentSort] = useState<string>("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -142,6 +144,34 @@ const HomePage: React.FC = () => {
 
   // =======================================================================================================================
 
+  const handleSort = (sortType: SortType) => {
+    const sortedMovies = [...movies].sort((a, b) => {
+      if (!a || !b) return 0;
+
+      switch (sortType) {
+        case SortType.TitleAZ:
+          return a.primaryTitle.localeCompare(b.primaryTitle);
+        case SortType.TitleZA:
+          return b.primaryTitle.localeCompare(a.primaryTitle);
+        case SortType.RatingHILO:
+          return b.averageRating - a.averageRating;
+        case SortType.RatingLOHI:
+          return a.averageRating - b.averageRating;
+        case SortType.DurationHILO:
+          return b.runtimeMinutes - a.runtimeMinutes;
+        case SortType.DurationLOHI:
+          return a.runtimeMinutes - b.runtimeMinutes;
+        case SortType.YearHILO:
+          return b.startYear - a.startYear;
+        case SortType.YearLOHI:
+          return a.startYear - b.startYear;
+        default:
+          return 0;
+      }
+    });
+    setMovies(sortedMovies);
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -158,6 +188,9 @@ const HomePage: React.FC = () => {
         ) : (
           <h2 className="noMatchesText">No matches found</h2>
         )}
+      </div>
+      <div className="sortMenuContainer">
+        <SortMenu onSort={handleSort} />
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ body,
 .homePageContainer {
   display: flex;
   flex-direction: column;
+  align-items: space-around;
   background-color: #d1e8e2;
   min-height: 100%;
 }
@@ -23,6 +24,10 @@ body,
 
 .gridContainer {
   /* background-color: blue; */
+}
+
+.sortMenuContainer {
+  /* background-color: red; */
 }
 
 .noMatchesText {
