@@ -8,6 +8,7 @@ import "./HomePage.css";
 import { useAuth } from "../../AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
+import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
 
 /**
  * Render the HomePage component.
@@ -20,6 +21,7 @@ const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
   const [currentSearch, setCurrentSearch] = useState<string>("");
+  const [currentSort, setCurrentSort] = useState<SortType | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -124,14 +126,25 @@ const HomePage: React.FC = () => {
     localStorage.setItem("users", JSON.stringify(users));
 
     // Update the movies state to reflect the favorite toggle
-    const updateFavoritedStatus = (movieList: MovieContent[] | null) => {
+    const updateFavoritedStatus = (
+      movieList: MovieContent[] | null
+    ): MovieContent[] | null => {
       if (!movieList) return null;
-      return movieList.map((movie) => {
+
+      // Update favorite status of the movie with the given imdbID
+      const updatedMovieList = movieList.map((movie) => {
         if (movie.imdbID === imdbID) {
           return { ...movie, favorited: !movie.favorited };
         }
         return movie;
       });
+
+      // Reapply sort after updating favorite status if a sort type is active
+      if (currentSort) {
+        return applySort(updatedMovieList, currentSort);
+      }
+
+      return updatedMovieList;
     };
 
     setMovies((prevMovies) => updateFavoritedStatus(prevMovies));
@@ -141,6 +154,43 @@ const HomePage: React.FC = () => {
   };
 
   // =======================================================================================================================
+
+  const handleSort = (sortType: SortType) => {
+    setCurrentSort(sortType); // Save the current sort type
+
+    if (!movies) return;
+
+    const sortedMovies = applySort(movies, sortType);
+    setMovies(sortedMovies);
+  };
+
+  const applySort = (
+    movieList: MovieContent[],
+    sortType: SortType
+  ): MovieContent[] => {
+    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
+      switch (sortType) {
+        case SortType.TitleAZ:
+          return a.primaryTitle.localeCompare(b.primaryTitle);
+        case SortType.TitleZA:
+          return b.primaryTitle.localeCompare(a.primaryTitle);
+        case SortType.RatingHILO:
+          return b.averageRating - a.averageRating;
+        case SortType.RatingLOHI:
+          return a.averageRating - b.averageRating;
+        case SortType.DurationHILO:
+          return b.runtimeMinutes - a.runtimeMinutes;
+        case SortType.DurationLOHI:
+          return a.runtimeMinutes - b.runtimeMinutes;
+        case SortType.YearHILO:
+          return b.startYear - a.startYear;
+        case SortType.YearLOHI:
+          return a.startYear - b.startYear;
+        default:
+          return 0;
+      }
+    });
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -158,6 +208,9 @@ const HomePage: React.FC = () => {
         ) : (
           <h2 className="noMatchesText">No matches found</h2>
         )}
+      </div>
+      <div className="sortMenuContainer">
+        <SortMenu onSort={handleSort} />
       </div>
     </div>
   );
