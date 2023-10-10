@@ -52,6 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem("isLoggedIn", "true");
     setIsLoggedIn(true);
     setEmail(email);
+    console.log(email);
   };
 
   /**
