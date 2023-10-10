@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import MyLibrariesGrid from "../../components/myLibrariesGrid/myLibrariesGrid";
+import MyLibrariesGrid from "../../components/myLibrariesGrid/MyLibrariesGrid";
 
 /**
  * Render the MyLibaryPage component.

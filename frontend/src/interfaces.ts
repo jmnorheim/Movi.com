@@ -36,5 +36,4 @@ export interface User {
 export interface Library {
   name: string;
   movies: string[];
-  logo: string;
 }
