@@ -50,6 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const login = (email: string) => {
     localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("email", email); // Store email in local storage
     setIsLoggedIn(true);
     setEmail(email);
     console.log(email);
@@ -60,6 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("email"); // Remove email from local storage
     setIsLoggedIn(false);
     setEmail("");
   };
