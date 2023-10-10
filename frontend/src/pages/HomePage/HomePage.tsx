@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { Movie, User } from "../../interfaces";
+import { Movie, MovieContent, User } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -9,6 +9,9 @@ import { useAuth } from "../../AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
 import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
+import FilterMenu, {
+  CurrentFilter,
+} from "../../components/filterMenu/FilterMenu";
 
 /**
  * Render the HomePage component.
@@ -18,8 +21,11 @@ const HomePage: React.FC = () => {
   const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
   const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
-  const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
+  const [currentFilter, setCurrentFilter] = useState<{
+    isAdult?: boolean;
+    genres?: string[];
+  }>({ isAdult: false, genres: [] });
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -27,20 +33,6 @@ const HomePage: React.FC = () => {
   });
 
   const { email } = useAuth();
-
-  // =======================================================================================================================
-
-  useEffect(() => {
-    if (currentSearch === "") {
-      setMovies(originalMovies);
-    }
-    if (originalMovies) {
-      const filteredMovies = originalMovies.filter((movie) =>
-        movie.primaryTitle.toLowerCase().includes(currentSearch.toLowerCase())
-      );
-      setMovies(filteredMovies);
-    }
-  }, [currentSearch, originalMovies]);
 
   // =======================================================================================================================
 
@@ -87,71 +79,81 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   const toggleFavorite = (imdbID: string) => {
-    // If email is not set, exit
     if (!email) return;
 
-    // Retrieve the user's data from localStorage
     const usersJSON = localStorage.getItem("users");
-    console.log(usersJSON);
-
     let users: User[] = [];
     if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       users = JSON.parse(usersJSON);
     }
     const currentUser = users.find((user: User) => user.email === email);
 
-    if (!currentUser) return; // exit if user not found
+    if (!currentUser) return;
 
-    // Check if the movie is already in favorites
+    // Toggle the favorite status in the currentUser object
     if (currentUser.favorites.includes(imdbID)) {
-      // Remove from favorites
       currentUser.favorites = currentUser.favorites.filter(
         (favoriteImdbID: string) => favoriteImdbID !== imdbID
       );
     } else {
-      // Add to favorites
       currentUser.favorites.push(imdbID);
     }
 
-    // Find the index of the current user in the users array
     const userIndex = users.findIndex((user: User) => user.email === email);
-
-    // Update the user's data in the array
     users[userIndex] = currentUser;
-
-    // Save the updated users array back to localStorage
     localStorage.setItem("users", JSON.stringify(users));
 
-    // Update the movies state to reflect the favorite toggle
-    const updateFavoritedStatus = (
-      movieList: Movie[] | null
-    ): Movie[] | null => {
+    const updateMovieListFavoritedStatus = (movieList: Movie[] | null) => {
       if (!movieList) return null;
 
-      // Update favorite status of the movie with the given imdbID
-      const updatedMovieList = movieList.map((movie) => {
+      return movieList.map((movie) => {
         if (movie.imdbID === imdbID) {
           return { ...movie, favorited: !movie.favorited };
         }
         return movie;
       });
-
-      // Reapply sort after updating favorite status if a sort type is active
-      if (currentSort) {
-        return applySort(updatedMovieList, currentSort);
-      }
-
-      return updatedMovieList;
     };
 
-    setMovies((prevMovies) => updateFavoritedStatus(prevMovies));
     setOriginalMovies((prevOriginalMovies) =>
-      updateFavoritedStatus(prevOriginalMovies)
+      updateMovieListFavoritedStatus(prevOriginalMovies)
     );
+
+    // Update the movies state
+    setMovies((prevMovies) => {
+      if (!prevMovies) return null;
+
+      const updatedMovies = updateMovieListFavoritedStatus(prevMovies);
+
+      // If a sort type is active, reapply the sort
+      if (currentSort) {
+        const sortedMovies = applySort(updatedMovies, currentSort);
+        return sortedMovies;
+      }
+
+      // If any filter is active, reapply the filters
+      if (
+        currentFilter.isAdult ||
+        (currentFilter.genres && currentFilter.genres.length > 0)
+      ) {
+        const filteredMovies = applyFilter(updatedMovies, currentFilter);
+        return filteredMovies;
+      }
+
+      return updatedMovies;
+    });
   };
 
-  // =======================================================================================================================
+  // =====Searching===============================================================================================================
+  const applySearch = (searchTerm: string) => {
+    if (originalMovies) {
+      const filteredMovies = originalMovies.filter((movie) =>
+        movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setMovies(filteredMovies);
+    }
+  };
+
+  // =====Sorting==================================================================================================================
 
   const handleSort = (sortType: SortType) => {
     setCurrentSort(sortType); // Save the current sort type
@@ -159,7 +161,7 @@ const HomePage: React.FC = () => {
     if (!movies) return;
 
     const sortedMovies = applySort(movies, sortType);
-    setMovies(sortedMovies);
+    setMovies(sortedMovies as Movie[]); // Cast sortedMovies to Movie[] type
   };
 
   const applySort = (
@@ -190,12 +192,69 @@ const HomePage: React.FC = () => {
     });
   };
 
+  // =====Filtering=============================================================================================================
+
+  const handleFilter = (filterTypeList: CurrentFilter) => {
+    const newFilter = {
+      isAdult: filterTypeList.isAdult,
+      genres: filterTypeList.genres,
+    };
+
+    setCurrentFilter(newFilter);
+
+    // If no filters are applied, reset the movies state to the original list
+    if (
+      !newFilter.isAdult &&
+      (!newFilter.genres || newFilter.genres.length === 0)
+    ) {
+      setMovies(originalMovies);
+      return;
+    }
+
+    // Apply filters and set the movies state
+    if (originalMovies) {
+      const filteredMovies = applyFilter(originalMovies, newFilter);
+      setMovies(filteredMovies);
+    }
+  };
+
+  // Apply the current filter to a list of movies
+  const applyFilter = (
+    movieList: Movie[],
+    newFilter: CurrentFilter
+  ): Movie[] => {
+    return movieList.filter((movie) => {
+      // Check isAdult filter
+      if (
+        newFilter.isAdult !== undefined &&
+        movie.isAdult !== newFilter.isAdult
+      ) {
+        return false;
+      }
+
+      // Check genres filter
+      if (newFilter.genres && newFilter.genres.length) {
+        // Ensure all selected genres are present in the movie's genres list
+        if (!newFilter.genres.every((genre) => movie.genres.includes(genre))) {
+          return false;
+        }
+      }
+
+      return true; // If neither the isAdult nor genres filter is active, include the movie
+    });
+  };
+
+  // =======================================================================================================================
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="homePageContainer">
       <div className="searchBarContainer">
-        <SearchBar onSearch={setCurrentSearch} />
+        <SearchBar onSearch={applySearch} />
+        {originalMovies?.length && (
+          <FilterMenu movies={originalMovies} onFilter={handleFilter} />
+        )}
       </div>
       <div className="gridContainer">
         {movies?.length ? (

@@ -18,6 +18,7 @@ body,
 .searchBarContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
   /* width: 94vw; */
   /* background-color: red; */
 }
