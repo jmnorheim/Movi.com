@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 /**
  * Type; authentication context values.
@@ -43,34 +43,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
 
-  /**
-   * Login function.
-   * Persists the logged-in state.
-   * @param {string} email
-   */
   const login = (email: string) => {
-    localStorage.setItem("isLoggedIn", "true");
     setIsLoggedIn(true);
     setEmail(email);
   };
-
-  /**
-   * Logout function.
-   */
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
     setEmail("");
   };
-
-  /**
-   * Check the local storage for persisted login state and email.
-   * Updates the local state.
-   */
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    setEmail(localStorage.getItem("email") || "");
-  }, []);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, email, login, logout }}>
