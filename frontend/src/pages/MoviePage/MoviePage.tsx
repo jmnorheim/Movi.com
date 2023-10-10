@@ -4,13 +4,8 @@ import { getMovieById } from "../../services/movieAPI";
 import { useEffect, useState } from "react";
 import { Movie, User } from "../../interfaces";
 import { Typography } from "@mui/material";
-import {
-  StyledInfoBox,
-  StyledInfoContainer,
-  StyledMovieContainer,
-  StyledPoster,
-} from "./MoviePageStyles";
 import { useAuth } from "../../AuthContext";
+import { useNavigate } from "react-router-dom";
 import "./MoviePage.css";
 
 /**
@@ -21,6 +16,8 @@ const MoviePage: React.FC = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const { isLoggedIn, email } = useAuth();
+
+  const navigate = useNavigate();
 
   if (!movieId) {
     throw new Error("Movie ID is required");
@@ -92,24 +89,41 @@ const MoviePage: React.FC = () => {
     localStorage.setItem("users", JSON.stringify(users));
   };
 
+  const printGenresNicely = (genres: string[]) => {
+    let genresString = "";
+    genres.forEach((genre: string) => {
+      genresString += genre + ", ";
+    });
+    return genresString.slice(0, -2);
+  };
+
   return (
     <>
+      <button
+        className="arrow-back-button"
+        onClick={() => navigate(-1)}
+      ></button>
       {isLoading || movie == null ? (
         <Typography variant="h4" align="center">
           Loading...
         </Typography>
       ) : (
-        <StyledMovieContainer sx={{ backgroundColor: "#d1e8e2" }}>
-          <Typography variant="h3" gutterBottom align="left">
+        <div className="styled-movie-container">
+          <Typography
+            variant="h3"
+            gutterBottom
+            align="center"
+            className="title"
+          >
             {movie.primaryTitle}
           </Typography>
-          <StyledPoster src={movie.poster} alt="poster" />
-          <StyledInfoBox>
-            <StyledInfoContainer>
+          <img className="styled-poster" src={movie.poster} alt="poster" />
+          <div className="styled-info-box">
+            <div className="styled-info-container">
               <div className="star-container">
                 {isLoggedIn && (
                   <div
-                    className={`star ${
+                    className={`moviepage-star ${
                       movie.favorited ? "star-filled" : "star-outline"
                     }`}
                     onClick={() => {
@@ -133,12 +147,12 @@ const MoviePage: React.FC = () => {
                 Runtime: {movie.runtimeMinutes} minutes
               </Typography>
               <Typography variant="h5">
-                Genres: {movie.genres.toString()}
+                Genres: {printGenresNicely(movie.genres)}
               </Typography>
               <Typography variant="subtitle1">Movie ID: {movieId}</Typography>
-            </StyledInfoContainer>
-          </StyledInfoBox>
-        </StyledMovieContainer>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
