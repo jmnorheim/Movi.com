@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { MovieContent, User } from "../../interfaces";
+import { Movie, User } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -15,10 +15,8 @@ import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
-    null
-  ); // All movies
-  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
+  const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
+  const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
 
   const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
@@ -127,8 +125,8 @@ const HomePage: React.FC = () => {
 
     // Update the movies state to reflect the favorite toggle
     const updateFavoritedStatus = (
-      movieList: MovieContent[] | null
-    ): MovieContent[] | null => {
+      movieList: Movie[] | null
+    ): Movie[] | null => {
       if (!movieList) return null;
 
       // Update favorite status of the movie with the given imdbID

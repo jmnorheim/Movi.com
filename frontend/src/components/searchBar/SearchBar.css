@@ -1,6 +1,6 @@
 .SearchbarContainer {
-    width: 25%;
-    min-width: 400px;
-    display: flex;
-    justify-content: center;
+  width: 25%;
+  min-width: 400px;
+  display: flex;
+  justify-content: center;
 }

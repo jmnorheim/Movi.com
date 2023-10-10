@@ -13,9 +13,46 @@
   padding-right: 9%;
 }
 
+.star {
+  position: relative;
+  bottom: 16%;
+  left: 79%;
+  font-size: 3em;
+  cursor: pointer;
+  transition:
+    color 0.3s,
+    transform 0.3s;
+  -webkit-text-stroke-width: 1px;
+  transform-origin: top left;
+  width: fit-content;
+}
+
+.star-outline {
+  color: transparent;
+  -webkit-text-stroke-color: gray;
+  -webkit-text-stroke-width: 3px;
+}
+
+.star-outline:hover {
+  transform: scale(1.05);
+}
+
+.star-filled {
+  color: rgb(255, 187, 0);
+}
+
+/* .star-filled:hover {
+  transform: scale(1.2);
+} */
+
 /* Media query for screens that are too small to fit 3 MovieContainers in a row */
 @media (max-width: 900px) {
   .MovieContainerGrid {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+
+  .star {
+    font-size: 2em;
+    bottom: 14%;
   }
 }
