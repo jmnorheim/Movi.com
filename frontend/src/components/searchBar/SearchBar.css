@@ -4,3 +4,10 @@
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 768px) {
+  .SearchbarContainer {
+    width: 20%;
+    min-width: 320px;
+  }
+}

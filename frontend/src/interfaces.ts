@@ -31,3 +31,8 @@ export interface User {
   password: string;
   favorites: string[];
 }
+
+export interface CurrentFilter {
+  isAdult?: boolean;
+  genres?: string[];
+}

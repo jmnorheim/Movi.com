@@ -1,92 +1,94 @@
 .sortMenuContainer {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .sortButton {
-    width: 250px;
-    height: 50px;
-    border: 3px solid black;
-    border-radius: 25px;
-    background-color: white;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 10px;
-    color: black !important;
+  width: 250px;
+  height: 50px;
+  border: 3px solid black;
+  border-radius: 25px;
+  background-color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  color: black;
 }
 
 .arrow {
-    font-size: 30px;
-    font-weight: bold;
-    margin-left: 5px;
-    display: inline-block;
-    width: 10;
-    height: 10;
-    vertical-align: middle;
-    border-top: 8px solid;
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: 5px;
+  display: inline-block;
+  width: 10;
+  height: 10;
+  vertical-align: middle;
+  border-top: 8px solid;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
 }
 
 .arrow.down {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .menuItems {
-    position: absolute;
-    bottom: 100%; /* Now it's positioned at the bottom of the button */
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 5px 0 0 0; /* Adjusted margin */
-    padding: 0;
-    border: 1px solid grey;
-    border-width: 0;
-    width: 198px;
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Adjusted shadow direction */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out, border-width 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  position: absolute;
+  bottom: 100%; /* Now it's positioned at the bottom of the button */
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 5px 0 0 0; /* Adjusted margin */
+  padding: 0;
+  border: 1px solid grey;
+  border-width: 0;
+  width: 198px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Adjusted shadow direction */
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.3s ease-in-out,
+    border-width 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .menuItems.open {
-    max-height: 350px;
-    border-width: 2px;
+  max-height: 350px;
+  border-width: 2px;
 }
 
 .menuItem {
-    margin: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 600;
-    background: none;
-    border: none;
-    text-align: left;
-    width: 100%;
-    height: 100%;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  height: 100%;
 }
 
 .menuItems.open .menuItem {
-    opacity: 1;
+  opacity: 1;
 }
 
 .menuItem:hover {
-    background-color: lightgray;
+  background-color: lightgray;
 }

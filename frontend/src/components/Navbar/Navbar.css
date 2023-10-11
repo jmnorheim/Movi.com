@@ -22,7 +22,7 @@
 
 /* Style for the Møvie brand name */
 .movie-brand {
-  font-family: "Roboto, sans-serif";
+  font-family: "Roboto", sans-serif;
   text-decoration: none;
   color: inherit;
 }

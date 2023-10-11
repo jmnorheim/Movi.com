@@ -5,7 +5,7 @@ const movies: MovieContent[] = [
     imdbID: "tt0076759",
     primaryTitle: "Star Wars: Episode IV - A New Hope",
     originalTitle: "Star Wars",
-    isAdult: false,
+    isAdult: true,
     startYear: 1977,
     runtimeMinutes: 121,
     genres: ["Action", "Adventure", "Fantasy"],

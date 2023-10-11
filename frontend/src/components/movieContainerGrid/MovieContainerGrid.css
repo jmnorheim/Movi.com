@@ -8,7 +8,7 @@
   justify-items: center;
   row-gap: 2rem; /* Increased gap between rows */
   column-gap: 1.5rem; /* Gap between columns */
-  max-width: 100%; /* Adjust this value if you want a different maximum width for the entire grid */
+  /* max-width: 100%; */
   padding-left: 9%;
   padding-right: 9%;
 }
