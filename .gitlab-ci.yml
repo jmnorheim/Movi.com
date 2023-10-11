@@ -1,0 +1,28 @@
+image: node:latest
+
+stages: # List of stages for jobs, and their order of execution
+  - linting
+  - test
+
+eslint:
+  stage: linting
+  before_script:
+    # Install dependencies in this docker container
+    - npm run setup
+  script:
+    # Run lint fix
+    - npm run lint:fix
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+testing:
+  stage: test
+  before_script:
+    - npm run setup
+  script:
+    - npm run test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'

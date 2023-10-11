@@ -2,10 +2,10 @@ node_modules/
 coverage/
 html/
 dist/
-__tests__/__snapshots__/
-__tests__/HomePage/__snapshots__/
-__tests__/NotFound/__snapshots__/
-__tests__/ProfilePage/__snapshots__/
+frontend/__tests__/pages/HomePage/__snapshots__/
+frontend/__tests__/pages/RegisterPage/__snapshots__/
+frontend/__tests__/pages/LoginPage/__snapshots__/
+users.json
 
 .vscode/
 

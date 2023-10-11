@@ -1,0 +1,88 @@
+.MovieContainerGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* This sets the minimum width for each container to be 300px and lets them fill the available space equally */
+  justify-content: center;
+  justify-items: center;
+  row-gap: 2rem; /* Increased gap between rows */
+  column-gap: 1.5rem; /* Gap between columns */
+  /* max-width: 100%; */
+  padding-left: 9%;
+  padding-right: 9%;
+}
+
+.star {
+  position: relative;
+  bottom: 16%;
+  left: 79%;
+  font-size: 3em;
+  cursor: pointer;
+  transition:
+    color 0.3s,
+    transform 0.3s;
+  -webkit-text-stroke-width: 1px;
+  transform-origin: top left;
+  width: fit-content;
+}
+
+.star-outline {
+  color: transparent;
+  -webkit-text-stroke-color: gray;
+  -webkit-text-stroke-width: 3px;
+}
+
+.star-outline:hover {
+  transform: scale(1.05);
+}
+
+.star-filled {
+  color: rgb(255, 187, 0);
+}
+
+/* .star-filled:hover {
+  transform: scale(1.2);
+} */
+
+.three-dots-container {
+  position: relative;
+  bottom: 16%;
+  left: 5%;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 200px;
+  top: -150%;
+  left: -50%;
+  z-index: 1;
+}
+
+.dropdown-header {
+  padding: 10px;
+  font-weight: bold;
+}
+
+.dropdown-item {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+/* Media query for screens that are too small to fit 3 MovieContainers in a row */
+@media (max-width: 900px) {
+  .MovieContainerGrid {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+
+  .star {
+    font-size: 2em;
+    bottom: 14%;
+  }
+}

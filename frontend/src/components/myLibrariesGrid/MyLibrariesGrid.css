@@ -1,0 +1,28 @@
+/* Main grid setup for large screens */
+.MyLibrariesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 40px; /* You can adjust this gap for spacing between grid items */
+  justify-content: center; /* This centers the grid items when there's remaining space */
+  max-width: 100%;
+  overflow: hidden;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 6%;
+}
+
+/* Adjust grid for screens 600px or smaller */
+@media (max-width: 600px) {
+  .MyLibrariesGrid {
+    /* grid-template-columns: 1fr; Stacks items in a single column */
+    /* margin: 0 auto; */
+  }
+}
+
+/*Styling for each individual container - You can adjust as necessary
+.MyLibraryContainer {
+  max-width: 400px;
+  max-height: 400px;
+  min-width: 200px;
+  min-height: 200px;
+  /* Additional styles can be added if necessary */

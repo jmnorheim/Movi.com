@@ -4,9 +4,9 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react/jsx-runtime",
@@ -24,12 +24,22 @@ module.exports = {
     },
   ],
   parser: "@typescript-eslint/parser",
-  ignorePatterns: ["setupViteConfig.ts", ".eslintrc.cjs"],
+  ignorePatterns: [
+    "setupViteConfig.ts",
+    ".eslintrc.cjs",
+    "coverage/",
+    "__tests__",
+  ],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    tsconfigRootDir: __dirname,
     project: "./tsconfig.json",
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
-  rules: {},
+  rules: {
+    peerDependencies: 0,
+    "@typescript-eslint/no-unused-vars": 0,
+    "react/prop-types": "off",
+  },
 };

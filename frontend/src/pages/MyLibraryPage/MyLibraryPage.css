@@ -1,0 +1,15 @@
+.mylibraryTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.createLibraryButton {
+  margin-right: 10px;
+}
+
+@media (max-width: 600px) {
+  .mylibraryTop {
+    flex-direction: column; /* stacks children vertically */
+    align-items: center; /* aligns them to the left */
+  }
+}

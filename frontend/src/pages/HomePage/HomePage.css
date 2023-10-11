@@ -1,0 +1,42 @@
+html,
+body,
+#root {
+  height: 100vh;
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+  overflow-x: hidden; /* Hide horizontal scroll if it appears */
+}
+
+.homePageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: space-around;
+  background-color: #d1e8e2;
+  min-height: 100%;
+}
+
+.searchBarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gridContainer {
+  /* background-color: blue; */
+}
+
+.sortMenuContainer {
+  /* background-color: red; */
+}
+
+.noMatchesText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3d405b;
+  text-align: center;
+  /* background-color: red; */
+}
