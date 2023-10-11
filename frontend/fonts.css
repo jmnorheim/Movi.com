@@ -1,0 +1,6 @@
+@font-face {
+  font-family: "Sofachrome";
+  src: url("./Sofachrome-Regular.ttf") format("truetype"); /* Adjust the URL to point to the correct location of the font file */
+  font-weight: normal;
+  font-style: normal;
+}

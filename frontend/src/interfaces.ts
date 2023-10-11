@@ -37,3 +37,8 @@ export interface Library {
   name: string;
   movies: string[];
 }
+
+export interface CurrentFilter {
+  isAdult?: boolean;
+  genres?: string[];
+}

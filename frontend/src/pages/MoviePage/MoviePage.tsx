@@ -33,6 +33,7 @@ const MoviePage: React.FC = () => {
         setMovie({ ...data, favorited: false });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const checkStar = (movieId: string) => {
