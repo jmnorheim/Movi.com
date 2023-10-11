@@ -57,13 +57,18 @@ function render(ui: React.ReactElement) {
   );
 }
 /*
-* Tests HomePage component.
-*/
+ * Tests HomePage component.
+ */
 describe("Tests HomePage component", () => {
   it("displays movies after fetching", async () => {
     render(<HomePage />);
     await waitFor(() => {
       expect(screen.getByText(/Test Movie 1/)).toBeDefined();
     });
-  }); 
+  });
+
+  it("Snapshot test", () => {
+    const { asFragment } = render(<HomePage />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

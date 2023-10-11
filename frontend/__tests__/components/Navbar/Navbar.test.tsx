@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider, useAuth } from "../../../src/AuthContext";
 import NavBar from "../../../../frontend/src/components/Navbar/Navbar";
 
-
 /**
  * @vitest-environment jsdom
  */
@@ -41,5 +40,3 @@ describe("Test Navbar", () => {
     expect(navbarElement).toBeDefined();
   });
 });
-
-

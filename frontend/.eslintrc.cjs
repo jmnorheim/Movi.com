@@ -24,7 +24,12 @@ module.exports = {
     },
   ],
   parser: "@typescript-eslint/parser",
-  ignorePatterns: ["setupViteConfig.ts", ".eslintrc.cjs", "coverage/","__tests__"],
+  ignorePatterns: [
+    "setupViteConfig.ts",
+    ".eslintrc.cjs",
+    "coverage/",
+    "__tests__",
+  ],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",

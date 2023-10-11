@@ -54,7 +54,6 @@ function render(ui: React.ReactElement) {
  * Test Moviecontainergrid + Moviecontainer.
  */
 describe("Test Moviecontainergrid + Moviecontainer", () => {
-
   /**
    * Test that MovieContainerGrid renders movies correctly.
    */
