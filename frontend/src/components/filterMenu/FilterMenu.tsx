@@ -7,7 +7,7 @@ import checkmark from "../../assets/icons/checkmark.svg";
 
 interface FilterMenuProps {
   movies: Movie[] | [];
-  onFilter: (filters: string[]) => void;
+  onFilter: (filters: CurrentFilter) => void;
 }
 
 export interface CurrentFilter {
@@ -24,14 +24,14 @@ const FilterMenu: FC<FilterMenuProps> = ({ movies, onFilter }) => {
 
   // Find all the unique genres present in the movies array
   const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie) => movie.genres))
+    new Set(movies.flatMap((movie: Movie) => movie.genres))
   );
 
   // =======================================================================================================================
 
   // Make sure the modal closes when the users clicks outside of it
-  const handleOutsideClick = (event: any) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       setShowModal(false);
     }
   };
@@ -67,6 +67,7 @@ const FilterMenu: FC<FilterMenuProps> = ({ movies, onFilter }) => {
     filter.genres = selectedFilters.filter((filter) => filter !== "isAdult");
 
     onFilter(filter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilters]);
 
   // =======================================================================================================================

@@ -82,9 +82,9 @@ const HomePage: React.FC = () => {
     if (!email) return;
 
     const usersJSON = localStorage.getItem("users");
-    let users: User[] = [];
+    const users: User[] = [];
     if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      users = JSON.parse(usersJSON);
+      const users: User[] = JSON.parse(usersJSON) as User[];
     }
     const currentUser = users.find((user: User) => user.email === email);
 
@@ -119,14 +119,14 @@ const HomePage: React.FC = () => {
     );
 
     // Update the movies state
-    setMovies((prevMovies) => {
+    setMovies((prevMovies: Movie[] | null) => {
       if (!prevMovies) return null;
 
       const updatedMovies = updateMovieListFavoritedStatus(prevMovies);
 
       // If a sort type is active, reapply the sort
       if (currentSort) {
-        const sortedMovies = applySort(updatedMovies, currentSort);
+        const sortedMovies = applySort(updatedMovies as Movie[], currentSort);
         return sortedMovies;
       }
 
@@ -135,7 +135,10 @@ const HomePage: React.FC = () => {
         currentFilter.isAdult ||
         (currentFilter.genres && currentFilter.genres.length > 0)
       ) {
-        const filteredMovies = applyFilter(updatedMovies, currentFilter);
+        const filteredMovies = applyFilter(
+          updatedMovies as Movie[],
+          currentFilter
+        );
         return filteredMovies;
       }
 
@@ -161,14 +164,11 @@ const HomePage: React.FC = () => {
     if (!movies) return;
 
     const sortedMovies = applySort(movies, sortType);
-    setMovies(sortedMovies as Movie[]); // Cast sortedMovies to Movie[] type
+    setMovies(sortedMovies); // Cast sortedMovies to Movie[] type
   };
 
-  const applySort = (
-    movieList: MovieContent[],
-    sortType: SortType
-  ): MovieContent[] => {
-    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
+  const applySort = (movieList: Movie[], sortType: SortType): Movie[] => {
+    return [...movieList].sort((a: Movie, b: Movie): number => {
       switch (sortType) {
         case SortType.TitleAZ:
           return a.primaryTitle.localeCompare(b.primaryTitle);

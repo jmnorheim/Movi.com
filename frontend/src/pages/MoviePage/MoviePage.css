@@ -1,6 +1,6 @@
 .star-container {
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
 
 .moviepage-star {
@@ -70,7 +70,7 @@
 }
 
 .styled-info-box {
-  border: 2px solid #B0BEC5;
+  border: 2px solid #b0bec5;
   padding: 16px;
   border-radius: 16px;
   width: 45%;
@@ -95,7 +95,7 @@
 }
 
 .arrow-back-button::before {
-  content: '⇦';
+  content: "⇦";
   font-size: 36px;
 }
 
@@ -104,4 +104,3 @@
     top: 9%;
   }
 }
-  

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./navbar.css";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../AuthContext";
+import "../../../fonts.css";
 
 /**
  * Render navbar.
