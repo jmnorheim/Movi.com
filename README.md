@@ -2,12 +2,11 @@
 
 ## Students
 
-| Name                       | Age | Study program         | Email                 |
-| -------------------------- | --- | --------------------- | --------------------- |
-| Bjørn Eirik Melaaen        | 22  | MSc. Computer Science | bjorneme@stud.ntnu.no |
-| Daniel N. Hansen           | 21  | MSc. Computer Science | danielnh@stud.ntnu.no |
-| Jens Martin Norheim Berget | 21  | MSc. Computer Science | jmberget@stud.ntnu.no |
-
+| Name                       | Age | Study program          | Email                 |
+| -------------------------- | --- | ---------------------- | --------------------- |
+| Bjørn Eirik Melaaen        | 22  | M.Sc. Computer Science | bjorneme@stud.ntnu.no |
+| Daniel N. Hansen           | 21  | M.Sc. Computer Science | danielnh@stud.ntnu.no |
+| Jens Martin Norheim Berget | 21  | M.Sc. Computer Science | jmberget@stud.ntnu.no |
 
 ### Setup & Startup
 
@@ -19,13 +18,22 @@
 2. **Installation**:
 
    - Clone the repo: `git clone https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2.git`
-   - Navigate to the project directory: `cd [project-directory-name]`
+   - Navigate to the project directory: `cd .\prosjekt-2\`
    - Install dependencies: `npm run setup`
 
 3. **Starting the Project**:
 
    - Run the project: `npm run dev`
 
-### Documentation
+4. **Testing**:
+
+   - Run the tests: `npm run test`
+
+5. **Code formatting**:
+
+   - Run both linting (ESLint) and Prettier: `npm run lint:fix`
+   - Run only linting: `npm run lint`
+
+### Detailed documentation:
 
 [Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/home)
