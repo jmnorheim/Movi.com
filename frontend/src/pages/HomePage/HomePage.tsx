@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { Movie, MovieContent, User } from "../../interfaces";
+import { CurrentFilter, Movie, MovieContent, User } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -9,9 +9,7 @@ import { useAuth } from "../../AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
 import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
-import FilterMenu, {
-  CurrentFilter,
-} from "../../components/filterMenu/FilterMenu";
+import FilterMenu from "../../components/filterMenu/FilterMenu";
 
 /**
  * Render the HomePage component.

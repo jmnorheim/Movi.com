@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, FC } from "react";
 import "./FilterMenu.css";
-import { Movie } from "../../interfaces";
+import { CurrentFilter, Movie } from "../../interfaces";
 import filtericon from "../../assets/icons/filter-icon.svg";
 import x_icon from "../../assets/icons/x-icon.svg";
 import checkmark from "../../assets/icons/checkmark.svg";
@@ -8,11 +8,6 @@ import checkmark from "../../assets/icons/checkmark.svg";
 interface FilterMenuProps {
   movies: Movie[] | [];
   onFilter: (filters: CurrentFilter) => void;
-}
-
-export interface CurrentFilter {
-  isAdult?: boolean;
-  genres?: string[];
 }
 
 const FilterMenu: FC<FilterMenuProps> = ({ movies, onFilter }) => {
