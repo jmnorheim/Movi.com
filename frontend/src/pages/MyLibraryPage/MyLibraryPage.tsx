@@ -86,10 +86,11 @@ const MyLibraryPage: React.FC = () => {
   }, [email]);
 
   return (
-    <>
+    <div className="myLibraryPageContainer">
       <div className="mylibraryTop">
-        <h1>My Library Page</h1>
-
+        <h1 className="titleText">My Library Page</h1>
+      </div>
+      <div className="buttonContainer">
         <Button
           className="createLibraryButton"
           variant="contained"
@@ -132,7 +133,7 @@ const MyLibraryPage: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 
