@@ -45,6 +45,37 @@
   transform: scale(1.2);
 } */
 
+.three-dots-container {
+  position: relative;
+  bottom: 16%;
+  left: 5%;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 200px;
+  top: -150%;
+  left: -50%;
+  z-index: 1;
+}
+
+.dropdown-header {
+  padding: 10px;
+  font-weight: bold;
+}
+
+.dropdown-item {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+
 /* Media query for screens that are too small to fit 3 MovieContainers in a row */
 @media (max-width: 900px) {
   .MovieContainerGrid {

@@ -41,6 +41,7 @@ const MyLibraryPage: React.FC = () => {
       };
       libraries.push(favLibrary);
       libraries.push(...currentUser.library);
+      console.log("Libraries:", libraries);
       setLibraries(libraries);
     }
   };
