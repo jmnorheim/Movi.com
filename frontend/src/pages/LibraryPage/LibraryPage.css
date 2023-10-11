@@ -1,0 +1,35 @@
+.LibraryPage {
+  position: relative; /* Make sure the .LibraryPage container has relative positioning */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.backButton {
+  position: absolute; /* Absolute position the button */
+  top: 10px; /* Set a little distance from the top */
+  left: 10px; /* Set a little distance from the left */
+  background-color: #f2f2f2; /* Optional: some background to make the button visible against any background */
+  border: none; /* Optional: remove border */
+  padding: 10px 15px; /* Optional: some padding to make the button larger */
+  cursor: pointer; /* Optional: hand cursor on hover */
+}
+
+.backButton:hover {
+  background-color: #e0e0e0; /* Optional: a subtle hover effect */
+}
+
+.libraryName {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.LibraryPage a {
+  display: block;
+  width: fit-content; /* Adjusts the width to fit the content */
+  margin: 15px auto; /* Centers the link horizontally and adds space between each movie item */
+  text-decoration: none;
+}

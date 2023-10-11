@@ -3,6 +3,7 @@ import { Button, TextField, Container, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import { User } from "../../interfaces";
+import { useAuth } from "../../AuthContext";
 
 /**
  * Render the RegisterPage component.
@@ -14,6 +15,7 @@ const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   /**
    * Handles the registration process.
@@ -51,13 +53,14 @@ const RegisterPage: React.FC = () => {
     }
 
     const favorites: string[] = [];
-    const user: User = { username, email, password, favorites };
+    const user: User = { username, email, password, favorites, library: [] };
     console.log("User = ", user);
     users.push(user);
     // console.log(users);
     localStorage.setItem("users", JSON.stringify(users));
 
     alert("Registered successfully!");
+    login(email);
     navigate("/profile");
   };
 

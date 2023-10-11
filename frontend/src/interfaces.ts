@@ -30,6 +30,12 @@ export interface User {
   email: string;
   password: string;
   favorites: string[];
+  library: Library[];
+}
+
+export interface Library {
+  name: string;
+  movies: string[];
 }
 
 export interface CurrentFilter {
