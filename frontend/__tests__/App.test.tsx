@@ -8,12 +8,17 @@ import App from "../src/App";
 /**
  * Mocks `BrowserRouter`.
  */
-vi.mock('react-router-dom', async () => {
-  const originalModule = await vi.importActual('react-router-dom') as Record<string, any>;
+vi.mock("react-router-dom", async () => {
+  const originalModule = (await vi.importActual("react-router-dom")) as Record<
+    string,
+    any
+  >;
 
   return {
     ...originalModule,
-    BrowserRouter: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    BrowserRouter: ({ children }: { children: React.ReactNode }) => (
+      <div>{children}</div>
+    ),
   };
 });
 
@@ -32,21 +37,17 @@ const queryClient = new QueryClient();
 const renderWithProviders = (ui: React.ReactElement) => {
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={['/nonexistentroute']}>
-        {ui}
-      </MemoryRouter>
-    </QueryClientProvider>,
-  )
+      <MemoryRouter initialEntries={["/nonexistentroute"]}>{ui}</MemoryRouter>
+    </QueryClientProvider>
+  );
 };
 
 /**
  * Test that 404 page is rendered for nonexistent routes.
  */
 describe("Test Routing", () => {
-  it('renders 404 for nonexistent routes', () => {
+  it("renders 404 for nonexistent routes", () => {
     renderWithProviders(<App />);
-    expect(screen.getByText('404 Not found')).toBeDefined();
+    expect(screen.getByText("404 Not found")).toBeDefined();
   });
 });
-
-

@@ -8,6 +8,7 @@ import { describe, it, vi, expect } from "vitest";
 import RegisterPage from "../../../src/pages/RegisterPage/RegisterPage";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "../../../src/AuthContext";
 
 /**
  * @vitest-environment jsdom
@@ -57,7 +58,9 @@ const queryClient = new QueryClient();
 function render(ui: React.ReactElement) {
   return rtlRender(
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>{ui}</BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>{ui}</BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

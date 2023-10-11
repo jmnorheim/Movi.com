@@ -75,7 +75,6 @@
   border-bottom: 1px solid #eee;
 }
 
-
 /* Media query for screens that are too small to fit 3 MovieContainers in a row */
 @media (max-width: 900px) {
   .MovieContainerGrid {
