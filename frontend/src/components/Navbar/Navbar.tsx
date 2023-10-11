@@ -3,7 +3,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
-import "./navbar.css";
+import "./Navbar.css";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../AuthContext";
 
