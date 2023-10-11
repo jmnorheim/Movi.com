@@ -1,10 +1,8 @@
-html,
-body,
-#root {
-  height: 100vh;
-  margin: 0; /* Remove default margins */
-  padding: 0; /* Remove default padding */
-  overflow-x: hidden; /* Hide horizontal scroll if it appears */
+body, html {
+  background-color: #d1e8e2;
+  margin: 0; /* Removes default margins */
+  height: 100%; /* Ensures that html and body cover the full viewport height */
+  width: 100%; /* Ensures that html and body cover the full viewport width */
 }
 
 .homePageContainer {
