@@ -1,26 +1,31 @@
-# Beta (Project 2)
+# Project 2 IT2810
 
-A application for showing info about movies and ratings, where the user can add new data asswell as making collections of movies.
+## Students
 
-## Installation
+| Name                       | Age | Study program         | Email                 |
+| -------------------------- | --- | --------------------- | --------------------- |
+| Bjørn Eirik Melaaen        | 22  | MSc. Computer Science | bjorneme@stud.ntnu.no |
+| Daniel N. Hansen           | 21  | MSc. Computer Science | danielnh@stud.ntnu.no |
+| Jens Martin Norheim Berget | 21  | MSc. Computer Science | jmberget@stud.ntnu.no |
 
-Make sure to have node v6 or newer ++
-Add more text here bois
 
-Setup:
+### Setup & Startup
 
-```bash
-  npm run setup
-```
+1. **Prerequisites**:
 
-Run site:
+   - Install Node.js v20.5+ and npm v9.8+.
+   - Ensure Vite 4.4+ is set up.
 
-    npm run dev
+2. **Installation**:
 
-Run tests:
+   - Clone the repo: `git clone https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2.git`
+   - Navigate to the project directory: `cd [project-directory-name]`
+   - Install dependencies: `npm run setup`
 
-    npm run test
+3. **Starting the Project**:
 
-Run lint:
+   - Run the project: `npm run dev`
 
-    npm run lint
+### Documentation
+
+[Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/home)
