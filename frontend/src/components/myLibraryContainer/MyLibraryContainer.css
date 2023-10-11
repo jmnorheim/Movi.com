@@ -1,0 +1,27 @@
+.Library {
+  display: grid; /* Use grid instead of flex for the main container */
+  grid-template-rows: 80% 20%; /* Define the two rows */
+  max-width: 400px;
+  max-height: 400px;
+  min-width: 200px;
+  min-height: 200px;
+  border: 2px solid #000;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.Library img {
+  display: block;
+  width: 100%;
+  height: 100%; /* The image will fill the grid cell */
+  object-fit: cover;
+}
+
+.Library h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
