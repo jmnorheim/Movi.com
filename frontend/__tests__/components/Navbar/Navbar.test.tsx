@@ -1,10 +1,11 @@
-import { expect, test } from "vitest";
+import { expect, it, describe, vi, afterEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AuthProvider } from "../../../src/AuthContext";
+import { AuthProvider, useAuth } from "../../../src/AuthContext";
 import NavBar from "../../../../frontend/src/components/Navbar/Navbar";
+
 
 /**
  * @vitest-environment jsdom
@@ -28,10 +29,17 @@ const renderWithProviders = (ui: React.ReactElement) => {
 };
 
 /**
- * Test that Navbar is rendered.
+ * Test the Navbar
  */
-test("renders Navbar in App", () => {
-  renderWithProviders(<NavBar />);
-  const navbarElement = screen.getByText("Møvie");
-  expect(navbarElement).toBeDefined();
+describe("Test Navbar", () => {
+  /**
+   * Test that Navbar contain "Møvie".
+   */
+  it("Test that Navbar contain 'Møvie'", () => {
+    renderWithProviders(<NavBar />);
+    const navbarElement = screen.getByText("Møvie");
+    expect(navbarElement).toBeDefined();
+  });
 });
+
+
