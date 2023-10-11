@@ -14,7 +14,8 @@
   display: block;
   width: 100%;
   height: 100%; /* The image will fill the grid cell */
-  object-fit: cover;
+  object-fit: contain; /* This ensures the entire image is visible */
+  object-position: center; /* This centers the image within the container */
 }
 
 .Library h3 {

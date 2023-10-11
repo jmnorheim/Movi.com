@@ -47,6 +47,7 @@ const MyLibraryPage: React.FC = () => {
   };
 
   const addLiabrary = (name: string) => {
+    //TODO make sure the user do not have that library name already
     const usersJSON = localStorage.getItem("users");
 
     let users: User[] = [];

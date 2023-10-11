@@ -7,10 +7,12 @@ interface MyLibrariesGridProps {
   libraries: Library[] | null;
 }
 const MyLibrariesGrid = ({ libraries }: MyLibrariesGridProps) => {
+  console.log("Libraries inside the grid:", libraries);
+
   return (
     <div className="MyLibrariesGrid">
       {libraries?.map((library, index) => (
-        <Link to={"/library/" + library.name} key={index}>
+        <Link to={"/my-library/" + library.name} key={index}>
           <MyLibaryContainer library={library} />
         </Link>
       ))}
