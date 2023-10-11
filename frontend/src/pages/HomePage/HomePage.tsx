@@ -80,9 +80,9 @@ const HomePage: React.FC = () => {
     if (!email) return;
 
     const usersJSON = localStorage.getItem("users");
-    const users: User[] = [];
+    let users: User[] = [];
     if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      const users: User[] = JSON.parse(usersJSON) as User[];
+      users = JSON.parse(usersJSON) as User[];
     }
     const currentUser = users.find((user: User) => user.email === email);
 
