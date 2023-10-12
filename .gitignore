@@ -6,6 +6,7 @@ frontend/__tests__/pages/HomePage/__snapshots__/
 frontend/__tests__/pages/RegisterPage/__snapshots__/
 frontend/__tests__/pages/LoginPage/__snapshots__/
 users.json
+frontend/package-lock.json
 
 .vscode/
 
