@@ -1,11 +1,82 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./beta.db"
+}
+
+model Genre {
+  genreID    Int          @id @default(autoincrement())
+  genreName  String?      @unique(map: "sqlite_autoindex_Genre_1")
+  MovieGenre MovieGenre[] @ignore
+}
+
+model Library {
+  libraryID     Int             @id @default(autoincrement())
+  userID        Int?
+  name          String?
+  User          User?           @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+  LibraryMovies LibraryMovies[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model LibraryMovies {
+  libraryID Int?
+  imdbID    String?
+  Movie     Movie?   @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+  Library   Library? @relation(fields: [libraryID], references: [libraryID], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([libraryID, imdbID])
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Movie {
+  imdbID         String?         @id
+  primaryTitle   String?
+  originalTitle  String?
+  isAdult        Int?
+  startYear      Int?
+  runtimeMinutes Int?
+  averageRating  Float?
+  totalVotes     Int?
+  poster         String?
+  LibraryMovies  LibraryMovies[]
+  MovieGenre     MovieGenre[]
+  UserFavorites  UserFavorites[]
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model MovieGenre {
+  imdbID  String?
+  genreID Int?
+  Genre   Genre?  @relation(fields: [genreID], references: [genreID], onDelete: NoAction, onUpdate: NoAction)
+  Movie   Movie?  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([imdbID, genreID])
+  @@ignore
+}
+
+model User {
+  userID        Int             @id @default(autoincrement())
+  username      String?         @unique(map: "sqlite_autoindex_User_1")
+  email         String?         @unique(map: "sqlite_autoindex_User_2")
+  password      String?
+  Library       Library[]
+  UserFavorites UserFavorites[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model UserFavorites {
+  userID Int?
+  imdbID String?
+  Movie  Movie?  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+  User   User?   @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userID, imdbID])
+  @@ignore
 }
