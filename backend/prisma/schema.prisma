@@ -1,3 +1,7 @@
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,74 +13,75 @@ datasource db {
 
 model Genre {
   genreID    Int          @id @default(autoincrement())
-  genreName  String?      @unique(map: "sqlite_autoindex_Genre_1")
-  MovieGenre MovieGenre[] @ignore
+  genreName  String       @unique()
+  MovieGenre MovieGenre[]
 }
 
 model Library {
-  libraryID     Int             @id @default(autoincrement())
-  userID        Int?
-  name          String?
-  User          User?           @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
-  LibraryMovies LibraryMovies[] @ignore
+  libraryID     String          @id @default(uuid())
+  userID        String
+  name          String
+  User          User            @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+  LibraryMovies LibraryMovies[]
+
+  @@index([libraryID, userID])
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model LibraryMovies {
-  libraryID Int?
-  imdbID    String?
-  Movie     Movie?   @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
-  Library   Library? @relation(fields: [libraryID], references: [libraryID], onDelete: NoAction, onUpdate: NoAction)
+  libraryID String
+  imdbID    String
+  Movie     Movie   @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+  Library   Library @relation(fields: [libraryID], references: [libraryID], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([libraryID, imdbID])
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model Movie {
-  imdbID         String?         @id
-  primaryTitle   String?
-  originalTitle  String?
-  isAdult        Int?
-  startYear      Int?
-  runtimeMinutes Int?
-  averageRating  Float?
-  totalVotes     Int?
+  imdbID         String          @id
+  primaryTitle   String
+  originalTitle  String
+  isAdult        Boolean
+  startYear      Int
+  runtimeMinutes Int
+  averageRating  Float
+  totalVotes     Int
   poster         String?
   LibraryMovies  LibraryMovies[]
   MovieGenre     MovieGenre[]
   UserFavorites  UserFavorites[]
 
-  @@ignore
+  @@index([imdbID, primaryTitle])
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model MovieGenre {
-  imdbID  String?
-  genreID Int?
-  Genre   Genre?  @relation(fields: [genreID], references: [genreID], onDelete: NoAction, onUpdate: NoAction)
-  Movie   Movie?  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+  imdbID  String
+  genreID Int
+  Genre   Genre  @relation(fields: [genreID], references: [genreID], onDelete: NoAction, onUpdate: NoAction)
+  Movie   Movie  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([imdbID, genreID])
-  @@ignore
 }
 
 model User {
-  userID        Int             @id @default(autoincrement())
-  username      String?         @unique(map: "sqlite_autoindex_User_1")
-  email         String?         @unique(map: "sqlite_autoindex_User_2")
-  password      String?
+  userID        String          @id @default(uuid())
+  username      String          @unique()
+  email         String          @unique()
+  password      String
   Library       Library[]
-  UserFavorites UserFavorites[] @ignore
+  UserFavorites UserFavorites[]
+
+  @@index([userID, email])
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model UserFavorites {
-  userID Int?
-  imdbID String?
-  Movie  Movie?  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
-  User   User?   @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+  userID String
+  imdbID String
+  Movie  Movie  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+  User   User   @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userID, imdbID])
-  @@ignore
 }

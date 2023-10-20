@@ -50,7 +50,7 @@ CREATE TABLE Library (
     FOREIGN KEY (userID) REFERENCES User(userID)
 );
 
-CREATE TABLE LibraryMovies (
+CREATE TABLE LibraryMovie (
     libraryID INTEGER,
     imdbID TEXT,
     FOREIGN KEY (libraryID) REFERENCES Library(libraryID),
