@@ -1,8 +1,8 @@
+import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { resolvers } from "@generated/type-graphql";
-import { buildSchemaSync } from "type-graphql";
-// import { Context, context } from "./context";
+import { resolvers } from "../generated/type-graphql/index.js";
+import { buildSchema } from "type-graphql";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -16,8 +16,9 @@ const context: Context = {
 };
 
 async function main() {
-  const schema = buildSchemaSync({
+  const schema = await buildSchema({
     resolvers,
+    validate: false,
   });
 
   const server = new ApolloServer<Context>({

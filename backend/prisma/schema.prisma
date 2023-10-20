@@ -1,5 +1,6 @@
 generator typegraphql {
   provider = "typegraphql-prisma"
+  output   = "../generated/type-graphql"
 }
 
 generator client {
