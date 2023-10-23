@@ -1,0 +1,12 @@
+type Query {
+  libraries(limit: Int, offset: Int): [Library!]!
+  libraryByID(libraryID: ID!): Library!
+  libraryByUserAndName(userID: ID!, name: String!): Library!
+}
+
+type Library {
+  libraryID: ID!
+  userID: ID!
+  name: String!
+  movies: [String!]!
+}

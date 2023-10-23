@@ -1,0 +1,16 @@
+type Query {
+  users(limit: Int, offset: Int): [User!]!
+  userByID(userID: ID!): User!
+  userByEmail(email: String!): User!
+  movieInFavoriteByUserID(userID: ID!, imdbID: ID!): Boolean!
+  movieInFavoriteByUserEmail(email: String!, imdbID: ID!): Boolean!
+}
+
+type User {
+  userID: ID!
+  username: String!
+  email: String!
+  password: String!
+  library: [Library!]!
+  favorites: [String!]!
+}
