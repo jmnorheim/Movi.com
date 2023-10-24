@@ -2,14 +2,12 @@
   "compilerOptions": {
     "rootDirs": ["src"],
     "outDir": "dist",
-    "lib": ["es2022"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "lib": ["es2020"],
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "types": ["node"],
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "types": ["node"]
   },
   "exclude": ["prisma"]
 }

@@ -1,15 +1,14 @@
-import { loadFilesSync } from "@graphql-tools/load-files";
-import { mergeTypeDefs } from "@graphql-tools/merge";
-import { print } from "graphql/language/printer";
-import gql from "graphql-tag";
-import path from "path";
+import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
+import { loadSchemaSync } from "@graphql-tools/load";
+import { printSchema } from "graphql";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
-const typesArray = loadFilesSync(path.join(__dirname, "."), {
-  extensions: ["gql", "graphql"],
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log(__dirname);
+
+export const typeDefs = loadSchemaSync("./**/*.gql", {
+  loaders: [new GraphQLFileLoader()],
 });
-
-const typeDefs = mergeTypeDefs(typesArray, {});
-
-const gqlTypeDefs = gql(print(typeDefs));
-
-export default gqlTypeDefs;

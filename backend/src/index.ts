@@ -1,10 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
-import { readFileSync } from "fs";
-import { gql } from "graphql-tag";
-
-const typeDefs = gql(readFileSync("../graphql/typeDefs.graphql", "utf-8"));
+import { typeDefs } from "../graphql/schema/index.js";
 
 const prisma = new PrismaClient();
 
@@ -16,9 +13,18 @@ const context: Context = {
   prisma: prisma,
 };
 
+const resolvers = {
+  Query: {
+    users: async (_, __, context) => {
+      return await prisma.user.findMany();
+    },
+  },
+};
+
 async function main() {
   const server = new ApolloServer<Context>({
     typeDefs,
+    resolvers,
   });
 
   const { url } = await startStandaloneServer(server, {

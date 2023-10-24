@@ -17,8 +17,8 @@ type Mutation {
   deleteUser(userID: ID!): User!
   addMovieToFavorite(userID: ID!, imdbID: ID!): User!
   removeMovieFromFavorite(userID: ID!, imdbID: ID!): User!
-  addLibrary(userID: ID!, library: Library!): User!
-  removeLibrary(userID: ID!, library: Library!): User!
+  addLibrary(userID: ID!, libraryName: String!): User!
+  removeLibrary(userID: ID!, libraryID: String!): User!
 }
 
 type User {
