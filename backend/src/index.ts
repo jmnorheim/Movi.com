@@ -2,7 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
 import { typeDefs } from "../graphql/schema/index.js";
-import { Resolver } from "../generated/resolvers-types.js";
+import { Resolvers } from "../generated/resolvers-types.js";
 
 const prisma = new PrismaClient();
 
@@ -14,10 +14,23 @@ const context: Context = {
   prisma: prisma,
 };
 
-const resolvers = {
+const resolvers: Resolvers = {
   Query: {
-    users: async (_, __, context) => {
-      return await prisma.user.findMany();
+    users: async (_, __, context: Context) => {
+      const users = await context.prisma.user.findMany();
+      const fav = await context.prisma.userFavorites.findMany({
+        where: { userID: { in: users.map((user) => user.userID) } },
+      });
+      console.log(fav);
+
+      const tmp = users.map((user) => ({
+        ...user,
+        favorites: [],
+        library: [],
+      }));
+
+      console.log(tmp);
+      return tmp;
     },
   },
 };
