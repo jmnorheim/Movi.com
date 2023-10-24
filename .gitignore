@@ -11,7 +11,6 @@ frontend/package-lock.json
 backend/docs/
 backend/node_modules/
 backend/package-lock.json
-backend/generated/
 
 
 .vscode/
