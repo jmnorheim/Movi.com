@@ -4,6 +4,10 @@ type Query {
   libraryByUserAndName(userID: ID!, name: String!): Library!
 }
 
+type Mutation {
+  renameLibrary(libraryID: ID!, name: String!): Library!
+}
+
 type Library {
   libraryID: ID!
   userID: ID!

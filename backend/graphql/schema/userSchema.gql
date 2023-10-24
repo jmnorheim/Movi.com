@@ -6,6 +6,21 @@ type Query {
   movieInFavoriteByUserEmail(email: String!, imdbID: ID!): Boolean!
 }
 
+type Mutation {
+  createUser(username: String!, email: String!, password: String!): User!
+  updateUser(
+    userID: ID!
+    username: String
+    email: String
+    password: String
+  ): User!
+  deleteUser(userID: ID!): User!
+  addMovieToFavorite(userID: ID!, imdbID: ID!): User!
+  removeMovieFromFavorite(userID: ID!, imdbID: ID!): User!
+  addLibrary(userID: ID!, library: Library!): User!
+  removeLibrary(userID: ID!, library: Library!): User!
+}
+
 type User {
   userID: ID!
   username: String!
