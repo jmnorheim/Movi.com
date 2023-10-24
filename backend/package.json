@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev src/index.ts",
-    "generate": "prisma generate",
-    "start2": "node --loader ts-node/esm src/index.ts",
-    "noe": "tsc && node ./dist/src/index.js"
+    "generatePrisma": "prisma generate",
+    "generateTypes": "graphql-codegen --config GQLCodeGenConfig.ts",
+    "start": "tsc && node ./dist/src/index.js"
   },
   "keywords": [],
   "author": "",

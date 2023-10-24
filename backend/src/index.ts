@@ -2,6 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
 import { typeDefs } from "../graphql/schema/index.js";
+import { Resolver } from "../generated/resolvers-types.js";
 
 const prisma = new PrismaClient();
 
