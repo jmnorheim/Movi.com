@@ -14,12 +14,13 @@ model Genre {
 }
 
 model Library {
-  libraryID     String          @id @default(uuid())
-  userID        String
-  name          String
-  User          User            @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+  libraryID    String         @id @default(uuid())
+  userID       String
+  name         String
+  User         User           @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
   LibraryMovie LibraryMovie[]
 
+  @@unique([userID, name])
   @@index([libraryID, userID])
 }
 
@@ -44,7 +45,7 @@ model Movie {
   averageRating  Float
   totalVotes     Int
   poster         String?
-  LibraryMovie  LibraryMovie[]
+  LibraryMovie   LibraryMovie[]
   MovieGenre     MovieGenre[]
   UserFavorites  UserFavorites[]
 
