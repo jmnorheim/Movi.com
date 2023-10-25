@@ -56,10 +56,12 @@ export type Mutation = {
   __typename?: 'Mutation';
   addLibrary: User;
   addMovieToFavorite: User;
+  addMovieToLibrary: Library;
   createUser: User;
   deleteUser: User;
   removeLibrary: User;
   removeMovieFromFavorite: User;
+  removeMovieFromLibrary: Library;
   renameLibrary: Library;
   updateUser: User;
 };
@@ -74,6 +76,12 @@ export type MutationAddLibraryArgs = {
 export type MutationAddMovieToFavoriteArgs = {
   imdbID: Scalars['ID']['input'];
   userID: Scalars['ID']['input'];
+};
+
+
+export type MutationAddMovieToLibraryArgs = {
+  libraryID: Scalars['ID']['input'];
+  movieID: Scalars['String']['input'];
 };
 
 
@@ -98,6 +106,12 @@ export type MutationRemoveLibraryArgs = {
 export type MutationRemoveMovieFromFavoriteArgs = {
   imdbID: Scalars['ID']['input'];
   userID: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveMovieFromLibraryArgs = {
+  libraryID: Scalars['ID']['input'];
+  movieID: Scalars['String']['input'];
 };
 
 
@@ -344,10 +358,12 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addLibrary?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAddLibraryArgs, 'libraryName' | 'userID'>>;
   addMovieToFavorite?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAddMovieToFavoriteArgs, 'imdbID' | 'userID'>>;
+  addMovieToLibrary?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<MutationAddMovieToLibraryArgs, 'libraryID' | 'movieID'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'password' | 'username'>>;
   deleteUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'userID'>>;
   removeLibrary?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRemoveLibraryArgs, 'libraryID' | 'userID'>>;
   removeMovieFromFavorite?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRemoveMovieFromFavoriteArgs, 'imdbID' | 'userID'>>;
+  removeMovieFromLibrary?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<MutationRemoveMovieFromLibraryArgs, 'libraryID' | 'movieID'>>;
   renameLibrary?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<MutationRenameLibraryArgs, 'libraryID' | 'name'>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'userID'>>;
 }>;

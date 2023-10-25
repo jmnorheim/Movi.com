@@ -6,6 +6,8 @@ type Query {
 
 type Mutation {
   renameLibrary(libraryID: ID!, name: String!): Library!
+  addMovieToLibrary(libraryID: ID!, movieID: String!): Library!
+  removeMovieFromLibrary(libraryID: ID!, movieID: String!): Library!
 }
 
 type Library {
