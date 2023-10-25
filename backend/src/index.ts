@@ -2,7 +2,9 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { PrismaClient } from "@prisma/client";
 import { typeDefs } from "../graphql/schema/index.js";
+import { userResolver } from "../graphql/resolver/userResolver.js";
 import { movieResolver } from "../graphql/resolver/movieResolver.js";
+
 
 const prisma = new PrismaClient();
 
@@ -17,7 +19,7 @@ const context: Context = {
 async function main() {
   const server = new ApolloServer<Context>({
     typeDefs,
-    resolvers: movieResolver,
+    resolvers: [userResolver, movieResolver],
   });
 
   const { url } = await startStandaloneServer(server, {
