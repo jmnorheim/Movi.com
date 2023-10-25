@@ -107,5 +107,73 @@ export const userResolver: Resolvers = {
             });
             return isMovieInFavorites(user.userID, imdbID, context);
         }
+    },
+    Mutation: {
+        createUser: async (_, { username, email, password }, context: Context) => {
+            const newUser = await context.prisma.user.create({
+                data: {
+                    username,
+                    email,
+                    password
+                }
+            });
+            return getUserDetails(newUser, context);
+        },        
+        updateUser: async (_, { userID, username, email, password }, context: Context) => {
+            const updatedUser = await context.prisma.user.update({
+                where: { userID: userID },
+                data: {
+                    username: username,
+                    email: email,
+                    password: password
+                }
+            });
+            return getUserDetails(updatedUser, context);
+        },
+        deleteUser: async (_, { userID }, context: Context) => {
+            const userToDelete = await context.prisma.user.findUnique({ where: { userID: userID } });
+            const detailedUser = await getUserDetails(userToDelete, context);
+            await context.prisma.user.delete({ where: { userID: userID } });
+            return detailedUser; 
+        },
+        addMovieToFavorite: async (_, { userID, imdbID }, context: Context) => {
+            await context.prisma.userFavorites.create({
+                data: {
+                    userID: userID,
+                    imdbID: imdbID
+                }
+            });
+            const user = await context.prisma.user.findUnique({ where: { userID: userID } });
+            return getUserDetails(user, context);
+        },
+        removeMovieFromFavorite: async (_, { userID, imdbID }, context: Context) => {
+            await context.prisma.userFavorites.delete({
+                where: {
+                    userID_imdbID: {
+                        userID: userID,
+                        imdbID: imdbID
+                    }
+                }
+            });
+            const user = await context.prisma.user.findUnique({ where: { userID: userID } });
+            return getUserDetails(user, context);
+        },
+        addLibrary: async (_, { userID, libraryName }, context: Context) => {
+            await context.prisma.library.create({
+                data: {
+                    userID: userID,
+                    name: libraryName
+                }
+            });
+            const user = await context.prisma.user.findUnique({ where: { userID: userID } });
+            return getUserDetails(user, context);
+        },
+        removeLibrary: async (_, { userID, libraryID }, context: Context) => {
+            await context.prisma.library.delete({
+                where: { libraryID: libraryID }
+            });
+            const user = await context.prisma.user.findUnique({ where: { userID: userID } });
+            return getUserDetails(user, context);
+        }
     }
 };
