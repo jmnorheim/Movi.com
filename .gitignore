@@ -1,4 +1,5 @@
 node_modules/
+yarn.lock
 coverage/
 html/
 dist/
@@ -7,6 +8,10 @@ frontend/__tests__/pages/RegisterPage/__snapshots__/
 frontend/__tests__/pages/LoginPage/__snapshots__/
 users.json
 frontend/package-lock.json
+backend/docs/
+backend/node_modules/
+backend/package-lock.json
+
 
 .vscode/
 
@@ -15,3 +20,5 @@ frontend/package-lock.json
 
 # Node js
 npm-debug.log
+
+.env
