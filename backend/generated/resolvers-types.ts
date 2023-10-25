@@ -49,7 +49,7 @@ export type MovieFilter = {
   isAdult?: InputMaybe<Scalars['Boolean']['input']>;
   releaseYearRange?: InputMaybe<YearRange>;
   runtimeMinutesRange?: InputMaybe<MinutesRange>;
-  totalVotes?: InputMaybe<Scalars['Int']['input']>;
+  totalVotesRange?: InputMaybe<VotesRange>;
 };
 
 export type Mutation = {
@@ -167,7 +167,7 @@ export type QueryMoviesArgs = {
   filter?: InputMaybe<MovieFilter>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  searchBy?: InputMaybe<SearchOptions>;
+  searchBy?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -191,12 +191,6 @@ export type RatingRange = {
   min?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type SearchOptions = {
-  imdbID?: InputMaybe<Scalars['ID']['input']>;
-  originalTitle?: InputMaybe<Scalars['String']['input']>;
-  primaryTitle?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
@@ -205,6 +199,11 @@ export type User = {
   password: Scalars['String']['output'];
   userID: Scalars['ID']['output'];
   username: Scalars['String']['output'];
+};
+
+export type VotesRange = {
+  max?: InputMaybe<Scalars['Int']['input']>;
+  min?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type YearRange = {
@@ -295,9 +294,9 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   RatingRange: RatingRange;
-  SearchOptions: SearchOptions;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  VotesRange: VotesRange;
   YearRange: YearRange;
 }>;
 
@@ -314,9 +313,9 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Query: {};
   RatingRange: RatingRange;
-  SearchOptions: SearchOptions;
   String: Scalars['String']['output'];
   User: User;
+  VotesRange: VotesRange;
   YearRange: YearRange;
 }>;
 
