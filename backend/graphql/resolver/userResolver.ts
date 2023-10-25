@@ -1,10 +1,16 @@
 import { Resolvers } from "../../generated/resolvers-types";
 import { Context } from "../../src";
 
+// Helper functions=========================================================================================================
+
 /**
  * Helper function.
  * 
  * Fetch detailed information of a user, including libraries and favorite movies.
+ * 
+ * @param {Object} user - The user object.
+ * @param {Context} context - The Prisma context.
+ * @returns {Promise<Object>} - An object containing detailed user-info.
  */
 const getUserDetails = async (user: any, context: Context) => {
     // Fetch users libraries
@@ -41,6 +47,11 @@ const getUserDetails = async (user: any, context: Context) => {
  * Helper function.
  * 
  * Check if a movie is in a user's favorite list.
+ * 
+ * @param {string} userID - The user's ID.
+ * @param {string} imdbID - The movie's IMDB ID.
+ * @param {Context} context - The Prisma context.
+ * @returns {Promise<boolean>} - True if the movie is in the user's favorites, otherwise false.
  */
 async function isMovieInFavorites(userID: string, imdbID: string, context: Context): Promise<boolean> {
     // Fetch users favorite by movie ID
@@ -54,8 +65,11 @@ async function isMovieInFavorites(userID: string, imdbID: string, context: Conte
     return !!favorite;
 }
 
+// Resolvers=========================================================================================================
 
 export const userResolver: Resolvers = {
+    
+    // Queries=====================================================================================================
     Query: {
         /**
          * Fetch a list of users with optional pagination.
@@ -108,7 +122,12 @@ export const userResolver: Resolvers = {
             return isMovieInFavorites(user.userID, imdbID, context);
         }
     },
+
+    // Mutations=====================================================================================================
     Mutation: {
+        /**
+         * Create a new user.
+         */
         createUser: async (_, { username, email, password }, context: Context) => {
             const newUser = await context.prisma.user.create({
                 data: {
@@ -118,7 +137,11 @@ export const userResolver: Resolvers = {
                 }
             });
             return getUserDetails(newUser, context);
-        },        
+        },
+        
+        /**
+         * Update a user based on userID.
+         */
         updateUser: async (_, { userID, username, email, password }, context: Context) => {
             const updatedUser = await context.prisma.user.update({
                 where: { userID: userID },
@@ -130,12 +153,20 @@ export const userResolver: Resolvers = {
             });
             return getUserDetails(updatedUser, context);
         },
+
+        /**
+         * Delete a user based on userID.
+         */
         deleteUser: async (_, { userID }, context: Context) => {
             const userToDelete = await context.prisma.user.findUnique({ where: { userID: userID } });
             const detailedUser = await getUserDetails(userToDelete, context);
             await context.prisma.user.delete({ where: { userID: userID } });
             return detailedUser; 
         },
+
+        /**
+         * Adds a movie to a users favorites.
+         */
         addMovieToFavorite: async (_, { userID, imdbID }, context: Context) => {
             await context.prisma.userFavorites.create({
                 data: {
@@ -146,6 +177,10 @@ export const userResolver: Resolvers = {
             const user = await context.prisma.user.findUnique({ where: { userID: userID } });
             return getUserDetails(user, context);
         },
+
+        /**
+         * Removes a movie from a users favorites.
+         */
         removeMovieFromFavorite: async (_, { userID, imdbID }, context: Context) => {
             await context.prisma.userFavorites.delete({
                 where: {
@@ -158,6 +193,10 @@ export const userResolver: Resolvers = {
             const user = await context.prisma.user.findUnique({ where: { userID: userID } });
             return getUserDetails(user, context);
         },
+
+        /**
+         * Add a new library for the user.
+         */
         addLibrary: async (_, { userID, libraryName }, context: Context) => {
             await context.prisma.library.create({
                 data: {
@@ -168,6 +207,10 @@ export const userResolver: Resolvers = {
             const user = await context.prisma.user.findUnique({ where: { userID: userID } });
             return getUserDetails(user, context);
         },
+
+        /**
+         * Removes a library based on libraryID.
+         */
         removeLibrary: async (_, { userID, libraryID }, context: Context) => {
             await context.prisma.library.delete({
                 where: { libraryID: libraryID }
