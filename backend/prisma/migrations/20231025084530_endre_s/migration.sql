@@ -6,20 +6,20 @@ CREATE TABLE "Genre" (
 
 -- CreateTable
 CREATE TABLE "Library" (
-    "libraryID" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "userID" INTEGER NOT NULL,
+    "libraryID" TEXT NOT NULL PRIMARY KEY,
+    "userID" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     CONSTRAINT "Library_userID_fkey" FOREIGN KEY ("userID") REFERENCES "User" ("userID") ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 -- CreateTable
-CREATE TABLE "LibraryMovies" (
-    "libraryID" INTEGER NOT NULL,
+CREATE TABLE "LibraryMovie" (
+    "libraryID" TEXT NOT NULL,
     "imdbID" TEXT NOT NULL,
 
     PRIMARY KEY ("libraryID", "imdbID"),
-    CONSTRAINT "LibraryMovies_imdbID_fkey" FOREIGN KEY ("imdbID") REFERENCES "Movie" ("imdbID") ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT "LibraryMovies_libraryID_fkey" FOREIGN KEY ("libraryID") REFERENCES "Library" ("libraryID") ON DELETE NO ACTION ON UPDATE NO ACTION
+    CONSTRAINT "LibraryMovie_imdbID_fkey" FOREIGN KEY ("imdbID") REFERENCES "Movie" ("imdbID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT "LibraryMovie_libraryID_fkey" FOREIGN KEY ("libraryID") REFERENCES "Library" ("libraryID") ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 -- CreateTable
@@ -27,12 +27,12 @@ CREATE TABLE "Movie" (
     "imdbID" TEXT NOT NULL PRIMARY KEY,
     "primaryTitle" TEXT NOT NULL,
     "originalTitle" TEXT NOT NULL,
-    "isAdult" INTEGER NOT NULL,
+    "isAdult" BOOLEAN NOT NULL,
     "startYear" INTEGER NOT NULL,
     "runtimeMinutes" INTEGER NOT NULL,
     "averageRating" REAL NOT NULL,
     "totalVotes" INTEGER NOT NULL,
-    "poster" TEXT NOT NULL
+    "poster" TEXT
 );
 
 -- CreateTable
@@ -47,7 +47,7 @@ CREATE TABLE "MovieGenre" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "userID" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "userID" TEXT NOT NULL PRIMARY KEY,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL
@@ -55,7 +55,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "UserFavorites" (
-    "userID" INTEGER NOT NULL,
+    "userID" TEXT NOT NULL,
     "imdbID" TEXT NOT NULL,
 
     PRIMARY KEY ("userID", "imdbID"),
@@ -64,16 +64,19 @@ CREATE TABLE "UserFavorites" (
 );
 
 -- CreateIndex
-Pragma writable_schema=1;
-CREATE UNIQUE INDEX "sqlite_autoindex_Genre_1" ON "Genre"("genreName");
-Pragma writable_schema=0;
+CREATE UNIQUE INDEX "Genre_genreName_key" ON "Genre"("genreName");
 
 -- CreateIndex
-Pragma writable_schema=1;
-CREATE UNIQUE INDEX "sqlite_autoindex_User_1" ON "User"("username");
-Pragma writable_schema=0;
+CREATE INDEX "Library_libraryID_userID_idx" ON "Library"("libraryID", "userID");
 
 -- CreateIndex
-Pragma writable_schema=1;
-CREATE UNIQUE INDEX "sqlite_autoindex_User_2" ON "User"("email");
-Pragma writable_schema=0;
+CREATE INDEX "Movie_imdbID_primaryTitle_idx" ON "Movie"("imdbID", "primaryTitle");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE INDEX "User_userID_email_idx" ON "User"("userID", "email");

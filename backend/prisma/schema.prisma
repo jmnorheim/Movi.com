@@ -18,13 +18,13 @@ model Library {
   userID        String
   name          String
   User          User            @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
-  LibraryMovies LibraryMovies[]
+  LibraryMovie LibraryMovie[]
 
   @@index([libraryID, userID])
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model LibraryMovies {
+model LibraryMovie {
   libraryID String
   imdbID    String
   Movie     Movie   @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
@@ -44,7 +44,7 @@ model Movie {
   averageRating  Float
   totalVotes     Int
   poster         String?
-  LibraryMovies  LibraryMovies[]
+  LibraryMovie  LibraryMovie[]
   MovieGenre     MovieGenre[]
   UserFavorites  UserFavorites[]
 

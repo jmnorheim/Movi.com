@@ -17,9 +17,15 @@ input SearchOptions {
 input MovieFilter {
   isAdult: Boolean
   runtimeMinutesRange: MinutesRange
-  averageRating: RatingRange
+  averageRatingRange: RatingRange
+  releaseYearRange: YearRange
   totalVotes: Int
   genres: [String!]
+}
+
+input YearRange {
+  min: Int
+  max: Int
 }
 
 input RatingRange {
