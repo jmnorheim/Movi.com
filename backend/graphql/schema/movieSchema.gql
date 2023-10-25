@@ -2,16 +2,10 @@ type Query {
   movies(
     limit: Int
     offset: Int
-    searchBy: SearchOptions
+    searchBy: String
     filter: MovieFilter
   ): [Movie!]!
   movie(imdbID: ID!): Movie!
-}
-
-input SearchOptions {
-  imdbID: ID
-  primaryTitle: String
-  originalTitle: String
 }
 
 input MovieFilter {
@@ -19,8 +13,13 @@ input MovieFilter {
   runtimeMinutesRange: MinutesRange
   averageRatingRange: RatingRange
   releaseYearRange: YearRange
-  totalVotes: Int
+  totalVotesRange: VotesRange
   genres: [String!]
+}
+
+input VotesRange {
+  min: Int
+  max: Int
 }
 
 input YearRange {
