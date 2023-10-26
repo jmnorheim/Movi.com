@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 const fetchPoster = async (imdbID) => {
   try {
     const response = await axios.get(
-      `http://www.omdbapi.com/?i=${imdbID}&apikey=b797bf57`
+      `http://www.omdbapi.com/?i=${imdbID}&apikey=5011f746`
     );
-    console.log("Posterlink = ", response.data.Poster);
+    // console.log("Posterlink = ", response.data.Poster);
     return response.data.Poster;
   } catch (error) {
     console.error(`Error fetching poster for ${imdbID}:`, error);
@@ -23,9 +23,11 @@ const processDataFiles = async () => {
     orderBy: {
       totalVotes: "desc",
     },
-    offset: 900,
-    take: 900,
+    skip: 95900,
+    take: 95000,
   });
+
+  let counter = 0;
 
   for (const movie of movies) {
     const posterUrl = await fetchPoster(movie.imdbID);
@@ -34,7 +36,11 @@ const processDataFiles = async () => {
         where: { imdbID: movie.imdbID },
         data: { poster: posterUrl },
       });
-      console.log(`Updated poster for ${movie.imdbID}`);
+      counter++;
+      if (counter % 1000 === 0) {
+        console.log(`Updated poster for ${counter} movies`);
+      }
+      // console.log(`Updated poster for ${movie.imdbID}`);
     }
   }
 };
