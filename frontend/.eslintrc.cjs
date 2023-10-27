@@ -29,6 +29,8 @@ module.exports = {
     ".eslintrc.cjs",
     "coverage/",
     "__tests__",
+    "codegen.ts",
+    "src/generated",
   ],
   parserOptions: {
     ecmaVersion: "latest",
