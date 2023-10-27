@@ -23,7 +23,7 @@ const processDataFiles = async () => {
     orderBy: {
       totalVotes: "desc",
     },
-    skip: 95900,
+    skip: 95910,
     take: 95000,
   });
 
