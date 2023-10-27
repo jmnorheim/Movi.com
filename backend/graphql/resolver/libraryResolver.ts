@@ -25,7 +25,7 @@ const getMoviesInLibrary = async (
   return moviesInLibrary;
 };
 
-const getLibrarisByID = async (libraryID: string, context: Context) => {
+const getLibrariesByID = async (libraryID: string, context: Context) => {
   const libraryPrisma = await context.prisma.library.findUnique({
     where: { libraryID: libraryID },
   });
@@ -55,7 +55,7 @@ export const libraryResolver: Resolvers = {
      */
     libraryByID: async (_, { libraryID }, context: Context) => {
       try {
-        return getLibrarisByID(libraryID, context);
+        return getLibrariesByID(libraryID, context);
       } catch (error) {
         throw new Error(error);
       }
@@ -187,7 +187,7 @@ export const libraryResolver: Resolvers = {
           },
         });
 
-        return getLibrarisByID(libraryID, context);
+        return getLibrariesByID(libraryID, context);
       } catch (error) {
         throw new Error(error);
       }
@@ -219,7 +219,7 @@ export const libraryResolver: Resolvers = {
           },
         });
 
-        return getLibrarisByID(libraryID, context);
+        return getLibrariesByID(libraryID, context);
       } catch (error) {
         throw new Error(error);
       }
