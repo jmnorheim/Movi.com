@@ -22,7 +22,7 @@ export const movieResolver: Resolvers = {
                 const genres = await context.prisma.movieGenre.findMany({
                     where: { imdbID: args.imdbID },
                     select: {
-                        imdbID: true,
+                        Genre: true,
                     }
                 });
 
@@ -32,7 +32,7 @@ export const movieResolver: Resolvers = {
 
                 const movieWithGenres = {
                     ...movie,
-                    genres: genres.map((genre) => genre.imdbID),
+                    genres: genres.map((genre) => genre.Genre.genreName),
                 };
                 return movieWithGenres;
             } catch (error) {
