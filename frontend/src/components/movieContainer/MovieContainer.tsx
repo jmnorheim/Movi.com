@@ -11,7 +11,7 @@ interface MovieContainerProps {
 const MovieContainer = ({ movie }: MovieContainerProps) => {
   return (
     <div className="frame">
-      <img className="rectangle" alt="Rectangle" src={posterImage} />
+      <img className="rectangle" alt="Rectangle" src={movie.poster} />
       <div className="div">
         <div className="text-wrapper">{movie.primaryTitle}</div>
         <button className="button">
