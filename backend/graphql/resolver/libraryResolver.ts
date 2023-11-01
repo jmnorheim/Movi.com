@@ -62,6 +62,53 @@ export const libraryResolver: Resolvers = {
     },
 
     /**
+     * Retrieves a list of libraries associated with a specific user.
+     *
+     * @function
+     * @async
+     * @param {Object} _ - Placeholder parameter for the root object, not used in this function.
+     * @param {string} userID - The unique identifier of the user.
+     * @param {number} limit - The maximum number of libraries to retrieve. Optional.
+     * @param {number} offset - The number of libraries to skip before starting to retrieve. Optional.
+     * @param {Context} context - The context object containing the Prisma client and other utilities.
+     * @returns {Promise<Array<Library>>} A promise that resolves to an array of library objects, each containing a list of movies.
+     * @throws {Error} Throws an error if the retrieval fails.
+     * @description This function retrieves a paginated list of libraries associated with a specific user from the database using Prisma,
+     * and for each library, it retrieves the associated movies. The results are then returned as an array of library objects.
+     */
+    librariesByUserID: async (
+      _,
+      { userID, limit, offset },
+      context: Context
+    ) => {
+      try {
+        const librariesPrisma = await context.prisma.library.findMany({
+          where: { userID: userID },
+          take: limit,
+          skip: offset,
+        });
+
+        const libraries = await Promise.all(
+          librariesPrisma.map(async (library) => {
+            const moviesInLibrary = await getMoviesInLibrary(
+              library.libraryID,
+              context
+            );
+
+            return {
+              ...library,
+              movies: moviesInLibrary,
+            };
+          })
+        );
+
+        return libraries;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    /**
      * Retrieves a library by the user's identifier and the library's name.
      * @function
      * @async

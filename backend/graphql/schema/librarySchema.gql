@@ -2,6 +2,7 @@ type Query {
   libraries(limit: Int, offset: Int): [Library!]!
   libraryByID(libraryID: ID!): Library!
   libraryByUserAndName(userID: ID!, name: String!): Library!
+  librariesByUserID(userID: ID!, limit: Int, offset: Int): [Library!]!
 }
 
 type Mutation {
