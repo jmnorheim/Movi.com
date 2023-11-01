@@ -13,6 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation createUser($username: String!, $email: String!, $password: String!) {\n    createUser(username: $username, email: $email, password: $password) {\n      email\n      favorites\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      password\n      userID\n      username\n    }\n  }\n": types.CreateUserDocument,
+    "\n  query UserByEmail($email: String!) {\n    userByEmail(email: $email) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n": types.UserByEmailDocument,
     "\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n": types.GetLibraryDocument,
     "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n": types.GetUserFavoritesDocument,
     "\n  query GetUsersLibraries($userId: ID!) {\n    librariesByUserID(userID: $userId) {\n      movies\n      name\n    }\n  }\n": types.GetUsersLibrariesDocument,
@@ -35,6 +37,14 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation createUser($username: String!, $email: String!, $password: String!) {\n    createUser(username: $username, email: $email, password: $password) {\n      email\n      favorites\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      password\n      userID\n      username\n    }\n  }\n"): (typeof documents)["\n  mutation createUser($username: String!, $email: String!, $password: String!) {\n    createUser(username: $username, email: $email, password: $password) {\n      email\n      favorites\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      password\n      userID\n      username\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query UserByEmail($email: String!) {\n    userByEmail(email: $email) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n"): (typeof documents)["\n  query UserByEmail($email: String!) {\n    userByEmail(email: $email) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

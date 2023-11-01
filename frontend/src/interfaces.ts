@@ -26,16 +26,12 @@ export interface Movie {
 }
 
 export interface User {
+  userID: string;
   username: string;
   email: string;
   password: string;
   favorites: string[];
   library: Library[];
-}
-
-export interface LoginUser {
-  email: string;
-  password: string;
 }
 
 export interface Library {

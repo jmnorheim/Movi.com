@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
-import { getUserByEmail } from "../../services/fetchUser";
+import { getUserByEmail } from "../../services/getUser";
 
 /**
  * Render the LoginPage component.
@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
     getUserByEmail(email)
       .then((userByEmail) => {
         if (userByEmail && userByEmail.password === password) {
-          login(userByEmail.email);
+          login(userByEmail.email, userByEmail.userID);
           navigate("/profile");
         } else {
           setError("Invalid email or password");
