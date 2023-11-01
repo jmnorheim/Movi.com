@@ -233,6 +233,13 @@ export type YearRange = {
   min?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type GetUserFavoritesQueryVariables = Exact<{
+  userId: Scalars['ID']['input'];
+}>;
+
+
+export type GetUserFavoritesQuery = { __typename?: 'Query', userByID: { __typename?: 'User', favorites: Array<string> } };
+
 export type GetUsersLibrariesQueryVariables = Exact<{
   userId: Scalars['ID']['input'];
 }>;
@@ -240,5 +247,15 @@ export type GetUsersLibrariesQueryVariables = Exact<{
 
 export type GetUsersLibrariesQuery = { __typename?: 'Query', librariesByUserID: Array<{ __typename?: 'Library', movies: Array<string>, name: string }> };
 
+export type AddLibraryToUserMutationVariables = Exact<{
+  userId: Scalars['ID']['input'];
+  libraryName: Scalars['String']['input'];
+}>;
 
+
+export type AddLibraryToUserMutation = { __typename?: 'Mutation', addLibrary: { __typename?: 'User', userID: string } };
+
+
+export const GetUserFavoritesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserFavorites"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userByID"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"favorites"}}]}}]}}]} as unknown as DocumentNode<GetUserFavoritesQuery, GetUserFavoritesQueryVariables>;
 export const GetUsersLibrariesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUsersLibraries"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"librariesByUserID"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"movies"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetUsersLibrariesQuery, GetUsersLibrariesQueryVariables>;
+export const AddLibraryToUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addLibraryToUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"libraryName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addLibrary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}},{"kind":"Argument","name":{"kind":"Name","value":"libraryName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"libraryName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userID"}}]}}]}}]} as unknown as DocumentNode<AddLibraryToUserMutation, AddLibraryToUserMutationVariables>;
