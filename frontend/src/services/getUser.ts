@@ -1,15 +1,24 @@
 import { request } from "graphql-request";
 import { graphql } from "../generated";
-import { LoginUser } from "../interfaces";
+import { User } from "../interfaces";
 
 /**
  * GraphQL query to authenticate a user.
  */
 const LOGIN_QUERY = graphql(`
-  query GetUserByEmail($email: String!) {
+  query UserByEmail($email: String!) {
     userByEmail(email: $email) {
-      email
+      userID
+      username
       password
+      email
+      library {
+        libraryID
+        userID
+        name
+        movies
+      }
+      favorites
     }
   }
 `);
@@ -17,11 +26,11 @@ const LOGIN_QUERY = graphql(`
 /**
  * Get a user by email.
  * @param {string} email
- * @returns {Promise<LoginUser>}
+ * @returns {Promise<User>}
  */
-export const getUserByEmail = async (email: string): Promise<LoginUser> => {
+export const getUserByEmail = async (email: string): Promise<User> => {
   const { userByEmail } = await request("http://localhost:4000/", LOGIN_QUERY, {
     email,
   });
-  return userByEmail as LoginUser;
+  return userByEmail as User;
 };

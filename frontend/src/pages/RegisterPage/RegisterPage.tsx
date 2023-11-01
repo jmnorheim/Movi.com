@@ -12,6 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import { useAuth } from "../../AuthContext";
 import { createUser } from "../../services/createUser";
+import { getUserByEmail } from "../../services/getUser";
+
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
@@ -29,7 +31,7 @@ const RegisterPage: React.FC = () => {
    * Handles the registration process.
    * @param {React.FormEvent} event
    */
-  const handleRegister = (event: React.FormEvent) => {
+  const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // Clear the error message
@@ -44,24 +46,30 @@ const RegisterPage: React.FC = () => {
       setError("Passwords do not match!");
       return;
     }
+    try {
+      const { userID } = await createUser(username, email, password);
+      console.log(userID);
+      login(email, userID);
+      navigate("/profile");
+    } catch (error) {
+      console.log("Fungerer ikke");
 
-    createUser(username, email, password)
-      .then(() => {
-        login(email);
-        navigate("/profile");
-      })
-      .catch((err) => {
-        setError(
-          "Failed to create an account. Email or username might already exist."
-        );
-      });
-  };
-
-  /**
-   * Handles closing the error popup. Clear the error message.
-   */
-  const handleCloseErrorPopup = () => {
-    setError("");
+      setError(
+        "Failed to create an account. Email or username might already exist."
+      );
+    }
+    // try {
+    // createUser(username, email, password)
+    //   .then(() => {
+    //     login(email);
+    //     navigate("/profile");
+    //   })
+    //   .catch((err) => {
+    //     setError(
+    //       "Failed to create an account. Email or username might already exist."
+    //     );
+    //   });
+    // };
   };
 
   return (
@@ -75,6 +83,7 @@ const RegisterPage: React.FC = () => {
           component="form"
           noValidate
           className="register-form"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleRegister}
         >
           {/* Username textfield */}
