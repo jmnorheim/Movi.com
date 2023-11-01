@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { Button, TextField, Container, Typography, Box } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Box,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import { getUserByEmail } from "../../services/fetchUser";
-import ErrorPopup from "../../components/errorPopup/errorPopup";
 
 /**
  * Render the LoginPage component.
@@ -22,6 +29,9 @@ const LoginPage: React.FC = () => {
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Clear the error message
+    setError("");
+
     if (!email || !password) {
       setError("Email and password are required");
       return;
@@ -39,13 +49,6 @@ const LoginPage: React.FC = () => {
       .catch((error) => {
         setError("User does not exist.");
       });
-  };
-
-  /**
-   * Handles closing the error popup. Clear the error message.
-   */
-  const handleCloseErrorPopup = () => {
-    setError("");
   };
 
   // Return =============================================================
@@ -109,12 +112,13 @@ const LoginPage: React.FC = () => {
         </Box>
       </Box>
 
-      {/* ErrorPopup */}
-      <ErrorPopup
-        isOpen={Boolean(error)}
-        onClose={handleCloseErrorPopup}
-        message={error}
-      />
+      {/* Alert for error messages */}
+      {error && (
+        <Alert severity="error" style={{ marginTop: "20px" }}>
+          <AlertTitle>Error</AlertTitle>
+          {error}
+        </Alert>
+      )}
     </Container>
   );
 };

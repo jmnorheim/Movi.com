@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Button, TextField, Container, Typography, Box } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Box,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import { useAuth } from "../../AuthContext";
 import { createUser } from "../../services/createUser";
-import ErrorPopup from "../../components/errorPopup/errorPopup";
-
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
@@ -25,6 +31,9 @@ const RegisterPage: React.FC = () => {
    */
   const handleRegister = (event: React.FormEvent) => {
     event.preventDefault();
+
+    // Clear the error message
+    setError("");
 
     if (!username || !email || !password || !confirmPassword) {
       setError("All fields are required.");
@@ -143,12 +152,13 @@ const RegisterPage: React.FC = () => {
         </Box>
       </Box>
 
-      {/* ErrorPopup */}
-      <ErrorPopup
-        isOpen={Boolean(error)}
-        onClose={handleCloseErrorPopup}
-        message={error}
-      />
+      {/* Alert for error messages */}
+      {error && (
+        <Alert severity="error" style={{ marginTop: "20px" }}>
+          <AlertTitle>Error</AlertTitle>
+          {error}
+        </Alert>
+      )}
     </Container>
   );
 };
