@@ -1,10 +1,17 @@
-import { useState } from "react";
-import { Button, TextField, Container, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Box,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
-import { User } from "../../interfaces";
 import { useAuth } from "../../AuthContext";
-
+import { createUser } from "../../services/createUser";
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
@@ -14,6 +21,7 @@ const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -24,44 +32,36 @@ const RegisterPage: React.FC = () => {
   const handleRegister = (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Clear the error message
+    setError("");
+
+    if (!username || !email || !password || !confirmPassword) {
+      setError("All fields are required.");
+      return;
+    }
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
 
-    const usersJSON = localStorage.getItem("users");
-    console.log(usersJSON);
+    createUser(username, email, password)
+      .then(() => {
+        login(email);
+        navigate("/profile");
+      })
+      .catch((err) => {
+        setError(
+          "Failed to create an account. Email or username might already exist."
+        );
+      });
+  };
 
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      users = JSON.parse(usersJSON);
-    }
-    // const users: User[] = usersJSON ? JSON.parse(usersJSON) : [];
-    console.log(users);
-
-    // Check that username or email not exist in the list
-    const userExists = users.some(
-      (user: User) => user.username === username || user.email === email
-    );
-
-    console.log(userExists);
-
-    if (userExists) {
-      alert("Username or Email already exists!");
-      return;
-    }
-
-    const favorites: string[] = [];
-    const user: User = { username, email, password, favorites, library: [] };
-    console.log("User = ", user);
-    users.push(user);
-    // console.log(users);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Registered successfully!");
-    login(email);
-    navigate("/profile");
+  /**
+   * Handles closing the error popup. Clear the error message.
+   */
+  const handleCloseErrorPopup = () => {
+    setError("");
   };
 
   return (
@@ -151,6 +151,14 @@ const RegisterPage: React.FC = () => {
           </Box>
         </Box>
       </Box>
+
+      {/* Alert for error messages */}
+      {error && (
+        <Alert severity="error" style={{ marginTop: "20px" }}>
+          <AlertTitle>Error</AlertTitle>
+          {error}
+        </Alert>
+      )}
     </Container>
   );
 };
