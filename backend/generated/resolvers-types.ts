@@ -131,6 +131,7 @@ export type MutationUpdateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   libraries: Array<Library>;
+  librariesByUserID: Array<Library>;
   libraryByID: Library;
   libraryByUserAndName: Library;
   movie: Movie;
@@ -146,6 +147,13 @@ export type Query = {
 export type QueryLibrariesArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryLibrariesByUserIdArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  userID: Scalars['ID']['input'];
 };
 
 
@@ -370,6 +378,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   libraries?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, Partial<QueryLibrariesArgs>>;
+  librariesByUserID?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, RequireFields<QueryLibrariesByUserIdArgs, 'userID'>>;
   libraryByID?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<QueryLibraryByIdArgs, 'libraryID'>>;
   libraryByUserAndName?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<QueryLibraryByUserAndNameArgs, 'name' | 'userID'>>;
   movie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType, RequireFields<QueryMovieArgs, 'imdbID'>>;
