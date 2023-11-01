@@ -13,9 +13,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n": types.GetLibraryDocument,
     "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n": types.GetUserFavoritesDocument,
     "\n  query GetUsersLibraries($userId: ID!) {\n    librariesByUserID(userID: $userId) {\n      movies\n      name\n    }\n  }\n": types.GetUsersLibrariesDocument,
     "\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n": types.AddLibraryToUserDocument,
+    "\n  mutation addMovieToLibrary($libraryId: ID!, $movieId: String!) {\n    addMovieToLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.AddMovieToLibraryDocument,
+    "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.RemoveMovieFromLibraryDocument,
 };
 
 /**
@@ -35,6 +38,10 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n"): (typeof documents)["\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n"): (typeof documents)["\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -44,6 +51,14 @@ export function graphql(source: "\n  query GetUsersLibraries($userId: ID!) {\n  
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n"): (typeof documents)["\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation addMovieToLibrary($libraryId: ID!, $movieId: String!) {\n    addMovieToLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  mutation addMovieToLibrary($libraryId: ID!, $movieId: String!) {\n    addMovieToLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
