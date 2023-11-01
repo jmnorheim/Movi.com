@@ -9,7 +9,7 @@
   }
   
   .dialogActions {
-    justify-content: center;
+    justify-content: center !important;
   }
   
   .okButton {
