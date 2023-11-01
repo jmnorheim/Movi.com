@@ -1,28 +1,112 @@
 /* Global style for importing the Roboto font */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
-/* Styling for the app bar to span the entire viewport width */
+/* Styling for the app bar to span the entire viewport width
 .app-bar {
   width: 100vw;
 }
 
 /* Toolbar layout to position items on the left, center, and right */
-.toolbar {
+/* .toolbar {
   display: flex;
   justify-content: space-between;
-}
+} */
 
 /* Icon button layout for containing icon and text below */
-.icon-button {
+/* .icon-button {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0px !important;
-}
+} */
 
 /* Style for the Møvie brand name */
-.movie-brand {
+/* .movie-brand {
   font-family: "Roboto", sans-serif;
   text-decoration: none;
   color: inherit;
+}  */
+
+.navbar {
+  display: flex;
+
+  align-items: center;
+  height: 72px;
+  /* justify-content: flex-end; */
+  padding: 0px 64px;
+  position: relative;
+  width: 100vw;
+  /* background-color: red; */
+  z-index: 1000;
+}
+
+.navbar .navContainer {
+  align-items: center;
+  justify-content: flex-start;
+  /* align-self: stretch; */
+  display: flex;
+  flex: 0 0 auto;
+  gap: 37%;
+  position: relative;
+  height: 72px;
+  width: 100%;
+  /* background-color: yellow; */
+}
+
+.navbar .column {
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.navbar .navbar-wrapper {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 32px;
+  justify-content: center;
+  position: relative;
+
+}
+
+.navbar .div {
+  align-items: flex-start;
+  display: inline-flex;
+  flex-direction: c;
+  flex: 0 0 auto;
+  gap: 32px;
+  position: relative;
+  /* background-color: blue; */
+
+}
+
+.navbar .link {
+  color: #f5f5f5;
+  font-family: "Montserrat-Medium", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  background: none;
+  border: none;
+  text-decoration: none;
+}
+
+.navbar .text-wrapper {
+  color: #f5f5f5;
+  font-family: "Montserrat-Regular", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  background: none;
+  border: none;
+  text-decoration: none;
 }

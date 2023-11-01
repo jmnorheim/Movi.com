@@ -11,6 +11,11 @@ import SearchBar from "../../components/searchBar/SearchBar";
 import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
 import FilterMenu from "../../components/filterMenu/FilterMenu";
 
+import headerImage from "./img.png";
+import SortTest from "../../components/sortTest/SortTest";
+import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
+import PageFooter from "../../components/pageFooter/PageFooter";
+
 /**
  * Render the HomePage component.
  * @returns {React.FC}
@@ -249,26 +254,45 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homePageContainer">
-      <div className="searchBarContainer">
-        <SearchBar onSearch={applySearch} />
-        {originalMovies?.length && (
-          <FilterMenu movies={originalMovies} onFilter={handleFilter} />
-        )}
-      </div>
-      <div className="gridContainer">
-        {movies?.length ? (
-          <MovieContainerGrid
-            movies={movies}
-            onToggleFavorite={toggleFavorite}
-          />
-        ) : (
-          <h2 className="noMatchesText">No matches found</h2>
-        )}
-      </div>
-      <div className="sortMenuContainer">
-        <SortMenu onSort={handleSort} />
+      <div className="pageContainer>">
+        <div className="headerContainer">
+          <HomePageHeader
+            movies={originalMovies}
+            onFilter={handleFilter}
+          ></HomePageHeader>
+        </div>
+
+        <div className="contentContainer">
+          {/* <div className="searchBarContainer">
+            <SearchBar onSearch={applySearch} />
+            {originalMovies?.length && (
+              <FilterMenu movies={originalMovies} onFilter={handleFilter} />
+            )}
+          </div> */}
+          <div className="sortTestContainer">
+            <SortTest></SortTest>
+          </div>
+
+          <div className="gridContainer">
+            {movies?.length ? (
+              <MovieContainerGrid
+                movies={movies}
+                onToggleFavorite={toggleFavorite}
+              />
+            ) : (
+              <h2 className="noMatchesText">No matches found</h2>
+            )}
+          </div>
+          <div className="footerContainer">
+            <PageFooter></PageFooter>
+          </div>
+          {/* <div className="sortMenuContainer">
+            <SortMenu onSort={handleSort} />
+          </div> */}
+        </div>
       </div>
     </div>
   );
 };
+
 export default HomePage;

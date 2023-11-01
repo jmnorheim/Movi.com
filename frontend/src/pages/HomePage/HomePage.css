@@ -1,5 +1,5 @@
 body, html {
-  background-color: #d1e8e2;
+  /* background-color: #d1e8e2; */
   margin: 0; /* Removes default margins */
   height: 100%; /* Ensures that html and body cover the full viewport height */
   width: 100%; /* Ensures that html and body cover the full viewport width */
@@ -9,23 +9,63 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: space-around;
-  background-color: #d1e8e2;
+  /* background-color: #d1e8e2; */
   min-height: 100%;
+  /* min-width: 100%; */
 }
 
-.searchBarContainer {
+.headerContainer {
+  
+}
+
+.footerContainer {
   display: flex;
   justify-content: center;
+  padding-top: 50px;
+
+}
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: space-around;
+  /* background-color: red; */
+  min-height: 100%;
+  /* min-width: 100%; */
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;  */
+  justify-content: flex-start;
+  /* background-color: #d1e8e2; */
+  /* padding-top: 100px; */
+  /* background-color: green; */
+}
+
+.sortTestContainer {
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
+  padding-top: 30px;
+  padding-right: 8%;
+  /* background-color: red; */
 }
 
 .gridContainer {
+  padding-top: 50px;
   /* background-color: blue; */
 }
 
-.sortMenuContainer {
-  /* background-color: red; */
-}
+/* .sortMenuContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+
+  background-color: red;
+} */
 
 .noMatchesText {
   display: flex;

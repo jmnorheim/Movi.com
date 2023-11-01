@@ -35,7 +35,7 @@
   align-items: center;
   padding: 24px;
   gap: 24px;
-  background-color: #d1e8e2;
+  /* background-color: #d1e8e2; */
 }
 
 @media (min-width: 940px) {

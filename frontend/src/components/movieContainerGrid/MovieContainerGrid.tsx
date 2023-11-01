@@ -48,7 +48,7 @@ const MovieContainerGrid = ({
           </Link>
           {isLoggedIn && (
             <div className="icon-container">
-              <div
+              {/* <div
                 className={`star ${
                   movie.favorited ? "star-filled" : "star-outline"
                 }`}
@@ -57,8 +57,8 @@ const MovieContainerGrid = ({
                 }}
               >
                 ★
-              </div>
-              <div
+              </div> */}
+              {/* <div
                 className="three-dots-container"
                 onClick={() => setOpenDropdown(movie.imdbID)}
               >
@@ -99,7 +99,7 @@ const MovieContainerGrid = ({
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
           )}
         </div>

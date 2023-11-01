@@ -2,15 +2,16 @@
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(300px, 1fr)
+    minmax(250px, 1fr)
   ); /* This sets the minimum width for each container to be 300px and lets them fill the available space equally */
   justify-content: center;
   justify-items: center;
   row-gap: 2rem; /* Increased gap between rows */
   column-gap: 1.5rem; /* Gap between columns */
   /* max-width: 100%; */
-  padding-left: 9%;
-  padding-right: 9%;
+  /* min-width: 100%; */
+  padding-left: 8%;
+  padding-right: 8%;
 }
 
 .icon-container {
@@ -74,7 +75,7 @@
 
 .dropdown-menu {
   position: absolute;
-  background-color: #d1e8e2;
+  /* background-color: #d1e8e2; */
   /* border: 4px solid #ccc; */
   border-radius: 16px;
   padding: 10px;

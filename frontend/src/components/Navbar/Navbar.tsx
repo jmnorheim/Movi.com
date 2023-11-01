@@ -7,6 +7,7 @@ import "./Navbar.css";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../AuthContext";
 import "../../../fonts.css";
+import logo from "../../assets/icons/logo_white.svg";
 
 /**
  * Render navbar.
@@ -18,7 +19,31 @@ const NavBar: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <AppBar
+      <div className="navbar">
+        <div className="navContainer">
+          <img className="column" alt="LOGO HER" src={logo} />
+          <div className="navbar-wrapper">
+            <div className="div">
+              <Link to="/" className="link">
+                Home
+              </Link>
+              <Link to="/" className="text-wrapper">
+                Movies
+              </Link>
+              <Link to="/my-library" className="text-wrapper">
+                Library
+              </Link>
+              <Link
+                to={isLoggedIn ? "/profile" : "/login"}
+                className="text-wrapper"
+              >
+                {isLoggedIn ? "Profile" : "Login"}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <AppBar
         position="static"
         className="app-bar"
         sx={{ backgroundColor: "#001F3F" }}
@@ -64,7 +89,7 @@ const NavBar: React.FC = (): JSX.Element => {
             </IconButton>
           </Box>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
     </>
   );
 };
