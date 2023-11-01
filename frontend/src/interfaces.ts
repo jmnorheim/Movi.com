@@ -33,6 +33,11 @@ export interface User {
   library: Library[];
 }
 
+export interface LoginUser {
+  email: string;
+  password: string;
+}
+
 export interface Library {
   name: string;
   movies: string[];

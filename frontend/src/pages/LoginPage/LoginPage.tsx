@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Button, TextField, Container, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import "./LoginPage.css";
 import { useAuth } from "../../AuthContext";
-import { User } from "../../interfaces";
+import { getUserByEmail } from "../../services/fetchUser";
 
 /**
  * Render the LoginPage component.
@@ -12,39 +11,36 @@ import { User } from "../../interfaces";
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth(); // Get the login method
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   /**
-   * Handles the login process.
-   * @param {React.FormEvent} event
+   * Handles the login logic.
    */
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const usersJSON = localStorage.getItem("users");
-    if (!usersJSON) {
-      alert("Invalid email or password");
+    if (!email || !password) {
+      alert("Email and password are required");
       return;
     }
 
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      users = JSON.parse(usersJSON);
-    }
-    const userExists = users.some(
-      (user: User) => user.email === email && user.password === password
-    );
-
-    if (userExists) {
-      login(email); // Use the login method
-      navigate("/profile");
-    } else {
-      alert("Invalid email or password");
-    }
+    getUserByEmail(email)
+      .then((userByEmail) => {
+        if (userByEmail && userByEmail.password === password) {
+          login(userByEmail.email);
+          navigate("/profile");
+        } else {
+          alert("Invalid email or password");
+        }
+      })
+      .catch((error) => {
+        alert("User does not exist.");
+        console.error(error);
+      });
   };
 
+  // Return =============================================================
   return (
     <Container component="main" maxWidth="xs" className="login-container">
       <Box className="login-box">
@@ -97,8 +93,8 @@ const LoginPage: React.FC = () => {
           </Button>
 
           {/* Link to register page */}
-          <Box className="register-link-box">
-            <Typography variant="body2" className="register-link-text">
+          <Box className="login-link-box">
+            <Typography variant="body2" className="login-link-text">
               Do not have an account? <Link to="/register">Register</Link>
             </Typography>
           </Box>
