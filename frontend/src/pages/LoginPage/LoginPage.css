@@ -30,11 +30,11 @@
   background-color: #001022;
 }
 
-.register-link-box {
+.login-link-box {
   margin-top: 16px;
   text-align: center;
 }
 
-.register-link-text {
+.login-link-text {
   cursor: pointer;
 }
