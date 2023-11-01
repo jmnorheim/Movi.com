@@ -3,6 +3,7 @@ import { Button, TextField, Container, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import { getUserByEmail } from "../../services/fetchUser";
+import ErrorPopup from "../../components/errorPopup/errorPopup";
 
 /**
  * Render the LoginPage component.
@@ -11,6 +12,7 @@ import { getUserByEmail } from "../../services/fetchUser";
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ const LoginPage: React.FC = () => {
     event.preventDefault();
 
     if (!email || !password) {
-      alert("Email and password are required");
+      setError("Email and password are required");
       return;
     }
 
@@ -31,13 +33,19 @@ const LoginPage: React.FC = () => {
           login(userByEmail.email);
           navigate("/profile");
         } else {
-          alert("Invalid email or password");
+          setError("Invalid email or password");
         }
       })
       .catch((error) => {
-        alert("User does not exist.");
-        console.error(error);
+        setError("User does not exist.");
       });
+  };
+
+  /**
+   * Handles closing the error popup. Clear the error message.
+   */
+  const handleCloseErrorPopup = () => {
+    setError("");
   };
 
   // Return =============================================================
@@ -100,6 +108,13 @@ const LoginPage: React.FC = () => {
           </Box>
         </Box>
       </Box>
+
+      {/* ErrorPopup */}
+      <ErrorPopup
+        isOpen={Boolean(error)}
+        onClose={handleCloseErrorPopup}
+        message={error}
+      />
     </Container>
   );
 };

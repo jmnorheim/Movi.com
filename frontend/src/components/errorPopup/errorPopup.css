@@ -1,0 +1,19 @@
+.dialogContent {
+    display: flex;
+    align-items: center;
+  }
+  
+  .errorIcon {
+    color: red;
+    margin-right: 8px;
+  }
+  
+  .dialogActions {
+    justify-content: center;
+  }
+  
+  .okButton {
+    background-color: #001f3f;
+    color: white;
+  }
+  
