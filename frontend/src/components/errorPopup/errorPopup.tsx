@@ -1,3 +1,4 @@
+// ErrorPopup.tsx
 import React from "react";
 import {
   Dialog,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import "./ErrorPopup.css";
 
 /**
  * Interface ErrorPopup component.
@@ -18,7 +20,7 @@ interface ErrorPopupProps {
 }
 
 /**
- * A simple error popup component.
+ * A simple and modern error popup component.
  */
 const ErrorPopup: React.FC<ErrorPopupProps> = ({
   isOpen,
@@ -27,11 +29,18 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({
 }) => (
   <Dialog open={isOpen} onClose={onClose}>
     <DialogContent className="dialogContent">
-      <ErrorOutlineIcon className="errorIcon" color="error" />
-      <Typography>{message}</Typography>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <ErrorOutlineIcon className="errorIcon" />
+        <Typography>{message}</Typography>
+      </div>
     </DialogContent>
     <DialogActions className="dialogActions">
-      <Button onClick={onClose} variant="contained" className="okButton">
+      <Button
+        onClick={onClose}
+        variant="contained"
+        className="okButton"
+        style={{ backgroundColor: "#001f3f" }}
+      >
         Ok
       </Button>
     </DialogActions>
