@@ -12,8 +12,6 @@ import "./ProfilePage.css";
 function ProfilePage() {
   const navigate = useNavigate();
   const { userID, logout } = useAuth();
-
-  // const { email, username } = await getUserByEmail(email);
   const { data: user, isLoading } = useUserQuery(userID);
 
   /**
@@ -27,6 +25,9 @@ function ProfilePage() {
     navigate("/login");
   };
 
+  /**
+   * Display loading state.
+   */
   if (isLoading) {
     return <div> isLoading ... </div>;
   }

@@ -25,7 +25,7 @@ const UserByEmail_QUERY = graphql(`
 `);
 
 /**
- * GraphQL query to find User by ID
+ * GraphQL query to find User by unique ID
  */
 const userByID_QUERY = graphql(`
   query UserByID($userID: ID!) {
@@ -62,7 +62,7 @@ export const getUserByEmail = async (email: string): Promise<User> => {
 };
 
 /**
- * Get a user by ID.
+ * Get a user by unique ID.
  * @param {string} userID
  * @returns {Promise<User>}
  */
@@ -73,6 +73,11 @@ export const getUserByID = async (userID: string): Promise<User> => {
   return userByID as User;
 };
 
+/**
+ * React Query hook for user data by unique ID.
+ * @param {string} userID
+ * @returns {object}
+ */
 export const useUserQuery = (userID: string) => {
   return useQuery({
     queryKey: [userID],
