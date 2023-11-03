@@ -81,6 +81,13 @@ export const getUserByID = async (userID: string): Promise<User> => {
 export const useUserQuery = (userID: string) => {
   return useQuery({
     queryKey: [userID],
-    queryFn: () => getUserByID(userID),
+    queryFn: () => {
+      if (!userID) {
+        // Throw an error that you'll handle in your component
+        throw new Error("UserID is required");
+      }
+      return getUserByID(userID);
+    },
+    enabled: userID !== "",
   });
 };
