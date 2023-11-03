@@ -34,7 +34,7 @@ const mockToggleFavorite = vi.fn();
 const queryClient = new QueryClient();
 
 /** Mocked useAuth hook */
-vi.mock("../../../src/AuthContext", () => ({
+vi.mock("../../../src/services/auth/AuthContext", () => ({
   useAuth: vi.fn().mockReturnValue({ isLoggedIn: true }),
 }));
 

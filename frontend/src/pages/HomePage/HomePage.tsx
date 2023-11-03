@@ -5,7 +5,7 @@ import { CurrentFilter, Movie, MovieContent, User } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
 import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";

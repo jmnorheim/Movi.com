@@ -1,4 +1,4 @@
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import MovieContainer from "../../components/movieContainer/MovieContainer";
 import { Movie } from "../../interfaces";
 import "./MovieContainerGrid.css";

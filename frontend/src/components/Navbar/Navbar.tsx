@@ -5,7 +5,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import "../../../fonts.css";
 
 /**

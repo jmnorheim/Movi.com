@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Movie, User } from "../../interfaces";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import { getMovieById } from "../../services/movieAPI";
 import MovieContainer from "../../components/movieContainer/MovieContainer";
 import "./LibraryPage.css";

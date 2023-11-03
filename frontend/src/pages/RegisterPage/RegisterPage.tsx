@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import { createUser } from "../../services/createUser";
 
 /**
