@@ -17,8 +17,8 @@ import { getUserByEmail } from "../../services/getUser";
  * @returns {React.FC}
  */
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -26,29 +26,42 @@ const LoginPage: React.FC = () => {
   /**
    * Handles the login logic.
    */
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // Clear the error message
     setError("");
 
-    if (!email || !password) {
+    /**
+     * Check that all inputfields are filled.
+     */
+    if (!inputEmail || !inputPassword) {
       setError("Email and password are required");
       return;
     }
 
-    getUserByEmail(email)
-      .then((userByEmail) => {
-        if (userByEmail && userByEmail.password === password) {
-          login(userByEmail.email, userByEmail.userID);
-          navigate("/profile");
-        } else {
-          setError("Invalid email or password");
-        }
-      })
-      .catch((error) => {
-        setError("User does not exist.");
-      });
+    /**
+     * Try to login. Catch error if not possible.
+     */
+    try {
+      const { userID, password } = await getUserByEmail(inputEmail);
+      if (userID && password === inputPassword) {
+        login(inputEmail, userID);
+        navigate("/profile");
+      } else {
+        setError("Invalid email or password");
+      }
+    } catch (error) {
+      setError("User does not exist.");
+    }
+  };
+
+  /**
+   * Submits the login process.
+   */
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleLogin(event).catch(console.error);
   };
 
   // Return =============================================================
@@ -62,7 +75,7 @@ const LoginPage: React.FC = () => {
           component="form"
           noValidate
           className="login-form"
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit}
         >
           {/* Email input textfield */}
           <TextField
@@ -75,7 +88,7 @@ const LoginPage: React.FC = () => {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setInputEmail(e.target.value)}
           />
 
           {/* Password input textfield */}
@@ -89,7 +102,7 @@ const LoginPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setInputPassword(e.target.value)}
           />
 
           {/* Login button */}

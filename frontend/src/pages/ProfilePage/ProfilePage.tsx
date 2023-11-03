@@ -26,12 +26,13 @@ function ProfilePage() {
   };
 
   /**
-   * Display loading state.
+   * Display loading state .
    */
   if (isLoading) {
     return <div> isLoading ... </div>;
   }
 
+  // Return =============================================================
   return (
     <Container component="main" maxWidth="xs" className="login-container">
       <Box className="login-box">

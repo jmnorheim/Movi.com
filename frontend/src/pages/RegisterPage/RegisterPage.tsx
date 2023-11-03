@@ -12,17 +12,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import { useAuth } from "../../AuthContext";
 import { createUser } from "../../services/createUser";
-import { getUserByEmail } from "../../services/getUser";
 
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
  */
 const RegisterPage: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [inputUsername, setInputUsername] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+  const [inputConfirmPassword, setInputConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -37,41 +36,54 @@ const RegisterPage: React.FC = () => {
     // Clear the error message
     setError("");
 
-    if (!username || !email || !password || !confirmPassword) {
+    /**
+     * Check that all inputfields are filled.
+     */
+    if (
+      !inputUsername ||
+      !inputEmail ||
+      !inputPassword ||
+      !inputConfirmPassword
+    ) {
       setError("All fields are required.");
       return;
     }
 
-    if (password !== confirmPassword) {
+    /**
+     * Check that inputPassword is equal to inputConfirmPassword
+     */
+    if (inputPassword !== inputConfirmPassword) {
       setError("Passwords do not match!");
       return;
     }
+
+    /**
+     * Create an account. Catch error if not possible.
+     */
     try {
-      const { userID } = await createUser(username, email, password);
-      console.log(userID);
-      login(email, userID);
+      const { userID } = await createUser(
+        inputUsername,
+        inputEmail,
+        inputPassword
+      );
+      login(inputEmail, userID);
       navigate("/profile");
     } catch (error) {
-      console.log("Fungerer ikke");
-
       setError(
         "Failed to create an account. Email or username might already exist."
       );
     }
-    // try {
-    // createUser(username, email, password)
-    //   .then(() => {
-    //     login(email);
-    //     navigate("/profile");
-    //   })
-    //   .catch((err) => {
-    //     setError(
-    //       "Failed to create an account. Email or username might already exist."
-    //     );
-    //   });
-    // };
   };
 
+  /**
+   * Submits the registration process.
+   */
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleRegister(event).catch(console.error);
+  };
+
+  // Return =============================================================
   return (
     <Container component="main" maxWidth="xs" className="register-container">
       <Box className="register-box">
@@ -83,8 +95,7 @@ const RegisterPage: React.FC = () => {
           component="form"
           noValidate
           className="register-form"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={handleRegister}
+          onSubmit={handleSubmit}
         >
           {/* Username textfield */}
           <TextField
@@ -97,7 +108,7 @@ const RegisterPage: React.FC = () => {
             name="username"
             autoComplete="username"
             autoFocus
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setInputUsername(e.target.value)}
           />
 
           {/* Email input textfield */}
@@ -110,7 +121,7 @@ const RegisterPage: React.FC = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setInputEmail(e.target.value)}
           />
 
           {/* Password input textfield */}
@@ -124,7 +135,7 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="new-password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setInputPassword(e.target.value)}
           />
 
           {/* Confirm password input textfield */}
@@ -138,7 +149,7 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="confirm-password"
             autoComplete="new-password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setInputConfirmPassword(e.target.value)}
           />
 
           {/* Register button */}
