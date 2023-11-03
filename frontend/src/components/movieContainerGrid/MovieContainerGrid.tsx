@@ -58,7 +58,7 @@ const MovieContainerGrid = ({
               >
                 ★
               </div> */}
-              <div
+              {/* <div
                 className="three-dots-container"
                 onClick={() => setOpenDropdown(movie.imdbID)}
               >
@@ -97,9 +97,9 @@ const MovieContainerGrid = ({
                         </button>
                       </div>
                     ))}
-                  </div>
-                )}
-              </div>
+                  </div> */}
+              {/* )} */}
+              {/* </div> */}
             </div>
           )}
         </div>
