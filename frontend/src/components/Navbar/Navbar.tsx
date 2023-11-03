@@ -27,9 +27,6 @@ const NavBar: React.FC = (): JSX.Element => {
               <Link to="/" className="link">
                 Home
               </Link>
-              <Link to="/" className="text-wrapper">
-                Movies
-              </Link>
               <Link to="/my-library" className="text-wrapper">
                 Library
               </Link>

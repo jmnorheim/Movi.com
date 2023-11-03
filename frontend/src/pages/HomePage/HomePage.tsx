@@ -15,6 +15,7 @@ import headerImage from "./img.png";
 import SortTest from "../../components/sortTest/SortTest";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
+import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
 
 /**
  * Render the HomePage component.
@@ -284,6 +285,7 @@ const HomePage: React.FC = () => {
             )}
           </div>
           <div className="footerContainer">
+            <NewsLetterBox></NewsLetterBox>
             <PageFooter></PageFooter>
           </div>
           {/* <div className="sortMenuContainer">

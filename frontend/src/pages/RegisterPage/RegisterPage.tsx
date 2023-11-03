@@ -5,6 +5,8 @@ import "./RegisterPage.css";
 import { User } from "../../interfaces";
 import { useAuth } from "../../AuthContext";
 
+import background_image from "../../assets/images/moviepage_background.png";
+
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
@@ -66,8 +68,20 @@ const RegisterPage: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs" className="register-container">
+      <img
+        src={background_image}
+        alt="Background"
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          top: "0",
+          left: "0",
+          zIndex: "-1", // Ensures the image stays behind other content
+        }}
+      />
       <Box className="register-box">
-        <Typography component="h1" variant="h5" className="register-title">
+        <Typography component="h1" variant="h4" className="register-title">
           Create your account
         </Typography>
 
@@ -89,6 +103,43 @@ const RegisterPage: React.FC = () => {
             autoComplete="username"
             autoFocus
             onChange={(e) => setUsername(e.target.value)}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+              },
+            }}
           />
 
           {/* Email input textfield */}
@@ -102,6 +153,43 @@ const RegisterPage: React.FC = () => {
             name="email"
             autoComplete="email"
             onChange={(e) => setEmail(e.target.value)}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+              },
+            }}
           />
 
           {/* Password input textfield */}
@@ -116,6 +204,43 @@ const RegisterPage: React.FC = () => {
             id="password"
             autoComplete="new-password"
             onChange={(e) => setPassword(e.target.value)}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+              },
+            }}
           />
 
           {/* Confirm password input textfield */}
@@ -130,6 +255,44 @@ const RegisterPage: React.FC = () => {
             id="confirm-password"
             autoComplete="new-password"
             onChange={(e) => setConfirmPassword(e.target.value)}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+                marginBottom: "1rem",
+              },
+            }}
           />
 
           {/* Register button */}
@@ -145,8 +308,15 @@ const RegisterPage: React.FC = () => {
 
           {/* Link to login page */}
           <Box className="login-link-box">
-            <Typography variant="body2" className="login-link-text">
-              Already have an account? <Link to="/login">Login</Link>
+            <Typography
+              variant="body1"
+              className="login-link-text"
+              style={{ fontSize: 18 }}
+            >
+              Already have an account?{" "}
+              <Link style={{ color: "white" }} to="/login">
+                Login
+              </Link>
             </Typography>
           </Box>
         </Box>
