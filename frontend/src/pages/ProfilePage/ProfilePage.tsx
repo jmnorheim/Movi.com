@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import { useUserQuery } from "../../services/getUser";
 import "./ProfilePage.css";
 

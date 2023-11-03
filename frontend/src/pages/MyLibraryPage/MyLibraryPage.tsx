@@ -10,7 +10,7 @@ import {
 import MyLibrariesGrid from "../../components/myLibrariesGrid/MyLibrariesGrid";
 import { useEffect, useState } from "react";
 import { Library, User } from "../../interfaces";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import "./MyLibraryPage.css";
 
 /**

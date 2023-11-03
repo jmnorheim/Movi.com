@@ -41,43 +41,43 @@ type AuthProviderProps = {
  * @param {AuthProviderProps} props
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [userID, setUserID] = useState<string>("");
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    localStorage.getItem("isLoggedIn") === "true" // Initialize state based on local storage
+  );
+  const [email, setEmail] = useState<string>(
+    localStorage.getItem("email") || ""
+  );
+  const [userID, setUserID] = useState<string>(
+    localStorage.getItem("userID") || ""
+  );
 
   /**
    * Login function.
    * Persists the logged-in state.
    * @param {string} email
+   * @param {string} userID
    */
   const login = (email: string, userID: string) => {
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("email", email); // Store email in local storage
-    sessionStorage.setItem("userID", userID);
+    localStorage.setItem("userID", userID);
     setUserID(userID);
     setIsLoggedIn(true);
     setEmail(email);
     console.log(email);
   };
 
+  /**
+   * Logout function.
+   */
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("email"); // Remove email from local storage
-    sessionStorage.removeItem("userID");
+    localStorage.removeItem("userID");
     setIsLoggedIn(false);
     setEmail("");
     setUserID("");
   };
-
-  /**
-   * Check the local storage for persisted login state and email.
-   * Updates the local state.
-   */
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    setEmail(localStorage.getItem("email") || "");
-    setUserID(sessionStorage.getItem("userID") || "");
-  }, []);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, email, login, logout, userID }}>

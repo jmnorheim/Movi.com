@@ -4,7 +4,7 @@ import { getMovieById } from "../../services/movieAPI";
 import { useEffect, useState } from "react";
 import { Movie, User } from "../../interfaces";
 import { Typography } from "@mui/material";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./MoviePage.css";
 

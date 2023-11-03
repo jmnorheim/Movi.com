@@ -3,7 +3,7 @@ import { describe, it, vi, beforeEach, expect } from "vitest";
 import LoginPage from "../../../src/pages/LoginPage/LoginPage";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "../../../src/AuthContext";
+import { AuthProvider } from "../../../src/services/auth/AuthContext";
 
 /**
  * @vitest-environment jsdom

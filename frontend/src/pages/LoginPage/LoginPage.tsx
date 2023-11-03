@@ -9,7 +9,7 @@ import {
   AlertTitle,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import { getUserByEmail } from "../../services/getUser";
 
 /**
