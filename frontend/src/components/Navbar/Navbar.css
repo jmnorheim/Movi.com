@@ -110,3 +110,7 @@
   border: none;
   text-decoration: none;
 }
+
+.navbar .text-black {
+  color: black;
+}

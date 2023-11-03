@@ -7,19 +7,16 @@
   width: 100%;
 }
 
-.backButton {
-  position: absolute; /* Absolute position the button */
-  top: 10px; /* Set a little distance from the top */
-  left: 10px; /* Set a little distance from the left */
-  background-color: #f2f2f2; /* Optional: some background to make the button visible against any background */
-  border: none; /* Optional: remove border */
-  padding: 10px 15px; /* Optional: some padding to make the button larger */
-  cursor: pointer; /* Optional: hand cursor on hover */
+.back-button-container {
+  width: 90vw;
 }
 
-.backButton:hover {
-  background-color: #e0e0e0; /* Optional: a subtle hover effect */
+.back-button-library {
+  cursor: pointer; 
+  background: transparent;
+  border: none;
 }
+
 
 .libraryName {
   font-size: 2rem;
@@ -33,3 +30,158 @@
   margin: 15px auto; /* Centers the link horizontally and adds space between each movie item */
   text-decoration: none;
 }
+
+.library-title {
+  height: 96px;
+  width: 90vw;
+  margin-bottom: 16px;
+}
+
+.library-title .text-wrapper {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 96px;
+  white-space: nowrap;
+}
+
+.list-row {
+  align-items: center;
+  /* justify-content: center; */
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #0a0a0a;
+  border-top-style: solid;
+  border-top-width: 1px;
+  display: inline-flex;
+  gap: 32px;
+  padding: 24px 0px;
+  position: relative;
+  width: 90vw;
+  /* background-color: blue; */
+}
+
+.list-row .text-wrapper {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  width: fit-content;
+}
+
+.list-row .group, .column-info .group {
+  height: 38px;
+  margin-right: -6px;
+  position: relative;
+  width: 1257px;
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-evenly
+}
+
+/* .column-info .group {
+  height: 38px;
+  position: relative;
+  width: 1257px;
+} */
+
+.list-row .div {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 32px;
+  font-weight: 700;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  white-space: nowrap;
+  /* background-color: yellow; */
+}
+
+.list-row .text-wrapper-2 {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  right: 30%;
+  /* background-color: green; */
+}
+
+.list-row .text-wrapper-3 {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* background-color: orange; */
+}
+
+.column-info {
+  height: 19px;
+  position: relative;
+  width: 90vw;
+  display: flex;
+}
+
+.column-info .invisible {
+  color: white;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 24px;
+  position: relative;
+  margin-right: 30px;
+}
+
+.column-info .text-wrapper {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 16px;
+  font-weight: 300;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+
+
+.column-info .div {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  right: 30%;
+  white-space: nowrap;
+}
+
+.column-info .text-wrapper-2 {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  right: 0;
+  white-space: nowrap;
+}
+

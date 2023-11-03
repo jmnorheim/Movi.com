@@ -1,7 +1,7 @@
 /* Main grid setup for large screens */
 .MyLibrariesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 40px; /* You can adjust this gap for spacing between grid items */
   justify-content: center; /* This centers the grid items when there's remaining space */
   max-width: 100%;
@@ -26,3 +26,77 @@
   min-width: 200px;
   min-height: 200px;
   /* Additional styles can be added if necessary */
+
+  .favorites-container {
+    background-color: #f5f5f5;
+    border-radius: 24px;
+    height: 384px;
+    overflow: hidden;
+    width: 421px;
+  }
+  
+  .favorites-container .div {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+    left: 73px;
+    position: relative;
+    top: 36px;
+  }
+  
+  .favorites-container .big.star {
+    height: 248.74px;
+    position: relative;
+    width: 261.54px;
+  }
+  
+  .favorites-container .text-wrapper {
+    color: #0a0a0a;
+    font-family: "Gotham SSm-Bold", Helvetica;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    position: relative;
+    width: fit-content;
+  }
+
+  .add-new-button {
+    display: flex;
+    border: 1px solid;
+    border-color: #0a0a0a;
+    border-radius: 24px;
+    height: 384px;
+    overflow: hidden;
+    width: 421px;
+    background: transparent;
+  }
+  
+  .add-new-container .div {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+    left: 136px;
+    position: relative;
+    top: 110px;
+  }
+  
+  .add-new-container .text-wrapper {
+    color: #0a0a0a;
+    font-family: "Gotham SSm-Bold", Helvetica;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: -1px;
+    position: relative;
+    width: fit-content;
+  }
+  
+  .add-new-container .vuesax-linear {
+    height: 128px !important;
+    position: relative !important;
+    width: 128px !important;
+  }

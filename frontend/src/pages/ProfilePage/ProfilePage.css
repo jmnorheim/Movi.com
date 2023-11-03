@@ -40,6 +40,7 @@
   width: 100vw;
   margin-top: -72px;
   display: flex;
+  flex-direction: column;
 }
 
 .profile-container .overlap-group {
@@ -104,6 +105,7 @@
   text-align: center;
   white-space: nowrap;
   width: fit-content;
+  max-width: 30vw;
 }
 
 .profile-container .div-2 {
@@ -187,4 +189,7 @@
   position: relative;
   white-space: nowrap;
   width: fit-content;
+}
+
+.page-footer {
 }

@@ -13,6 +13,8 @@ import { HeartIcon as Heart } from "../../assets/icons/HeartIcon";
 import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
+import PageFooter from "../../components/pageFooter/PageFooter";
+import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
 
 /**
  * Render the MoviePage component.
@@ -69,69 +71,77 @@ const MoviePage: React.FC = () => {
           Loading...
         </Typography>
       ) : (
-        <div className="movie-card">
-          <img className="background-image" src={moviepage_background} />
-          <div className="overlap-group">
-            <div className="div">
-              <div className="div-2">
-                <div className="div-3">
-                  <button className="back-button" onClick={() => navigate(-1)}>
-                    <ArrowCircleLeft className="vuesax-linear-arrow" />
-                  </button>
-                  <div className="text-wrapper">{movie.originalTitle}</div>
-                </div>
-                <div className="text-wrapper-2">
-                  {movie.primaryTitle} ({movie.startYear})
-                </div>
-                <div className="release-data-text">
-                  {" "}
-                  {generateRandomDateWithinYear(movie.startYear)}
-                </div>
-                <div className="div-4">
-                  <div className="div-wrapper">
-                    {movie.isAdult ? (
-                      <div className="text-wrapper-4">PG-18</div>
-                    ) : (
-                      <div className="text-wrapper-4">PG-13</div>
-                    )}
+        <>
+          <div className="movie-card">
+            <img className="background-image" src={moviepage_background} />
+            <div className="overlap-group">
+              <div className="div">
+                <div className="div-2">
+                  <div className="div-3">
+                    <button
+                      className="back-button"
+                      onClick={() => navigate(-1)}
+                    >
+                      <ArrowCircleLeft className="vuesax-linear-arrow" />
+                    </button>
+                    <div className="text-wrapper">{movie.originalTitle}</div>
                   </div>
-                  <p className="text-wrapper-3">
-                    • {printGenresNicely(movie.genres)}
-                  </p>
-                  <div className="text-wrapper-3">
-                    • {movie.runtimeMinutes} minutes
+                  <div className="text-wrapper-2">
+                    {movie.primaryTitle} ({movie.startYear})
                   </div>
-                </div>
-                <div className="div-5">
+                  <div className="release-data-text">
+                    {" "}
+                    {generateRandomDateWithinYear(movie.startYear)}
+                  </div>
                   <div className="div-4">
-                    <img className="img" alt="Image" src={imdb_logo} />
-                    <div className="text-wrapper-5">
-                      {movie.averageRating}/10
+                    <div className="div-wrapper">
+                      {movie.isAdult ? (
+                        <div className="text-wrapper-4">PG-18</div>
+                      ) : (
+                        <div className="text-wrapper-4">PG-13</div>
+                      )}
+                    </div>
+                    <p className="text-wrapper-3">
+                      • {printGenresNicely(movie.genres)}
+                    </p>
+                    <div className="text-wrapper-3">
+                      • {movie.runtimeMinutes} minutes
                     </div>
                   </div>
-                  <div className="div-4">
-                    <div className="text-wrapper-6">Votes</div>
-                    <div className="text-wrapper-7">({movie.totalVotes})</div>
+                  <div className="div-5">
+                    <div className="div-4">
+                      <img className="img" alt="Image" src={imdb_logo} />
+                      <div className="text-wrapper-5">
+                        {movie.averageRating}/10
+                      </div>
+                    </div>
+                    <div className="div-4">
+                      <div className="text-wrapper-6">Votes</div>
+                      <div className="text-wrapper-7">({movie.totalVotes})</div>
+                    </div>
+                  </div>
+                  <div className="div-5">
+                    <button className="button">
+                      <div className="text-wrapper-8">Add To Library</div>
+                      <ArrowDownIcon className="icon-instance" />
+                    </button>
+                    <Heart className="vuesax-linear-heart" />
                   </div>
                 </div>
-                <div className="div-5">
-                  <button className="button">
-                    <div className="text-wrapper-8">Add To Library</div>
-                    <ArrowDownIcon className="icon-instance" />
-                  </button>
-                  <Heart className="vuesax-linear-heart" />
+                <div className="poster-image-container">
+                  <img
+                    className="poster-image"
+                    alt="movieposter"
+                    src={movie.poster}
+                  />
                 </div>
-              </div>
-              <div className="poster-image-container">
-                <img
-                  className="poster-image"
-                  alt="movieposter"
-                  src={movie.poster}
-                />
               </div>
             </div>
           </div>
-        </div>
+          <div className="footer-container">
+            <PageFooter></PageFooter>
+          </div>
+        </>
         // <div className="styled-movie-container">
         //   <Typography
         //     variant="h3"

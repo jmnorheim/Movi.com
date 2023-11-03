@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import { AuthProvider } from "./AuthContext";
 import NavBar from "./components/Navbar/Navbar";
 import LibraryPage from "./pages/LibraryPage/LibraryPage";
+import { NavbarColorProvider } from "./services/utilities/NavbarColorContext";
 
 /**
  * Render the App component.
@@ -19,18 +20,23 @@ const App: React.FC = () => {
     <div className="App">
       <AuthProvider>
         <Router basename="/project2">
-          <NavBar />
+          <NavbarColorProvider>
+            <NavBar />
 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/movie/:movieId" element={<MoviePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/my-library" element={<MyLibraryPage />} />
-            <Route path="/my-library/:libraryName" element={<LibraryPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<div>404 Not found </div>} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/movie/:movieId" element={<MoviePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/my-library" element={<MyLibraryPage />} />
+              <Route
+                path="/my-library/:libraryName"
+                element={<LibraryPage />}
+              />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="*" element={<div>404 Not found </div>} />
+            </Routes>
+          </NavbarColorProvider>
         </Router>
       </AuthProvider>
     </div>
