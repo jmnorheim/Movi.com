@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 import { createUser } from "../../services/createUser";
+import { hashPassword } from "../../services/utilities/hashFunction";
 
 /**
  * Render the RegisterPage component.
@@ -69,6 +70,8 @@ const RegisterPage: React.FC = () => {
       login(inputEmail, userID);
       navigate("/profile");
     } catch (error) {
+      console.log(error);
+
       setError(
         "Failed to create an account. Email or username might already exist."
       );

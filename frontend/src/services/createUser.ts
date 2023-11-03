@@ -30,8 +30,10 @@ export const createUser = async (
   password: string
 ): Promise<User> => {
   const endpoint = "http://localhost:4000/";
-  const hashedPassword = hashPassword(password);
+  // Hash the password
+  const hashedPassword = await hashPassword(password);
   console.log(hashedPassword);
+
   const variables = {
     username,
     email,
