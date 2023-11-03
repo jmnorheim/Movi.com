@@ -1,9 +1,12 @@
 import React from "react";
-import { Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useUserQuery } from "../../services/getUser";
 import "./ProfilePage.css";
+
+import { ArrowCircleLeft } from "../../assets/icons/ArrowCircleLeft";
+import background_image from "../../assets/images/moviepage_background.png";
+import PageFooter from "../../components/pageFooter/PageFooter";
 
 /**
  * Render the ProfilePage component.
@@ -34,32 +37,36 @@ function ProfilePage() {
 
   // Return =============================================================
   return (
-    <Container component="main" maxWidth="xs" className="login-container">
-      <Box className="login-box">
-        {/* Display Welcome + username */}
-        <Typography component="h1" variant="h5" className="login-title">
-          Welcome, {user?.username}
-        </Typography>
-        <Box component="div" className="login-form">
-          {/* Displaying username */}
-          <Typography variant="body1">Username: {user?.username}</Typography>
-
-          {/* Displaying email */}
-          <Typography variant="body1">Email: {user?.email}</Typography>
-        </Box>
-
-        {/* Logout button */}
-        <Button
-          style={{ backgroundColor: "#001f3f" }}
-          fullWidth
-          variant="contained"
-          className="login-btn"
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
-      </Box>
-    </Container>
+    <>
+      <div className="profile-container">
+        <div className="overlap-group">
+          <div className="ellipse" />
+          <img
+            className="movie-background"
+            alt="Movie background"
+            src={background_image}
+          />
+          <button className="back-button" onClick={() => navigate(-1)}>
+            <ArrowCircleLeft className="vuesax-linear-arrow" />
+          </button>{" "}
+          <div className="div">
+            <div className="text-wrapper">Welcome {user?.username}</div>
+            <div className="div-2">
+              <div className="text-wrapper-2">Username</div>
+              <div className="text-wrapper-3">{user?.username}</div>
+              <div className="text-wrapper-4">E-Mail</div>
+              <div className="text-wrapper-3">{user?.email}</div>
+            </div>
+            <button className="button" onClick={handleLogout}>
+              <div className="text-wrapper-5">Log Out</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="page-footer">
+        <PageFooter></PageFooter>
+      </div>
+    </>
   );
 }
 

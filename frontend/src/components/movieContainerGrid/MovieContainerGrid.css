@@ -2,15 +2,16 @@
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(300px, 1fr)
+    minmax(250px, 1fr)
   ); /* This sets the minimum width for each container to be 300px and lets them fill the available space equally */
   justify-content: center;
   justify-items: center;
   row-gap: 2rem; /* Increased gap between rows */
   column-gap: 1.5rem; /* Gap between columns */
   /* max-width: 100%; */
-  padding-left: 9%;
-  padding-right: 9%;
+  /* min-width: 100%; */
+  padding-left: 8%;
+  padding-right: 8%;
 }
 
 .icon-container {
@@ -20,7 +21,6 @@
   /* justify-content: space-evenly; */
   align-items: center;
   bottom: 16%;
-  
 }
 
 .three-dots-container {
@@ -70,15 +70,14 @@
   transform: scale(1.2);
 } */
 
-
-
 .dropdown-menu {
   position: absolute;
-  background-color: #d1e8e2;
+  /* background-color: #d1e8e2; */
   /* border: 4px solid #ccc; */
   border-radius: 16px;
   padding: 10px;
   width: 200px;
+  min-width: 200px;
   /* top: -150%; */
   /* left: -50%; */
   z-index: 1;
@@ -108,7 +107,6 @@
 .close-icon {
   width: 1.3em;
   height: 1.3em;
-  
 }
 
 .close-dropdown:hover {
@@ -143,8 +141,6 @@
   width: 100%;
   height: 100%;
 }
-
-
 
 /* Media query for screens that are too small to fit 3 MovieContainers in a row */
 @media (max-width: 900px) {

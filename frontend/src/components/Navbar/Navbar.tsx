@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
@@ -7,6 +7,8 @@ import "./Navbar.css";
 import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import "../../../fonts.css";
+import logo from "../../assets/icons/logo_white.svg";
+import { useNavbarColor } from "../../services/utilities/NavbarColorContext";
 
 /**
  * Render navbar.
@@ -15,10 +17,42 @@ import "../../../fonts.css";
  */
 const NavBar: React.FC = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
+  const { isBlack } = useNavbarColor();
+  const textClass = isBlack ? "text-black" : "";
+
+  // const [isBlack, setIsBlack] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   const navbarColor = localStorage.getItem("navbarIsBlack") === "true";
+  //   setIsBlack(navbarColor);
+  //   console.log("navbarColor", navbarColor);
+  //   console.log("Halla");
+  // }, []);
 
   return (
     <>
-      <AppBar
+      <div className={`navbar ${textClass}`}>
+        <div className="navContainer">
+          <img className="column" alt="LOGO HER" src={logo} />
+          <div className="navbar-wrapper">
+            <div className="div">
+              <Link to="/" className={`link ${textClass}`}>
+                Home
+              </Link>
+              <Link to="/my-library" className={`text-wrapper ${textClass}`}>
+                Library
+              </Link>
+              <Link
+                to={isLoggedIn ? "/profile" : "/login"}
+                className={`text-wrapper ${textClass}`}
+              >
+                {isLoggedIn ? "Profile" : "Login"}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <AppBar
         position="static"
         className="app-bar"
         sx={{ backgroundColor: "#001F3F" }}
@@ -64,7 +98,7 @@ const NavBar: React.FC = (): JSX.Element => {
             </IconButton>
           </Box>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
     </>
   );
 };

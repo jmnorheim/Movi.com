@@ -1,12 +1,12 @@
-body, html {
-  background-color: #d1e8e2;
+body,
+html {
+  /* background-color: #d1e8e2; */
   margin: 0; /* Removes default margins */
   height: 100%; /* Ensures that html and body cover the full viewport height */
   width: 100%; /* Ensures that html and body cover the full viewport width */
 }
 
-.myLibraryPageContainer {
-  /* background-color: #d1e8e2; */
+/* .myLibraryPageContainer {
 }
 
 .mylibraryTop {
@@ -33,6 +33,67 @@ body, html {
 @media (max-width: 600px) {
   .mylibraryTop {
     flex-direction: column; /* stacks children vertically */
-    align-items: center; /* aligns them to the left */
+/* align-items: center; 
   }
+} */
+
+.myLibraryPageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-container {
+  align-items: center;
+  display: inline-flex;
+  gap: 751px;
+  position: relative;
+}
+
+.title-container .text-wrapper {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 96px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.title-container .create-library-button {
+  all: unset;
+  align-items: center;
+  border: 1px solid;
+  border-color: #0a0a0a;
+  border-radius: 56px;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 8px 24px;
+  position: relative;
+  cursor: pointer;
+}
+
+.title-container .div {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -0.5px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.title-container .vuesax-linear {
+  height: 20px !important;
+  position: relative !important;
+  width: 20px !important;
 }

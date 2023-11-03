@@ -10,6 +10,7 @@ import { AuthProvider } from "./services/auth/AuthContext";
 import { RequireAuth } from "./services/auth/RequireAuth";
 import NavBar from "./components/Navbar/Navbar";
 import LibraryPage from "./pages/LibraryPage/LibraryPage";
+import { NavbarColorProvider } from "./services/utilities/NavbarColorContext";
 
 /**
  * Render the App component.
@@ -20,42 +21,44 @@ const App: React.FC = () => {
     <div className="App">
       <AuthProvider>
         <Router basename="/project2">
-          <NavBar />
+          <NavbarColorProvider>
+            <NavBar />
 
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/movie/:movieId" element={<MoviePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            {/* Protected routes */}
-            <Route
-              path="/profile"
-              element={
-                <RequireAuth>
-                  <ProfilePage />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/my-library"
-              element={
-                <RequireAuth>
-                  <MyLibraryPage />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/my-library/:libraryName"
-              element={
-                <RequireAuth>
-                  <LibraryPage />
-                </RequireAuth>
-              }
-            />
-            {/* NotFound route */}
-            <Route path="*" element={<div>404 Not found </div>} />
-          </Routes>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/movie/:movieId" element={<MoviePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              {/* Protected routes */}
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <ProfilePage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/my-library"
+                element={
+                  <RequireAuth>
+                    <MyLibraryPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/my-library/:libraryName"
+                element={
+                  <RequireAuth>
+                    <LibraryPage />
+                  </RequireAuth>
+                }
+              />
+              {/* NotFound route */}
+              <Route path="*" element={<div>404 Not found </div>} />
+            </Routes>
+          </NavbarColorProvider>
         </Router>
       </AuthProvider>
     </div>

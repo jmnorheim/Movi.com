@@ -13,6 +13,7 @@
 
 .login-title {
   margin-bottom: 8px;
+  color: white;
 }
 
 .login-form {
@@ -37,4 +38,5 @@
 
 .login-link-text {
   cursor: pointer;
+  color: white;
 }
