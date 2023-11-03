@@ -41,7 +41,7 @@ vi.mock("../../../src/services/movieAPI", () => {
  * Mock implementation for the AuthContext.
  * @returns {Object}
  */
-vi.mock("../../../src/AuthContext", () => ({
+vi.mock("../../../src/services/auth/AuthContext", () => ({
   useAuth: vi.fn().mockReturnValue({ email: "test@example.com" }),
 }));
 
