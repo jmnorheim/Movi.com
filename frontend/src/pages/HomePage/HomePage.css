@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   /* background-color: #d1e8e2; */
   margin: 0; /* Removes default margins */
   height: 100%; /* Ensures that html and body cover the full viewport height */
@@ -15,7 +16,6 @@ body, html {
 }
 
 .headerContainer {
-  
 }
 
 .footerContainer {

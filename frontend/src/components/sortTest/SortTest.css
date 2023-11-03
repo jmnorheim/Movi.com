@@ -1,60 +1,57 @@
 .button {
-    all: unset;
-    align-items: center;
-    border: 1px solid;
-    border-color: #0a0a0a;
-    border-radius: 56px;
-    box-sizing: border-box;
-    display: inline-flex;
-    gap: 8px;
-    padding: 8px 24px;
-    position: relative;
-    cursor: pointer;
+  all: unset;
+  align-items: center;
+  border: 1px solid;
+  border-color: #0a0a0a;
+  border-radius: 56px;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 8px;
+  padding: 8px 24px;
+  position: relative;
+  cursor: pointer;
 }
 
-    .button .text-wrapper {
-        color: #0a0a0a;
-        font-family: "Gotham SSm-Bold", Helvetica;
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 0;
-        line-height: normal;
-        margin-top: -0.5px;
-        position: relative;
-        white-space: nowrap;
-        width: fit-content;
-    }
+.button .text-wrapper {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -0.5px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
 
-    .button .vuesax-linear-arrow {
-    height: 20px !important;
-    position: relative !important;
-    width: 20px !important;
-    }
+.button .vuesax-linear-arrow {
+  height: 20px !important;
+  position: relative !important;
+  width: 20px !important;
+}
 
 /* ...existing styles ... */
 
 .dropdown-wrapper {
-    position: relative;
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    border: 1px solid #0a0a0a;
-    border-radius: 4px;
-    width: 100%;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dropdown-item {
-    padding: 8px 24px;
-    cursor: pointer;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #eee;
-  }
-  
+  position: relative;
+}
 
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid #0a0a0a;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.dropdown-item {
+  padding: 8px 24px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #eee;
+}

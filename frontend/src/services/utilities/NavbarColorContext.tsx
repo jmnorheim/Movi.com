@@ -2,12 +2,18 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 
 const NavbarColorContext = createContext({
   isBlack: false,
-  setIsBlack: () => {},
+  setIsBlack: (boolean: boolean) => {},
 });
 
 export const useNavbarColor = () => useContext(NavbarColorContext);
 
-export const NavbarColorProvider = ({ children }) => {
+type NavbarColorProviderProps = {
+  children: React.ReactNode;
+};
+
+export const NavbarColorProvider: React.FC<NavbarColorProviderProps> = ({
+  children,
+}) => {
   const [isBlack, setIsBlack] = useState(false);
 
   // You can still synchronize with localStorage if needed

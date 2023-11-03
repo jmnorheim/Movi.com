@@ -1,94 +1,90 @@
 .footerOuterContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: red; */
-  }
-  .join-us-container {
-    background-color: #5279a3;
-    border-radius: 32px;
-    height: 35vh;
-    overflow: hidden;
-    width: 60%;
-    min-width: 570px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .join-us-container .div {
-    align-items: center;
-    display: inline-flex;
-    flex-direction: column;
-    gap: 24px;
-    left: 407px;
-    position: relative;
-    top: 78px;
-  }
-  
-  .join-us-container .text-wrapper {
-    color: #f5f5f5;
-    font-family: "Gotham SSm-Bold", Helvetica;
-    font-size: 64px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
-    position: relative;
-    width: fit-content;
-    
-  }
-  
-  .join-us-container .text-wrapper-2 {
-    color: #f5f5f5;
-    font-family: "Gotham SSm-Light", Helvetica;
-    font-size: 16px;
-    font-weight: 300;
-    letter-spacing: 0;
-    line-height: 26px;
-    position: relative;
-    white-space: nowrap;
-    width: fit-content;
-    margin-bottom: 10px;;
-    
-  }
-  
-  .join-us-container .div-wrapper, .join-now-button {
-    align-items: center;
-    background: linear-gradient(
-      to right,
-      /* rgb(82, 121, 163) 0%, */
-      rgb(167.72, 205.14, 245.44) 3.6%,
-      rgb(75.77, 211.44, 203.3) 40.04%,
-      rgb(61.4, 219.94, 210.43) 100%,
-      rgb(13.47, 190.19, 179.58) 95.83%
-    );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: red; */
+}
+.join-us-container {
+  background-color: #5279a3;
+  border-radius: 32px;
+  height: 35vh;
+  overflow: hidden;
+  width: 60%;
+  min-width: 570px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.join-us-container .div {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 24px;
+  left: 407px;
+  position: relative;
+  top: 78px;
+}
+
+.join-us-container .text-wrapper {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1px;
+  position: relative;
+  width: fit-content;
+}
+
+.join-us-container .text-wrapper-2 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 26px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  margin-bottom: 10px;
+}
+
+.join-us-container .div-wrapper,
+.join-now-button {
+  align-items: center;
+  background: linear-gradient(
+    to right,
+    /* rgb(82, 121, 163) 0%, */ rgb(167.72, 205.14, 245.44) 3.6%,
+    rgb(75.77, 211.44, 203.3) 40.04%,
+    rgb(61.4, 219.94, 210.43) 100%,
+    rgb(13.47, 190.19, 179.58) 95.83%
+  );
   background-color: rgba(255, 255, 255, 1);
-    border-radius: 48px;
-    display: inline-flex;
-    justify-content: center;
-    padding: 8px 40px;
-    position: relative;
-  }
-  
-  .join-now-button {
-    background: none;
-    border: none;
-    color: #f5f5f5;
-    font-family: "Gotham SSm-Bold", Helvetica;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 26px;
-    margin-top: -1px;
-    position: relative;
-    white-space: nowrap;
-    width: fit-content;
-    cursor: pointer; /* Make the button appear clickable */
-    outline: none;   /* Remove the default outline */
-    padding: 0;      /* Remove any default padding */
-  }
-  
-  
+  border-radius: 48px;
+  display: inline-flex;
+  justify-content: center;
+  padding: 8px 40px;
+  position: relative;
+}
+
+.join-now-button {
+  background: none;
+  border: none;
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 26px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  cursor: pointer; /* Make the button appear clickable */
+  outline: none; /* Remove the default outline */
+  padding: 0; /* Remove any default padding */
+}

@@ -52,7 +52,13 @@ export const AddLibraryIcon = ({ className }) => {
       </g>
       <defs className="defs">
         <clipPath className="clip-path" id="clip0_52_831">
-          <rect className="rect" fill="white" height="128" transform="translate(0.5)" width="128" />
+          <rect
+            className="rect"
+            fill="white"
+            height="128"
+            transform="translate(0.5)"
+            width="128"
+          />
         </clipPath>
       </defs>
     </svg>

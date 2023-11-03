@@ -1,9 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Library } from "../../interfaces";
 import { getMovieById } from "../../services/movieAPI";
 import "./MyLibraryContainer.css";
-
-import { AddLibraryIcon } from "../../assets/icons/AddLibraryIcon";
 
 interface MyLibraryProps {
   library: Library;

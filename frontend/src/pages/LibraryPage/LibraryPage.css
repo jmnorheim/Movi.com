@@ -12,11 +12,10 @@
 }
 
 .back-button-library {
-  cursor: pointer; 
+  cursor: pointer;
   background: transparent;
   border: none;
 }
-
 
 .libraryName {
   font-size: 2rem;
@@ -74,14 +73,15 @@
   width: fit-content;
 }
 
-.list-row .group, .column-info .group {
+.list-row .group,
+.column-info .group {
   height: 38px;
   margin-right: -6px;
   position: relative;
   width: 1257px;
   /* background-color: red; */
   display: flex;
-  justify-content: space-evenly
+  justify-content: space-evenly;
 }
 
 /* .column-info .group {
@@ -157,8 +157,6 @@
   white-space: nowrap;
 }
 
-
-
 .column-info .div {
   color: #0a0a0a;
   font-family: "Gotham SSm-Light", Helvetica;
@@ -184,4 +182,3 @@
   right: 0;
   white-space: nowrap;
 }
-

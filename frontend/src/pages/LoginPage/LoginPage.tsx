@@ -191,7 +191,7 @@ const LoginPage: React.FC = () => {
               className="register-link-text"
               style={{ fontSize: 18 }}
             >
-              Don't have an account?{" "}
+              Dont have an account?{" "}
               <Link style={{ fontSize: 18, color: "white" }} to="/register">
                 Register
               </Link>

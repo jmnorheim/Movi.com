@@ -65,7 +65,6 @@
   gap: 32px;
   justify-content: center;
   position: relative;
-
 }
 
 .navbar .div {
@@ -76,7 +75,6 @@
   gap: 32px;
   position: relative;
   /* background-color: blue; */
-
 }
 
 .navbar .link {

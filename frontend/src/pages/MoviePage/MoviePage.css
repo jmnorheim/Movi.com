@@ -1,5 +1,5 @@
 .background-image {
-  height: 800px;;
+  height: 800px;
   width: 100vw;
   position: absolute;
 }
@@ -81,7 +81,6 @@
   text-align: flex-start;
   white-space: wrap;
   max-width: 100%;
-  
 }
 
 .movie-card .release-data-text {

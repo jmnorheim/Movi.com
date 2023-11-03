@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   /* background-color: #d1e8e2; */
   margin: 0; /* Removes default margins */
   height: 100%; /* Ensures that html and body cover the full viewport height */
@@ -32,9 +33,9 @@ body, html {
 @media (max-width: 600px) {
   .mylibraryTop {
     flex-direction: column; /* stacks children vertically */
-    /* align-items: center; 
+/* align-items: center; 
   }
-} */ 
+} */
 
 .myLibraryPageContainer {
   display: flex;
