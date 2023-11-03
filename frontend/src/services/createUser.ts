@@ -1,6 +1,7 @@
 import { request } from "graphql-request";
 import { graphql } from "../generated";
 import { User } from "../interfaces";
+import { hashPassword } from "./utilities/hashFunction";
 
 /**
  * GraphQL query to authenticate a user.
@@ -29,10 +30,12 @@ export const createUser = async (
   password: string
 ): Promise<User> => {
   const endpoint = "http://localhost:4000/";
+  const hashedPassword = hashPassword(password);
+  console.log(hashedPassword);
   const variables = {
     username,
     email,
-    password,
+    password: hashedPassword,
   };
   const data = await request(endpoint, CREATE_USER, variables);
   return data.createUser;
