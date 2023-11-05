@@ -1,5 +1,3 @@
-import sha256 from "crypto-js/sha256";
-import { scryptSync, randomBytes, timingSafeEqual } from "crypto";
 import { getUserByID } from "../getUser";
 
 /**
