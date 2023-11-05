@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/auth/AuthContext";
 import { getUserByEmail } from "../../services/getUser";
+import { verifyPassword } from "../../services/utilities/hashFunction";
 
 import background_image from "../../assets/images/moviepage_background.png";
 
@@ -46,8 +47,8 @@ const LoginPage: React.FC = () => {
      * Try to login. Catch error if not possible.
      */
     try {
-      const { userID, password } = await getUserByEmail(inputEmail);
-      if (userID && password === inputPassword) {
+      const { userID } = await getUserByEmail(inputEmail);
+      if (userID && (await verifyPassword(userID, inputPassword))) {
         login(inputEmail, userID);
         navigate("/profile");
       } else {

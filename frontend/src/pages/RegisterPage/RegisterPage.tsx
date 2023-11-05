@@ -14,6 +14,7 @@ import { useAuth } from "../../services/auth/AuthContext";
 
 import background_image from "../../assets/images/moviepage_background.png";
 import { createUser } from "../../services/createUser";
+import { hashPassword } from "../../services/utilities/hashFunction";
 
 /**
  * Render the RegisterPage component.
