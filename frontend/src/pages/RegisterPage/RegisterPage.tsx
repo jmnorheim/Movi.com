@@ -13,18 +13,58 @@ import "./RegisterPage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 import { createUser } from "../../services/createUser";
 
+// Regex used to check email format
+const emailRegex = /\S+@\S+\.\S+/;
+
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
  */
 const RegisterPage: React.FC = () => {
+  // State for user inputs
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [inputConfirmPassword, setInputConfirmPassword] = useState("");
+
+  // State for any error messages
   const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  /**
+   * Validates the user input fields for registration.
+   */
+  const validateFields = () => {
+    const errors = {
+      username: inputUsername ? "" : "Username is required",
+      email: inputEmail
+        ? emailRegex.test(inputEmail)
+          ? ""
+          : "Please enter a valid email"
+        : "Email is required",
+      password: inputPassword
+        ? inputPassword.length < 6
+          ? "Password must be at least 6 characters"
+          : ""
+        : "Password is required",
+      confirmPassword: inputConfirmPassword
+        ? inputPassword !== inputConfirmPassword
+          ? "Passwords do not match"
+          : ""
+        : "Confirming password is required",
+    };
+
+    setValidationErrors(errors);
+    return Object.values(errors).some((error) => error !== "");
+  };
 
   /**
    * Handles the registration process.
@@ -36,24 +76,8 @@ const RegisterPage: React.FC = () => {
     // Clear the error message
     setError("");
 
-    /**
-     * Check that all inputfields are filled.
-     */
-    if (
-      !inputUsername ||
-      !inputEmail ||
-      !inputPassword ||
-      !inputConfirmPassword
-    ) {
-      setError("All fields are required.");
-      return;
-    }
-
-    /**
-     * Check that inputPassword is equal to inputConfirmPassword
-     */
-    if (inputPassword !== inputConfirmPassword) {
-      setError("Passwords do not match!");
+    //  Check if the input fields are valid
+    if (validateFields()) {
       return;
     }
 
@@ -99,6 +123,7 @@ const RegisterPage: React.FC = () => {
         >
           {/* Username textfield */}
           <TextField
+            error={!!validationErrors.username}
             variant="outlined"
             margin="normal"
             required
@@ -108,11 +133,20 @@ const RegisterPage: React.FC = () => {
             name="username"
             autoComplete="username"
             autoFocus
-            onChange={(e) => setInputUsername(e.target.value)}
+            helperText={validationErrors.username}
+            onChange={(e) => {
+              const newUsername = e.target.value;
+              setInputUsername(newUsername);
+              setValidationErrors((prev) => ({
+                ...prev,
+                username: "",
+              }));
+            }}
           />
 
           {/* Email input textfield */}
           <TextField
+            error={!!validationErrors.email}
             variant="outlined"
             margin="normal"
             required
@@ -121,11 +155,24 @@ const RegisterPage: React.FC = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
-            onChange={(e) => setInputEmail(e.target.value)}
+            helperText={validationErrors.email}
+            onChange={(e) => {
+              const newEmail = e.target.value;
+              setInputEmail(newEmail);
+              setValidationErrors((prev) => ({
+                ...prev,
+                email: newEmail
+                  ? !emailRegex.test(newEmail)
+                    ? "Please enter a valid email"
+                    : ""
+                  : "",
+              }));
+            }}
           />
 
           {/* Password input textfield */}
           <TextField
+            error={!!validationErrors.password}
             variant="outlined"
             margin="normal"
             required
@@ -135,11 +182,23 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="new-password"
-            onChange={(e) => setInputPassword(e.target.value)}
+            helperText={validationErrors.password}
+            onChange={(e) => {
+              const setPassword = e.target.value;
+              setInputPassword(setPassword);
+              setValidationErrors((prev) => ({
+                ...prev,
+                password: setPassword
+                  ? setPassword.length >= 6
+                    ? ""
+                    : "Password must be at least 6 characters"
+                  : "",
+              }));
+            }}
           />
-
           {/* Confirm password input textfield */}
           <TextField
+            error={!!validationErrors.confirmPassword}
             variant="outlined"
             margin="normal"
             required
@@ -149,7 +208,21 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="confirm-password"
             autoComplete="new-password"
-            onChange={(e) => setInputConfirmPassword(e.target.value)}
+            helperText={validationErrors.confirmPassword}
+            onChange={(e) => {
+              const newConfirmPassword = e.target.value;
+              setInputConfirmPassword(newConfirmPassword);
+
+              setValidationErrors((prev) => ({
+                ...prev,
+                confirmPassword:
+                  newConfirmPassword === ""
+                    ? ""
+                    : newConfirmPassword !== inputPassword
+                    ? "Passwords do not match"
+                    : "",
+              }));
+            }}
           />
 
           {/* Register button */}
