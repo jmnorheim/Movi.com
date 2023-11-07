@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 64px;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
 }
 
 .login-box {
@@ -37,4 +39,9 @@
 
 .login-link-text {
   cursor: pointer;
+}
+
+.login-error {
+  width: 100%;
+  text-align: center;
 }
