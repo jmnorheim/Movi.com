@@ -9,26 +9,17 @@ import "./LibraryPage.css";
 import PageFooter from "../../components/pageFooter/PageFooter";
 
 import { ArrowCircleLeftBlack } from "../../assets/icons/ArrowCircleLeftBlack";
-import { useNavbarColor } from "../../services/utilities/NavbarColorContext";
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
 
 const LibraryPage = () => {
   const { libraryName } = useParams();
   const [movies, setMovies] = useState<Movie[] | null>(null);
   const { email } = useAuth();
-  const { setIsBlack } = useNavbarColor();
 
-  useEffect(() => {
-    setIsBlack(true);
-
-    // Optional: Synchronize with localStorage if needed
-    localStorage.setItem("navbarIsBlack", "true");
-
-    // When component unmounts, you might want to reset the color
-    return () => {
-      setIsBlack(false);
-      localStorage.setItem("navbarIsBlack", "false");
-    };
-  }, [setIsBlack]);
+  effect(() => {
+    navbarColor.value = "black";
+  });
 
   const navigate = useNavigate();
 

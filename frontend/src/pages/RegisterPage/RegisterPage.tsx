@@ -16,6 +16,9 @@ import background_image from "../../assets/images/moviepage_background.png";
 import { createUser } from "../../services/createUser";
 import { hashPassword } from "../../services/utilities/hashFunction";
 
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
+
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
@@ -28,6 +31,10 @@ const RegisterPage: React.FC = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  effect(() => {
+    navbarColor.value = "white";
+  });
 
   /**
    * Handles the registration process.

@@ -8,6 +8,9 @@ import { ArrowCircleLeft } from "../../assets/icons/ArrowCircleLeft";
 import background_image from "../../assets/images/moviepage_background.png";
 import PageFooter from "../../components/pageFooter/PageFooter";
 
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
+
 /**
  * Render the ProfilePage component.
  * @returns {React.FC}
@@ -16,6 +19,10 @@ function ProfilePage() {
   const navigate = useNavigate();
   const { userID, logout } = useAuth();
   const { data: user, isLoading } = useUserQuery(userID);
+
+  effect(() => {
+    navbarColor.value = "white";
+  });
 
   /**
    * Handles the login process.

@@ -9,10 +9,11 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 .login-title {
-  margin-bottom: 8px;
+  size: 30px;
   color: white;
 }
 
@@ -37,6 +38,11 @@
 }
 
 .login-link-text {
+  cursor: pointer;
+  color: white;
+}
+
+.register-link-text {
   cursor: pointer;
   color: white;
 }
