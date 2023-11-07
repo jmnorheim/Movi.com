@@ -13,8 +13,10 @@ import "./RegisterPage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 import { createUser } from "../../services/createUser";
 
-// Regex used to check email format
+// Regex
 const emailRegex = /\S+@\S+\.\S+/;
+const containsNumberRegex = /\d/;
+const containsSpecialCharRegex = /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]+/;
 
 /**
  * Render the RegisterPage component.
@@ -51,8 +53,12 @@ const RegisterPage: React.FC = () => {
           : "Please enter a valid email"
         : "Email is required",
       password: inputPassword
-        ? inputPassword.length < 6
-          ? "Password must be at least 6 characters"
+        ? inputPassword.length < 8
+          ? "Password must be at least 8 characters"
+          : !containsNumberRegex.test(inputPassword)
+          ? "Password must include at least one number"
+          : !containsSpecialCharRegex.test(inputPassword)
+          ? "Password must include at least one special character"
           : ""
         : "Password is required",
       confirmPassword: inputConfirmPassword
@@ -184,15 +190,19 @@ const RegisterPage: React.FC = () => {
             autoComplete="new-password"
             helperText={validationErrors.password}
             onChange={(e) => {
-              const setPassword = e.target.value;
-              setInputPassword(setPassword);
+              const newPassword = e.target.value;
+              setInputPassword(newPassword);
               setValidationErrors((prev) => ({
                 ...prev,
-                password: setPassword
-                  ? setPassword.length >= 6
-                    ? ""
-                    : "Password must be at least 6 characters"
-                  : "",
+                password: newPassword
+                  ? newPassword.length >= 8
+                    ? containsNumberRegex.test(newPassword)
+                      ? containsSpecialCharRegex.test(newPassword)
+                        ? ""
+                        : "Password must include at least one special character"
+                      : "Password must include at least one number"
+                    : "Password must be at least 8 characters"
+                  : "Password is required",
               }));
             }}
           />
