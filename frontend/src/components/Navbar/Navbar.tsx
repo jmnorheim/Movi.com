@@ -8,13 +8,19 @@ import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import "../../../fonts.css";
 import logo from "../../assets/icons/logo_white.svg";
+import { Signal } from "@preact/signals-react";
 
 /**
  * Render navbar.
  *
  * @returns {JSX.Element}
  */
-const NavBar: React.FC = ({ textColor }): JSX.Element => {
+
+interface Props {
+  textColor: Signal<string>;
+}
+
+const NavBar: React.FC<Props> = ({ textColor }) => {
   const { isLoggedIn } = useAuth();
   const textClass = textColor.value === "black" ? "text-black" : "";
 
