@@ -274,6 +274,7 @@ const HomePage: React.FC = () => {
           <HomePageHeader
             movies={originalMovies}
             onFilter={handleFilter}
+            onSearch={applySearch}
           ></HomePageHeader>
         </div>
 

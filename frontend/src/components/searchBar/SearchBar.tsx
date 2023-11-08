@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { FormControl, TextField, InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import "./SearchBar.css";
 
 import debounce from "lodash/debounce";
@@ -29,7 +29,7 @@ const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
 
   return (
     <div className="SearchbarContainer">
-      <FormControl fullWidth sx={{ m: 6 }}>
+      <FormControl fullWidth>
         <TextField
           value={searchValue}
           variant="outlined"
@@ -38,7 +38,7 @@ const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
           sx={{
             "& .MuiOutlinedInput-root": {
               borderWidth: "4px",
-              borderRadius: "15px",
+              borderRadius: "30px",
               "&.Mui-focused fieldset": {
                 borderWidth: "4px",
               },
@@ -53,7 +53,10 @@ const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
             endAdornment: (
               <InputAdornment position="end" onClick={handleClick}>
                 <ClearIcon
-                  style={{ cursor: "pointer", opacity: searchValue ? 1 : 0 }}
+                  style={{
+                    cursor: "pointer",
+                    opacity: searchValue ? 1 : 0,
+                  }}
                 />
               </InputAdornment>
             ),
