@@ -90,8 +90,8 @@ export const useMovie = (imdbId: string) => {
 
 export const useMovies = (
   page: number = 0,
-  limit?: number,
-  offset?: number,
+  limit: number = 10,
+  offset: number = page * limit,
   searchBy?: string,
   filter?: MovieFilter,
   sortBy?: SortType
