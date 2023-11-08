@@ -50,11 +50,6 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
-    localStorage.setItem("navbarIsBlack", "false");
-    console.log("Satt den!");
-  }, []);
-
-  useEffect(() => {
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
 
