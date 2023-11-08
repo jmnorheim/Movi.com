@@ -8,7 +8,7 @@ import "./HomePage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
-import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
+import SortMenu from "../../components/sortMenu/SortMenu";
 import FilterMenu from "../../components/filterMenu/FilterMenu";
 
 import headerImage from "./img.png";
@@ -16,6 +16,7 @@ import SortTest from "../../components/sortTest/SortTest";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
+import { SortType } from "../../generated/graphql";
 
 /**
  * Render the HomePage component.
@@ -180,21 +181,21 @@ const HomePage: React.FC = () => {
   const applySort = (movieList: Movie[], sortType: SortType): Movie[] => {
     return [...movieList].sort((a: Movie, b: Movie): number => {
       switch (sortType) {
-        case SortType.TitleAZ:
+        case SortType.TitleAz:
           return a.primaryTitle.localeCompare(b.primaryTitle);
-        case SortType.TitleZA:
+        case SortType.TitleZa:
           return b.primaryTitle.localeCompare(a.primaryTitle);
-        case SortType.RatingHILO:
+        case SortType.RatingHilo:
           return b.averageRating - a.averageRating;
-        case SortType.RatingLOHI:
+        case SortType.RatingLohi:
           return a.averageRating - b.averageRating;
-        case SortType.DurationHILO:
+        case SortType.DurationHilo:
           return b.runtimeMinutes - a.runtimeMinutes;
-        case SortType.DurationLOHI:
+        case SortType.DurationLohi:
           return a.runtimeMinutes - b.runtimeMinutes;
-        case SortType.YearHILO:
+        case SortType.YearHilo:
           return b.startYear - a.startYear;
-        case SortType.YearLOHI:
+        case SortType.YearLohi:
           return a.startYear - b.startYear;
         default:
           return 0;
