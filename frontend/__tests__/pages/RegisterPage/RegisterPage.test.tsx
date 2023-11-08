@@ -21,11 +21,11 @@ import { User } from "../../../src/interfaces";
 window.alert = vi.fn();
 
 /**
- * Mocks `createUser` service with a default implementation.
+ * Mocks `getUser` service with a default implementation.
  */
-vi.mock("../../../src/services/createUser", () => {
+vi.mock("../../../src/services/getUser", () => {
   return {
-    createUser: vi.fn(),
+    getUser: vi.fn(),
   };
 });
 
@@ -270,14 +270,14 @@ describe("RegisterPage Component", () => {
     // Click the Register button.
     fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
-    // Check for error message
+    // Check for error message.
     expect(screen.getByText("Please enter a valid email")).toBeDefined();
   });
 
   /**
-   * Snapshot test
+   * Snapshot test.
    */
-  it('should match the snapshot', () => {
+  it("should match the snapshot", () => {
     const { asFragment } = render(<RegisterPage />);
     expect(asFragment()).toMatchSnapshot();
   });

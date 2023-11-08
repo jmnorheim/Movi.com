@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
         login(inputEmail, userID);
         navigate("/profile");
       } else {
-        setError("Invalid email or password");
+        setError("Invalid email or password.");
       }
     } catch (error) {
       setError("User does not exist.");
