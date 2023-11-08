@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/auth/AuthContext";
 import { getUserByEmail } from "../../services/getUser";
 import { verifyPassword } from "../../services/utilities/hashFunction";
+import "./LoginPage.css";
 
 import background_image from "../../assets/images/moviepage_background.png";
 

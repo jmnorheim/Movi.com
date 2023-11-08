@@ -15,8 +15,8 @@ import headerImage from "./img.png";
 import SortTest from "../../components/sortTest/SortTest";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
 import { SortType } from "../../generated/graphql";
+import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
 /**
  * Render the HomePage component.

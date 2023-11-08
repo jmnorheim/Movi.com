@@ -14,7 +14,6 @@ import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
 
 /**
  * Render the MoviePage component.
