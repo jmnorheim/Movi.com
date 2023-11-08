@@ -13,7 +13,11 @@ import { useAuth } from "../../services/auth/AuthContext";
 import { getUserByEmail } from "../../services/getUser";
 import { verifyPassword } from "../../services/utilities/hashFunction";
 
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
+
 import background_image from "../../assets/images/moviepage_background.png";
+import "./LoginPage.css";
 
 /**
  * Render the LoginPage component.
@@ -25,6 +29,10 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  effect(() => {
+    navbarColor.value = "white";
+  });
 
   /**
    * Handles the login logic.

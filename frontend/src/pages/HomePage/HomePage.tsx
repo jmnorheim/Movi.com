@@ -15,7 +15,10 @@ import headerImage from "./img.png";
 import SortTest from "../../components/sortTest/SortTest";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
+import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
+import { effect } from "@preact/signals-react";
+
+import { navbarColor } from "../../App";
 
 /**
  * Render the HomePage component.
@@ -37,6 +40,11 @@ const HomePage: React.FC = () => {
   });
 
   const { email } = useAuth();
+
+  // Set color of text in Navbar to white
+  effect(() => {
+    navbarColor.value = "white";
+  });
 
   // =======================================================================================================================
 
