@@ -1,5 +1,12 @@
 # Project 2 IT2810
 
+
+## We would like you to test the following:
+- Register, Login and Log out
+- Navigate between different pages
+- Test filtering, sorting, and search
+- Create a library
+
 ## Students
 
 | Name                       | Age | Study program          | Email                 |
@@ -23,7 +30,8 @@
 
 3. **Starting the Project**:
 
-   - Run the project: `npm run dev`
+   - Run server: `npm run server`
+   - Run client: `npm run dev`
 
 4. **Testing**:
 
