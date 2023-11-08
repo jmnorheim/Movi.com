@@ -20,6 +20,7 @@ import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
 import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
+import { useMovies } from "../../services/getMovies";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -40,6 +41,10 @@ export const filterSignals = signal<FilterSettings>({
   isAdult: false,
 });
 
+export const currentSearch = signal<string>("");
+
+export const currentSort = signal<SortType | null>(null);
+
 /**
  * Render the HomePage component.
  * @returns {React.FC}
@@ -47,7 +52,7 @@ export const filterSignals = signal<FilterSettings>({
 const HomePage: React.FC = () => {
   const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
   const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
-
+  // const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
   const [currentFilter, setCurrentFilter] = useState<{
     isAdult?: boolean;
@@ -56,10 +61,12 @@ const HomePage: React.FC = () => {
 
   console.log("FilterSignals =", filterSignals);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["movies"],
-    queryFn: movieAPI,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["movies"],
+  //   queryFn: movieAPI,
+  // });
+
+  const { data, isLoading } = useMovies(0, 100, 0, currentSearch.value);
 
   const { email } = useAuth();
 
@@ -71,6 +78,7 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
+    console.log("Data =", data);
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
 
@@ -183,6 +191,7 @@ const HomePage: React.FC = () => {
   // Searching===============================================================================================================
 
   const applySearch = (searchTerm: string) => {
+    setCurrentSearch(searchTerm);
     if (originalMovies) {
       const filteredMovies = originalMovies.filter((movie) =>
         movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())
