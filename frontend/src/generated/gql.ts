@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation createUser($username: String!, $email: String!, $password: String!) {\n    createUser(username: $username, email: $email, password: $password) {\n      email\n      favorites\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      password\n      userID\n      username\n    }\n  }\n": types.CreateUserDocument,
     "\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n": types.GetLibraryDocument,
+    "\n  query GetUser($imdbId: ID!) {\n    movie(imdbID: $imdbId) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n": types.GetUserDocument,
+    "\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n": types.GetMoviesDocument,
     "\n  query UserByEmail($email: String!) {\n    userByEmail(email: $email) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n": types.UserByEmailDocument,
     "\n  query UserByID($userID: ID!) {\n    userByID(userID: $userID) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n": types.UserByIdDocument,
     "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n": types.GetUserFavoritesDocument,
@@ -46,6 +48,14 @@ export function graphql(source: "\n  mutation createUser($username: String!, $em
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n"): (typeof documents)["\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetUser($imdbId: ID!) {\n    movie(imdbID: $imdbId) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n"): (typeof documents)["\n  query GetUser($imdbId: ID!) {\n    movie(imdbID: $imdbId) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n"): (typeof documents)["\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
