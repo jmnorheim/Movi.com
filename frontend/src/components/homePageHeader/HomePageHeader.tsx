@@ -1,17 +1,26 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import "./HomePageHeader.css";
 import { SearchIcon } from "../../assets/icons/SearchIcon";
 import FilterMenu from "../filterMenu/FilterMenu";
 import { CurrentFilter, Movie } from "../../interfaces";
 import headerImage from "../../assets/images/headerImage.png";
 import headerImage_enhanced from "../../assets/images/headerImage_enhanced.png";
+import SearchBar from "../searchBar/SearchBar";
+import FilterSideBar from "../filterSideBar/FilterSideBar";
 
 interface HomePageHeaderProps {
   movies: Movie[] | [];
   onFilter: (filters: CurrentFilter) => void;
+  onSearch: (value: string) => void;
 }
 
-const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
+const HomePageHeader: FC<HomePageHeaderProps> = ({
+  movies,
+  onFilter,
+  onSearch,
+}) => {
+  const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
+
   return (
     <div className="overlap-group">
       <div className="ellipse" />
@@ -22,11 +31,14 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
         <div className="div-2">
           <div className="content-wrapper">
             <div className="content">
-              <div className="text-wrapper-3">Search Movies</div>
-              <SearchIcon className="icon-instance" />
+              <SearchBar onSearch={onSearch} />
             </div>
           </div>
-          {movies?.length && <FilterMenu movies={movies} onFilter={onFilter} />}
+          <button onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}>
+            FilterMenu
+          </button>
+          <FilterSideBar open={isFilterSidebarOpen} />
+          {/* {movies?.length && <FilterMenu movies={movies} onFilter={onFilter} />} */}
         </div>
       </div>
     </div>
