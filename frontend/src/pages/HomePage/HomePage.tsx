@@ -15,7 +15,7 @@ import headerImage from "./img.png";
 import SortTest from "../../components/sortTest/SortTest";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
+import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 import { effect } from "@preact/signals-react";
 
 import { navbarColor } from "../../App";
