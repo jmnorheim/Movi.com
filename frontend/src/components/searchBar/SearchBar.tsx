@@ -33,7 +33,7 @@ const TypeSearch = () => {
           value={searchValue}
           variant="outlined"
           onChange={handleChange}
-          placeholder="Search..."
+          placeholder="Search for any movie..."
           sx={{
             "& .MuiOutlinedInput-root": {
               borderWidth: "4px",

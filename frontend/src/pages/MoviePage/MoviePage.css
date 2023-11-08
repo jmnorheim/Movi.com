@@ -47,6 +47,7 @@
 }
 
 .movie-card .div-3 .back-button {
+  cursor: pointer;
   background: transparent;
   border: none;
 }

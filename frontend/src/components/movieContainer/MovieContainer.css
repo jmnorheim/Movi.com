@@ -1,43 +1,12 @@
-/* /* .MovieContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px; 
-  height: 400px; 
-  border: 5px solid white;
-  border-radius: 30px;
-  box-sizing: border-box;
-  text-align: center;
-  background-color: #001f3f;
-  color: white;
-  font-family: "GothicSSM", sans-serif;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
-}
-
-.ImageContainer {
-  padding-top: 5%;
-  width: 200px;
-  height: 270px;
-  object-fit: contain;
-}
-
-h3 {
-  margin: 0.8rem;
-}
-
-h4 {
-  margin: 0;
-} 
-*/
-.frame {
+.movie-container {
   align-items: flex-start;
   display: inline-flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   position: relative;
 }
 
-.frame .rectangle {
+.movie-container .rectangle {
   height: 355px;
   object-fit: cover;
   position: relative;
@@ -45,7 +14,7 @@ h4 {
   border-radius: 30px;
 }
 
-.frame .div {
+.movie-container .div {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
@@ -53,7 +22,7 @@ h4 {
   position: relative;
 }
 
-.frame .text-wrapper {
+.movie-container .text-wrapper {
   color: #0a0a0a;
   font-family: "Gotham SSm-Bold", Helvetica;
   font-size: 16px;
@@ -65,7 +34,7 @@ h4 {
   width: 140px;
 }
 
-.frame .button {
+.movie-container .button {
   all: unset;
   align-items: center;
   background-color: #79b5f5;
@@ -75,11 +44,11 @@ h4 {
   flex: 0 0 auto;
   gap: 10px;
   padding: 4px 16px;
-  /* margin-left: 10px; */
   position: relative;
+  z-index: 10000;
 }
 
-.frame .text-wrapper-2 {
+.movie-container .text-wrapper-2 {
   color: #f5f5f5;
   font-family: "Gotham SSm-Bold", Helvetica;
   font-size: 8px;
@@ -90,13 +59,13 @@ h4 {
   width: fit-content;
 }
 
-.frame .icon-instance {
+.movie-container .icon-instance {
   height: 14px !important;
   position: relative !important;
   width: 14px !important;
 }
 
-.frame .text-wrapper-3 {
+.movie-container .text-wrapper-3 {
   color: #b6b6b6;
   font-family: "Gotham SSm-Light", Helvetica;
   font-size: 8px;
@@ -107,12 +76,26 @@ h4 {
   width: fit-content;
 }
 
-.frame .vuesax-linear-heart {
+.movie-container .heart-container {
+  z-index: 10000;
   height: 24px !important;
   left: 16px !important;
   position: absolute !important;
   top: 16px !important;
   width: 24px !important;
+  /* display: flex; */
+}
+
+.movie-container .vuesax-linear-heart {
+  /* height: 24px !important;
+  left: 16px !important;
+  position: absolute !important;
+  top: 16px !important;
+  width: 24px !important; */
+  /* height: 100%;
+  width: 100%;; */
+  background-color: red;
+  z-index: 10000;
 }
 
 @font-face {

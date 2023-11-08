@@ -121,6 +121,7 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   const toggleFavorite = (imdbID: string) => {
+    console.log("Toggling favorite for movie with imdbID =", imdbID);
     if (!email) return;
 
     const usersJSON = localStorage.getItem("users");
