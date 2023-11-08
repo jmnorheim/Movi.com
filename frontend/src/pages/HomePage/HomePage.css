@@ -37,14 +37,11 @@ html {
 .contentContainer {
   display: flex;
   flex-direction: column;
-  /* align-items: center;  */
   justify-content: flex-start;
-  /* background-color: #d1e8e2; */
-  /* padding-top: 100px; */
   /* background-color: green; */
 }
 
-.sortTestContainer {
+.sortMenuContainer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -57,15 +54,6 @@ html {
   padding-top: 50px;
   /* background-color: blue; */
 }
-
-/* .sortMenuContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 100px;
-
-  background-color: red;
-} */
 
 .noMatchesText {
   display: flex;
