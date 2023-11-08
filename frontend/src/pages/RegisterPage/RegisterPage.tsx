@@ -202,7 +202,7 @@ const RegisterPage: React.FC = () => {
                         : "Password must include at least one special character"
                       : "Password must include at least one number"
                     : "Password must be at least 8 characters"
-                  : "Password is required",
+                  : "",
               }));
             }}
           />
