@@ -1,19 +1,20 @@
-import React, { useState, FC } from "react";
+import React, { FC, useState } from "react";
 import "./SortMenu.css";
+import { ArrowIcon } from "../../assets/icons/ArrowIcon";
+import { SortType } from "../../generated/graphql";
 
-// export enum SortType {
-//   TitleAZ = "Title A-Z",
-//   TitleZA = "Title Z-A",
-//   RatingHILO = "Rating HI-LO",
-//   RatingLOHI = "Rating LO-HI",
-//   DurationHILO = "Duration HI-LO",
-//   DurationLOHI = "Duration LO-HI",
-//   YearHILO = "Release year HI-LO",
-//   YearLOHI = "Release year LO-HI",
-// }
-
+const sortTypeDisplayMapping: { [key in SortType]: string } = {
+  DurationHILO: "Duration: High to Low",
+  DurationLOHI: "Duration: Low to High",
+  RatingHILO: "Rating: High to Low",
+  RatingLOHI: "Rating: Low to High",
+  TitleAZ: "Title: A to Z",
+  TitleZA: "Title: Z to A",
+  YearHILO: "Year: New to Old",
+  YearLOHI: "Year: Old to New",
+};
 interface SortMenuProps {
-  onSort: (sortType: SortType) => void;
+  onSort: (sortType: SortType | null) => void;
 }
 
 const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
@@ -26,24 +27,40 @@ const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
     setIsOpen(false);
   };
 
+  const resetSort = () => {
+    onSort(null);
+    setSelectedSort(null);
+    setIsOpen(false);
+  };
+
   return (
-    <div className="sortMenuContainer">
-      <button className="sortButton" onClick={() => setIsOpen(!isOpen)}>
-        {selectedSort || "Sort by"}
-        <span className={`arrow ${isOpen ? "down" : ""}`}></span>
+    <div className="dropdown-wrapper">
+      <button className="button" onClick={() => setIsOpen(!isOpen)}>
+        <div className="text-wrapper">
+          {selectedSort ? sortTypeDisplayMapping[selectedSort] : "Sort By"}
+        </div>
+        <ArrowIcon
+          className={`vuesax-linear-arrow ${isOpen ? "rotated" : ""}`}
+        />
       </button>
-      <div className={`menuItems ${isOpen ? "open" : ""}`}>
-        {Object.values(SortType).map((sortType) => (
-          <button
-            key={sortType}
-            className="menuItem"
-            onClick={() => handleSort(sortType)}
-          >
-            {sortType}
+      {isOpen && (
+        <div className="dropdown-menu-sorting">
+          <button className="dropdown-item reset-text" onClick={resetSort}>
+            Reset sorting
           </button>
-        ))}
-      </div>
+          {Object.values(SortType).map((sortType) => (
+            <button
+              key={sortType}
+              className="dropdown-item"
+              onClick={() => handleSort(sortType)}
+            >
+              {sortTypeDisplayMapping[sortType]}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
+
 export default SortMenu;

@@ -8,11 +8,11 @@ import "./HomePage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
-import SortMenu from "../../components/sortMenu/SortMenu";
+// import SortMenu from "../../components/sortMenu/SortMenu";
 import FilterMenu from "../../components/filterMenu/FilterMenu";
 
 import headerImage from "./img.png";
-import SortTest from "../../components/sortTest/SortTest";
+import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { SortType } from "../../generated/graphql";
@@ -187,6 +187,8 @@ const HomePage: React.FC = () => {
   };
 
   const applySort = (movieList: Movie[], sortType: SortType): Movie[] => {
+    if (sortType === null) return originalMovies as Movie[];
+
     return [...movieList].sort((a: Movie, b: Movie): number => {
       switch (sortType) {
         case SortType.TitleAz:
@@ -285,8 +287,8 @@ const HomePage: React.FC = () => {
               <FilterMenu movies={originalMovies} onFilter={handleFilter} />
             )}
           </div> */}
-          <div className="sortTestContainer">
-            <SortTest></SortTest>
+          <div className="sortMenuContainer">
+            <SortMenu onSort={handleSort}></SortMenu>
           </div>
 
           <div className="gridContainer">
@@ -303,9 +305,6 @@ const HomePage: React.FC = () => {
             <NewsLetterBox></NewsLetterBox>
             <PageFooter></PageFooter>
           </div>
-          {/* <div className="sortMenuContainer">
-            <SortMenu onSort={handleSort} />
-          </div> */}
         </div>
       </div>
     </div>
