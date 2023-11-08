@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
         ? inputPassword !== inputConfirmPassword
           ? "Passwords do not match"
           : ""
-        : "Confirming password is required",
+        : "Confirm Password is required",
     };
 
     setValidationErrors(errors);
