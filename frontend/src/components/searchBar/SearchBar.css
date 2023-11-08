@@ -21,6 +21,10 @@
   color: white;
 }
 
+.SearchbarContainer .MuiOutlinedInput-root .MuiOutlinedInput-input {
+  color: black !important;
+}
+
 @media (max-width: 768px) {
   .SearchbarContainer {
     width: 20%;

@@ -13,7 +13,12 @@ interface FilterSideBarProps {
 }
 
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
-  console.log("movies", movies);
+  const [contentVisible, setContentVisible] = useState(false);
+
+  const onSidebarTransitionEnd = () => {
+    // Only show content if the sidebar is open
+    setContentVisible(open);
+  };
 
   const uniqueGenres = Array.from(
     new Set(movies.flatMap((movie: Movie) => movie.genres))
@@ -95,7 +100,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     left: 0,
     backgroundColor: "#FFF",
     overflowX: "hidden" as "hidden",
-    transition: "0.5s",
+    transition: "0.4s",
     padding: open ? "10px 20px" : "10px 0",
     flexDirection: "column" as "column",
     display: "flex",
@@ -103,92 +108,96 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   return (
-    <div style={sidebarStyle}>
-      <h2>Filter movies:</h2>
-      <div>
-        <p>Release year</p>
-        <Slider
-          value={[
-            filterSignals.value.releaseYearRange.min,
-            filterSignals.value.releaseYearRange.max,
-          ]}
-          onChange={handleYearChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          min={1900}
-          max={2023}
-        />
-      </div>
-      <div>
-        <p>Runtime (minutes)</p>
-        <Slider
-          value={[
-            filterSignals.value.runtimeMinutesRange.min,
-            filterSignals.value.runtimeMinutesRange.max,
-          ]}
-          onChange={handleRuntimeChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          min={0}
-          max={300}
-        />
-      </div>
-      <div>
-        <p>Average rating</p>
-        <Slider
-          value={[
-            filterSignals.value.averageRatingRange.min,
-            filterSignals.value.averageRatingRange.max,
-          ]}
-          onChange={handleRatingChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          min={0}
-          max={10}
-        />
-      </div>
-      <div>
-        <p>Total Votes</p>
-        <Slider
-          value={[
-            filterSignals.value.totalVotesRange.min,
-            filterSignals.value.totalVotesRange.max,
-          ]}
-          onChange={handleTotalVotesChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          min={0}
-          max={1000000}
-        />
-      </div>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={filterSignals.value.isAdult}
-              onChange={handleIsAdultChange}
-              name="adultCheckbox"
+    <div style={sidebarStyle} onTransitionEnd={onSidebarTransitionEnd}>
+      {contentVisible && (
+        <>
+          <h2>Filter movies:</h2>
+          <div>
+            <p>Release year</p>
+            <Slider
+              value={[
+                filterSignals.value.releaseYearRange.min,
+                filterSignals.value.releaseYearRange.max,
+              ]}
+              onChange={handleYearChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={1900}
+              max={2023}
             />
-          }
-          label="Age-limit 18+"
-        />
-      </FormGroup>
-      <h3>Filter by genres</h3>
-      <FormGroup>
-        {uniqueGenres.map((genre) => (
-          <FormControlLabel
-            key={genre}
-            control={
-              <Checkbox
-                checked={filterSignals.value.genres.includes(genre)}
-                onChange={() => handleGenreChange(genre)}
-                name={genre}
+          </div>
+          <div>
+            <p>Runtime (minutes)</p>
+            <Slider
+              value={[
+                filterSignals.value.runtimeMinutesRange.min,
+                filterSignals.value.runtimeMinutesRange.max,
+              ]}
+              onChange={handleRuntimeChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={0}
+              max={300}
+            />
+          </div>
+          <div>
+            <p>Average rating</p>
+            <Slider
+              value={[
+                filterSignals.value.averageRatingRange.min,
+                filterSignals.value.averageRatingRange.max,
+              ]}
+              onChange={handleRatingChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={0}
+              max={10}
+            />
+          </div>
+          <div>
+            <p>Total Votes</p>
+            <Slider
+              value={[
+                filterSignals.value.totalVotesRange.min,
+                filterSignals.value.totalVotesRange.max,
+              ]}
+              onChange={handleTotalVotesChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={0}
+              max={1000000}
+            />
+          </div>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filterSignals.value.isAdult}
+                  onChange={handleIsAdultChange}
+                  name="adultCheckbox"
+                />
+              }
+              label="Age-limit 18+"
+            />
+          </FormGroup>
+          <h3>Filter by genres</h3>
+          <FormGroup>
+            {uniqueGenres.map((genre) => (
+              <FormControlLabel
+                key={genre}
+                control={
+                  <Checkbox
+                    checked={filterSignals.value.genres.includes(genre)}
+                    onChange={() => handleGenreChange(genre)}
+                    name={genre}
+                  />
+                }
+                label={genre}
               />
-            }
-            label={genre}
-          />
-        ))}
-      </FormGroup>
+            ))}
+          </FormGroup>
+        </>
+      )}
     </div>
   );
 };
