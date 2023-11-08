@@ -18,7 +18,7 @@
     "@graphql-tools/load": "^8.0.0",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/merge": "^9.0.0",
-    "@prisma/client": "^5.4.2",
+    "@prisma/client": "^5.5.2",
     "axios": "^1.5.1",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6"

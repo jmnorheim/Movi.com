@@ -190,6 +190,7 @@ export type QueryMoviesArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   searchBy?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<SortType>;
 };
 
 
@@ -212,6 +213,17 @@ export type RatingRange = {
   max?: InputMaybe<Scalars['Float']['input']>;
   min?: InputMaybe<Scalars['Float']['input']>;
 };
+
+export enum SortType {
+  DurationHilo = 'DurationHILO',
+  DurationLohi = 'DurationLOHI',
+  RatingHilo = 'RatingHILO',
+  RatingLohi = 'RatingLOHI',
+  TitleAz = 'TitleAZ',
+  TitleZa = 'TitleZA',
+  YearHilo = 'YearHILO',
+  YearLohi = 'YearLOHI'
+}
 
 export type User = {
   __typename?: 'User';

@@ -1,16 +1,16 @@
 import React, { useState, FC } from "react";
 import "./SortMenu.css";
 
-export enum SortType {
-  TitleAZ = "Title A-Z",
-  TitleZA = "Title Z-A",
-  RatingHILO = "Rating HI-LO",
-  RatingLOHI = "Rating LO-HI",
-  DurationHILO = "Duration HI-LO",
-  DurationLOHI = "Duration LO-HI",
-  YearHILO = "Release year HI-LO",
-  YearLOHI = "Release year LO-HI",
-}
+// export enum SortType {
+//   TitleAZ = "Title A-Z",
+//   TitleZA = "Title Z-A",
+//   RatingHILO = "Rating HI-LO",
+//   RatingLOHI = "Rating LO-HI",
+//   DurationHILO = "Duration HI-LO",
+//   DurationLOHI = "Duration LO-HI",
+//   YearHILO = "Release year HI-LO",
+//   YearLOHI = "Release year LO-HI",
+// }
 
 interface SortMenuProps {
   onSort: (sortType: SortType) => void;
