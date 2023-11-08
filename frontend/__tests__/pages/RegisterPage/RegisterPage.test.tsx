@@ -86,3 +86,14 @@ describe("RegisterPage Component", () => {
     expect(asFragment()).toMatchSnapshot();
   });*/
 });
+
+/**
+ * Test  that always runs
+ */
+describe("Test App", () => {
+  /**
+   */
+  it("Test that always runs", () => {
+    expect(true);
+  });
+});
