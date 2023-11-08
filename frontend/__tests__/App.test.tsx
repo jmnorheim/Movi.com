@@ -51,3 +51,14 @@ describe("Test Routing", () => {
     expect(screen.getByText("404 Not found")).toBeDefined();
   });
 });
+
+/**
+ * Test  that always runs
+ */
+describe("Test App", () => {
+  /**
+   */
+  it("Test that always runs", () => {
+    expect(true);
+  });
+});

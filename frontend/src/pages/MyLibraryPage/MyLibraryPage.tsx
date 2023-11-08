@@ -16,7 +16,8 @@ import "./MyLibraryPage.css";
 
 import { DocumentIcon } from "../../assets/icons/DocumentIcon";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import { useNavbarColor } from "../../services/utilities/NavbarColorContext";
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
 
 /**
  * Render the MyLibaryPage component.
@@ -27,20 +28,10 @@ const MyLibraryPage: React.FC = () => {
   const [nameOfLibrary, setNameOfLibrary] = useState("");
   const [libraries, setLibraries] = useState<Library[] | null>(null);
   const { email } = useAuth();
-  const { setIsBlack } = useNavbarColor();
 
-  useEffect(() => {
-    setIsBlack(true);
-
-    // Optional: Synchronize with localStorage if needed
-    localStorage.setItem("navbarIsBlack", "true");
-
-    // When component unmounts, you might want to reset the color
-    return () => {
-      setIsBlack(false);
-      localStorage.setItem("navbarIsBlack", "false");
-    };
-  }, [setIsBlack]);
+  effect(() => {
+    navbarColor.value = "black";
+  });
 
   const getUserLibraries = () => {
     const libraries: Library[] = [];

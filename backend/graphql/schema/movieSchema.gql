@@ -4,8 +4,20 @@ type Query {
     offset: Int
     searchBy: String
     filter: MovieFilter
+    sortBy: SortType
   ): [Movie!]!
   movie(imdbID: ID!): Movie!
+}
+
+enum SortType {
+  TitleAZ
+  TitleZA
+  RatingHILO
+  RatingLOHI
+  DurationHILO
+  DurationLOHI
+  YearHILO
+  YearLOHI
 }
 
 input MovieFilter {

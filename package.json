@@ -4,7 +4,8 @@
   "description": "The outer commands for the project",
   "main": "index.js",
   "scripts": {
-    "setup": "cd frontend && npm install",
+    "setup": "cd frontend && npm install && cd ../backend && npm install",
+    "server": "cd backend && npm start",
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run tsc && vite build",
     "test": "cd frontend && npm run test",
@@ -15,5 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "react-router-dom": "^6.16.0"
+  },
+  "devDependencies": {
+    "cypress": "^13.4.0"
   }
 }

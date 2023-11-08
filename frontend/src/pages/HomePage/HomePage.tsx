@@ -8,14 +8,37 @@ import "./HomePage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 
 import SearchBar from "../../components/searchBar/SearchBar";
-import SortMenu, { SortType } from "../../components/sortMenu/SortMenu";
+// import SortMenu from "../../components/sortMenu/SortMenu";
 import FilterMenu from "../../components/filterMenu/FilterMenu";
 
 import headerImage from "./img.png";
-import SortTest from "../../components/sortTest/SortTest";
+import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
+import { SortType } from "../../generated/graphql";
+import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
+
+import { Signal, effect, signal } from "@preact/signals-react";
+import { navbarColor } from "../../App";
+
+interface FilterSettings {
+  releaseYearRange: { max: number; min: number };
+  runtimeMinutesRange: { max: number; min: number };
+  averageRatingRange: { max: number; min: number };
+  totalVotesRange: { max: number; min: number };
+  genres: string[];
+  isAdult: boolean;
+}
+
+//Signals that contain the selected filters from the FilterSideBar-component
+export const filterSignals = signal<FilterSettings>({
+  releaseYearRange: { max: 2023, min: 1900 },
+  runtimeMinutesRange: { max: 300, min: 0 },
+  averageRatingRange: { max: 10, min: 0 },
+  totalVotesRange: { max: 1000000, min: 0 },
+  genres: [],
+  isAdult: false,
+});
 
 /**
  * Render the HomePage component.
@@ -31,6 +54,8 @@ const HomePage: React.FC = () => {
     genres?: string[];
   }>({ isAdult: false, genres: [] });
 
+  console.log("FilterSignals =", filterSignals);
+
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
     queryFn: movieAPI,
@@ -38,12 +63,12 @@ const HomePage: React.FC = () => {
 
   const { email } = useAuth();
 
-  // =======================================================================================================================
+  // Set color of text in Navbar to white
+  effect(() => {
+    navbarColor.value = "white";
+  });
 
-  useEffect(() => {
-    localStorage.setItem("navbarIsBlack", "false");
-    console.log("Satt den!");
-  }, []);
+  // =======================================================================================================================
 
   useEffect(() => {
     if (data && data instanceof Array) {
@@ -178,23 +203,25 @@ const HomePage: React.FC = () => {
   };
 
   const applySort = (movieList: Movie[], sortType: SortType): Movie[] => {
+    if (sortType === null) return originalMovies as Movie[];
+
     return [...movieList].sort((a: Movie, b: Movie): number => {
       switch (sortType) {
-        case SortType.TitleAZ:
+        case SortType.TitleAz:
           return a.primaryTitle.localeCompare(b.primaryTitle);
-        case SortType.TitleZA:
+        case SortType.TitleZa:
           return b.primaryTitle.localeCompare(a.primaryTitle);
-        case SortType.RatingHILO:
+        case SortType.RatingHilo:
           return b.averageRating - a.averageRating;
-        case SortType.RatingLOHI:
+        case SortType.RatingLohi:
           return a.averageRating - b.averageRating;
-        case SortType.DurationHILO:
+        case SortType.DurationHilo:
           return b.runtimeMinutes - a.runtimeMinutes;
-        case SortType.DurationLOHI:
+        case SortType.DurationLohi:
           return a.runtimeMinutes - b.runtimeMinutes;
-        case SortType.YearHILO:
+        case SortType.YearHilo:
           return b.startYear - a.startYear;
-        case SortType.YearLOHI:
+        case SortType.YearLohi:
           return a.startYear - b.startYear;
         default:
           return 0;
@@ -260,12 +287,16 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homePageContainer">
+      <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
-          <HomePageHeader
-            movies={originalMovies}
-            onFilter={handleFilter}
-          ></HomePageHeader>
+          {originalMovies && (
+            <HomePageHeader
+              movies={originalMovies}
+              onFilter={handleFilter}
+              onSearch={applySearch}
+            ></HomePageHeader>
+          )}
         </div>
 
         <div className="contentContainer">
@@ -275,8 +306,8 @@ const HomePage: React.FC = () => {
               <FilterMenu movies={originalMovies} onFilter={handleFilter} />
             )}
           </div> */}
-          <div className="sortTestContainer">
-            <SortTest></SortTest>
+          <div className="sortMenuContainer">
+            <SortMenu onSort={handleSort}></SortMenu>
           </div>
 
           <div className="gridContainer">
@@ -293,9 +324,6 @@ const HomePage: React.FC = () => {
             <NewsLetterBox></NewsLetterBox>
             <PageFooter></PageFooter>
           </div>
-          {/* <div className="sortMenuContainer">
-            <SortMenu onSort={handleSort} />
-          </div> */}
         </div>
       </div>
     </div>

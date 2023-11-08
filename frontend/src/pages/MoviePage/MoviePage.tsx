@@ -14,7 +14,9 @@ import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsletterBox";
+
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
 
 /**
  * Render the MoviePage component.
@@ -24,6 +26,10 @@ const MoviePage: React.FC = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const { isLoggedIn, email } = useAuth();
+
+  effect(() => {
+    navbarColor.value = "black";
+  });
 
   const navigate = useNavigate();
 

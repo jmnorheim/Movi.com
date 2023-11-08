@@ -14,20 +14,72 @@ import { useAuth } from "../../services/auth/AuthContext";
 
 import background_image from "../../assets/images/moviepage_background.png";
 import { createUser } from "../../services/createUser";
-import { hashPassword } from "../../services/utilities/hashFunction";
+
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
+
+// Regex
+const emailRegex = /\S+@\S+\.\S+/;
+const containsNumberRegex = /\d/;
+const containsSpecialCharRegex = /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]+/;
 
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
  */
 const RegisterPage: React.FC = () => {
+  // State for user inputs
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [inputConfirmPassword, setInputConfirmPassword] = useState("");
+
+  // State for any error messages
   const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  effect(() => {
+    navbarColor.value = "white";
+  });
+
+  /**
+   * Validates the user input fields for registration.
+   */
+  const validateFields = () => {
+    const errors = {
+      username: inputUsername ? "" : "Username is required",
+      email: inputEmail
+        ? emailRegex.test(inputEmail)
+          ? ""
+          : "Please enter a valid email"
+        : "Email is required",
+      password: inputPassword
+        ? inputPassword.length < 8
+          ? "Password must be at least 8 characters"
+          : !containsNumberRegex.test(inputPassword)
+          ? "Password must include at least one number"
+          : !containsSpecialCharRegex.test(inputPassword)
+          ? "Password must include at least one special character"
+          : ""
+        : "Password is required",
+      confirmPassword: inputConfirmPassword
+        ? inputPassword !== inputConfirmPassword
+          ? "Passwords do not match"
+          : ""
+        : "Confirm Password is required",
+    };
+
+    setValidationErrors(errors);
+    return Object.values(errors).some((error) => error !== "");
+  };
 
   /**
    * Handles the registration process.
@@ -39,24 +91,8 @@ const RegisterPage: React.FC = () => {
     // Clear the error message
     setError("");
 
-    /**
-     * Check that all inputfields are filled.
-     */
-    if (
-      !inputUsername ||
-      !inputEmail ||
-      !inputPassword ||
-      !inputConfirmPassword
-    ) {
-      setError("All fields are required.");
-      return;
-    }
-
-    /**
-     * Check that inputPassword is equal to inputConfirmPassword
-     */
-    if (inputPassword !== inputConfirmPassword) {
-      setError("Passwords do not match!");
+    //  Check if the input fields are valid
+    if (validateFields()) {
       return;
     }
 
@@ -114,6 +150,7 @@ const RegisterPage: React.FC = () => {
         >
           {/* Username textfield */}
           <TextField
+            error={!!validationErrors.username}
             variant="outlined"
             margin="normal"
             required
@@ -123,7 +160,15 @@ const RegisterPage: React.FC = () => {
             name="username"
             autoComplete="username"
             autoFocus
-            onChange={(e) => setInputUsername(e.target.value)}
+            helperText={validationErrors.username}
+            onChange={(e) => {
+              const newUsername = e.target.value;
+              setInputUsername(newUsername);
+              setValidationErrors((prev) => ({
+                ...prev,
+                username: "",
+              }));
+            }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
             }}
@@ -165,6 +210,7 @@ const RegisterPage: React.FC = () => {
 
           {/* Email input textfield */}
           <TextField
+            error={!!validationErrors.email}
             variant="outlined"
             margin="normal"
             required
@@ -173,7 +219,19 @@ const RegisterPage: React.FC = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
-            onChange={(e) => setInputEmail(e.target.value)}
+            helperText={validationErrors.email}
+            onChange={(e) => {
+              const newEmail = e.target.value;
+              setInputEmail(newEmail);
+              setValidationErrors((prev) => ({
+                ...prev,
+                email: newEmail
+                  ? !emailRegex.test(newEmail)
+                    ? "Please enter a valid email"
+                    : ""
+                  : "",
+              }));
+            }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
             }}
@@ -215,6 +273,7 @@ const RegisterPage: React.FC = () => {
 
           {/* Password input textfield */}
           <TextField
+            error={!!validationErrors.password}
             variant="outlined"
             margin="normal"
             required
@@ -224,7 +283,23 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="new-password"
-            onChange={(e) => setInputPassword(e.target.value)}
+            helperText={validationErrors.password}
+            onChange={(e) => {
+              const newPassword = e.target.value;
+              setInputPassword(newPassword);
+              setValidationErrors((prev) => ({
+                ...prev,
+                password: newPassword
+                  ? newPassword.length >= 8
+                    ? containsNumberRegex.test(newPassword)
+                      ? containsSpecialCharRegex.test(newPassword)
+                        ? ""
+                        : "Password must include at least one special character"
+                      : "Password must include at least one number"
+                    : "Password must be at least 8 characters"
+                  : "",
+              }));
+            }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
             }}
@@ -263,9 +338,9 @@ const RegisterPage: React.FC = () => {
               },
             }}
           />
-
           {/* Confirm password input textfield */}
           <TextField
+            error={!!validationErrors.confirmPassword}
             variant="outlined"
             margin="normal"
             required
@@ -275,7 +350,21 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="confirm-password"
             autoComplete="new-password"
-            onChange={(e) => setInputConfirmPassword(e.target.value)}
+            helperText={validationErrors.confirmPassword}
+            onChange={(e) => {
+              const newConfirmPassword = e.target.value;
+              setInputConfirmPassword(newConfirmPassword);
+
+              setValidationErrors((prev) => ({
+                ...prev,
+                confirmPassword:
+                  newConfirmPassword === ""
+                    ? ""
+                    : newConfirmPassword !== inputPassword
+                    ? "Passwords do not match"
+                    : "",
+              }));
+            }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
             }}
@@ -345,10 +434,12 @@ const RegisterPage: React.FC = () => {
 
       {/* Alert for error messages */}
       {error && (
-        <Alert severity="error" style={{ marginTop: "20px" }}>
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
+        <div className="error-register">
+          <Alert severity="error" style={{ marginTop: "20px" }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        </div>
       )}
     </Container>
   );

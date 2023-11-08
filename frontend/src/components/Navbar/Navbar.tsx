@@ -8,26 +8,21 @@ import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import "../../../fonts.css";
 import logo from "../../assets/icons/logo_white.svg";
-import { useNavbarColor } from "../../services/utilities/NavbarColorContext";
+import { Signal } from "@preact/signals-react";
 
 /**
  * Render navbar.
  *
  * @returns {JSX.Element}
  */
-const NavBar: React.FC = (): JSX.Element => {
+
+interface Props {
+  textColor: Signal<string>;
+}
+
+const NavBar: React.FC<Props> = ({ textColor }) => {
   const { isLoggedIn } = useAuth();
-  const { isBlack } = useNavbarColor();
-  const textClass = isBlack ? "text-black" : "";
-
-  // const [isBlack, setIsBlack] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   const navbarColor = localStorage.getItem("navbarIsBlack") === "true";
-  //   setIsBlack(navbarColor);
-  //   console.log("navbarColor", navbarColor);
-  //   console.log("Halla");
-  // }, []);
+  const textClass = textColor.value === "black" ? "text-black" : "";
 
   return (
     <>
