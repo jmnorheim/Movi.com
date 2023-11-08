@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 64px;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .login-box {
@@ -13,12 +15,13 @@
 }
 
 .login-title {
-  size: 30px;
+  size: 16px;
   color: white;
 }
 
 .login-form {
   width: 100%;
+  margin-top: 10px;
 }
 
 .login-btn {
@@ -33,16 +36,19 @@
 }
 
 .login-link-box {
-  margin-top: 16px;
+  margin-top: 30px;
   text-align: center;
 }
 
 .login-link-text {
-  cursor: pointer;
   color: white;
 }
 
 .register-link-text {
-  cursor: pointer;
   color: white;
+}
+
+.login-error {
+  width: 100%;
+  text-align: center;
 }

@@ -19,23 +19,51 @@ import { effect } from "@preact/signals-react";
 import background_image from "../../assets/images/moviepage_background.png";
 import "./LoginPage.css";
 
+// Regex used to check email format
+const emailRegex = /\S+@\S+\.\S+/;
+
 /**
  * Render the LoginPage component.
  * @returns {React.FC}
  */
 const LoginPage: React.FC = () => {
+  // State for user inputs
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  // State for any error messages
+  const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    email: "",
+    password: "",
+  });
 
   effect(() => {
     navbarColor.value = "white";
   });
 
   /**
+   * Validates the user input fields for login.
+   */
+  const validateFields = () => {
+    const errors = {
+      email: inputEmail
+        ? emailRegex.test(inputEmail)
+          ? ""
+          : "Please enter a valid email"
+        : "Email is required",
+      password: inputPassword ? "" : "Password is required",
+    };
+
+    setValidationErrors(errors);
+    return Object.values(errors).some((error) => error !== "");
+  };
+
+  /**
    * Handles the login logic.
+   * @param {React.FormEvent} event
    */
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -43,11 +71,8 @@ const LoginPage: React.FC = () => {
     // Clear the error message
     setError("");
 
-    /**
-     * Check that all inputfields are filled.
-     */
-    if (!inputEmail || !inputPassword) {
-      setError("Email and password are required");
+    //  Check if the input fields are valid
+    if (validateFields()) {
       return;
     }
 
@@ -102,6 +127,7 @@ const LoginPage: React.FC = () => {
         >
           {/* Email input textfield */}
           <TextField
+            error={!!validationErrors.email}
             variant="outlined"
             margin="normal"
             required
@@ -111,7 +137,19 @@ const LoginPage: React.FC = () => {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={(e) => setInputEmail(e.target.value)}
+            helperText={validationErrors.email}
+            onChange={(e) => {
+              const newEmail = e.target.value;
+              setInputEmail(newEmail);
+              setValidationErrors((prev) => ({
+                ...prev,
+                email: newEmail
+                  ? !emailRegex.test(newEmail)
+                    ? "Please enter a valid email"
+                    : ""
+                  : "",
+              }));
+            }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
             }}
@@ -153,6 +191,7 @@ const LoginPage: React.FC = () => {
 
           {/* Password input textfield */}
           <TextField
+            error={!!validationErrors.password}
             variant="outlined"
             margin="normal"
             required
@@ -162,7 +201,15 @@ const LoginPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={(e) => setInputPassword(e.target.value)}
+            helperText={validationErrors.password}
+            onChange={(e) => {
+              const newPassword = e.target.value;
+              setInputPassword(newPassword);
+              setValidationErrors((prev) => ({
+                ...prev,
+                password: "",
+              }));
+            }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
             }}

@@ -79,6 +79,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUserID("");
   };
 
+  /**
+   * Check the local storage for persisted login state and email.
+   * Updates the local state.
+   */
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    setEmail(localStorage.getItem("email") || "");
+    setUserID(sessionStorage.getItem("userID") || "");
+  }, []);
+
   return (
     <AuthContext.Provider value={{ isLoggedIn, email, login, logout, userID }}>
       {children}
