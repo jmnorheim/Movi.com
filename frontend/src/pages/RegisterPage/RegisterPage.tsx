@@ -434,10 +434,12 @@ const RegisterPage: React.FC = () => {
 
       {/* Alert for error messages */}
       {error && (
-        <Alert severity="error" style={{ marginTop: "20px" }}>
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
+        <div className="error-register">
+          <Alert severity="error" style={{ marginTop: "20px" }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        </div>
       )}
     </Container>
   );

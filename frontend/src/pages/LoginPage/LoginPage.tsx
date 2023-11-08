@@ -278,10 +278,12 @@ const LoginPage: React.FC = () => {
 
       {/* Alert for error messages */}
       {error && (
-        <Alert severity="error" style={{ marginTop: "20px" }}>
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
+        <div className="error-login">
+          <Alert severity="error" style={{ marginTop: "20px" }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        </div>
       )}
     </Container>
   );

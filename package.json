@@ -15,5 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "react-router-dom": "^6.16.0"
+  },
+  "devDependencies": {
+    "cypress": "^13.4.0"
   }
 }
