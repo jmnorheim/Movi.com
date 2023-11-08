@@ -13,5 +13,11 @@
     "lint:fix": "cd frontend && npx prettier -w . && npm run lint:fix"
   },
   "author": "Group 29",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "react-router-dom": "^6.16.0"
+  },
+  "devDependencies": {
+    "cypress": "^13.4.0"
+  }
 }

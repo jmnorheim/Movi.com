@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
         login(inputEmail, userID);
         navigate("/profile");
       } else {
-        setError("Invalid email or password");
+        setError("Invalid email or password.");
       }
     } catch (error) {
       setError("User does not exist.");
@@ -279,10 +279,12 @@ const LoginPage: React.FC = () => {
 
       {/* Alert for error messages */}
       {error && (
-        <Alert severity="error" style={{ marginTop: "20px" }}>
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
+        <div className="error-login">
+          <Alert severity="error" style={{ marginTop: "20px" }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        </div>
       )}
     </Container>
   );

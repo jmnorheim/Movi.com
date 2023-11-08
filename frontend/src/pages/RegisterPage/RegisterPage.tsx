@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
         ? inputPassword !== inputConfirmPassword
           ? "Passwords do not match"
           : ""
-        : "Confirming password is required",
+        : "Confirm Password is required",
     };
 
     setValidationErrors(errors);
@@ -434,10 +434,12 @@ const RegisterPage: React.FC = () => {
 
       {/* Alert for error messages */}
       {error && (
-        <Alert severity="error" style={{ marginTop: "20px" }}>
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
+        <div className="error-register">
+          <Alert severity="error" style={{ marginTop: "20px" }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        </div>
       )}
     </Container>
   );

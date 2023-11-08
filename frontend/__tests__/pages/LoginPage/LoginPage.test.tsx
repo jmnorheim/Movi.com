@@ -1,47 +1,43 @@
-import { render as rtlRender, screen, fireEvent } from "@testing-library/react";
-import { describe, it, vi, beforeEach, expect } from "vitest";
+// Import statements
+import React from "react";
+import {
+  render as rtlRender,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from "@testing-library/react";
+import { describe, it, vi, expect, afterEach, beforeEach } from "vitest";
 import LoginPage from "../../../src/pages/LoginPage/LoginPage";
+import * as hashFunction from "../../../src/services/utilities/hashFunction";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
+import * as getUser from "../../../src/services/getUser";
+import { User } from "../../../src/interfaces";
+import RegisterPage from "../../../src/pages/RegisterPage/RegisterPage";
+import { createUser } from "../../../src/services/createUser";
 
 /**
  * @vitest-environment jsdom
  */
 
+/** Overrides default window alert with mock function. */
 window.alert = vi.fn();
 
 /**
- * A mock of the local storage.
+ * Mocks `getUser` service with a default implementation.
  */
-const localStorageMock = (() => {
-  let store = {};
-
-  return {
-    getItem(key) {
-      return store[key] || null;
-    },
-    setItem(key, value) {
-      store[key] = value.toString();
-    },
-    clear() {
-      store = {};
-    },
-  };
-})();
-
-global.localStorage = localStorageMock;
+vi.mock("../../../src/services/getUser", () => ({
+  getUserByEmail: vi.fn(),
+}));
 
 /**
- * Mock the navigation.
+ * Mocks `verifyPassword` for hashfunction.
  */
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    useNavigate: () => vi.fn(),
-  };
-});
+vi.mock("../../../src/services/utilities/hashFunction", () => ({
+  verifyPassword: vi.fn(() => Promise.resolve(true)),
+}));
 
 /** QueryClient instance */
 const queryClient = new QueryClient();
@@ -64,39 +60,125 @@ function render(ui: React.ReactElement) {
  * Tests LoginPage.
  */
 describe("LoginPage Component", () => {
-  // Set up test data for users
-  beforeEach(() => {
-    localStorage.setItem(
-      "users",
-      JSON.stringify([{ email: "test@example.com", password: "test123" }])
-    );
-  });
+  // Cleans up before and after each test.
+  afterEach(cleanup);
+  beforeEach(cleanup);
 
-  it("Shows an error if email or password are incorrect", async () => {
+  /**
+   * Test for successful login.
+   */
+  it("allows the user to log in successfully", async () => {
+    // Set up mock user and mock functions.
+    const mockUser = {
+      userID: "123",
+      username: "test",
+      email: "test@example.com",
+      password: "password123",
+      favorites: [],
+      library: [],
+    };
+
+    // Mock the getUserByEmail and verifyPassword function using spyOn.
+    vi.spyOn(getUser, "getUserByEmail").mockResolvedValue(mockUser);
+    vi.spyOn(hashFunction, "verifyPassword").mockResolvedValue(true);
+
     render(<LoginPage />);
+
+    // Fill in the form fields.
     fireEvent.change(screen.getByLabelText("Email Address *"), {
       target: { value: "test@example.com" },
     });
     fireEvent.change(screen.getByLabelText("Password *"), {
-      target: { value: "wrongpassword" },
+      target: { value: "password123" },
     });
-    fireEvent.click(screen.getByText("Login"));
-    const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
+
+    // Click the Login button.
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
+
+    // Assert that the login process functions as expected.
+    await waitFor(() => {
+      expect(getUser.getUserByEmail).toHaveBeenCalledWith(mockUser.email);
+      expect(hashFunction.verifyPassword).toHaveBeenCalledWith(
+        mockUser.userID,
+        "password123"
+      );
+    });
   });
 
+  /**
+   * Set error when user does not exist.
+   */
+  it("should set error when user does not exist", async () => {
+    // Mock getUserByEmail to reject when an invalid email is provided.
+    const getUserByEmailMock = vi.fn(() =>
+      Promise.reject(new Error("User does not exist."))
+    );
+    vi.spyOn(getUser, "getUserByEmail").mockImplementation(getUserByEmailMock);
+
+    render(<LoginPage />);
+
+    // Fill in the form fields.
+    fireEvent.change(screen.getByLabelText("Email Address *"), {
+      target: { value: "nonexistent@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Password *"), {
+      target: { value: "somepassword" },
+    });
+
+    // Click the Login button.
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
+
+    // Test error message when user does not exist.
+    await waitFor(() => {
+      expect(screen.getByText("User does not exist.")).toBeDefined();
+    });
+  });
+
+  /**
+   * Tests error message when input fields are empty.
+   */
+  it("Should display an error when the password field is empty", async () => {
+    render(<LoginPage />);
+
+    // Input empty string in the input fields.
+    fireEvent.change(screen.getByLabelText("Email Address *"), {
+      target: { value: "" },
+    });
+    fireEvent.change(screen.getByLabelText("Password *"), {
+      target: { value: "" },
+    });
+
+    // Click the Register button.
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
+
+    // Check for the presence of the error message.
+    expect(screen.getByText("Email is required")).toBeDefined();
+    expect(screen.getByText("Password is required")).toBeDefined();
+  });
+
+  /**
+   * Tests error message when email has invalid format.
+   */
+  it("Shows an error for invalid email format", async () => {
+    render(<LoginPage />);
+
+    // Input an invalid email.
+    fireEvent.change(screen.getByLabelText("Email Address *"), {
+      target: { value: "notAnEmail" },
+    });
+
+    // Click the Register button.
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
+
+    // Check for error message.
+    expect(screen.getByText("Please enter a valid email")).toBeDefined();
+  });
+
+  /**
+   * Snapshot test.
+   */
   /*it("Snapshot test", () => {
     const { asFragment } = render(<LoginPage />);
     expect(asFragment()).toMatchSnapshot();
   });*/
-});
-
-/**
- * Test  that always runs
- */
-describe("Test App", () => {
-  /**
-   */
-  it("Test that always runs", () => {
-    expect(true);
-  });
 });
