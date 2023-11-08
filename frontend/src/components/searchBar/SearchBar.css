@@ -7,17 +7,17 @@
   margin: 0;
 }
 
-.MuiOutlinedInput-root {
+.SearchbarContainer .MuiOutlinedInput-root {
   color: white;
   border-color: white;
   background-color: white;
 }
 
-.MuiOutlinedInput-notchedOutline {
+.SeearchbarContainer .MuiOutlinedInput-notchedOutline {
   border-color: white;
 }
 
-.MuiOutlinedInput-focused div.MuiInputBase-input {
+.SearchbarContainer .MuiOutlinedInput-focused div.MuiInputBase-input {
   color: white;
 }
 

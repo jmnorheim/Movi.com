@@ -8,6 +8,8 @@ import headerImage_enhanced from "../../assets/images/headerImage_enhanced.png";
 import SearchBar from "../searchBar/SearchBar";
 import FilterSideBar from "../filterSideBar/FilterSideBar";
 
+import filtericon from "../../assets/icons/filter-icon.svg";
+
 interface HomePageHeaderProps {
   movies: Movie[] | [];
   onFilter: (filters: CurrentFilter) => void;
@@ -34,10 +36,16 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({
               <SearchBar onSearch={onSearch} />
             </div>
           </div>
-          <button onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}>
-            FilterMenu
-          </button>
-          <FilterSideBar open={isFilterSidebarOpen} />
+          <button
+            className="filterButton"
+            style={{
+              backgroundImage: `url(${filtericon})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+            }}
+            onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
+          />
+          <FilterSideBar open={isFilterSidebarOpen} movies={movies} />
           {/* {movies?.length && <FilterMenu movies={movies} onFilter={onFilter} />} */}
         </div>
       </div>

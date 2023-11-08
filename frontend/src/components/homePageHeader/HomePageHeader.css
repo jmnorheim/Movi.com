@@ -111,3 +111,20 @@
   position: relative;
   width: 25.6px;
 }
+
+.filterButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-width: 4px;
+  transition: transform 0.3s;
+}
+
+.filterButton:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}

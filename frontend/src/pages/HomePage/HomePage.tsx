@@ -18,8 +18,27 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
-import { effect } from "@preact/signals-react";
+import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
+
+interface FilterSettings {
+  releaseYearRange: { max: number; min: number };
+  runtimeMinutesRange: { max: number; min: number };
+  averageRatingRange: { max: number; min: number };
+  totalVotesRange: { max: number; min: number };
+  genres: string[];
+  isAdult: boolean;
+}
+
+//Signals that contain the selected filters from the FilterSideBar-component
+export const filterSignals = signal<FilterSettings>({
+  releaseYearRange: { max: 2023, min: 1900 },
+  runtimeMinutesRange: { max: 300, min: 0 },
+  averageRatingRange: { max: 10, min: 0 },
+  totalVotesRange: { max: 1000000, min: 0 },
+  genres: [],
+  isAdult: false,
+});
 
 /**
  * Render the HomePage component.
@@ -34,6 +53,8 @@ const HomePage: React.FC = () => {
     isAdult?: boolean;
     genres?: string[];
   }>({ isAdult: false, genres: [] });
+
+  console.log("FilterSignals =", filterSignals);
 
   const { data, isLoading } = useQuery({
     queryKey: ["movies"],
@@ -266,13 +287,16 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homePageContainer">
+      <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
-          <HomePageHeader
-            movies={originalMovies}
-            onFilter={handleFilter}
-            onSearch={applySearch}
-          ></HomePageHeader>
+          {originalMovies && (
+            <HomePageHeader
+              movies={originalMovies}
+              onFilter={handleFilter}
+              onSearch={applySearch}
+            ></HomePageHeader>
+          )}
         </div>
 
         <div className="contentContainer">
