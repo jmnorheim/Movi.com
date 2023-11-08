@@ -1,5 +1,5 @@
 import React from "react";
-import "./NewsletterBox.css";
+import "./NewsLetterBox.css";
 
 const NewsLetterBox = () => {
   return (
