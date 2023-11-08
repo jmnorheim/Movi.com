@@ -1,7 +1,7 @@
 import { graphql } from "../generated";
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import { MovieContent } from "../interfaces";
+import { MovieContent, SERVER_URL } from "../interfaces";
 import { MovieFilter, SortType } from "../generated/graphql";
 
 const GET_MOVIE = graphql(`
@@ -51,7 +51,7 @@ const GET_MOVIES = graphql(`
 `);
 
 const getMovie = async (imdbId: string): Promise<MovieContent> => {
-  const { movie } = await request("http://localhost:4000/", GET_MOVIE, {
+  const { movie } = await request(SERVER_URL, GET_MOVIE, {
     imdbId: imdbId,
   });
 
@@ -72,11 +72,7 @@ const getMovies = async (
     filter: filter ?? {},
     sortBy,
   };
-  const { movies } = await request(
-    "http://localhost:4000/",
-    GET_MOVIES,
-    parameters
-  );
+  const { movies } = await request(SERVER_URL, GET_MOVIES, parameters);
 
   return movies as MovieContent[];
 };

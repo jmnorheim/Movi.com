@@ -1,6 +1,6 @@
 import { request } from "graphql-request";
 import { graphql } from "../generated";
-import { User } from "../interfaces";
+import { SERVER_URL, User } from "../interfaces";
 import { hashPassword } from "./utilities/hashFunction";
 
 /**
@@ -29,7 +29,7 @@ export const createUser = async (
   email: string,
   password: string
 ): Promise<User> => {
-  const endpoint = "http://localhost:4000/";
+  const endpoint = SERVER_URL;
   // Hash the password
   const hashedPassword = await hashPassword(password);
 

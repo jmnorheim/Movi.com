@@ -1,6 +1,6 @@
 import request from "graphql-request";
 import { graphql } from "../generated";
-import { Library } from "../interfaces";
+import { Library, SERVER_URL } from "../interfaces";
 import { useQuery } from "@tanstack/react-query";
 
 const USER_LIBRARIES = graphql(`
@@ -13,13 +13,9 @@ const USER_LIBRARIES = graphql(`
 `);
 
 const getUsersLibraries = async (userID: string): Promise<Library[]> => {
-  const { librariesByUserID } = await request(
-    "http://localhost:4000/",
-    USER_LIBRARIES,
-    {
-      userId: userID,
-    }
-  );
+  const { librariesByUserID } = await request(SERVER_URL, USER_LIBRARIES, {
+    userId: userID,
+  });
   return librariesByUserID as Library[];
 };
 

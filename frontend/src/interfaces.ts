@@ -43,3 +43,6 @@ export interface CurrentFilter {
   isAdult?: boolean;
   genres?: string[];
 }
+
+export const SERVER_URL = "http://it2810-29.idi.ntnu.no:4000";
+// http://localhost:4000/

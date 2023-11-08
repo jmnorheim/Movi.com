@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { graphql } from "../generated";
 import request from "graphql-request";
+import { SERVER_URL } from "../interfaces";
 
 const ADD_LIBRARY = graphql(`
   mutation addLibraryToUser($userId: ID!, $libraryName: String!) {
@@ -14,7 +15,7 @@ const addLibrary = async (
   userID: string,
   libraryName: string
 ): Promise<string> => {
-  const { addLibrary } = await request("http://localhost:4000/", ADD_LIBRARY, {
+  const { addLibrary } = await request(SERVER_URL, ADD_LIBRARY, {
     userId: userID,
     libraryName: libraryName,
   });

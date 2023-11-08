@@ -1,6 +1,6 @@
 import { request } from "graphql-request";
 import { graphql } from "../generated";
-import { User } from "../interfaces";
+import { SERVER_URL, User } from "../interfaces";
 import { useQuery } from "@tanstack/react-query";
 
 /**
@@ -51,13 +51,9 @@ const userByID_QUERY = graphql(`
  * @returns {Promise<User>}
  */
 export const getUserByEmail = async (email: string): Promise<User> => {
-  const { userByEmail } = await request(
-    "http://localhost:4000/",
-    UserByEmail_QUERY,
-    {
-      email,
-    }
-  );
+  const { userByEmail } = await request(SERVER_URL, UserByEmail_QUERY, {
+    email,
+  });
   return userByEmail as User;
 };
 
@@ -67,7 +63,7 @@ export const getUserByEmail = async (email: string): Promise<User> => {
  * @returns {Promise<User>}
  */
 export const getUserByID = async (userID: string): Promise<User> => {
-  const { userByID } = await request("http://localhost:4000/", userByID_QUERY, {
+  const { userByID } = await request(SERVER_URL, userByID_QUERY, {
     userID,
   });
   return userByID as User;

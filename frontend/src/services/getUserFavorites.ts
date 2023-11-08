@@ -1,6 +1,7 @@
 import { graphql } from "../generated";
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
+import { SERVER_URL } from "../interfaces";
 
 const USER_FAVORITES = graphql(`
   query GetUserFavorites($userId: ID!) {
@@ -11,7 +12,7 @@ const USER_FAVORITES = graphql(`
 `);
 
 const GetUserFavorites = async (userID: string): Promise<string[]> => {
-  const { userByID } = await request("http://localhost:4000/", USER_FAVORITES, {
+  const { userByID } = await request(SERVER_URL, USER_FAVORITES, {
     userId: userID,
   });
 

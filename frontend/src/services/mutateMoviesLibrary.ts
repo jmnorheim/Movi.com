@@ -1,6 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { graphql } from "../generated";
 import request from "graphql-request";
+import { SERVER_URL } from "../interfaces";
 
 const ADD_MOVIE_TO_LIBRARY = graphql(`
   mutation addMovieToLibrary($libraryId: ID!, $movieId: String!) {
@@ -24,7 +25,7 @@ export const addMovieToLibrary = async (
   movieID: string
 ): Promise<string> => {
   const { addMovieToLibrary } = await request(
-    "http://localhost:4000/",
+    SERVER_URL,
     ADD_MOVIE_TO_LIBRARY,
     {
       libraryId: libraryID,
@@ -41,7 +42,7 @@ export const removeMovieFromLibrary = async (
   movieID: string
 ): Promise<string> => {
   const { removeMovieFromLibrary } = await request(
-    "http://localhost:4000/",
+    SERVER_URL,
     REMOVE_MOVIE_FROM_LIBRARY,
     {
       libraryId: libraryID,
