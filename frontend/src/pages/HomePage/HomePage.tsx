@@ -15,11 +15,12 @@ import headerImage from "./img.png";
 import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import { SortType } from "../../generated/graphql";
+import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
 import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
+import { useMovies } from "../../services/getMovies";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -40,6 +41,10 @@ export const filterSignals = signal<FilterSettings>({
   isAdult: false,
 });
 
+export const currentSearch = signal<string>("");
+
+// export const currentSort = signal<SortType | null>(null);
+
 /**
  * Render the HomePage component.
  * @returns {React.FC}
@@ -47,7 +52,7 @@ export const filterSignals = signal<FilterSettings>({
 const HomePage: React.FC = () => {
   const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
   const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
-
+  // const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
   const [currentFilter, setCurrentFilter] = useState<{
     isAdult?: boolean;
@@ -56,10 +61,19 @@ const HomePage: React.FC = () => {
 
   console.log("FilterSignals =", filterSignals);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["movies"],
-    queryFn: movieAPI,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["movies"],
+  //   queryFn: movieAPI,
+  // });
+
+  const { data, isLoading } = useMovies(
+    0,
+    100,
+    0,
+    currentSearch.value,
+    filterSignals.value as MovieFilter,
+    currentSort as SortType
+  );
 
   const { email } = useAuth();
 
@@ -71,34 +85,11 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
+    console.log("Data =", data);
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
-
-      const usersJSON = localStorage.getItem("users");
-      console.log(usersJSON);
-
-      let users: User[] = [];
-      if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        users = JSON.parse(usersJSON);
-      }
-      const currentUser = users.find((user: User) => user.email === email);
-
-      console.log("Current user =", currentUser);
-
-      let userFavorites: string[] = [];
-      if (currentUser) {
-        userFavorites = currentUser.favorites;
-      }
-
-      // Update movies based on the user's favorites
-      const updatedMovies = data.map((movie) => ({
-        ...movie,
-        favorited: userFavorites.includes(movie.imdbID),
-      }));
-
-      setMovies(updatedMovies);
-      setOriginalMovies(updatedMovies);
+      setMovies(data as Movie[]);
+      setOriginalMovies(data as Movie[]);
       console.log("Data has been set");
       console.log("email =", email);
     }
@@ -106,13 +97,8 @@ const HomePage: React.FC = () => {
 
   // =======================================================================================================================
 
-  useEffect(() => {
-    console.log("Movies =", movies);
-  }, [movies]);
-
-  // =======================================================================================================================
-
   const toggleFavorite = (imdbID: string) => {
+    console.log("Toggling favorite for movie with imdbID =", imdbID);
     if (!email) return;
 
     const usersJSON = localStorage.getItem("users");
@@ -183,6 +169,7 @@ const HomePage: React.FC = () => {
   // Searching===============================================================================================================
 
   const applySearch = (searchTerm: string) => {
+    setCurrentSearch(searchTerm);
     if (originalMovies) {
       const filteredMovies = originalMovies.filter((movie) =>
         movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())

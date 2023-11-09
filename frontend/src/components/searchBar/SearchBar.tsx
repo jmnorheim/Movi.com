@@ -5,16 +5,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import "./SearchBar.css";
 
 import debounce from "lodash/debounce";
+import { currentSearch } from "../../pages/HomePage/HomePage.tsx";
 
-interface Props {
-  onSearch: (value: string) => void;
-}
-
-const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
-  const [searchValue, setSearchValue] = useState("");
+const TypeSearch = () => {
+  const [searchValue, setSearchValue] = useState(
+    currentSearch.value ? currentSearch.value : ""
+  );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnSearch = useCallback(debounce(onSearch, 300), [onSearch]);
+  const debouncedOnSearch = debounce((searchString: string) => {
+    currentSearch.value = searchString; // Set the signal with the debounced value
+  }, 300);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
@@ -24,7 +25,7 @@ const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
 
   const handleClick = (): void => {
     setSearchValue("");
-    onSearch("");
+    currentSearch.value = "";
   };
 
   return (
@@ -34,7 +35,7 @@ const TypeSearch: FunctionComponent<Props> = ({ onSearch }) => {
           value={searchValue}
           variant="outlined"
           onChange={handleChange}
-          placeholder="Search..."
+          placeholder="Search for any movie..."
           sx={{
             "& .MuiOutlinedInput-root": {
               borderWidth: "4px",
