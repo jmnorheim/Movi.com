@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./sortTest.css";
+import "./SortTest.css";
 import { ArrowIcon } from "../../assets/icons/ArrowIcon";
 
 const SortTest = () => {
