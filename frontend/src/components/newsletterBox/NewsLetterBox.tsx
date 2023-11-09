@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./NewsletterBox.css";
+import "./NewsLetterBox.css";
 import {
   Button,
   Dialog,
