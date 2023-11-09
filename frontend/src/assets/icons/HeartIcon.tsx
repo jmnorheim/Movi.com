@@ -5,7 +5,11 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 
 import React from "react";
 
-export const HeartIcon = ({ className }) => {
+interface HeartIconProps {
+  className?: string;
+}
+
+export const HeartIcon = ({ className }: HeartIconProps) => {
   return (
     <svg
       className={`vuesax-linear-heart ${className}`}

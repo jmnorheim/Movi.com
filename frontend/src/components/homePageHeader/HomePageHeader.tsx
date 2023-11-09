@@ -1,10 +1,7 @@
 import React, { FC, useState } from "react";
 import "./HomePageHeader.css";
-import { SearchIcon } from "../../assets/icons/SearchIcon";
-import FilterMenu from "../filterMenu/FilterMenu";
 import { CurrentFilter, Movie } from "../../interfaces";
 import headerImage from "../../assets/images/headerImage.png";
-import headerImage_enhanced from "../../assets/images/headerImage_enhanced.png";
 import SearchBar from "../searchBar/SearchBar";
 import FilterSideBar from "../filterSideBar/FilterSideBar";
 

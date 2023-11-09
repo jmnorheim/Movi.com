@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { FC, useState } from "react";
 import Slider from "@mui/material/Slider";
@@ -24,7 +27,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     new Set(movies.flatMap((movie: Movie) => movie.genres))
   );
 
-  const handleYearChange = (event: Event, newValue: number | number[]) => {
+  const handleYearChange = (event: Event, newValue: number[]) => {
     filterSignals.value = {
       ...filterSignals.value,
       releaseYearRange: {
@@ -34,7 +37,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
   };
 
-  const handleRuntimeChange = (event: Event, newValue: number | number[]) => {
+  const handleRuntimeChange = (event: Event, newValue: number[]) => {
     filterSignals.value = {
       ...filterSignals.value,
       runtimeMinutesRange: {
@@ -44,7 +47,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
   };
 
-  const handleRatingChange = (event: Event, newValue: number | number[]) => {
+  const handleRatingChange = (event: Event, newValue: number[]) => {
     filterSignals.value = {
       ...filterSignals.value,
       averageRatingRange: {
@@ -54,10 +57,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
   };
 
-  const handleTotalVotesChange = (
-    event: Event,
-    newValue: number | number[]
-  ) => {
+  const handleTotalVotesChange = (event: Event, newValue: number[]) => {
     filterSignals.value = {
       ...filterSignals.value,
       totalVotesRange: {
@@ -119,7 +119,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 filterSignals.value.releaseYearRange.min,
                 filterSignals.value.releaseYearRange.max,
               ]}
-              onChange={handleYearChange}
+              onChange={(event, value) =>
+                handleYearChange(event, value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={1900}
@@ -133,7 +135,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 filterSignals.value.runtimeMinutesRange.min,
                 filterSignals.value.runtimeMinutesRange.max,
               ]}
-              onChange={handleRuntimeChange}
+              onChange={(event, value) =>
+                handleRuntimeChange(event, value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}
@@ -147,7 +151,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 filterSignals.value.averageRatingRange.min,
                 filterSignals.value.averageRatingRange.max,
               ]}
-              onChange={handleRatingChange}
+              onChange={(event, value) =>
+                handleRatingChange(event, value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}
@@ -161,7 +167,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 filterSignals.value.totalVotesRange.min,
                 filterSignals.value.totalVotesRange.max,
               ]}
-              onChange={handleTotalVotesChange}
+              onChange={(event, value) =>
+                handleTotalVotesChange(event, value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}

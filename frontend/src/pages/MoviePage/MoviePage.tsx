@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowCircleLeft } from "../../assets/icons/ArrowCircleLeft";
 import "./MoviePage.css";
 
-import { HeartIcon as Heart } from "../../assets/icons/HeartIcon";
+import { HeartIcon } from "../../assets/icons/HeartIcon.tsx";
 import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
@@ -42,7 +42,7 @@ const MoviePage: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setMovie(data);
+      setMovie(data as Movie);
     }
   }, [data]);
 
@@ -132,7 +132,7 @@ const MoviePage: React.FC = () => {
                       <div className="text-wrapper-8">Add To Library</div>
                       <ArrowDownIcon className="icon-instance" />
                     </button>
-                    <Heart className="vuesax-linear-heart" />
+                    <HeartIcon className="vuesax-linear-heart" />
                   </div>
                 </div>
                 <div className="poster-image-container">

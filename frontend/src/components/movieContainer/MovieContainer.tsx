@@ -1,7 +1,5 @@
 import { Movie } from "../../interfaces";
 import "./MovieContainer.css";
-import { HeartIcon } from "../../assets/icons/HeartIcon";
-import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import posterImage from "./rectangle-1.png";
 
 interface MovieContainerProps {

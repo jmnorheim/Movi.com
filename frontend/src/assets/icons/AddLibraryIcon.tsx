@@ -5,7 +5,11 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 
 import React from "react";
 
-export const AddLibraryIcon = ({ className }) => {
+interface AddLibraryIconProps {
+  className?: string;
+}
+
+export const AddLibraryIcon = ({ className }: AddLibraryIconProps) => {
   return (
     <svg
       className={`vuesax-linear-additem ${className}`}

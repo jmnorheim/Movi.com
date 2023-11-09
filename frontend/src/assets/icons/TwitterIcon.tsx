@@ -6,7 +6,15 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 import PropTypes from "prop-types";
 import React from "react";
 
-export const TwitterIcon = ({ color = "#0A0A0A", className }) => {
+interface TwitterIconProps {
+  className?: string;
+  color?: string;
+}
+
+export const TwitterIcon = ({
+  color = "#0A0A0A",
+  className,
+}: TwitterIconProps) => {
   return (
     <svg
       className={`icon-twitter-1 ${className}`}

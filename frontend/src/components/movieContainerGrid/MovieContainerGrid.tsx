@@ -22,24 +22,24 @@ const MovieContainerGrid = ({
   movies,
   onToggleFavorite,
 }: MovieContainerGridProps) => {
-  const { isLoggedIn, email, getLibraries, updateLibrary } = useAuth();
+  const { isLoggedIn, email } = useAuth();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [addedToLibraries, setAddedToLibraries] = useState<
     Record<string, Record<string, boolean>>
   >({});
 
-  const handleLibraryToggle = (libraryName: string, movieID: string) => {
-    if (!libraryName || !movieID) return;
-    updateLibrary(libraryName, movieID);
+  // const handleLibraryToggle = (libraryName: string, movieID: string) => {
+  //   if (!libraryName || !movieID) return;
+  //   updateLibrary(libraryName, movieID);
 
-    setAddedToLibraries((prev) => ({
-      ...prev,
-      [movieID]: {
-        ...prev[movieID],
-        [libraryName]: !(prev[movieID] && prev[movieID][libraryName]),
-      },
-    }));
-  };
+  //   setAddedToLibraries((prev) => ({
+  //     ...prev,
+  //     [movieID]: {
+  //       ...prev[movieID],
+  //       [libraryName]: !(prev[movieID] && prev[movieID][libraryName]),
+  //     },
+  //   }));
+  // };
 
   return (
     <div className="MovieContainerGrid">

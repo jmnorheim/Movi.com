@@ -5,7 +5,11 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 
 import React from "react";
 
-export const ArrowDownIcon = ({ className }) => {
+interface ArrowDownIconProps {
+  className?: string;
+}
+
+export const ArrowDownIcon = ({ className }: ArrowDownIconProps) => {
   return (
     <svg
       className={`icon ${className}`}

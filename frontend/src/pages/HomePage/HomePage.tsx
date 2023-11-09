@@ -168,15 +168,14 @@ const HomePage: React.FC = () => {
 
   // Searching===============================================================================================================
 
-  const applySearch = (searchTerm: string) => {
-    setCurrentSearch(searchTerm);
-    if (originalMovies) {
-      const filteredMovies = originalMovies.filter((movie) =>
-        movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setMovies(filteredMovies);
-    }
-  };
+  // const applySearch = (searchTerm: string) => {
+  //   if (originalMovies) {
+  //     const filteredMovies = originalMovies.filter((movie) =>
+  //       movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setMovies(filteredMovies);
+  //   }
+  // };
 
   // Sorting==================================================================================================================
 
@@ -281,7 +280,6 @@ const HomePage: React.FC = () => {
             <HomePageHeader
               movies={originalMovies}
               onFilter={handleFilter}
-              onSearch={applySearch}
             ></HomePageHeader>
           )}
         </div>
@@ -294,7 +292,9 @@ const HomePage: React.FC = () => {
             )}
           </div> */}
           <div className="sortMenuContainer">
-            <SortMenu onSort={handleSort}></SortMenu>
+            <SortMenu
+              onSort={(value) => handleSort(value as SortType)}
+            ></SortMenu>
           </div>
 
           <div className="gridContainer">
