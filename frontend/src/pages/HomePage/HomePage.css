@@ -23,6 +23,7 @@ html {
   justify-content: center;
   flex-direction: column;
   padding-top: 50px;
+  /* background-color: red; */
 }
 
 .pageContainer {

@@ -3,11 +3,13 @@
   grid-template-columns: repeat(
     auto-fill,
     minmax(250px, 1fr)
-  ); /* This sets the minimum width for each container to be 300px and lets them fill the available space equally */
+  );
+  grid-template-rows: 450px;
   justify-content: center;
   justify-items: center;
-  row-gap: 2rem; /* Increased gap between rows */
-  column-gap: 1.5rem; /* Gap between columns */
+  align-items: stretch;
+  row-gap: 4rem; /* Increased gap between rows */
+  column-gap: 2rem; /* Gap between columns */
   /* max-width: 100%; */
   /* min-width: 100%; */
   padding-left: 8%;
