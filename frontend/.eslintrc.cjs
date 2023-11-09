@@ -31,6 +31,7 @@ module.exports = {
     "__tests__",
     "codegen.ts",
     "src/generated",
+    "src/services/utilities/mailHandler.ts",
   ],
   parserOptions: {
     ecmaVersion: "latest",

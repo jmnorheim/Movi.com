@@ -19,10 +19,34 @@ const PageFooter = () => {
           <div className="link">Link Five</div>
         </div>
         <div className="social-links">
-          <FacebookIcon className="icon-instance-node" color="#0A0A0A" />
-          <InstagramIcon className="icon-instance-node" color="#0A0A0A" />
-          <TwitterIcon className="icon-instance-node" color="#0A0A0A" />
-          <LinkedInIcon className="icon-instance-node" />
+          <a
+            href="https://youtu.be/dQw4w9WgXcQ?si=siGc2B1EIqWWztmP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FacebookIcon className="icon-instance-node" color="#0A0A0A" />
+          </a>
+          <a
+            href="https://youtu.be/dQw4w9WgXcQ?si=siGc2B1EIqWWztmP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <InstagramIcon className="icon-instance-node" color="#0A0A0A" />
+          </a>
+          <a
+            href="https://youtu.be/dQw4w9WgXcQ?si=siGc2B1EIqWWztmP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <TwitterIcon className="icon-instance-node" color="#0A0A0A" />
+          </a>
+          <a
+            href="https://youtu.be/dQw4w9WgXcQ?si=siGc2B1EIqWWztmP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LinkedInIcon className="icon-instance-node" />
+          </a>
         </div>
       </div>
       <div className="credits">
