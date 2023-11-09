@@ -17,6 +17,7 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
+import { useMovie } from "../../services/getMovies";
 
 /**
  * Render the MoviePage component.
@@ -28,7 +29,7 @@ const MoviePage: React.FC = () => {
   const { isLoggedIn, email } = useAuth();
 
   effect(() => {
-    navbarColor.value = "black";
+    navbarColor.value = "white";
   });
 
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const MoviePage: React.FC = () => {
     throw new Error("Movie ID is required");
   }
 
-  const { data, isLoading } = useQuery([movieId], () => getMovieById(movieId));
+  const { data, isLoading } = useMovie(movieId);
 
   useEffect(() => {
     if (data) {

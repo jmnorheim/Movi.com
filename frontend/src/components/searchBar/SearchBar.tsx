@@ -8,7 +8,9 @@ import debounce from "lodash/debounce";
 import { currentSearch } from "../../pages/HomePage/HomePage.tsx";
 
 const TypeSearch = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(
+    currentSearch.value ? currentSearch.value : ""
+  );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnSearch = debounce((searchString: string) => {

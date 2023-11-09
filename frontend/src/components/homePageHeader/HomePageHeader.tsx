@@ -13,14 +13,9 @@ import filtericon from "../../assets/icons/filter-icon.svg";
 interface HomePageHeaderProps {
   movies: Movie[] | [];
   onFilter: (filters: CurrentFilter) => void;
-  onSearch: (value: string) => void;
 }
 
-const HomePageHeader: FC<HomePageHeaderProps> = ({
-  movies,
-  onFilter,
-  onSearch,
-}) => {
+const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
 
   return (
@@ -33,7 +28,7 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({
         <div className="div-2">
           <div className="content-wrapper">
             <div className="content">
-              <SearchBar onSearch={onSearch} />
+              <SearchBar />
             </div>
           </div>
           <button

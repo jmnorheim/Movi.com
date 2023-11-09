@@ -4,10 +4,11 @@
   flex-direction: column;
   gap: 8px;
   position: relative;
+  max-height: 50%;
 }
 
 .movie-container .rectangle {
-  height: 355px;
+  height: 40%;
   object-fit: cover;
   position: relative;
   width: 265px;

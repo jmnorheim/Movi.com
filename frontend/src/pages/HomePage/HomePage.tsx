@@ -15,7 +15,7 @@ import headerImage from "./img.png";
 import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import { SortType } from "../../generated/graphql";
+import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
 import { Signal, effect, signal } from "@preact/signals-react";
@@ -43,7 +43,7 @@ export const filterSignals = signal<FilterSettings>({
 
 export const currentSearch = signal<string>("");
 
-export const currentSort = signal<SortType | null>(null);
+// export const currentSort = signal<SortType | null>(null);
 
 /**
  * Render the HomePage component.
@@ -66,7 +66,14 @@ const HomePage: React.FC = () => {
   //   queryFn: movieAPI,
   // });
 
-  const { data, isLoading } = useMovies(0, 100, 0, currentSearch.value);
+  const { data, isLoading } = useMovies(
+    0,
+    100,
+    0,
+    currentSearch.value,
+    filterSignals.value as MovieFilter,
+    currentSort as SortType
+  );
 
   const { email } = useAuth();
 
@@ -81,42 +88,12 @@ const HomePage: React.FC = () => {
     console.log("Data =", data);
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
-
-      const usersJSON = localStorage.getItem("users");
-      console.log(usersJSON);
-
-      let users: User[] = [];
-      if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        users = JSON.parse(usersJSON);
-      }
-      const currentUser = users.find((user: User) => user.email === email);
-
-      console.log("Current user =", currentUser);
-
-      let userFavorites: string[] = [];
-      if (currentUser) {
-        userFavorites = currentUser.favorites;
-      }
-
-      // Update movies based on the user's favorites
-      const updatedMovies = data.map((movie) => ({
-        ...movie,
-        favorited: userFavorites.includes(movie.imdbID),
-      }));
-
-      setMovies(updatedMovies);
-      setOriginalMovies(updatedMovies);
+      setMovies(data as Movie[]);
+      setOriginalMovies(data as Movie[]);
       console.log("Data has been set");
       console.log("email =", email);
     }
   }, [data, email]);
-
-  // =======================================================================================================================
-
-  useEffect(() => {
-    console.log("Movies =", movies);
-  }, [movies]);
 
   // =======================================================================================================================
 

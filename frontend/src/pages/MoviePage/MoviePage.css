@@ -25,6 +25,7 @@
   left: 64px;
   position: relative;
   top: 90px;
+  min-width: 90%;
 }
 
 .movie-card .div-2 {
@@ -35,6 +36,8 @@
   gap: 24px;
   position: relative;
   max-width: 60%;
+  min-width: 50%;
+
 }
 
 .movie-card .div-3 {

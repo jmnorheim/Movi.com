@@ -94,15 +94,15 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const sidebarStyle = {
     height: "100vh",
     width: open ? "250px" : "0",
-    position: "fixed" as "fixed",
+    position: "fixed" as const,
     zIndex: 1001,
     top: 0,
     left: 0,
     backgroundColor: "#FFF",
-    overflowX: "hidden" as "hidden",
+    overflowX: "hidden" as const,
     transition: "0.4s",
     padding: open ? "10px 20px" : "10px 0",
-    flexDirection: "column" as "column",
+    flexDirection: "column" as const,
     display: "flex",
     boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
   };
