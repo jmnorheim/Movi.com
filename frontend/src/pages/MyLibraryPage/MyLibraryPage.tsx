@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   Dialog,
@@ -10,8 +11,13 @@ import {
 import MyLibrariesGrid from "../../components/myLibrariesGrid/MyLibrariesGrid";
 import { useEffect, useState } from "react";
 import { Library, User } from "../../interfaces";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import "./MyLibraryPage.css";
+
+import { DocumentIcon } from "../../assets/icons/DocumentIcon";
+import PageFooter from "../../components/pageFooter/PageFooter";
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
 
 /**
  * Render the MyLibaryPage component.
@@ -22,6 +28,10 @@ const MyLibraryPage: React.FC = () => {
   const [nameOfLibrary, setNameOfLibrary] = useState("");
   const [libraries, setLibraries] = useState<Library[] | null>(null);
   const { email } = useAuth();
+
+  effect(() => {
+    navbarColor.value = "black";
+  });
 
   const getUserLibraries = () => {
     const libraries: Library[] = [];
@@ -86,28 +96,35 @@ const MyLibraryPage: React.FC = () => {
   }, [email]);
 
   return (
-    <div className="myLibraryPageContainer">
-      <div className="mylibraryTop">
-        <h1 className="titleText">My Library Page</h1>
-      </div>
-      <div className="buttonContainer">
-        <Button
-          className="createLibraryButton"
-          variant="contained"
-          onClick={() => {
-            setDialogForm(true);
-          }}
-        >
-          Create Library
-        </Button>
-      </div>
-      <MyLibrariesGrid libraries={libraries} />
-
+    <>
+      <>
+        <div className="myLibraryPageContainer">
+          <div className="title-container">
+            <div className="text-wrapper">My Library</div>
+            <button
+              className="create-library-button"
+              onClick={() => {
+                setDialogForm(true);
+              }}
+            >
+              <div className="div">Create Library</div>
+              <DocumentIcon className="vuesax-linear" />
+            </button>
+          </div>
+          <MyLibrariesGrid
+            libraries={libraries}
+            onCreateNewPress={setDialogForm}
+          />
+        </div>
+        <div style={{ marginTop: "50px" }}>
+          <PageFooter></PageFooter>
+        </div>
+      </>
       <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>
         <DialogTitle>Create Library</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Write the name of the library you want to create.
+            Start by giving your new library a name
           </DialogContentText>
           <TextField
             autoFocus
@@ -133,7 +150,24 @@ const MyLibraryPage: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
+    // <div className="myLibraryPageContainer">
+    //   <div className="mylibraryTop">
+    //     <h1 className="titleText">My Library Page</h1>
+    //   </div>
+    //   <div className="buttonContainer">
+    //     <Button
+    //       className="createLibraryButton"
+    //       variant="contained"
+    //       onClick={() => {
+    //         setDialogForm(true);
+    //       }}
+    //     >
+    //       Create Library
+    //     </Button>
+    //   </div>
+    //   <MyLibrariesGrid libraries={libraries} />
+    // </div>
   );
 };
 

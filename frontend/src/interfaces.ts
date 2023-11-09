@@ -26,6 +26,7 @@ export interface Movie {
 }
 
 export interface User {
+  userID: string;
   username: string;
   email: string;
   password: string;
@@ -42,3 +43,7 @@ export interface CurrentFilter {
   isAdult?: boolean;
   genres?: string[];
 }
+
+export const SERVER_URL = "http://localhost:4000/";
+// http://localhost:4000/
+// http://it2810-29.idi.ntnu.no:4000

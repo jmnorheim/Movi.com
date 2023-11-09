@@ -1,106 +1,269 @@
-.star-container {
-  display: flex;
-  align-items: center;
+.background-image {
+  height: 800px;
+  width: 100vw;
+  position: absolute;
 }
 
-.moviepage-star {
-  font-size: 3em;
+.movie-card {
+  height: 800px;
+  width: 100vw;
+  position: relative;
+  margin-top: -95px;
+}
+
+.movie-card .overlap-group {
+  background-image: url(./image.png);
+  background-size: 100% 100%;
+  height: 704px;
+  z-index: 1;
+}
+
+.movie-card .div {
+  align-items: center;
+  display: inline-flex;
+  /* gap: 128px; */
+  left: 64px;
+  position: relative;
+  top: 90px;
+  min-width: 90%;
+}
+
+.movie-card .div-2 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  max-width: 60%;
+  min-width: 50%;
+
+}
+
+.movie-card .div-3 {
+  align-items: flex-start;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 48px;
+  position: relative;
+}
+
+.movie-card .div-3 .back-button {
   cursor: pointer;
-  transition:
-    color 0.3s,
-    transform 0.3s;
-  -webkit-text-stroke-width: 1px;
-  transform-origin: top left;
+  background: transparent;
+  border: none;
+}
+
+.movie-card .vuesax-linear-arrow {
+  height: 64px !important;
+  position: relative !important;
+  width: 64px !important;
+}
+
+.movie-card .text-wrapper {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 24px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
   width: fit-content;
 }
 
-.star-outline {
-  color: transparent;
-  -webkit-text-stroke-color: gray;
-  -webkit-text-stroke-width: 3px;
+.movie-card .text-wrapper-2 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 64px;
+  position: relative;
+  text-align: flex-start;
+  white-space: wrap;
+  max-width: 100%;
 }
 
-.star-outline:hover {
-  transform: scale(1.05);
-}
-
-.star-filled {
-  color: rgb(255, 187, 0);
-}
-
-.styled-movie-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  gap: 24px;
-  background-color: #d1e8e2;
-}
-
-@media (min-width: 940px) {
-  .styled-movie-container {
-    flex-direction: row;
-    justify-content: space-evenly;
-  }
-}
-
-.title {
-  padding: 10px;
-}
-
-.styled-poster {
-  width: 100%;
-  max-width: 400px;
-  object-fit: cover;
-  border-radius: 24px;
-  padding: 10px;
-  margin: 0;
-}
-
-.styled-info-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.movie-card .release-data-text {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 18px;
+  position: relative;
   text-align: center;
-  width: 100%;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.movie-card .text-wrapper-3 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 18px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+  margin-left: 16px;
+}
+
+.movie-card .div-4 {
   align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
+}
+
+.movie-card .div-wrapper {
+  align-items: center;
+  border: 1px solid;
+  border-color: #b0b0b0;
+  border-radius: 4px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
   justify-content: center;
-  padding: 10px;
+  padding: 8px 16px;
+  position: relative;
 }
 
-.styled-info-box {
-  border: 2px solid #b0bec5;
-  padding: 16px;
-  border-radius: 16px;
-  width: 45%;
+.movie-card .text-wrapper-4 {
+  color: #b0b0b0;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 12px;
+  margin-top: -1px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
 }
 
-@media (max-width: 768px) {
-  .styled-info-box {
-    width: 90%;
-  }
+.movie-card .div-5 {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 16px;
+  position: relative;
 }
 
-.arrow-back-button {
-  position: absolute;
-  top: 7%;
-  left: 10px;
-  width: 30px;
-  height: 30px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
+.movie-card .image {
+  height: 24.34px;
+  object-fit: cover;
+  position: relative;
+  width: 24px;
 }
 
-.arrow-back-button::before {
-  content: "⇦";
-  font-size: 36px;
+.movie-card .text-wrapper-5 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 12px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
 }
 
-@media (max-width: 768px) {
-  .arrow-back-button {
-    top: 9%;
-  }
+.movie-card .img {
+  height: 18.1px;
+  object-fit: cover;
+  position: relative;
+  width: 35.89px;
+}
+
+.movie-card .text-wrapper-6 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 18px;
+  margin-top: -1px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.movie-card .text-wrapper-7 {
+  color: #b0b0b0;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 12px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.movie-card .button {
+  all: unset;
+  align-items: center;
+  background-color: #a7cdf5;
+  border-radius: 56px;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 8px 24px;
+  position: relative;
+}
+
+.movie-card .text-wrapper-8 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -0.5px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.movie-card .icon-instance {
+  height: 20px !important;
+  position: relative !important;
+  width: 20px !important;
+}
+
+.movie-card .vuesax-linear-heart {
+  height: 24px !important;
+  position: relative !important;
+  width: 24px !important;
+}
+
+.movie-card .poster-image-container {
+  width: 500px;
+  height: 580px;
+  margin-left: 100px;
+  margin-top: 50px;
+  /* background-color: red; */
+}
+
+.movie-card .poster-image-container .poster-image {
+  border-radius: 30px;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #a7cdf5;
+}
+
+.footer-container {
+  margin-top: 50px;
 }

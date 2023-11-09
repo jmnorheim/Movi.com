@@ -1,0 +1,63 @@
+type Query {
+  movies(
+    limit: Int
+    offset: Int
+    searchBy: String
+    filter: MovieFilter
+    sortBy: SortType
+  ): [Movie!]!
+  movie(imdbID: ID!): Movie!
+}
+
+enum SortType {
+  TitleAZ
+  TitleZA
+  RatingHILO
+  RatingLOHI
+  DurationHILO
+  DurationLOHI
+  YearHILO
+  YearLOHI
+}
+
+input MovieFilter {
+  isAdult: Boolean
+  runtimeMinutesRange: MinutesRange
+  averageRatingRange: RatingRange
+  releaseYearRange: YearRange
+  totalVotesRange: VotesRange
+  genres: [String!]
+}
+
+input VotesRange {
+  min: Int
+  max: Int
+}
+
+input YearRange {
+  min: Int
+  max: Int
+}
+
+input RatingRange {
+  min: Float
+  max: Float
+}
+
+input MinutesRange {
+  min: Int
+  max: Int
+}
+
+type Movie {
+  imdbID: ID!
+  primaryTitle: String!
+  originalTitle: String!
+  isAdult: Boolean!
+  startYear: Int!
+  runtimeMinutes: Int!
+  averageRating: Float!
+  totalVotes: Int!
+  poster: String
+  genres: [String!]!
+}

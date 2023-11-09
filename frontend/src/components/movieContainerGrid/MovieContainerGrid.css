@@ -2,25 +2,17 @@
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(300px, 1fr)
+    minmax(250px, 1fr)
   ); /* This sets the minimum width for each container to be 300px and lets them fill the available space equally */
   justify-content: center;
   justify-items: center;
   row-gap: 2rem; /* Increased gap between rows */
   column-gap: 1.5rem; /* Gap between columns */
   /* max-width: 100%; */
-  padding-left: 9%;
-  padding-right: 9%;
-}
-
-.icon-container {
-  /* background-color: blue; */
-  display: flex;
+  /* min-width: 100%; */
+  padding-left: 8%;
+  padding-right: 8%;
   position: relative;
-  /* justify-content: space-evenly; */
-  align-items: center;
-  bottom: 16%;
-  
 }
 
 .three-dots-container {
@@ -35,96 +27,6 @@
 
 .three-dots {
   width: 1.5em;
-}
-
-.star {
-  position: relative;
-  bottom: 16%;
-  left: 81%;
-  font-size: 3em;
-  cursor: pointer;
-  transition:
-    color 0.3s,
-    transform 0.3s;
-  -webkit-text-stroke-width: 1px;
-  transform-origin: top left;
-  width: fit-content;
-  /* background-color: red; */
-}
-
-.star-outline {
-  color: transparent;
-  -webkit-text-stroke-color: gray;
-  -webkit-text-stroke-width: 3px;
-}
-
-.star-outline:hover {
-  transform: scale(1.05);
-}
-
-.star-filled {
-  color: rgb(255, 187, 0);
-}
-
-/* .star-filled:hover {
-  transform: scale(1.2);
-} */
-
-
-
-.dropdown-menu {
-  position: absolute;
-  background-color: #d1e8e2;
-  /* border: 4px solid #ccc; */
-  border-radius: 16px;
-  padding: 10px;
-  width: 200px;
-  /* top: -150%; */
-  /* left: -50%; */
-  z-index: 1;
-}
-
-.dropdown-header {
-  padding: 10px;
-  font-weight: bold;
-  font-family: "Roboto", sans-serif;
-  font-size: 20px;
-}
-
-.close-dropdown {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.5em;
-  border: none;
-  padding: 0;
-  line-height: 1;
-  display: inline-block;
-  background-color: transparent;
-}
-
-.close-icon {
-  width: 1.3em;
-  height: 1.3em;
-  
-}
-
-.close-dropdown:hover {
-  color: red;
-}
-
-.dropdown-item {
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: "Roboto", sans-serif;
-  font-size: 20px;
-  border-bottom: 1px solid black;
-  border-top: 1px solid black;
-  /* border: 1px solid black; */
 }
 
 .add-to-library-button {
@@ -144,7 +46,53 @@
   height: 100%;
 }
 
+.MovieContainerGrid .heart-container {
+  height: 24px !important;
+  position: absolute !important;
+  width: 24px !important;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 
+.MovieContainerGrid .vuesax-linear-heart {
+  left: 24px !important;
+  position: absolute !important;
+  top: 16px !important;
+  z-index: 10000;
+}
+
+.vuesax-linear-heart.filled {
+  fill: red; /* This assumes your HeartIcon is an SVG */
+}
+
+.MovieContainerGrid .button {
+  all: unset;
+  align-items: center;
+  background-color: #79b5f5;
+  border-radius: 56px;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  padding: 4px 16px;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 10px;
+  position: absolute;
+  z-index: 10000;
+}
+
+.MovieContainerGrid .text-wrapper-2 {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  width: fit-content;
+}
 
 /* Media query for screens that are too small to fit 3 MovieContainers in a row */
 @media (max-width: 900px) {

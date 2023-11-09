@@ -2,21 +2,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 64px;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .login-box {
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 .login-title {
-  margin-bottom: 8px;
+  size: 16px;
+  color: white;
 }
 
 .login-form {
   width: 100%;
+  margin-top: 10px;
 }
 
 .login-btn {
@@ -30,11 +35,20 @@
   background-color: #001022;
 }
 
-.register-link-box {
-  margin-top: 16px;
+.login-link-box {
+  margin-top: 30px;
   text-align: center;
 }
 
+.login-link-text {
+  color: white;
+}
+
 .register-link-text {
-  cursor: pointer;
+  color: white;
+}
+
+.login-error {
+  width: 100%;
+  text-align: center;
 }

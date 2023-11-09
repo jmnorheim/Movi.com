@@ -1,4 +1,4 @@
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
 import MovieContainer from "../../components/movieContainer/MovieContainer";
 import { Movie } from "../../interfaces";
 import "./MovieContainerGrid.css";
@@ -10,6 +10,8 @@ import x_icon from "../../assets/icons/x_icon.svg";
 import three_dots from "../../assets/icons/three_dots.svg";
 import plus from "../../assets/icons/plus.svg";
 import checkmark from "../../assets/icons/checkmark.svg";
+import { HeartIcon } from "../../assets/icons/HeartIcon";
+import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 
 interface MovieContainerGridProps {
   movies: Movie[];
@@ -42,66 +44,24 @@ const MovieContainerGrid = ({
   return (
     <div className="MovieContainerGrid">
       {movies.map((movie, index) => (
-        <div key={index}>
+        <div key={index} style={{ position: "relative" }}>
+          <button
+            className="heart-container"
+            onClick={() => onToggleFavorite(movie.imdbID)}
+          >
+            <HeartIcon
+              className={`vuesax-linear-heart ${
+                movie.favorited ? "filled" : ""
+              }`}
+            />
+          </button>
           <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
             <MovieContainer movie={movie} />
           </Link>
-          {isLoggedIn && (
-            <div className="icon-container">
-              <div
-                className={`star ${
-                  movie.favorited ? "star-filled" : "star-outline"
-                }`}
-                onClick={() => {
-                  onToggleFavorite(movie.imdbID);
-                }}
-              >
-                ★
-              </div>
-              <div
-                className="three-dots-container"
-                onClick={() => setOpenDropdown(movie.imdbID)}
-              >
-                <img src={three_dots} alt="Menu" className="three-dots" />
-                {openDropdown === movie.imdbID && (
-                  <div className="dropdown-menu">
-                    <span
-                      className="close-dropdown"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Stop event propagation
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      <img src={x_icon} alt="Close" className="close-icon" />
-                    </span>
-                    <div className="dropdown-header">Add to playlist:</div>
-                    {getLibraries().map((library) => (
-                      <div className="dropdown-item" key={library.name}>
-                        {library.name}
-                        <button
-                          className="add-to-library-button"
-                          onClick={() =>
-                            handleLibraryToggle(library.name, movie.imdbID)
-                          }
-                        >
-                          {addedToLibraries[movie.imdbID] &&
-                          addedToLibraries[movie.imdbID][library.name] ? (
-                            <img
-                              src={checkmark}
-                              alt="Added"
-                              className="checkmark"
-                            />
-                          ) : (
-                            <img src={plus} alt="Add" className="plus" />
-                          )}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+          <button className="button">
+            <div className="text-wrapper-2">Add To Library</div>
+            <ArrowDownIcon className="icon-instance" />
+          </button>
         </div>
       ))}
     </div>

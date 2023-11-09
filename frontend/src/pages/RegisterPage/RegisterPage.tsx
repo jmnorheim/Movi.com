@@ -1,73 +1,144 @@
-import { useState } from "react";
-import { Button, TextField, Container, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Box,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
-import { User } from "../../interfaces";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../services/auth/AuthContext";
+
+import background_image from "../../assets/images/moviepage_background.png";
+import { createUser } from "../../services/createUser";
+
+import { navbarColor } from "../../App";
+import { effect } from "@preact/signals-react";
+
+// Regex
+const emailRegex = /\S+@\S+\.\S+/;
+const containsNumberRegex = /\d/;
+const containsSpecialCharRegex = /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]+/;
 
 /**
  * Render the RegisterPage component.
  * @returns {React.FC}
  */
 const RegisterPage: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // State for user inputs
+  const [inputUsername, setInputUsername] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+  const [inputConfirmPassword, setInputConfirmPassword] = useState("");
+
+  // State for any error messages
+  const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  effect(() => {
+    navbarColor.value = "white";
+  });
+
+  /**
+   * Validates the user input fields for registration.
+   */
+  const validateFields = () => {
+    const errors = {
+      username: inputUsername ? "" : "Username is required",
+      email: inputEmail
+        ? emailRegex.test(inputEmail)
+          ? ""
+          : "Please enter a valid email"
+        : "Email is required",
+      password: inputPassword
+        ? inputPassword.length < 8
+          ? "Password must be at least 8 characters"
+          : !containsNumberRegex.test(inputPassword)
+          ? "Password must include at least one number"
+          : !containsSpecialCharRegex.test(inputPassword)
+          ? "Password must include at least one special character"
+          : ""
+        : "Password is required",
+      confirmPassword: inputConfirmPassword
+        ? inputPassword !== inputConfirmPassword
+          ? "Passwords do not match"
+          : ""
+        : "Confirm Password is required",
+    };
+
+    setValidationErrors(errors);
+    return Object.values(errors).some((error) => error !== "");
+  };
 
   /**
    * Handles the registration process.
    * @param {React.FormEvent} event
    */
-  const handleRegister = (event: React.FormEvent) => {
+  const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    // Clear the error message
+    setError("");
+
+    //  Check if the input fields are valid
+    if (validateFields()) {
       return;
     }
 
-    const usersJSON = localStorage.getItem("users");
-    console.log(usersJSON);
-
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      users = JSON.parse(usersJSON);
+    /**
+     * Create an account. Catch error if not possible.
+     */
+    try {
+      const { userID } = await createUser(
+        inputUsername,
+        inputEmail,
+        inputPassword
+      );
+      login(inputEmail, userID);
+      navigate("/profile");
+    } catch (error) {
+      setError(
+        "Failed to create an account. Email or username might already exist."
+      );
     }
-    // const users: User[] = usersJSON ? JSON.parse(usersJSON) : [];
-    console.log(users);
-
-    // Check that username or email not exist in the list
-    const userExists = users.some(
-      (user: User) => user.username === username || user.email === email
-    );
-
-    console.log(userExists);
-
-    if (userExists) {
-      alert("Username or Email already exists!");
-      return;
-    }
-
-    const favorites: string[] = [];
-    const user: User = { username, email, password, favorites, library: [] };
-    console.log("User = ", user);
-    users.push(user);
-    // console.log(users);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Registered successfully!");
-    login(email);
-    navigate("/profile");
   };
 
+  /**
+   * Submits the registration process.
+   */
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleRegister(event).catch(console.error);
+  };
+
+  // Return =============================================================
   return (
     <Container component="main" maxWidth="xs" className="register-container">
+      <img
+        src={background_image}
+        alt="Background"
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          top: "0",
+          left: "0",
+          zIndex: "-1", // Ensures the image stays behind other content
+        }}
+      />
       <Box className="register-box">
-        <Typography component="h1" variant="h5" className="register-title">
+        <Typography component="h1" variant="h4" className="register-title">
           Create your account
         </Typography>
 
@@ -75,10 +146,11 @@ const RegisterPage: React.FC = () => {
           component="form"
           noValidate
           className="register-form"
-          onSubmit={handleRegister}
+          onSubmit={handleSubmit}
         >
           {/* Username textfield */}
           <TextField
+            error={!!validationErrors.username}
             variant="outlined"
             margin="normal"
             required
@@ -88,11 +160,57 @@ const RegisterPage: React.FC = () => {
             name="username"
             autoComplete="username"
             autoFocus
-            onChange={(e) => setUsername(e.target.value)}
+            helperText={validationErrors.username}
+            onChange={(e) => {
+              const newUsername = e.target.value;
+              setInputUsername(newUsername);
+              setValidationErrors((prev) => ({
+                ...prev,
+                username: "",
+              }));
+            }}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+              },
+            }}
           />
 
           {/* Email input textfield */}
           <TextField
+            error={!!validationErrors.email}
             variant="outlined"
             margin="normal"
             required
@@ -101,11 +219,61 @@ const RegisterPage: React.FC = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
-            onChange={(e) => setEmail(e.target.value)}
+            helperText={validationErrors.email}
+            onChange={(e) => {
+              const newEmail = e.target.value;
+              setInputEmail(newEmail);
+              setValidationErrors((prev) => ({
+                ...prev,
+                email: newEmail
+                  ? !emailRegex.test(newEmail)
+                    ? "Please enter a valid email"
+                    : ""
+                  : "",
+              }));
+            }}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+              },
+            }}
           />
 
           {/* Password input textfield */}
           <TextField
+            error={!!validationErrors.password}
             variant="outlined"
             margin="normal"
             required
@@ -115,11 +283,64 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="password"
             autoComplete="new-password"
-            onChange={(e) => setPassword(e.target.value)}
+            helperText={validationErrors.password}
+            onChange={(e) => {
+              const newPassword = e.target.value;
+              setInputPassword(newPassword);
+              setValidationErrors((prev) => ({
+                ...prev,
+                password: newPassword
+                  ? newPassword.length >= 8
+                    ? containsNumberRegex.test(newPassword)
+                      ? containsSpecialCharRegex.test(newPassword)
+                        ? ""
+                        : "Password must include at least one special character"
+                      : "Password must include at least one number"
+                    : "Password must be at least 8 characters"
+                  : "",
+              }));
+            }}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+              },
+            }}
           />
-
           {/* Confirm password input textfield */}
           <TextField
+            error={!!validationErrors.confirmPassword}
             variant="outlined"
             margin="normal"
             required
@@ -129,7 +350,59 @@ const RegisterPage: React.FC = () => {
             type="password"
             id="confirm-password"
             autoComplete="new-password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            helperText={validationErrors.confirmPassword}
+            onChange={(e) => {
+              const newConfirmPassword = e.target.value;
+              setInputConfirmPassword(newConfirmPassword);
+
+              setValidationErrors((prev) => ({
+                ...prev,
+                confirmPassword:
+                  newConfirmPassword === ""
+                    ? ""
+                    : newConfirmPassword !== inputPassword
+                    ? "Passwords do not match"
+                    : "",
+              }));
+            }}
+            InputLabelProps={{
+              style: { color: "#fff" }, // White label
+            }}
+            InputProps={{
+              style: { color: "#fff" }, // White input text
+              classes: {
+                notchedOutline: "white-outline",
+              },
+            }}
+            sx={{
+              "& label.Mui-focused": {
+                color: "#fff", // White label when focused
+              },
+              "& .MuiInput-underline:before": {
+                borderBottomColor: "#fff", // White underline before focus
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "#fff", // White underline after focus
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#fff", // White border
+                },
+                "&:hover fieldset": {
+                  borderColor: "#fff", // White border when hovered
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#fff", // White border when focused
+                },
+                "& .MuiInputBase-input": {
+                  color: "#fff", // White text
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(255, 255, 255, 0.7)", // White label with transparency
+                },
+                marginBottom: "1rem",
+              },
+            }}
           />
 
           {/* Register button */}
@@ -145,12 +418,29 @@ const RegisterPage: React.FC = () => {
 
           {/* Link to login page */}
           <Box className="login-link-box">
-            <Typography variant="body2" className="login-link-text">
-              Already have an account? <Link to="/login">Login</Link>
+            <Typography
+              variant="body1"
+              className="login-link-text"
+              style={{ fontSize: 18 }}
+            >
+              Already have an account?{" "}
+              <Link style={{ color: "white" }} to="/login">
+                Login
+              </Link>
             </Typography>
           </Box>
         </Box>
       </Box>
+
+      {/* Alert for error messages */}
+      {error && (
+        <div className="error-register">
+          <Alert severity="error" style={{ marginTop: "20px" }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        </div>
+      )}
     </Container>
   );
 };
