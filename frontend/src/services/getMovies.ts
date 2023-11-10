@@ -90,11 +90,11 @@ export const useMovie = (imdbId: string) => {
 export const useMovies = (
   page: number = 0,
   limit: number = 10,
-  offset: number = page * limit,
   searchBy?: string,
   filter?: MovieFilter,
   sortBy?: SortType
 ) => {
+  const offset = page * limit;
   return useQuery({
     queryKey: ["Movies: " + page, searchBy, filter, sortBy],
     queryFn: () => getMovies(limit, offset, searchBy, filter, sortBy),

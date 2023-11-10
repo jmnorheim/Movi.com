@@ -60,18 +60,24 @@ const HomePage: React.FC = () => {
     isAdult?: boolean;
     genres?: string[];
   }>({ isAdult: false, genres: [] });
+
+  //TODO: change to signal and set this to 0 when the filter, search or sort changes
   const [page, setPage] = useState(0);
+  const moviesPerPage = 25;
 
   console.log("FilterSignals =", filterSignals);
 
   const { data, isLoading } = useMovies(
     page,
-    25,
-    0,
+    moviesPerPage,
     currentSearch.value,
     filterSignals.value as MovieFilter,
     currentSort as SortType
   );
+
+  const maxNumberOfPages = data?.count
+    ? Math.ceil(data.count / moviesPerPage)
+    : 1;
 
   const { email } = useAuth();
 
@@ -187,6 +193,16 @@ const HomePage: React.FC = () => {
 
   // =======================================================================================================================
 
+  const handleBackButton = () => {
+    if (page === 0) return;
+    setPage(page - 1);
+  };
+
+  const handleNextButton = () => {
+    if (page === maxNumberOfPages) return;
+    setPage(page + 1);
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -202,6 +218,12 @@ const HomePage: React.FC = () => {
           )}
         </div>
 
+        <div>
+          <h4>Total results: {data?.count}</h4>
+          <h4>Page: {page}</h4>
+          <button onClick={handleBackButton}> Back </button>
+          <button onClick={handleNextButton}> Next </button>
+        </div>
         <div className="contentContainer">
           <div className="sortMenuContainer">
             <SortMenu
