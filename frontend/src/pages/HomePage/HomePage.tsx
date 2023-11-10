@@ -75,8 +75,6 @@ const HomePage: React.FC = () => {
     currentSort as SortType
   );
 
-  console.log("Data =", data);
-
   const { email } = useAuth();
 
   // Set color of text in Navbar to white
