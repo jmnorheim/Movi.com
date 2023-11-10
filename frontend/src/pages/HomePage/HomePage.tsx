@@ -50,25 +50,23 @@ export const currentSearch = signal<string>("");
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
-  const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
+  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
+    null
+  ); // All movies
+  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
   // const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
   const [currentFilter, setCurrentFilter] = useState<{
     isAdult?: boolean;
     genres?: string[];
   }>({ isAdult: false, genres: [] });
+  const [page, setPage] = useState(0);
 
   console.log("FilterSignals =", filterSignals);
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["movies"],
-  //   queryFn: movieAPI,
-  // });
-
   const { data, isLoading } = useMovies(
-    0,
-    100,
+    page,
+    25,
     0,
     currentSearch.value,
     filterSignals.value as MovieFilter,
@@ -86,96 +84,13 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     console.log("Data =", data);
-    if (data && data instanceof Array) {
+    if (data) {
       // Fetch the current user's favorites from localStorage
-      setMovies(data as Movie[]);
-      setOriginalMovies(data as Movie[]);
+      setMovies(data.movies);
+      setOriginalMovies(data.movies);
       console.log("Data has been set");
-      console.log("email =", email);
     }
-  }, [data, email]);
-
-  // =======================================================================================================================
-
-  const toggleFavorite = (imdbID: string) => {
-    console.log("Toggling favorite for movie with imdbID =", imdbID);
-    if (!email) return;
-
-    const usersJSON = localStorage.getItem("users");
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      users = JSON.parse(usersJSON) as User[];
-    }
-    const currentUser = users.find((user: User) => user.email === email);
-
-    if (!currentUser) return;
-
-    // Toggle the favorite status in the currentUser object
-    if (currentUser.favorites.includes(imdbID)) {
-      currentUser.favorites = currentUser.favorites.filter(
-        (favoriteImdbID: string) => favoriteImdbID !== imdbID
-      );
-    } else {
-      currentUser.favorites.push(imdbID);
-    }
-
-    const userIndex = users.findIndex((user: User) => user.email === email);
-    users[userIndex] = currentUser;
-    localStorage.setItem("users", JSON.stringify(users));
-
-    const updateMovieListFavoritedStatus = (movieList: Movie[] | null) => {
-      if (!movieList) return null;
-
-      return movieList.map((movie) => {
-        if (movie.imdbID === imdbID) {
-          return { ...movie, favorited: !movie.favorited };
-        }
-        return movie;
-      });
-    };
-
-    setOriginalMovies((prevOriginalMovies) =>
-      updateMovieListFavoritedStatus(prevOriginalMovies)
-    );
-
-    // Update the movies state
-    setMovies((prevMovies: Movie[] | null) => {
-      if (!prevMovies) return null;
-
-      const updatedMovies = updateMovieListFavoritedStatus(prevMovies);
-
-      // If a sort type is active, reapply the sort
-      if (currentSort) {
-        const sortedMovies = applySort(updatedMovies as Movie[], currentSort);
-        return sortedMovies;
-      }
-
-      // If any filter is active, reapply the filters
-      if (
-        currentFilter.isAdult ||
-        (currentFilter.genres && currentFilter.genres.length > 0)
-      ) {
-        const filteredMovies = applyFilter(
-          updatedMovies as Movie[],
-          currentFilter
-        );
-        return filteredMovies;
-      }
-
-      return updatedMovies;
-    });
-  };
-
-  // Searching===============================================================================================================
-
-  // const applySearch = (searchTerm: string) => {
-  //   if (originalMovies) {
-  //     const filteredMovies = originalMovies.filter((movie) =>
-  //       movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //     setMovies(filteredMovies);
-  //   }
-  // };
+  }, [data]);
 
   // Sorting==================================================================================================================
 
@@ -188,10 +103,13 @@ const HomePage: React.FC = () => {
     setMovies(sortedMovies); // Cast sortedMovies to Movie[] type
   };
 
-  const applySort = (movieList: Movie[], sortType: SortType): Movie[] => {
+  const applySort = (
+    movieList: MovieContent[],
+    sortType: SortType
+  ): MovieContent[] => {
     if (sortType === null) return originalMovies as Movie[];
 
-    return [...movieList].sort((a: Movie, b: Movie): number => {
+    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
       switch (sortType) {
         case SortType.TitleAz:
           return a.primaryTitle.localeCompare(b.primaryTitle);
@@ -243,9 +161,9 @@ const HomePage: React.FC = () => {
 
   // Apply the current filter to a list of movies
   const applyFilter = (
-    movieList: Movie[],
+    movieList: MovieContent[],
     newFilter: CurrentFilter
-  ): Movie[] => {
+  ): MovieContent[] => {
     return movieList.filter((movie) => {
       // Check isAdult filter
       if (
@@ -285,12 +203,6 @@ const HomePage: React.FC = () => {
         </div>
 
         <div className="contentContainer">
-          {/* <div className="searchBarContainer">
-            <SearchBar onSearch={applySearch} />
-            {originalMovies?.length && (
-              <FilterMenu movies={originalMovies} onFilter={handleFilter} />
-            )}
-          </div> */}
           <div className="sortMenuContainer">
             <SortMenu
               onSort={(value) => handleSort(value as SortType)}
@@ -299,10 +211,7 @@ const HomePage: React.FC = () => {
 
           <div className="gridContainer">
             {movies?.length ? (
-              <MovieContainerGrid
-                movies={movies}
-                onToggleFavorite={toggleFavorite}
-              />
+              <MovieContainerGrid movies={movies} />
             ) : (
               <h2 className="noMatchesText">No matches found</h2>
             )}

@@ -1,4 +1,8 @@
-import { Resolvers, SortType } from "../../generated/resolvers-types";
+import {
+  MoviesData,
+  Resolvers,
+  SortType,
+} from "../../generated/resolvers-types";
 import { Context } from "../../src";
 
 export const movieResolver: Resolvers = {
@@ -48,7 +52,7 @@ export const movieResolver: Resolvers = {
      * @param {string} args.searchBy - A search string to filter movies by primaryTitle, originalTitle or imdbID.
      * @param {object} args.filter - Various filters to apply, contains isAdult, releaseYearRange, runtimeMinutesRange, averageRatingRange, totalVotesRange and genres.
      * @param {Context} context - The context object which gives access to Prisma.
-     * @returns {Promise<Array<object>>} An array of objects representing the list of movies, or an error if something goes wrong.
+     * @returns {Promise<Array<MoviesData>>} An array of objects representing the list of movies, or an error if something goes wrong.
      */
     movies: async (_, args, context: Context) => {
       let orderBy;
@@ -86,35 +90,41 @@ export const movieResolver: Resolvers = {
           break;
       }
 
-      try {
-        const movies = await context.prisma.movie.findMany({
-          where: {
-            AND: [
-              { isAdult: { equals: args.filter?.isAdult } },
-              { startYear: { gte: args.filter?.releaseYearRange?.min } },
-              { startYear: { lte: args.filter?.releaseYearRange?.max } },
-              {
-                runtimeMinutes: { gte: args.filter?.runtimeMinutesRange?.min },
-              },
-              {
-                runtimeMinutes: { lte: args.filter?.runtimeMinutesRange?.max },
-              },
-              { averageRating: { gte: args.filter?.averageRatingRange?.min } },
-              { averageRating: { lte: args.filter?.averageRatingRange?.max } },
-              { totalVotes: { gte: args.filter?.totalVotesRange?.min } },
-              { totalVotes: { lte: args.filter?.totalVotesRange?.max } },
-              {
-                OR: [
-                  { imdbID: { contains: args.searchBy } },
-                  { primaryTitle: { contains: args.searchBy } },
-                  { originalTitle: { contains: args.searchBy } },
-                ],
-              },
+      const whereConditions = {
+        AND: [
+          { isAdult: { equals: args.filter?.isAdult } },
+          { startYear: { gte: args.filter?.releaseYearRange?.min } },
+          { startYear: { lte: args.filter?.releaseYearRange?.max } },
+          {
+            runtimeMinutes: { gte: args.filter?.runtimeMinutesRange?.min },
+          },
+          {
+            runtimeMinutes: { lte: args.filter?.runtimeMinutesRange?.max },
+          },
+          { averageRating: { gte: args.filter?.averageRatingRange?.min } },
+          { averageRating: { lte: args.filter?.averageRatingRange?.max } },
+          { totalVotes: { gte: args.filter?.totalVotesRange?.min } },
+          { totalVotes: { lte: args.filter?.totalVotesRange?.max } },
+          {
+            OR: [
+              { imdbID: { contains: args.searchBy } },
+              { primaryTitle: { contains: args.searchBy } },
+              { originalTitle: { contains: args.searchBy } },
             ],
           },
+        ],
+      };
+
+      try {
+        const movies = await context.prisma.movie.findMany({
+          where: whereConditions,
           orderBy: orderBy,
           skip: args.offset ? args.offset : 0,
           take: args.limit ? args.limit : 10,
+        });
+
+        const totalMovies = await context.prisma.movie.count({
+          where: whereConditions,
         });
 
         // Step 2: Get the imdbIDs of all fetched movies
@@ -151,9 +161,17 @@ export const movieResolver: Resolvers = {
               args.filter.genres.includes(genre)
             );
           });
-          return filteredMovies;
+          const moviesData: MoviesData = {
+            movies: filteredMovies,
+            count: totalMovies,
+          };
+          return moviesData;
         }
-        return moviesWithGenres;
+        const moviesData: MoviesData = {
+          movies: moviesWithGenres,
+          count: totalMovies,
+        };
+        return moviesData;
       } catch (error) {
         throw new Error(`Error: ${error.message}`);
       }

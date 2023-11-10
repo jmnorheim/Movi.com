@@ -8,11 +8,11 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { filterSignals } from "../../pages/HomePage/HomePage";
-import { Movie } from "../../interfaces";
+import { Movie, MovieContent } from "../../interfaces";
 
 interface FilterSideBarProps {
   open: boolean;
-  movies: Movie[] | [];
+  movies: MovieContent[] | [];
 }
 
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
@@ -24,7 +24,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie: Movie) => movie.genres))
+    new Set(movies.flatMap((movie: MovieContent) => movie.genres))
   );
 
   const handleYearChange = (event: Event, newValue: number[]) => {

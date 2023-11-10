@@ -5,7 +5,7 @@ type Query {
     searchBy: String
     filter: MovieFilter
     sortBy: SortType
-  ): [Movie!]!
+  ): MoviesData!
   movie(imdbID: ID!): Movie!
 }
 
@@ -60,4 +60,9 @@ type Movie {
   totalVotes: Int!
   poster: String
   genres: [String!]!
+}
+
+type MoviesData {
+  movies: [Movie!]!
+  count: Int!
 }
