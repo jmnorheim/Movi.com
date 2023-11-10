@@ -19,6 +19,9 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
 
+import { useCreateLibrary } from "../../services/mutateLibrary.ts";
+import { useUserQuery } from "../../services/getUser.ts";
+
 /**
  * Render the MyLibaryPage component.
  * @returns {React.Component}
@@ -27,73 +30,39 @@ const MyLibraryPage: React.FC = () => {
   const [dialogForm, setDialogForm] = useState(false);
   const [nameOfLibrary, setNameOfLibrary] = useState("");
   const [libraries, setLibraries] = useState<Library[] | null>(null);
-  const { email } = useAuth();
+  const { userID } = useAuth();
+  const { data: currentUser } = useUserQuery(userID);
+  const { mutate } = useCreateLibrary(userID);
 
   effect(() => {
     navbarColor.value = "black";
   });
 
-  const getUserLibraries = () => {
-    const libraries: Library[] = [];
-    const usersJSON = localStorage.getItem("users");
-
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      users = JSON.parse(usersJSON);
+  /**
+   * Fetches the current users libraries and updates the state.
+   */
+  useEffect(() => {
+    if (currentUser) {
+      getUserLibraries();
     }
-    const currentUser = users.find((user: User) => user.email === email);
+  }, [currentUser]);
 
+  const getUserLibraries = () => {
     if (currentUser) {
       const favLibrary: Library = {
         name: "Favorites",
         movies: currentUser.favorites,
       };
-      libraries.push(favLibrary);
-      libraries.push(...currentUser.library);
-      console.log("Libraries:", libraries);
-      setLibraries(libraries);
+      setLibraries([favLibrary, ...currentUser.library]);
     }
   };
 
-  const addLiabrary = (name: string) => {
-    //TODO make sure the user do not have that library name already
-    const usersJSON = localStorage.getItem("users");
-
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      users = JSON.parse(usersJSON);
-    }
-    const currentUser = users.find((user: User) => user.email === email);
-
-    if (!currentUser) {
-      return;
-    }
-
-    if (currentUser) {
-      const newLibrary: Library = {
-        name: name,
-        movies: [],
-      };
-      currentUser.library.push(newLibrary);
-    }
-
-    // Find the index of the current user in the users array
-    const userIndex = users.findIndex((user: User) => user.email === email);
-
-    // Update the user's data in the array
-    users[userIndex] = currentUser;
-
-    // Save the updated users array back to localStorage
-    localStorage.setItem("users", JSON.stringify(users));
-    getUserLibraries();
-    console.log("Library has been added");
+  /**
+   * Adds a new library to the users.
+   */
+  const addLibrary = (libraryName: string) => {
+    mutate(libraryName);
   };
-
-  useEffect(() => {
-    getUserLibraries();
-  }, [email]);
 
   return (
     <>
@@ -117,7 +86,7 @@ const MyLibraryPage: React.FC = () => {
           />
         </div>
         <div style={{ marginTop: "50px" }}>
-          <PageFooter></PageFooter>
+          <PageFooter />
         </div>
       </>
       <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>
@@ -139,11 +108,19 @@ const MyLibraryPage: React.FC = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialogForm(false)}>Cancel</Button>
           <Button
             onClick={() => {
-              addLiabrary(nameOfLibrary);
               setDialogForm(false);
+              setNameOfLibrary("");
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              addLibrary(nameOfLibrary);
+              setDialogForm(false);
+              setNameOfLibrary("");
             }}
           >
             Create
@@ -151,23 +128,6 @@ const MyLibraryPage: React.FC = () => {
         </DialogActions>
       </Dialog>
     </>
-    // <div className="myLibraryPageContainer">
-    //   <div className="mylibraryTop">
-    //     <h1 className="titleText">My Library Page</h1>
-    //   </div>
-    //   <div className="buttonContainer">
-    //     <Button
-    //       className="createLibraryButton"
-    //       variant="contained"
-    //       onClick={() => {
-    //         setDialogForm(true);
-    //       }}
-    //     >
-    //       Create Library
-    //     </Button>
-    //   </div>
-    //   <MyLibrariesGrid libraries={libraries} />
-    // </div>
   );
 };
 
