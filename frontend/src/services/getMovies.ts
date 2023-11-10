@@ -1,7 +1,7 @@
 import { graphql } from "../generated";
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import { MovieContent, SERVER_URL } from "../interfaces";
+import { MovieContent, MovieStats, SERVER_URL } from "../interfaces";
 import { MovieFilter, SortType } from "../generated/graphql";
 
 const GET_MOVIE = graphql(`
@@ -50,6 +50,29 @@ const GET_MOVIES = graphql(`
   }
 `);
 
+const GET_MOVIE_STATS = graphql(`
+  query GetMovieStats {
+    movieStats {
+      averageRatingRange {
+        max
+        min
+      }
+      releaseYearRange {
+        max
+        min
+      }
+      runtimeMinutesRange {
+        max
+        min
+      }
+      totalVotesRange {
+        max
+        min
+      }
+    }
+  }
+`);
+
 const getMovie = async (imdbId: string): Promise<MovieContent> => {
   const { movie } = await request(SERVER_URL, GET_MOVIE, {
     imdbId: imdbId,
@@ -77,6 +100,19 @@ const getMovies = async (
   return movies as MovieContent[];
 };
 
+interface MovieStatsResponse {
+  movieStats: MovieStats;
+}
+
+const getMovieStats = async () => {
+  const response = await request<MovieStatsResponse>(
+    SERVER_URL,
+    GET_MOVIE_STATS
+  );
+
+  return response.movieStats;
+};
+
 export const useMovie = (imdbId: string) => {
   return useQuery({
     queryKey: ["Movie: " + imdbId],
@@ -96,5 +132,12 @@ export const useMovies = (
     queryKey: ["Movies: " + page, searchBy, filter, sortBy],
     queryFn: () => getMovies(limit, offset, searchBy, filter, sortBy),
     keepPreviousData: true,
+  });
+};
+
+export const useMovieStats = () => {
+  return useQuery({
+    queryKey: "MovieStats",
+    queryFn: () => getMovieStats(),
   });
 };

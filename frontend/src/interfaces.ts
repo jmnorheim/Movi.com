@@ -25,6 +25,13 @@ export interface Movie {
   favorited: boolean;
 }
 
+export interface MovieStats {
+  releaseYearRange: { min: number; max: number };
+  runtimeMinutesRange: { min: number; max: number };
+  averageRatingRange: { min: number; max: number };
+  totalVotesRange: { min: number; max: number };
+}
+
 export interface User {
   userID: string;
   username: string;

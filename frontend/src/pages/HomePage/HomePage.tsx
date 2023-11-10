@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { CurrentFilter, Movie, MovieContent, User } from "../../interfaces";
+import {
+  CurrentFilter,
+  Movie,
+  MovieContent,
+  User,
+  MovieStats,
+} from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -20,7 +26,7 @@ import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
 import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
-import { useMovies } from "../../services/getMovies";
+import { useMovieStats, useMovies } from "../../services/getMovies";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -60,11 +66,6 @@ const HomePage: React.FC = () => {
   }>({ isAdult: false, genres: [] });
 
   console.log("FilterSignals =", filterSignals);
-
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["movies"],
-  //   queryFn: movieAPI,
-  // });
 
   const { data, isLoading } = useMovies(
     0,

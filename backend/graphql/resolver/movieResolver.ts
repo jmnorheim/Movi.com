@@ -158,5 +158,73 @@ export const movieResolver: Resolvers = {
         throw new Error(`Error: ${error.message}`);
       }
     },
+
+    /**
+     * Calculates and fetches the maximum and minimum values for various movie properties to be used for filtering.
+     * This includes the release year, runtime in minutes, average rating, and total number of votes.
+     *
+     * @param {object} _ - The root object, which remains unused.
+     * @param {object} __ - The arguments (args) object, which remains unused as this query does not require any input parameters.
+     * @param {Context} context - The context object which provides access to Prisma and other necessary back-end functionalities.
+     * @returns {Promise<MovieStats>} A promise that resolves to an object containing the aggregated statistics of movies in the database.
+     * Each property of the returned object is an object itself with 'min' and 'max' properties indicating the range for each field.
+     *
+     * @example
+     * // Example of returned object:
+     * {
+     *   releaseYearRange: { min: 1980, max: 2023 },
+     *   runtimeMinutesRange: { min: 80, max: 180 },
+     *   averageRatingRange: { min: 2.5, max: 9.8 },
+     *   totalVotesRange: { min: 100, max: 1000000 }
+     * }
+     *
+     * @throws Will throw an error if the database query fails.
+     */
+    movieStats: async (_, __, context: Context) => {
+      try {
+        // Aggregate the data for each field
+        const releaseYearAggregates = await context.prisma.movie.aggregate({
+          _min: { startYear: true },
+          _max: { startYear: true },
+        });
+
+        const runtimeMinutesAggregates = await context.prisma.movie.aggregate({
+          _min: { runtimeMinutes: true },
+          _max: { runtimeMinutes: true },
+        });
+
+        const averageRatingAggregates = await context.prisma.movie.aggregate({
+          _min: { averageRating: true },
+          _max: { averageRating: true },
+        });
+
+        const totalVotesAggregates = await context.prisma.movie.aggregate({
+          _min: { totalVotes: true },
+          _max: { totalVotes: true },
+        });
+
+        // Construct the response
+        return {
+          releaseYearRange: {
+            min: releaseYearAggregates._min.startYear,
+            max: releaseYearAggregates._max.startYear,
+          },
+          runtimeMinutesRange: {
+            min: runtimeMinutesAggregates._min.runtimeMinutes,
+            max: runtimeMinutesAggregates._max.runtimeMinutes,
+          },
+          averageRatingRange: {
+            min: averageRatingAggregates._min.averageRating,
+            max: averageRatingAggregates._max.averageRating,
+          },
+          totalVotesRange: {
+            min: totalVotesAggregates._min.totalVotes,
+            max: totalVotesAggregates._max.totalVotes,
+          },
+        };
+      } catch (error) {
+        throw new Error(`Error in movieStats resolver: ${error.message}`);
+      }
+    },
   },
 };

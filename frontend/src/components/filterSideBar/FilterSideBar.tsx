@@ -2,14 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { filterSignals } from "../../pages/HomePage/HomePage";
-import { Movie } from "../../interfaces";
+import { Movie, MovieStats } from "../../interfaces";
 import debounce from "lodash/debounce";
+import { useMovieStats } from "../../services/getMovies";
 
 interface FilterSideBarProps {
   open: boolean;
@@ -38,8 +39,64 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     selectedGenres: new Set<string>(),
   });
 
+  const [minAndMaxValuesSliders, setMinAndMaxValuesSliders] = useState({
+    yearRange: [0, 0],
+    runtimeRange: [0, 0],
+    ratingRange: [0, 0],
+    totalVotesRange: [0, 0],
+  });
+
+  // Get min and max values for each slider
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats() as {
+    data: MovieStats;
+    isLoading: boolean;
+  };
+
+  useEffect(() => {
+    if (statsData && !isLoadingStats) {
+      setMinAndMaxValuesSliders((prevState) => ({
+        ...prevState,
+        yearRange: [
+          statsData.releaseYearRange.min,
+          statsData.releaseYearRange.max,
+        ],
+        runtimeRange: [
+          statsData.runtimeMinutesRange.min,
+          statsData.runtimeMinutesRange.max,
+        ],
+        ratingRange: [
+          statsData.averageRatingRange.min,
+          statsData.averageRatingRange.max,
+        ],
+        totalVotesRange: [
+          statsData.totalVotesRange.min,
+          statsData.totalVotesRange.max,
+        ],
+      }));
+      setFilterStates((prevState) => ({
+        ...prevState,
+        yearRange: [
+          statsData.releaseYearRange.min,
+          statsData.releaseYearRange.max,
+        ],
+        runtimeRange: [
+          statsData.runtimeMinutesRange.min,
+          statsData.runtimeMinutesRange.max,
+        ],
+        ratingRange: [
+          statsData.averageRatingRange.min,
+          statsData.averageRatingRange.max,
+        ],
+        totalVotesRange: [
+          statsData.totalVotesRange.min,
+          statsData.totalVotesRange.max,
+        ],
+      }));
+    }
+  }, [statsData]);
+
   const onSidebarTransitionEnd = () => {
-    // Only show content if the sidebar is open
+    // Only show content if the sidebar is fully open
     setContentVisible(open);
   };
 
@@ -192,8 +249,8 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={1900}
-              max={2023}
+              min={minAndMaxValuesSliders.yearRange[0]}
+              max={minAndMaxValuesSliders.yearRange[1]}
             />
           </div>
           <div>
@@ -211,8 +268,8 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={0}
-              max={300}
+              min={minAndMaxValuesSliders.runtimeRange[0]}
+              max={minAndMaxValuesSliders.runtimeRange[1]}
             />
           </div>
           <div>
@@ -227,8 +284,8 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={0}
-              max={10}
+              min={minAndMaxValuesSliders.ratingRange[0]}
+              max={minAndMaxValuesSliders.ratingRange[1]}
             />
           </div>
           <div>
@@ -246,8 +303,8 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={0}
-              max={2900000}
+              min={minAndMaxValuesSliders.totalVotesRange[0]}
+              max={minAndMaxValuesSliders.totalVotesRange[1]}
             />
           </div>
           <FormGroup>
