@@ -36,7 +36,7 @@ export const filterSignals = signal<FilterSettings>({
   releaseYearRange: { max: 2023, min: 1900 },
   runtimeMinutesRange: { max: 300, min: 0 },
   averageRatingRange: { max: 10, min: 0 },
-  totalVotesRange: { max: 1000000, min: 0 },
+  totalVotesRange: { max: 2900000, min: 0 },
   genres: [],
   isAdult: false,
 });
@@ -74,6 +74,8 @@ const HomePage: React.FC = () => {
     filterSignals.value as MovieFilter,
     currentSort as SortType
   );
+
+  console.log("Data =", data);
 
   const { email } = useAuth();
 
