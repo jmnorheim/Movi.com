@@ -59,7 +59,7 @@ function render(ui: React.ReactElement) {
 /**
  * Tests LoginPage.
  */
-describe("LoginPage Component", () => {
+describe("Tests LoginPage", () => {
   // Cleans up before and after each test.
   afterEach(cleanup);
   beforeEach(cleanup);

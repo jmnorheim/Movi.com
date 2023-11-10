@@ -49,7 +49,7 @@ function render(ui: React.ReactElement) {
 /**
  * Tests RegisterPage.
  */
-describe("RegisterPage Component", () => {
+describe("Tests RegisterPage", () => {
   // Cleans up before and after each test.
   afterEach(cleanup);
   beforeEach(cleanup);
