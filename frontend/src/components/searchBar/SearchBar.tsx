@@ -16,7 +16,7 @@ const TypeSearch = () => {
   const debouncedOnSearch = useCallback(
     debounce((searchString: string) => {
       currentSearch.value = searchString;
-    }, 300),
+    }, 700),
     [] // Dependency array is empty, so this function is created only once
   );
 

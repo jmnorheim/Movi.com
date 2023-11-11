@@ -56,6 +56,7 @@ export interface FilterState {
   runtimeRange: number[];
   ratingRange: number[];
   totalVotesRange: number[];
+  isAdult: boolean;
   selectedGenres: Set<string>;
 }
 

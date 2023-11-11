@@ -45,9 +45,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   // console.log("getInitialState", getInitialState());
 
-  // useEffect(() => {
-  //   sessionStorage.setItem("filterStates", JSON.stringify(filterStates));
-  // }, [filterStates]);
+  useEffect(() => {
+    const session = sessionStorage.getItem("filterStates");
+    console.log("session", session);
+  }, [filterStates]);
 
   const [minAndMaxValuesSliders, setMinAndMaxValuesSliders] = useState({
     yearRange: [0, 0],
@@ -64,9 +65,12 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     const savedFilterStates = sessionStorage.getItem("filterStates");
     console.log("savedFilterStates", savedFilterStates);
     if (savedFilterStates) {
-      initialFilterStates = JSON.parse(savedFilterStates);
-      initialFilterStates.selectedGenres = new Set<string>();
-      console.log("Test =", initialFilterStates.selectedGenres);
+      const parsedStates = JSON.parse(savedFilterStates);
+      initialFilterStates = {
+        ...parsedStates,
+        isAdult: parsedStates.isAdult,
+        selectedGenres: new Set<string>(parsedStates.selectedGenres || []),
+      };
     } else if (statsData && !isLoadingStats) {
       console.log("statsData", statsData);
       initialFilterStates = {
@@ -119,8 +123,12 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     setContentVisible(open);
   };
 
-  const updateLocalStorage = () => {
-    sessionStorage.setItem("filterStates", JSON.stringify(filterStates));
+  const updateSessionStorage = () => {
+    const statesToSave = {
+      ...filterStates,
+      selectedGenres: Array.from(filterStates.selectedGenres),
+    };
+    sessionStorage.setItem("filterStates", JSON.stringify(statesToSave));
   };
 
   const uniqueGenres = Array.from(
@@ -132,7 +140,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       yearRange: newValue,
     }));
-    updateLocalStorage();
+    updateSessionStorage();
   };
 
   const handleYearChange = useCallback(
@@ -153,7 +161,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       runtimeRange: newValue,
     }));
-    updateLocalStorage();
+    updateSessionStorage();
   };
 
   const handleRuntimeChange = useCallback(
@@ -174,7 +182,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       ratingRange: newValue,
     }));
-    updateLocalStorage();
+    updateSessionStorage();
   };
 
   const handleRatingChange = useCallback(
@@ -195,7 +203,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       totalVotesRange: newValue,
     }));
-    updateLocalStorage();
+    updateSessionStorage();
   };
 
   const handleTotalVotesChange = useCallback(
@@ -210,6 +218,14 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     }, 500),
     []
   );
+
+  const commitIsAdultChange = (event: Event, newValue: boolean) => {
+    setFilterStates((prevState) => ({
+      ...prevState,
+      isAdult: newValue,
+    }));
+    updateSessionStorage();
+  };
 
   const handleIsAdultChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     filterSignals.value = {
@@ -231,7 +247,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         selectedGenres: newSelectedGenres,
       };
     });
-    updateLocalStorage();
+    updateSessionStorage();
   };
 
   const handleGenreChange = useCallback(
