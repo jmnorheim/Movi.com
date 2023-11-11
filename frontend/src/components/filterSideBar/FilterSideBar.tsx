@@ -8,7 +8,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { filterSignals } from "../../pages/HomePage/HomePage";
-import { Movie, MovieStats } from "../../interfaces";
+import { FilterState, Movie, MovieStats } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
 
@@ -19,25 +19,40 @@ interface FilterSideBarProps {
 
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const [contentVisible, setContentVisible] = useState(false);
-  const [filterStates, setFilterStates] = useState({
-    yearRange: [
-      filterSignals.value.releaseYearRange.min,
-      filterSignals.value.releaseYearRange.max,
-    ],
-    runtimeRange: [
-      filterSignals.value.runtimeMinutesRange.min,
-      filterSignals.value.runtimeMinutesRange.max,
-    ],
-    ratingRange: [
-      filterSignals.value.averageRatingRange.min,
-      filterSignals.value.averageRatingRange.max,
-    ],
-    totalVotesRange: [
-      filterSignals.value.totalVotesRange.min,
-      filterSignals.value.totalVotesRange.max,
-    ],
-    selectedGenres: new Set<string>(),
-  });
+
+  //Set correct value of dots on sliders
+  const getInitialState = (): FilterState => {
+    const savedFilterStates = sessionStorage.getItem("filterStates");
+    if (savedFilterStates) {
+      const parsed = JSON.parse(savedFilterStates) as FilterState;
+      console.log("Parsed = ", parsed.totalVotesRange[0]);
+      return {
+        yearRange: parsed.yearRange || [0, 0],
+        runtimeRange: parsed.runtimeRange || [0, 0],
+        ratingRange: parsed.ratingRange || [0, 0],
+        totalVotesRange: parsed.totalVotesRange || [0, 0],
+        selectedGenres: new Set<string>(
+          Array.isArray(parsed.selectedGenres) ? parsed.selectedGenres : []
+        ),
+      };
+    }
+    return {
+      yearRange: [0, 0],
+      runtimeRange: [0, 0],
+      ratingRange: [0, 0],
+      totalVotesRange: [0, 0],
+      selectedGenres: new Set<string>(),
+    };
+  };
+
+  const [filterStates, setFilterStates] =
+    useState<FilterState>(getInitialState);
+
+  console.log("getInitialState", getInitialState());
+
+  // useEffect(() => {
+  //   sessionStorage.setItem("filterStates", JSON.stringify(filterStates));
+  // }, [filterStates]);
 
   const [minAndMaxValuesSliders, setMinAndMaxValuesSliders] = useState({
     yearRange: [0, 0],
@@ -91,6 +106,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           statsData.totalVotesRange.min,
           statsData.totalVotesRange.max,
         ],
+        selectedGenres: new Set<string>(),
       }));
     }
   }, [statsData]);
@@ -98,6 +114,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const onSidebarTransitionEnd = () => {
     // Only show content if the sidebar is fully open
     setContentVisible(open);
+  };
+
+  const updateLocalStorage = () => {
+    sessionStorage.setItem("filterStates", JSON.stringify(filterStates));
   };
 
   const uniqueGenres = Array.from(
@@ -109,6 +129,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       yearRange: newValue,
     }));
+    updateLocalStorage();
   };
 
   const handleYearChange = useCallback(
@@ -129,6 +150,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       runtimeRange: newValue,
     }));
+    updateLocalStorage();
   };
 
   const handleRuntimeChange = useCallback(
@@ -149,6 +171,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       ratingRange: newValue,
     }));
+    updateLocalStorage();
   };
 
   const handleRatingChange = useCallback(
@@ -169,6 +192,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       ...prevState,
       totalVotesRange: newValue,
     }));
+    updateLocalStorage();
   };
 
   const handleTotalVotesChange = useCallback(
@@ -204,6 +228,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         selectedGenres: newSelectedGenres,
       };
     });
+    updateLocalStorage();
   };
 
   const handleGenreChange = useCallback(

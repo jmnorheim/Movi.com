@@ -51,6 +51,14 @@ export interface CurrentFilter {
   genres?: string[];
 }
 
+export interface FilterState {
+  yearRange: number[];
+  runtimeRange: number[];
+  ratingRange: number[];
+  totalVotesRange: number[];
+  selectedGenres: Set<string>;
+}
+
 export const SERVER_URL = "http://localhost:4000/";
 // http://localhost:4000/
 // http://it2810-29.idi.ntnu.no:4000

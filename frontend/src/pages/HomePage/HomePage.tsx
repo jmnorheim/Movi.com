@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
-    console.log("Data =", data);
+    // console.log("Data =", data);
     if (data && data instanceof Array) {
       // Fetch the current user's favorites from localStorage
       setMovies(data as Movie[]);
