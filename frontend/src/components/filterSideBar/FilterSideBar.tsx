@@ -21,34 +21,33 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const [contentVisible, setContentVisible] = useState(false);
 
   //Set correct value of dots on sliders
-  const getInitialState = (): FilterState => {
-    const savedFilterStates = sessionStorage.getItem("filterStates");
-    if (savedFilterStates) {
-      const parsed = JSON.parse(savedFilterStates) as FilterState;
-      console.log("Parsed = ", parsed.totalVotesRange[0]);
-      return {
-        yearRange: parsed.yearRange || [0, 0],
-        runtimeRange: parsed.runtimeRange || [0, 0],
-        ratingRange: parsed.ratingRange || [0, 0],
-        totalVotesRange: parsed.totalVotesRange || [0, 0],
-        selectedGenres: new Set<string>(
-          Array.isArray(parsed.selectedGenres) ? parsed.selectedGenres : []
-        ),
-      };
-    }
-    return {
-      yearRange: [0, 0],
-      runtimeRange: [0, 0],
-      ratingRange: [0, 0],
-      totalVotesRange: [0, 0],
-      selectedGenres: new Set<string>(),
-    };
-  };
+  // const getInitialState = (): FilterState => {
+  //   const savedFilterStates = sessionStorage.getItem("filterStates");
+  //   if (savedFilterStates) {
+  //     const parsed = JSON.parse(savedFilterStates) as FilterState;
+  //     console.log("Parsed = ", parsed.totalVotesRange[0]);
+  //     return {
+  //       yearRange: parsed.yearRange || [0, 0],
+  //       runtimeRange: parsed.runtimeRange || [0, 0],
+  //       ratingRange: parsed.ratingRange || [0, 0],
+  //       totalVotesRange: parsed.totalVotesRange || [0, 0],
+  //       selectedGenres: new Set<string>(
+  //         Array.isArray(parsed.selectedGenres) ? parsed.selectedGenres : []
+  //       ),
+  //     };
+  //   }
+  //   return {
+  //     yearRange: [0, 0],
+  //     runtimeRange: [0, 0],
+  //     ratingRange: [0, 0],
+  //     totalVotesRange: [0, 0],
+  //     selectedGenres: new Set<string>(),
+  //   };
+  // };
 
-  const [filterStates, setFilterStates] =
-    useState<FilterState>(getInitialState);
+  const [filterStates, setFilterStates] = useState<FilterState>();
 
-  console.log("getInitialState", getInitialState());
+  // console.log("getInitialState", getInitialState());
 
   // useEffect(() => {
   //   sessionStorage.setItem("filterStates", JSON.stringify(filterStates));
@@ -68,9 +67,13 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   useEffect(() => {
-    if (statsData && !isLoadingStats) {
-      setMinAndMaxValuesSliders((prevState) => ({
-        ...prevState,
+    let initialFilterStates;
+    const savedFilterStates = sessionStorage.getItem("filterStates");
+    console.log("initialFilterStates", initialFilterStates);
+    if (savedFilterStates) {
+      initialFilterStates = JSON.parse(savedFilterStates);
+    } else if (statsData && !isLoadingStats) {
+      initialFilterStates = {
         yearRange: [
           statsData.releaseYearRange.min,
           statsData.releaseYearRange.max,
@@ -87,29 +90,33 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           statsData.totalVotesRange.min,
           statsData.totalVotesRange.max,
         ],
-      }));
-      setFilterStates((prevState) => ({
-        ...prevState,
-        yearRange: [
-          statsData.releaseYearRange.min,
-          statsData.releaseYearRange.max,
-        ],
-        runtimeRange: [
-          statsData.runtimeMinutesRange.min,
-          statsData.runtimeMinutesRange.max,
-        ],
-        ratingRange: [
-          statsData.averageRatingRange.min,
-          statsData.averageRatingRange.max,
-        ],
-        totalVotesRange: [
-          statsData.totalVotesRange.min,
-          statsData.totalVotesRange.max,
-        ],
-        selectedGenres: new Set<string>(),
-      }));
+        selectedGenres: [],
+      };
     }
-  }, [statsData]);
+
+    setFilterStates(initialFilterStates);
+
+    if (statsData && !isLoadingStats) {
+      setMinAndMaxValuesSliders({
+        yearRange: [
+          statsData.releaseYearRange.min,
+          statsData.releaseYearRange.max,
+        ],
+        runtimeRange: [
+          statsData.runtimeMinutesRange.min,
+          statsData.runtimeMinutesRange.max,
+        ],
+        ratingRange: [
+          statsData.averageRatingRange.min,
+          statsData.averageRatingRange.max,
+        ],
+        totalVotesRange: [
+          statsData.totalVotesRange.min,
+          statsData.totalVotesRange.max,
+        ],
+      });
+    }
+  }, [statsData, isLoadingStats]);
 
   const onSidebarTransitionEnd = () => {
     // Only show content if the sidebar is fully open
