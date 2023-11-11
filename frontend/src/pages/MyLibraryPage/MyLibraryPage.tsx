@@ -48,7 +48,7 @@ const MyLibraryPage: React.FC = () => {
   }, [currentUser]);
 
   const getUserLibraries = () => {
-    if (currentUser) {
+    if (currentUser && Array.isArray(currentUser.library)) {
       const favLibrary: Library = {
         name: "Favorites",
         movies: currentUser.favorites,
