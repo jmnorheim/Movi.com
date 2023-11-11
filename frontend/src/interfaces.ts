@@ -56,7 +56,7 @@ export interface FilterState {
   runtimeRange: number[];
   ratingRange: number[];
   totalVotesRange: number[];
-  selectedGenres: string[];
+  selectedGenres: Set<string>;
 }
 
 export const SERVER_URL = "http://localhost:4000/";

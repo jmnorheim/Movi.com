@@ -69,10 +69,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   useEffect(() => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
-    console.log("initialFilterStates", initialFilterStates);
+    console.log("savedFilterStates", savedFilterStates);
     if (savedFilterStates) {
       initialFilterStates = JSON.parse(savedFilterStates);
     } else if (statsData && !isLoadingStats) {
+      console.log("statsData", statsData);
       initialFilterStates = {
         yearRange: [
           statsData.releaseYearRange.min,
@@ -90,7 +91,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           statsData.totalVotesRange.min,
           statsData.totalVotesRange.max,
         ],
-        selectedGenres: [],
+        selectedGenres: new Set<string>(),
       };
     }
 
