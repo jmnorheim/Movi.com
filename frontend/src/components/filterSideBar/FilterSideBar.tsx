@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { FC, useCallback, useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
 import FormGroup from "@mui/material/FormGroup";
@@ -61,10 +57,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   });
 
   // Get min and max values for each slider
-  const { data: statsData, isLoading: isLoadingStats } = useMovieStats() as {
-    data: MovieStats;
-    isLoading: boolean;
-  };
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
 
   useEffect(() => {
     let initialFilterStates;

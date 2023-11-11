@@ -100,17 +100,10 @@ const getMovies = async (
   return movies as MovieContent[];
 };
 
-interface MovieStatsResponse {
-  movieStats: MovieStats;
-}
-
 const getMovieStats = async () => {
-  const response = await request<MovieStatsResponse>(
-    SERVER_URL,
-    GET_MOVIE_STATS
-  );
+  const { movieStats } = await request(SERVER_URL, GET_MOVIE_STATS);
 
-  return response.movieStats;
+  return movieStats as MovieStats;
 };
 
 export const useMovie = (imdbId: string) => {
@@ -137,7 +130,7 @@ export const useMovies = (
 
 export const useMovieStats = () => {
   return useQuery({
-    queryKey: "MovieStats",
+    queryKey: ["MovieStats"],
     queryFn: () => getMovieStats(),
   });
 };
