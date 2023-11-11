@@ -245,7 +245,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         genres: Array.from(filterStates.selectedGenres),
       };
     }, 1000),
-    [filterStates.selectedGenres]
+    []
   );
 
   const sidebarStyle = {
