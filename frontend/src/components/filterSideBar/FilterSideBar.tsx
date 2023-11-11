@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, useCallback, useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
 import FormGroup from "@mui/material/FormGroup";
@@ -48,11 +49,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     const savedFilterStates = sessionStorage.getItem("filterStates");
     console.log("savedFilterStates", savedFilterStates);
     if (savedFilterStates) {
-      const parsedStates = JSON.parse(savedFilterStates);
+      const parsedStates = JSON.parse(savedFilterStates) as FilterState;
       initialFilterStates = {
         ...parsedStates,
         isAdult: parsedStates.isAdult,
-        selectedGenres: new Set<string>(parsedStates.selectedGenres || []),
+        selectedGenres: new Set<string>(parsedStates.selectedGenres),
       };
     } else if (statsData && !isLoadingStats) {
       console.log("statsData", statsData);
@@ -77,7 +78,30 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       };
     }
 
-    setFilterStates(initialFilterStates);
+    setFilterStates(initialFilterStates as FilterState);
+
+    if (initialFilterStates) {
+      filterSignals.value = {
+        releaseYearRange: {
+          min: initialFilterStates.yearRange[0],
+          max: initialFilterStates.yearRange[1],
+        },
+        runtimeMinutesRange: {
+          min: initialFilterStates.runtimeRange[0],
+          max: initialFilterStates.runtimeRange[1],
+        },
+        averageRatingRange: {
+          min: initialFilterStates.ratingRange[0],
+          max: initialFilterStates.ratingRange[1],
+        },
+        totalVotesRange: {
+          min: initialFilterStates.totalVotesRange[0],
+          max: initialFilterStates.totalVotesRange[1],
+        },
+        isAdult: initialFilterStates.isAdult ?? false,
+        genres: Array.from(initialFilterStates.selectedGenres),
+      };
+    }
 
     if (statsData && !isLoadingStats) {
       setMinAndMaxValuesSliders({
@@ -110,7 +134,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const updateSessionStorage = () => {
     const statesToSave = {
       ...filterStates,
-      selectedGenres: Array.from(filterStates.selectedGenres),
+      selectedGenres: Array.from(filterStates?.selectedGenres ?? []),
     };
     sessionStorage.setItem("filterStates", JSON.stringify(statesToSave));
   };
@@ -121,7 +145,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const commitYearChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
-      ...prevState,
+      ...(prevState as FilterState),
       yearRange: newValue,
     }));
     updateSessionStorage();
@@ -142,7 +166,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const commitRuntimeChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
-      ...prevState,
+      ...(prevState as FilterState),
       runtimeRange: newValue,
     }));
     updateSessionStorage();
@@ -163,7 +187,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const commitRatingChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
-      ...prevState,
+      ...(prevState as FilterState),
       ratingRange: newValue,
     }));
     updateSessionStorage();
@@ -184,7 +208,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const commitTotalVotesChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
-      ...prevState,
+      ...(prevState as FilterState),
       totalVotesRange: newValue,
     }));
     updateSessionStorage();
@@ -203,11 +227,14 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     []
   );
 
-  const commitIsAdultChange = (event: Event, newValue: boolean) => {
+  const commitIsAdultChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    newValue: boolean
+  ) => {
     console.log("newValue", newValue);
     setFilterStates((prevState) => ({
-      ...prevState,
-      isAdult: !filterStates.isAdult,
+      ...(prevState as FilterState),
+      isAdult: newValue,
     }));
     updateSessionStorage();
   };
@@ -219,31 +246,39 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
   };
 
-  const commitGenreChange = (genre: string) => {
+  const handleGenreChange = (genre: string) => {
     setFilterStates((prevState) => {
-      const newSelectedGenres = new Set(prevState.selectedGenres);
+      if (!prevState) {
+        return;
+      }
+      const newSelectedGenres = new Set(prevState?.selectedGenres);
       if (newSelectedGenres.has(genre)) {
         newSelectedGenres.delete(genre);
       } else {
         newSelectedGenres.add(genre);
       }
+      // Update filterSignals immediately with the new set of genres
+      filterSignals.value = {
+        ...filterSignals.value,
+        genres: Array.from(newSelectedGenres),
+      };
       return {
         ...prevState,
         selectedGenres: newSelectedGenres,
       };
     });
-    updateSessionStorage();
   };
 
-  const handleGenreChange = useCallback(
-    debounce(() => {
-      filterSignals.value = {
-        ...filterSignals.value,
-        genres: Array.from(filterStates.selectedGenres),
-      };
-    }, 1000),
-    []
-  );
+  // const handleGenreChange = useCallback(
+  //   debounce((newGenre) => {
+  //     console.log("newGenre", newGenre);
+  //     filterSignals.value = {
+  //       ...filterSignals.value,
+  //       genres: Array.from(...filterStates, newGenre),
+  //     };
+  //   }, 1000),
+  //   []
+  // );
 
   const sidebarStyle = {
     height: "100vh",
@@ -269,7 +304,12 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           <div>
             <p>Release year</p>
             <Slider
-              value={[filterStates.yearRange[0], filterStates.yearRange[1]]}
+              value={[
+                filterStates?.yearRange[0] ??
+                  minAndMaxValuesSliders.yearRange[0],
+                filterStates?.yearRange[1] ??
+                  minAndMaxValuesSliders.yearRange[1],
+              ]}
               onChange={(event, value) =>
                 commitYearChange(event, value as number[])
               }
@@ -286,8 +326,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
             <p>Runtime (minutes)</p>
             <Slider
               value={[
-                filterStates.runtimeRange[0],
-                filterStates.runtimeRange[1],
+                filterStates?.runtimeRange[0] ??
+                  minAndMaxValuesSliders.runtimeRange[0],
+                filterStates?.runtimeRange[1] ??
+                  minAndMaxValuesSliders.runtimeRange[1],
               ]}
               onChange={(event, value) =>
                 commitRuntimeChange(event, value as number[])
@@ -304,7 +346,12 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           <div>
             <p>Average rating</p>
             <Slider
-              value={[filterStates.ratingRange[0], filterStates.ratingRange[1]]}
+              value={[
+                filterStates?.ratingRange[0] ??
+                  minAndMaxValuesSliders.ratingRange[0],
+                filterStates?.ratingRange[1] ??
+                  minAndMaxValuesSliders.ratingRange[1],
+              ]}
               onChange={(event, value) =>
                 commitRatingChange(event, value as number[])
               }
@@ -321,8 +368,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
             <p>Total Votes</p>
             <Slider
               value={[
-                filterStates.totalVotesRange[0],
-                filterStates.totalVotesRange[1],
+                filterStates?.totalVotesRange[0] ??
+                  minAndMaxValuesSliders.totalVotesRange[0],
+                filterStates?.totalVotesRange[1] ??
+                  minAndMaxValuesSliders.totalVotesRange[1],
               ]}
               onChange={(event, value) =>
                 commitTotalVotesChange(event, value as number[])
@@ -340,16 +389,17 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={filterStates?.isAdult}
+                  checked={filterStates?.isAdult ?? false}
                   onChange={(event, value) => {
                     commitIsAdultChange(event, value);
-                    handleIsAdultChange(event, value);
+                    handleIsAdultChange(event);
                   }}
                   name="adultCheckbox"
                 />
               }
               label="Age-limit 18+"
             />
+            {/* =========================================================================================== */}
           </FormGroup>
           <h3>Filter by genres</h3>
           <FormGroup>
@@ -358,10 +408,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 key={genre}
                 control={
                   <Checkbox
-                    checked={filterStates.selectedGenres.has(genre)}
+                    checked={filterStates?.selectedGenres?.has(genre) ?? false}
                     onChange={() => {
-                      commitGenreChange(genre);
-                      handleGenreChange();
+                      handleGenreChange(genre);
                     }}
                     name={genre}
                   />
@@ -370,6 +419,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               />
             ))}
           </FormGroup>
+          {/* =========================================================================================== */}
         </>
       )}
     </div>
