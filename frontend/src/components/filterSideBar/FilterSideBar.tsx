@@ -72,6 +72,8 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     console.log("savedFilterStates", savedFilterStates);
     if (savedFilterStates) {
       initialFilterStates = JSON.parse(savedFilterStates);
+      initialFilterStates.selectedGenres = new Set<string>();
+      console.log("Test =", initialFilterStates.selectedGenres);
     } else if (statsData && !isLoadingStats) {
       console.log("statsData", statsData);
       initialFilterStates = {
