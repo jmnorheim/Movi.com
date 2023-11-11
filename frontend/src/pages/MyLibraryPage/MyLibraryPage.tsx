@@ -27,9 +27,12 @@ import { useUserQuery } from "../../services/getUser.ts";
  * @returns {React.Component}
  */
 const MyLibraryPage: React.FC = () => {
+  // State definitions
   const [dialogForm, setDialogForm] = useState(false);
   const [nameOfLibrary, setNameOfLibrary] = useState("");
   const [libraries, setLibraries] = useState<Library[] | null>(null);
+
+  // Hooks for user authentication and data fetching
   const { userID } = useAuth();
   const { data: currentUser } = useUserQuery(userID);
   const { mutate } = useCreateLibrary(userID);
@@ -45,8 +48,11 @@ const MyLibraryPage: React.FC = () => {
     if (currentUser) {
       getUserLibraries();
     }
-  }, [currentUser]);
+  }, [currentUser, nameOfLibrary]);
 
+  /**
+   * Function to fetch libraries.
+   */
   const getUserLibraries = () => {
     if (currentUser && Array.isArray(currentUser.library)) {
       const favLibrary: Library = {
@@ -64,12 +70,14 @@ const MyLibraryPage: React.FC = () => {
     mutate(libraryName);
   };
 
+  // Return =============================================================
   return (
     <>
       <>
         <div className="myLibraryPageContainer">
           <div className="title-container">
             <div className="text-wrapper">My Library</div>
+            {/* Button to open popup for creating a new library */}
             <button
               className="create-library-button"
               onClick={() => {
@@ -80,6 +88,7 @@ const MyLibraryPage: React.FC = () => {
               <DocumentIcon className="vuesax-linear" />
             </button>
           </div>
+          {/* Grid. Displays users libraries */}
           <MyLibrariesGrid
             libraries={libraries}
             onCreateNewPress={setDialogForm}
@@ -89,6 +98,8 @@ const MyLibraryPage: React.FC = () => {
           <PageFooter />
         </div>
       </>
+
+      {/* Popup for creating a new library */}
       <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>
         <DialogTitle>Create Library</DialogTitle>
         <DialogContent>
@@ -108,6 +119,7 @@ const MyLibraryPage: React.FC = () => {
           />
         </DialogContent>
         <DialogActions>
+          {/* Buttons for cancel or create a new library */}
           <Button
             onClick={() => {
               setDialogForm(false);
