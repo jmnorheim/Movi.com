@@ -7,6 +7,7 @@ import { filterSignals } from "../../pages/HomePage/HomePage";
 import { FilterState, Movie, MovieStats } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
+import { set } from "lodash";
 
 interface FilterSideBarProps {
   open: boolean;
@@ -15,32 +16,7 @@ interface FilterSideBarProps {
 
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const [contentVisible, setContentVisible] = useState(false);
-
-  //Set correct value of dots on sliders
-  // const getInitialState = (): FilterState => {
-  //   const savedFilterStates = sessionStorage.getItem("filterStates");
-  //   if (savedFilterStates) {
-  //     const parsed = JSON.parse(savedFilterStates) as FilterState;
-  //     console.log("Parsed = ", parsed.totalVotesRange[0]);
-  //     return {
-  //       yearRange: parsed.yearRange || [0, 0],
-  //       runtimeRange: parsed.runtimeRange || [0, 0],
-  //       ratingRange: parsed.ratingRange || [0, 0],
-  //       totalVotesRange: parsed.totalVotesRange || [0, 0],
-  //       selectedGenres: new Set<string>(
-  //         Array.isArray(parsed.selectedGenres) ? parsed.selectedGenres : []
-  //       ),
-  //     };
-  //   }
-  //   return {
-  //     yearRange: [0, 0],
-  //     runtimeRange: [0, 0],
-  //     ratingRange: [0, 0],
-  //     totalVotesRange: [0, 0],
-  //     selectedGenres: new Set<string>(),
-  //   };
-  // };
-
+  const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
 
   // console.log("getInitialState", getInitialState());
@@ -48,6 +24,13 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   useEffect(() => {
     const session = sessionStorage.getItem("filterStates");
     console.log("session", session);
+  }, [filterStates]);
+
+  useEffect(() => {
+    console.log("isInitialSetupComplete", isInitialSetupComplete);
+    if (isInitialSetupComplete) {
+      updateSessionStorage();
+    }
   }, [filterStates]);
 
   const [minAndMaxValuesSliders, setMinAndMaxValuesSliders] = useState({
@@ -116,6 +99,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         ],
       });
     }
+    setIsInitialSetupComplete(true);
   }, [statsData, isLoadingStats]);
 
   const onSidebarTransitionEnd = () => {
@@ -220,9 +204,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   );
 
   const commitIsAdultChange = (event: Event, newValue: boolean) => {
+    console.log("newValue", newValue);
     setFilterStates((prevState) => ({
       ...prevState,
-      isAdult: newValue,
+      isAdult: !filterStates.isAdult,
     }));
     updateSessionStorage();
   };
@@ -355,8 +340,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={filterSignals.value.isAdult}
-                  onChange={handleIsAdultChange}
+                  checked={filterStates?.isAdult}
+                  onChange={(event, value) => {
+                    commitIsAdultChange(event, value);
+                    handleIsAdultChange(event, value);
+                  }}
                   name="adultCheckbox"
                 />
               }
