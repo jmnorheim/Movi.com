@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
 import { CurrentFilter, Movie, MovieContent, User } from "../../interfaces";
 
@@ -21,6 +19,7 @@ import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { useMovies } from "../../services/getMovies";
+import { TablePagination } from "@mui/material";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -63,21 +62,17 @@ const HomePage: React.FC = () => {
 
   //TODO: change to signal and set this to 0 when the filter, search or sort changes
   const [page, setPage] = useState(0);
-  const moviesPerPage = 25;
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   console.log("FilterSignals =", filterSignals);
 
   const { data, isLoading } = useMovies(
     page,
-    moviesPerPage,
+    rowsPerPage,
     currentSearch.value,
     filterSignals.value as MovieFilter,
     currentSort as SortType
   );
-
-  const maxNumberOfPages = data?.count
-    ? Math.ceil(data.count / moviesPerPage)
-    : 1;
 
   const { email } = useAuth();
 
@@ -193,14 +188,18 @@ const HomePage: React.FC = () => {
 
   // =======================================================================================================================
 
-  const handleBackButton = () => {
-    if (page === 0) return;
-    setPage(page - 1);
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
   };
 
-  const handleNextButton = () => {
-    if (page === maxNumberOfPages) return;
-    setPage(page + 1);
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -217,14 +216,18 @@ const HomePage: React.FC = () => {
             ></HomePageHeader>
           )}
         </div>
-
-        <div>
-          <h4>Total results: {data?.count}</h4>
-          <h4>Page: {page}</h4>
-          <button onClick={handleBackButton}> Back </button>
-          <button onClick={handleNextButton}> Next </button>
-        </div>
         <div className="contentContainer">
+          {data && (
+            <TablePagination
+              className="pagination"
+              component="div"
+              count={data.count}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          )}
           <div className="sortMenuContainer">
             <SortMenu
               onSort={(value) => handleSort(value as SortType)}
