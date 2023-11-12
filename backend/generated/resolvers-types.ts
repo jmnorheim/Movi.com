@@ -156,6 +156,7 @@ export type Query = {
   userByEmail: User;
   userByID: User;
   users: Array<User>;
+  verifyPassword: Scalars['Boolean']['output'];
 };
 
 
