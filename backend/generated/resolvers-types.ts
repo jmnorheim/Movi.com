@@ -52,6 +52,14 @@ export type MovieFilter = {
   totalVotesRange?: InputMaybe<VotesRange>;
 };
 
+export type MovieStats = {
+  __typename?: 'MovieStats';
+  averageRatingRange: Range;
+  releaseYearRange: Range;
+  runtimeMinutesRange: Range;
+  totalVotesRange: Range;
+};
+
 export type MoviesData = {
   __typename?: 'MoviesData';
   count: Scalars['Int']['output'];
@@ -143,6 +151,7 @@ export type Query = {
   movie: Movie;
   movieInFavoriteByUserEmail: Scalars['Boolean']['output'];
   movieInFavoriteByUserID: Scalars['Boolean']['output'];
+  movieStats: MovieStats;
   movies: MoviesData;
   userByEmail: User;
   userByID: User;
@@ -213,6 +222,12 @@ export type QueryUserByIdArgs = {
 export type QueryUsersArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Range = {
+  __typename?: 'Range';
+  max: Scalars['Int']['output'];
+  min: Scalars['Int']['output'];
 };
 
 export type RatingRange = {
@@ -331,9 +346,11 @@ export type ResolversTypes = ResolversObject<{
   MinutesRange: MinutesRange;
   Movie: ResolverTypeWrapper<Movie>;
   MovieFilter: MovieFilter;
+  MovieStats: ResolverTypeWrapper<MovieStats>;
   MoviesData: ResolverTypeWrapper<MoviesData>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Range: ResolverTypeWrapper<Range>;
   RatingRange: RatingRange;
   SortType: SortType;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -352,9 +369,11 @@ export type ResolversParentTypes = ResolversObject<{
   MinutesRange: MinutesRange;
   Movie: Movie;
   MovieFilter: MovieFilter;
+  MovieStats: MovieStats;
   MoviesData: MoviesData;
   Mutation: {};
   Query: {};
+  Range: Range;
   RatingRange: RatingRange;
   String: Scalars['String']['output'];
   User: User;
@@ -381,6 +400,14 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
   runtimeMinutes?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   startYear?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalVotes?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type MovieStatsResolvers<ContextType = any, ParentType extends ResolversParentTypes['MovieStats'] = ResolversParentTypes['MovieStats']> = ResolversObject<{
+  averageRatingRange?: Resolver<ResolversTypes['Range'], ParentType, ContextType>;
+  releaseYearRange?: Resolver<ResolversTypes['Range'], ParentType, ContextType>;
+  runtimeMinutesRange?: Resolver<ResolversTypes['Range'], ParentType, ContextType>;
+  totalVotesRange?: Resolver<ResolversTypes['Range'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -411,10 +438,17 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   movie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType, RequireFields<QueryMovieArgs, 'imdbID'>>;
   movieInFavoriteByUserEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryMovieInFavoriteByUserEmailArgs, 'email' | 'imdbID'>>;
   movieInFavoriteByUserID?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryMovieInFavoriteByUserIdArgs, 'imdbID' | 'userID'>>;
+  movieStats?: Resolver<ResolversTypes['MovieStats'], ParentType, ContextType>;
   movies?: Resolver<ResolversTypes['MoviesData'], ParentType, ContextType, Partial<QueryMoviesArgs>>;
   userByEmail?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByEmailArgs, 'email'>>;
   userByID?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByIdArgs, 'userID'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;
+}>;
+
+export type RangeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Range'] = ResolversParentTypes['Range']> = ResolversObject<{
+  max?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  min?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
@@ -430,9 +464,11 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = ResolversObject<{
   Library?: LibraryResolvers<ContextType>;
   Movie?: MovieResolvers<ContextType>;
+  MovieStats?: MovieStatsResolvers<ContextType>;
   MoviesData?: MoviesDataResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Range?: RangeResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
 

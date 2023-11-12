@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { CurrentFilter, Movie, MovieContent, User } from "../../interfaces";
+import {
+  CurrentFilter,
+  Movie,
+  MovieContent,
+  User,
+  MovieStats,
+} from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -35,7 +41,7 @@ export const filterSignals = signal<FilterSettings>({
   releaseYearRange: { max: 2023, min: 1900 },
   runtimeMinutesRange: { max: 300, min: 0 },
   averageRatingRange: { max: 10, min: 0 },
-  totalVotesRange: { max: 1000000, min: 0 },
+  totalVotesRange: { max: 2900000, min: 0 },
   genres: [],
   isAdult: false,
 });
@@ -63,8 +69,7 @@ const HomePage: React.FC = () => {
   //TODO: change to signal and set this to 0 when the filter, search or sort changes
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  console.log("FilterSignals =", filterSignals);
+  console.log("Rows per page oppe: " + rowsPerPage);
 
   const { data, isLoading } = useMovies(
     page,
@@ -84,7 +89,6 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
-    console.log("Data =", data);
     if (data) {
       // Fetch the current user's favorites from localStorage
       setMovies(data.movies);
@@ -199,6 +203,8 @@ const HomePage: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    console.log("Rows per page: " + rowsPerPage);
+
     setPage(0);
   };
 
