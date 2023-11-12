@@ -4,6 +4,16 @@
   position: absolute;
 }
 
+.recommended {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommended-text {
+  width: 100%;
+  text-align: center;
+}
+
 .movie-card {
   height: 800px;
   width: 100vw;
