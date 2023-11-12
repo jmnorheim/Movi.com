@@ -19,10 +19,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
   // Get min and max values for each slider
-  const { data: statsData, isLoading: isLoadingStats } = useMovieStats() as {
-    data: MovieStats;
-    isLoading: boolean;
-  };
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
 
   useEffect(() => {
     console.log("isInitialSetupComplete", isInitialSetupComplete);
