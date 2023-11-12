@@ -4,7 +4,7 @@ import Slider from "@mui/material/Slider";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { filterSignals } from "../../pages/HomePage/HomePage";
+import { filterSignals, page } from "../../pages/HomePage/HomePage";
 import { FilterState, MovieContent } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
@@ -71,6 +71,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     setFilterStates(initialFilterStates as FilterState);
 
     if (initialFilterStates) {
+      page.value = 0;
       filterSignals.value = {
         releaseYearRange: {
           min: initialFilterStates.yearRange[0],
@@ -143,6 +144,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleYearChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         releaseYearRange: {
@@ -164,6 +166,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleRuntimeChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         runtimeMinutesRange: {
@@ -185,6 +188,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleRatingChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         averageRatingRange: {
@@ -206,6 +210,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleTotalVotesChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         totalVotesRange: {
@@ -230,6 +235,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   const handleIsAdultChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    page.value = 0;
     filterSignals.value = {
       ...filterSignals.value,
       isAdult: event.target.checked,
@@ -248,6 +254,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         newSelectedGenres.add(genre);
       }
       // Update filterSignals immediately with the new set of genres
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         genres: Array.from(newSelectedGenres),

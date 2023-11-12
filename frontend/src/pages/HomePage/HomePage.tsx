@@ -22,7 +22,7 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
-import { Signal, effect, signal } from "@preact/signals-react";
+import { Signal, effect, signal, useSignal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { useMovies } from "../../services/getMovies";
 import { TablePagination } from "@mui/material";
@@ -48,6 +48,10 @@ export const filterSignals = signal<FilterSettings>({
 
 export const currentSearch = signal<string>("");
 
+//Signal that contains the current page number and the number of rows per page are stored externally from the page component
+export const page = signal<number>(0);
+const rowsPerPage = signal<number>(10);
+
 // export const currentSort = signal<SortType | null>(null);
 
 /**
@@ -59,7 +63,6 @@ const HomePage: React.FC = () => {
     null
   ); // All movies
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
-  // const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
   const [currentFilter, setCurrentFilter] = useState<{
     isAdult?: boolean;
@@ -67,13 +70,10 @@ const HomePage: React.FC = () => {
   }>({ isAdult: false, genres: [] });
 
   //TODO: change to signal and set this to 0 when the filter, search or sort changes
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  console.log("Rows per page oppe: " + rowsPerPage);
 
   const { data, isLoading } = useMovies(
-    page,
-    rowsPerPage,
+    page.value,
+    rowsPerPage.value,
     currentSearch.value,
     filterSignals.value as MovieFilter,
     currentSort as SortType
@@ -196,16 +196,15 @@ const HomePage: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPage(newPage);
+    page.value = newPage;
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    console.log("Rows per page: " + rowsPerPage);
+    rowsPerPage.value = parseInt(event.target.value, 10);
 
-    setPage(0);
+    page.value = 0;
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -228,9 +227,9 @@ const HomePage: React.FC = () => {
               className="pagination"
               component="div"
               count={data.count}
-              page={page}
+              page={page.value}
               onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
+              rowsPerPage={rowsPerPage.value}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           )}

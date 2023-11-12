@@ -25,6 +25,7 @@ const documents = {
     "\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n": types.AddLibraryToUserDocument,
     "\n  mutation addMovieToLibrary($libraryId: ID!, $movieId: String!) {\n    addMovieToLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.AddMovieToLibraryDocument,
     "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.RemoveMovieFromLibraryDocument,
+    "\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n": types.VerifyPasswordDocument,
 };
 
 /**
@@ -89,6 +90,10 @@ export function graphql(source: "\n  mutation addMovieToLibrary($libraryId: ID!,
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n"): (typeof documents)["\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

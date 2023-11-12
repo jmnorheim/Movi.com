@@ -225,6 +225,12 @@ export type QueryUsersArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
+
+export type QueryVerifyPasswordArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type Range = {
   __typename?: 'Range';
   max: Scalars['Int']['output'];
@@ -444,6 +450,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   userByEmail?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByEmailArgs, 'email'>>;
   userByID?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByIdArgs, 'userID'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;
+  verifyPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryVerifyPasswordArgs, 'email' | 'password'>>;
 }>;
 
 export type RangeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Range'] = ResolversParentTypes['Range']> = ResolversObject<{

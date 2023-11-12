@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import "./SearchBar.css";
 
 import debounce from "lodash/debounce";
-import { currentSearch } from "../../pages/HomePage/HomePage.tsx";
+import { currentSearch, page } from "../../pages/HomePage/HomePage.tsx";
 
 const TypeSearch = () => {
   const [searchValue, setSearchValue] = useState(
@@ -15,20 +15,25 @@ const TypeSearch = () => {
   // Create the debounced function using useCallback
   const debouncedOnSearch = useCallback(
     debounce((searchString: string) => {
+      page.value = 0;
       currentSearch.value = searchString;
-    }, 700),
+    }, 800),
     [] // Dependency array is empty, so this function is created only once
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
-    debouncedOnSearch(value); // This will trigger the debouncedOnSearch callback after 500ms
+    debouncedOnSearch(value); // This will trigger the debouncedOnSearch callback after 800ms
     setSearchValue(value);
+    if (value === "") {
+      page.value = 0;
+    }
   };
 
   const handleClick = (): void => {
     setSearchValue("");
     currentSearch.value = "";
+    page.value = 0;
   };
 
   return (
