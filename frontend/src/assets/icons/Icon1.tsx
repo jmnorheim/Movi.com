@@ -5,20 +5,24 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 
 import React from "react";
 
-export const ArrowIcon = ({ className }) => {
+interface Icon1Props {
+  className?: string;
+}
+
+export const Icon1 = ({ className }: Icon1Props) => {
   return (
     <svg
-      className={`vuesax-linear-arrow-up ${className}`}
+      className={`icon-1 ${className}`}
       fill="none"
-      height="20"
-      viewBox="0 0 20 20"
+      height="21"
+      viewBox="0 0 20 21"
       width="20"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         className="path"
-        d="M3.39998 7.45834L8.83331 12.8917C9.47498 13.5333 10.525 13.5333 11.1666 12.8917L16.6 7.45834"
-        stroke="#0A0A0A"
+        d="M16.6 7.63071L11.1667 13.064C10.525 13.7057 9.47503 13.7057 8.83336 13.064L3.40002 7.63071"
+        stroke="#F5F5F5"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeMiterlimit="10"

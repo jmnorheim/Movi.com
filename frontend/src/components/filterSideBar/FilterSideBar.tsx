@@ -1,73 +1,241 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { FC, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { filterSignals } from "../../pages/HomePage/HomePage";
-import { Movie } from "../../interfaces";
+import { filterSignals, page } from "../../pages/HomePage/HomePage";
+import { FilterState, MovieContent } from "../../interfaces";
+import debounce from "lodash/debounce";
+import { useMovieStats } from "../../services/getMovies";
 
 interface FilterSideBarProps {
   open: boolean;
-  movies: Movie[] | [];
+  movies: MovieContent[] | [];
 }
 
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const [contentVisible, setContentVisible] = useState(false);
+  const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
+  const [filterStates, setFilterStates] = useState<FilterState>();
+  // Get min and max values for each slider
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
+
+  useEffect(() => {
+    console.log("isInitialSetupComplete", isInitialSetupComplete);
+    if (isInitialSetupComplete) {
+      updateSessionStorage();
+    }
+  }, [filterStates]);
+
+  const [minAndMaxValuesSliders, setMinAndMaxValuesSliders] = useState({
+    yearRange: [0, 0],
+    runtimeRange: [0, 0],
+    ratingRange: [0, 0],
+    totalVotesRange: [0, 0],
+  });
+
+  useEffect(() => {
+    let initialFilterStates;
+    const savedFilterStates = sessionStorage.getItem("filterStates");
+    if (savedFilterStates) {
+      const parsedStates = JSON.parse(savedFilterStates) as FilterState;
+      initialFilterStates = {
+        ...parsedStates,
+        isAdult: parsedStates.isAdult,
+        selectedGenres: new Set<string>(parsedStates.selectedGenres),
+      };
+    } else if (statsData && !isLoadingStats) {
+      console.log("statsData", statsData);
+      initialFilterStates = {
+        yearRange: [
+          statsData.releaseYearRange.min,
+          statsData.releaseYearRange.max,
+        ],
+        runtimeRange: [
+          statsData.runtimeMinutesRange.min,
+          statsData.runtimeMinutesRange.max,
+        ],
+        ratingRange: [
+          statsData.averageRatingRange.min,
+          statsData.averageRatingRange.max,
+        ],
+        totalVotesRange: [
+          statsData.totalVotesRange.min,
+          statsData.totalVotesRange.max,
+        ],
+        selectedGenres: new Set<string>(),
+      };
+    }
+
+    setFilterStates(initialFilterStates as FilterState);
+
+    if (initialFilterStates) {
+      page.value = 0;
+      filterSignals.value = {
+        releaseYearRange: {
+          min: initialFilterStates.yearRange[0],
+          max: initialFilterStates.yearRange[1],
+        },
+        runtimeMinutesRange: {
+          min: initialFilterStates.runtimeRange[0],
+          max: initialFilterStates.runtimeRange[1],
+        },
+        averageRatingRange: {
+          min: initialFilterStates.ratingRange[0],
+          max: initialFilterStates.ratingRange[1],
+        },
+        totalVotesRange: {
+          min: initialFilterStates.totalVotesRange[0],
+          max: initialFilterStates.totalVotesRange[1],
+        },
+        isAdult: initialFilterStates.isAdult ?? false,
+        genres: Array.from(initialFilterStates.selectedGenres),
+      };
+    }
+
+    if (statsData && !isLoadingStats) {
+      setMinAndMaxValuesSliders({
+        yearRange: [
+          statsData.releaseYearRange.min,
+          statsData.releaseYearRange.max,
+        ],
+        runtimeRange: [
+          statsData.runtimeMinutesRange.min,
+          statsData.runtimeMinutesRange.max,
+        ],
+        ratingRange: [
+          statsData.averageRatingRange.min,
+          statsData.averageRatingRange.max,
+        ],
+        totalVotesRange: [
+          statsData.totalVotesRange.min,
+          statsData.totalVotesRange.max,
+        ],
+      });
+    }
+    setIsInitialSetupComplete(true);
+  }, [statsData, isLoadingStats]);
 
   const onSidebarTransitionEnd = () => {
-    // Only show content if the sidebar is open
+    // Only show content if the sidebar is fully open
     setContentVisible(open);
   };
 
+  const updateSessionStorage = () => {
+    const statesToSave = {
+      ...filterStates,
+      selectedGenres: Array.from(filterStates?.selectedGenres ?? []),
+    };
+    sessionStorage.setItem("filterStates", JSON.stringify(statesToSave));
+  };
+
   const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie: Movie) => movie.genres))
+    new Set(movies.flatMap((movie: MovieContent) => movie.genres))
   );
 
-  const handleYearChange = (event: Event, newValue: number | number[]) => {
-    filterSignals.value = {
-      ...filterSignals.value,
-      releaseYearRange: {
-        min: newValue[0],
-        max: newValue[1],
-      },
-    };
+  const commitYearChange = (event: Event, newValue: number[]) => {
+    setFilterStates((prevState) => ({
+      ...(prevState as FilterState),
+      yearRange: newValue,
+    }));
+    updateSessionStorage();
   };
 
-  const handleRuntimeChange = (event: Event, newValue: number | number[]) => {
-    filterSignals.value = {
-      ...filterSignals.value,
-      runtimeMinutesRange: {
-        min: newValue[0],
-        max: newValue[1],
-      },
-    };
+  const handleYearChange = useCallback(
+    debounce((newValue: number[]) => {
+      page.value = 0;
+      filterSignals.value = {
+        ...filterSignals.value,
+        releaseYearRange: {
+          min: newValue[0],
+          max: newValue[1],
+        },
+      };
+    }, 500),
+    []
+  );
+
+  const commitRuntimeChange = (event: Event, newValue: number[]) => {
+    setFilterStates((prevState) => ({
+      ...(prevState as FilterState),
+      runtimeRange: newValue,
+    }));
+    updateSessionStorage();
   };
 
-  const handleRatingChange = (event: Event, newValue: number | number[]) => {
-    filterSignals.value = {
-      ...filterSignals.value,
-      averageRatingRange: {
-        min: newValue[0],
-        max: newValue[1],
-      },
-    };
+  const handleRuntimeChange = useCallback(
+    debounce((newValue: number[]) => {
+      page.value = 0;
+      filterSignals.value = {
+        ...filterSignals.value,
+        runtimeMinutesRange: {
+          min: newValue[0],
+          max: newValue[1],
+        },
+      };
+    }, 500),
+    []
+  );
+
+  const commitRatingChange = (event: Event, newValue: number[]) => {
+    setFilterStates((prevState) => ({
+      ...(prevState as FilterState),
+      ratingRange: newValue,
+    }));
+    updateSessionStorage();
   };
 
-  const handleTotalVotesChange = (
-    event: Event,
-    newValue: number | number[]
+  const handleRatingChange = useCallback(
+    debounce((newValue: number[]) => {
+      page.value = 0;
+      filterSignals.value = {
+        ...filterSignals.value,
+        averageRatingRange: {
+          min: newValue[0],
+          max: newValue[1],
+        },
+      };
+    }, 500),
+    []
+  );
+
+  const commitTotalVotesChange = (event: Event, newValue: number[]) => {
+    setFilterStates((prevState) => ({
+      ...(prevState as FilterState),
+      totalVotesRange: newValue,
+    }));
+    updateSessionStorage();
+  };
+
+  const handleTotalVotesChange = useCallback(
+    debounce((newValue: number[]) => {
+      page.value = 0;
+      filterSignals.value = {
+        ...filterSignals.value,
+        totalVotesRange: {
+          min: newValue[0],
+          max: newValue[1],
+        },
+      };
+    }, 500),
+    []
+  );
+
+  const commitIsAdultChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    newValue: boolean
   ) => {
-    filterSignals.value = {
-      ...filterSignals.value,
-      totalVotesRange: {
-        min: newValue[0],
-        max: newValue[1],
-      },
-    };
+    console.log("newValue", newValue);
+    setFilterStates((prevState) => ({
+      ...(prevState as FilterState),
+      isAdult: newValue,
+    }));
+    updateSessionStorage();
   };
 
   const handleIsAdultChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    page.value = 0;
     filterSignals.value = {
       ...filterSignals.value,
       isAdult: event.target.checked,
@@ -75,20 +243,27 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   const handleGenreChange = (genre: string) => {
-    const genresSet = new Set(filterSignals.value.genres);
-
-    // Update the genres signal based on whether the genre is already selected or not
-    if (genresSet.has(genre)) {
-      genresSet.delete(genre); // Remove genre from the set if it's already there
-    } else {
-      genresSet.add(genre); // Add genre to the set if it's not
-    }
-
-    // Update the filterSignals with the new set of genres
-    filterSignals.value = {
-      ...filterSignals.value,
-      genres: Array.from(genresSet),
-    };
+    setFilterStates((prevState) => {
+      if (!prevState) {
+        return;
+      }
+      const newSelectedGenres = new Set(prevState?.selectedGenres);
+      if (newSelectedGenres.has(genre)) {
+        newSelectedGenres.delete(genre);
+      } else {
+        newSelectedGenres.add(genre);
+      }
+      // Update filterSignals immediately with the new set of genres
+      page.value = 0;
+      filterSignals.value = {
+        ...filterSignals.value,
+        genres: Array.from(newSelectedGenres),
+      };
+      return {
+        ...prevState,
+        selectedGenres: newSelectedGenres,
+      };
+    });
   };
 
   const sidebarStyle = {
@@ -116,69 +291,101 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
             <p>Release year</p>
             <Slider
               value={[
-                filterSignals.value.releaseYearRange.min,
-                filterSignals.value.releaseYearRange.max,
+                filterStates?.yearRange[0] ??
+                  minAndMaxValuesSliders.yearRange[0],
+                filterStates?.yearRange[1] ??
+                  minAndMaxValuesSliders.yearRange[1],
               ]}
-              onChange={handleYearChange}
+              onChange={(event, value) =>
+                commitYearChange(event, value as number[])
+              }
+              onChangeCommitted={(event, value) =>
+                handleYearChange(value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={1900}
-              max={2023}
+              min={minAndMaxValuesSliders.yearRange[0]}
+              max={minAndMaxValuesSliders.yearRange[1]}
             />
           </div>
           <div>
             <p>Runtime (minutes)</p>
             <Slider
               value={[
-                filterSignals.value.runtimeMinutesRange.min,
-                filterSignals.value.runtimeMinutesRange.max,
+                filterStates?.runtimeRange[0] ??
+                  minAndMaxValuesSliders.runtimeRange[0],
+                filterStates?.runtimeRange[1] ??
+                  minAndMaxValuesSliders.runtimeRange[1],
               ]}
-              onChange={handleRuntimeChange}
+              onChange={(event, value) =>
+                commitRuntimeChange(event, value as number[])
+              }
+              onChangeCommitted={(event, value) =>
+                handleRuntimeChange(value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={0}
-              max={300}
+              min={minAndMaxValuesSliders.runtimeRange[0]}
+              max={minAndMaxValuesSliders.runtimeRange[1]}
             />
           </div>
           <div>
             <p>Average rating</p>
             <Slider
               value={[
-                filterSignals.value.averageRatingRange.min,
-                filterSignals.value.averageRatingRange.max,
+                filterStates?.ratingRange[0] ??
+                  minAndMaxValuesSliders.ratingRange[0],
+                filterStates?.ratingRange[1] ??
+                  minAndMaxValuesSliders.ratingRange[1],
               ]}
-              onChange={handleRatingChange}
+              onChange={(event, value) =>
+                commitRatingChange(event, value as number[])
+              }
+              onChangeCommitted={(event, value) =>
+                handleRatingChange(value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={0}
-              max={10}
+              min={minAndMaxValuesSliders.ratingRange[0]}
+              max={minAndMaxValuesSliders.ratingRange[1]}
             />
           </div>
           <div>
             <p>Total Votes</p>
             <Slider
               value={[
-                filterSignals.value.totalVotesRange.min,
-                filterSignals.value.totalVotesRange.max,
+                filterStates?.totalVotesRange[0] ??
+                  minAndMaxValuesSliders.totalVotesRange[0],
+                filterStates?.totalVotesRange[1] ??
+                  minAndMaxValuesSliders.totalVotesRange[1],
               ]}
-              onChange={handleTotalVotesChange}
+              onChange={(event, value) =>
+                commitTotalVotesChange(event, value as number[])
+              }
+              onChangeCommitted={(event, value) =>
+                handleTotalVotesChange(value as number[])
+              }
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
-              min={0}
-              max={1000000}
+              min={minAndMaxValuesSliders.totalVotesRange[0]}
+              max={minAndMaxValuesSliders.totalVotesRange[1]}
             />
           </div>
           <FormGroup>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={filterSignals.value.isAdult}
-                  onChange={handleIsAdultChange}
+                  checked={filterStates?.isAdult ?? false}
+                  onChange={(event, value) => {
+                    commitIsAdultChange(event, value);
+                    handleIsAdultChange(event);
+                  }}
                   name="adultCheckbox"
                 />
               }
               label="Age-limit 18+"
             />
+            {/* =========================================================================================== */}
           </FormGroup>
           <h3>Filter by genres</h3>
           <FormGroup>
@@ -187,8 +394,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 key={genre}
                 control={
                   <Checkbox
-                    checked={filterSignals.value.genres.includes(genre)}
-                    onChange={() => handleGenreChange(genre)}
+                    checked={filterStates?.selectedGenres?.has(genre) ?? false}
+                    onChange={() => {
+                      handleGenreChange(genre);
+                    }}
                     name={genre}
                   />
                 }
@@ -196,6 +405,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               />
             ))}
           </FormGroup>
+          {/* =========================================================================================== */}
         </>
       )}
     </div>

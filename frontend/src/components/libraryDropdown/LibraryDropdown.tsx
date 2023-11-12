@@ -1,7 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
 import plus from "../../assets/icons/plus.svg";
 
-const LibraryDropdown = ({ movieID, onAddToLibrary }) => {
+interface LibraryDropdownProps {
+  movieID: string;
+  onAddToLibrary: (library: string, movieID: string) => void;
+}
+
+const LibraryDropdown = ({ movieID, onAddToLibrary }: LibraryDropdownProps) => {
   const libraries = ["Library 1", "Library 2", "Library 3"]; // Sample libraries
 
   return (

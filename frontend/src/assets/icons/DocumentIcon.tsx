@@ -5,7 +5,11 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 
 import React from "react";
 
-export const DocumentIcon = ({ className }) => {
+interface DocumentIconProps {
+  className?: string;
+}
+
+export const DocumentIcon = ({ className }: DocumentIconProps) => {
   return (
     <svg
       className={`vuesax-linear-document-copy ${className}`}

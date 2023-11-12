@@ -5,7 +5,6 @@
 - Register, Login and Log out
 - Navigate between different pages
 - Test filtering, sorting, and search
-- Create a library
 
 ## Students
 

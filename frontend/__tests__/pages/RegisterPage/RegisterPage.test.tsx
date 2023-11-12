@@ -108,8 +108,8 @@ describe("RegisterPage Component", () => {
   });
 
   /**
- * Verifies error handling when create unvalid user.
- */
+   * Verifies error handling when create unvalid user.
+   */
   it("Should handle errors when createUser fails", async () => {
     // Mock the createUser function to reject with an error.
     const createUserMock = vi

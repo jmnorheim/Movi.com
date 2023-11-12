@@ -15,7 +15,7 @@ describe("Test Searchbar", () => {
    */
   it("Test that Searchbar is rendered with correct placeholder", () => {
     const mockOnSearch = vi.fn();
-    render(<TypeSearch onSearch={mockOnSearch} />);
+    render(<TypeSearch />);
     const inputElement = screen.getByPlaceholderText("Search for any movie...");
     expect(inputElement).toBeDefined();
   });

@@ -1,7 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import movieAPI from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { CurrentFilter, Movie, MovieContent, User } from "../../interfaces";
+import {
+  CurrentFilter,
+  Movie,
+  MovieContent,
+  User,
+  MovieStats,
+} from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -18,9 +22,10 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
-import { Signal, effect, signal } from "@preact/signals-react";
+import { Signal, effect, signal, useSignal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { useMovies } from "../../services/getMovies";
+import { TablePagination } from "@mui/material";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -36,12 +41,16 @@ export const filterSignals = signal<FilterSettings>({
   releaseYearRange: { max: 2023, min: 1900 },
   runtimeMinutesRange: { max: 300, min: 0 },
   averageRatingRange: { max: 10, min: 0 },
-  totalVotesRange: { max: 1000000, min: 0 },
+  totalVotesRange: { max: 2900000, min: 0 },
   genres: [],
   isAdult: false,
 });
 
 export const currentSearch = signal<string>("");
+
+//Signal that contains the current page number and the number of rows per page are stored externally from the page component
+export const page = signal<number>(0);
+const rowsPerPage = signal<number>(10);
 
 // export const currentSort = signal<SortType | null>(null);
 
@@ -50,26 +59,21 @@ export const currentSearch = signal<string>("");
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originalMovies, setOriginalMovies] = useState<Movie[] | null>(null); // All movies
-  const [movies, setMovies] = useState<Movie[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
-  // const [currentSearch, setCurrentSearch] = useState<string>("");
+  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
+    null
+  ); // All movies
+  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
   const [currentSort, setCurrentSort] = useState<SortType | null>(null);
   const [currentFilter, setCurrentFilter] = useState<{
     isAdult?: boolean;
     genres?: string[];
   }>({ isAdult: false, genres: [] });
 
-  console.log("FilterSignals =", filterSignals);
-
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["movies"],
-  //   queryFn: movieAPI,
-  // });
+  //TODO: change to signal and set this to 0 when the filter, search or sort changes
 
   const { data, isLoading } = useMovies(
-    0,
-    100,
-    0,
+    page.value,
+    rowsPerPage.value,
     currentSearch.value,
     filterSignals.value as MovieFilter,
     currentSort as SortType
@@ -85,98 +89,13 @@ const HomePage: React.FC = () => {
   // =======================================================================================================================
 
   useEffect(() => {
-    console.log("Data =", data);
-    if (data && data instanceof Array) {
+    if (data) {
       // Fetch the current user's favorites from localStorage
-      setMovies(data as Movie[]);
-      setOriginalMovies(data as Movie[]);
+      setMovies(data.movies);
+      setOriginalMovies(data.movies);
       console.log("Data has been set");
-      console.log("email =", email);
     }
-  }, [data, email]);
-
-  // =======================================================================================================================
-
-  const toggleFavorite = (imdbID: string) => {
-    console.log("Toggling favorite for movie with imdbID =", imdbID);
-    if (!email) return;
-
-    const usersJSON = localStorage.getItem("users");
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      users = JSON.parse(usersJSON) as User[];
-    }
-    const currentUser = users.find((user: User) => user.email === email);
-
-    if (!currentUser) return;
-
-    // Toggle the favorite status in the currentUser object
-    if (currentUser.favorites.includes(imdbID)) {
-      currentUser.favorites = currentUser.favorites.filter(
-        (favoriteImdbID: string) => favoriteImdbID !== imdbID
-      );
-    } else {
-      currentUser.favorites.push(imdbID);
-    }
-
-    const userIndex = users.findIndex((user: User) => user.email === email);
-    users[userIndex] = currentUser;
-    localStorage.setItem("users", JSON.stringify(users));
-
-    const updateMovieListFavoritedStatus = (movieList: Movie[] | null) => {
-      if (!movieList) return null;
-
-      return movieList.map((movie) => {
-        if (movie.imdbID === imdbID) {
-          return { ...movie, favorited: !movie.favorited };
-        }
-        return movie;
-      });
-    };
-
-    setOriginalMovies((prevOriginalMovies) =>
-      updateMovieListFavoritedStatus(prevOriginalMovies)
-    );
-
-    // Update the movies state
-    setMovies((prevMovies: Movie[] | null) => {
-      if (!prevMovies) return null;
-
-      const updatedMovies = updateMovieListFavoritedStatus(prevMovies);
-
-      // If a sort type is active, reapply the sort
-      if (currentSort) {
-        const sortedMovies = applySort(updatedMovies as Movie[], currentSort);
-        return sortedMovies;
-      }
-
-      // If any filter is active, reapply the filters
-      if (
-        currentFilter.isAdult ||
-        (currentFilter.genres && currentFilter.genres.length > 0)
-      ) {
-        const filteredMovies = applyFilter(
-          updatedMovies as Movie[],
-          currentFilter
-        );
-        return filteredMovies;
-      }
-
-      return updatedMovies;
-    });
-  };
-
-  // Searching===============================================================================================================
-
-  const applySearch = (searchTerm: string) => {
-    setCurrentSearch(searchTerm);
-    if (originalMovies) {
-      const filteredMovies = originalMovies.filter((movie) =>
-        movie.primaryTitle.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setMovies(filteredMovies);
-    }
-  };
+  }, [data]);
 
   // Sorting==================================================================================================================
 
@@ -189,10 +108,13 @@ const HomePage: React.FC = () => {
     setMovies(sortedMovies); // Cast sortedMovies to Movie[] type
   };
 
-  const applySort = (movieList: Movie[], sortType: SortType): Movie[] => {
+  const applySort = (
+    movieList: MovieContent[],
+    sortType: SortType
+  ): MovieContent[] => {
     if (sortType === null) return originalMovies as Movie[];
 
-    return [...movieList].sort((a: Movie, b: Movie): number => {
+    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
       switch (sortType) {
         case SortType.TitleAz:
           return a.primaryTitle.localeCompare(b.primaryTitle);
@@ -244,9 +166,9 @@ const HomePage: React.FC = () => {
 
   // Apply the current filter to a list of movies
   const applyFilter = (
-    movieList: Movie[],
+    movieList: MovieContent[],
     newFilter: CurrentFilter
-  ): Movie[] => {
+  ): MovieContent[] => {
     return movieList.filter((movie) => {
       // Check isAdult filter
       if (
@@ -270,6 +192,21 @@ const HomePage: React.FC = () => {
 
   // =======================================================================================================================
 
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    page.value = newPage;
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    rowsPerPage.value = parseInt(event.target.value, 10);
+
+    page.value = 0;
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -281,28 +218,30 @@ const HomePage: React.FC = () => {
             <HomePageHeader
               movies={originalMovies}
               onFilter={handleFilter}
-              onSearch={applySearch}
             ></HomePageHeader>
           )}
         </div>
-
         <div className="contentContainer">
-          {/* <div className="searchBarContainer">
-            <SearchBar onSearch={applySearch} />
-            {originalMovies?.length && (
-              <FilterMenu movies={originalMovies} onFilter={handleFilter} />
-            )}
-          </div> */}
+          {data && (
+            <TablePagination
+              className="pagination"
+              component="div"
+              count={data.count}
+              page={page.value}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage.value}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          )}
           <div className="sortMenuContainer">
-            <SortMenu onSort={handleSort}></SortMenu>
+            <SortMenu
+              onSort={(value) => handleSort(value as SortType)}
+            ></SortMenu>
           </div>
 
           <div className="gridContainer">
             {movies?.length ? (
-              <MovieContainerGrid
-                movies={movies}
-                onToggleFavorite={toggleFavorite}
-              />
+              <MovieContainerGrid movies={movies} />
             ) : (
               <h2 className="noMatchesText">No matches found</h2>
             )}

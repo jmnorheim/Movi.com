@@ -14,7 +14,7 @@ import { Library, User } from "../../interfaces";
 import { useAuth } from "../../services/auth/AuthContext";
 import "./MyLibraryPage.css";
 
-import { DocumentIcon } from "../../assets/icons/DocumentIcon";
+import { DocumentIcon } from "../../assets/icons/DocumentIcon.tsx";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";

@@ -5,7 +5,11 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 
 import React from "react";
 
-export const LinkedInIcon = ({ className }) => {
+interface LinkedInIconProps {
+  className?: string;
+}
+
+export const LinkedInIcon = ({ className }: LinkedInIconProps) => {
   return (
     <svg
       className={`icon-linkedin ${className}`}
