@@ -8,6 +8,7 @@ type Query {
   ): MoviesData!
   movie(imdbID: ID!): Movie!
   movieStats: MovieStats!
+  getRecommendedMovies(movie: MovieInput!): [Movie!]!
 }
 
 enum SortType {
@@ -51,6 +52,18 @@ input MinutesRange {
 }
 
 type Movie {
+  imdbID: ID!
+  primaryTitle: String!
+  originalTitle: String!
+  isAdult: Boolean!
+  startYear: Int!
+  runtimeMinutes: Int!
+  averageRating: Float!
+  totalVotes: Int!
+  poster: String
+  genres: [String!]!
+}
+input MovieInput {
   imdbID: ID!
   primaryTitle: String!
   originalTitle: String!

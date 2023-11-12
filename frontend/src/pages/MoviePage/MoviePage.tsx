@@ -17,6 +17,7 @@ import { effect } from "@preact/signals-react";
 import { useMovie, useMovies } from "../../services/getMovies";
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid.tsx";
 import { MovieFilter } from "../../generated/graphql.ts";
+import { useRecommendedMovies } from "../../services/getRecommended.ts";
 
 /**
  * Render the MoviePage component.
@@ -39,18 +40,7 @@ const MoviePage: React.FC = () => {
 
   const { data, isLoading } = useMovie(movieId);
 
-  let movieFilter: MovieFilter = {};
-  if (movie) {
-    movieFilter = {
-      genres: movie?.genres,
-      isAdult: movie?.isAdult,
-      // averageRatingRange: {
-      //   min: Math.max(movie?.averageRating - 1.5, 0),
-      //   max: Math.min(movie?.averageRating + 1.5, 10),
-      // },
-    };
-  }
-  const { data: recommendedData } = useMovies(0, 5, "", movieFilter);
+  const { data: recommendedData } = useRecommendedMovies(movie);
 
   useEffect(() => {
     if (data) {
@@ -61,7 +51,7 @@ const MoviePage: React.FC = () => {
   useEffect(() => {
     if (recommendedData) {
       setRecommendedMovies(
-        recommendedData.movies.filter((m) => m.imdbID !== movieId)
+        recommendedData.filter((movie) => movie.imdbID !== movieId)
       );
     }
   }, [recommendedData, movieId]);
