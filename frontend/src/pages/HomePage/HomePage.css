@@ -35,6 +35,14 @@ html {
   /* min-width: 100%; */
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0px;
+  /* background-color: red; */
+}
+
 .contentContainer {
   display: flex;
   flex-direction: column;

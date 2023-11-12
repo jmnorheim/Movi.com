@@ -12,10 +12,13 @@ const TypeSearch = () => {
     currentSearch.value ? currentSearch.value : ""
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnSearch = debounce((searchString: string) => {
-    currentSearch.value = searchString; // Set the signal with the debounced value
-  }, 300);
+  // Create the debounced function using useCallback
+  const debouncedOnSearch = useCallback(
+    debounce((searchString: string) => {
+      currentSearch.value = searchString;
+    }, 700),
+    [] // Dependency array is empty, so this function is created only once
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;

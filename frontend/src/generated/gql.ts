@@ -16,7 +16,8 @@ const documents = {
     "\n  mutation createUser($username: String!, $email: String!, $password: String!) {\n    createUser(username: $username, email: $email, password: $password) {\n      email\n      favorites\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      password\n      userID\n      username\n    }\n  }\n": types.CreateUserDocument,
     "\n  query getLibrary($libraryId: ID!) {\n    libraryByID(libraryID: $libraryId) {\n      movies\n      name\n    }\n  }\n": types.GetLibraryDocument,
     "\n  query GetUser($imdbId: ID!) {\n    movie(imdbID: $imdbId) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n": types.GetUserDocument,
-    "\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n": types.GetMoviesDocument,
+    "\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      count\n      movies {\n        primaryTitle\n        totalVotes\n        imdbID\n        startYear\n        runtimeMinutes\n        poster\n        originalTitle\n        isAdult\n        averageRating\n        genres\n      }\n    }\n  }\n": types.GetMoviesDocument,
+    "\n  query GetMovieStats {\n    movieStats {\n      averageRatingRange {\n        max\n        min\n      }\n      releaseYearRange {\n        max\n        min\n      }\n      runtimeMinutesRange {\n        max\n        min\n      }\n      totalVotesRange {\n        max\n        min\n      }\n    }\n  }\n": types.GetMovieStatsDocument,
     "\n  query UserByEmail($email: String!) {\n    userByEmail(email: $email) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n": types.UserByEmailDocument,
     "\n  query UserByID($userID: ID!) {\n    userByID(userID: $userID) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n": types.UserByIdDocument,
     "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n": types.GetUserFavoritesDocument,
@@ -24,7 +25,6 @@ const documents = {
     "\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n": types.AddLibraryToUserDocument,
     "\n  mutation addMovieToLibrary($libraryId: ID!, $movieId: String!) {\n    addMovieToLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.AddMovieToLibraryDocument,
     "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.RemoveMovieFromLibraryDocument,
-    "\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n": types.VerifyPasswordDocument,
 };
 
 /**
@@ -56,7 +56,11 @@ export function graphql(source: "\n  query GetUser($imdbId: ID!) {\n    movie(im
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n"): (typeof documents)["\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      averageRating\n      genres\n      imdbID\n      isAdult\n      originalTitle\n      poster\n      primaryTitle\n      runtimeMinutes\n      startYear\n      totalVotes\n    }\n  }\n"];
+export function graphql(source: "\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      count\n      movies {\n        primaryTitle\n        totalVotes\n        imdbID\n        startYear\n        runtimeMinutes\n        poster\n        originalTitle\n        isAdult\n        averageRating\n        genres\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetMovies(\n    $limit: Int\n    $offset: Int\n    $searchBy: String\n    $filter: MovieFilter\n    $sortBy: SortType\n  ) {\n    movies(\n      limit: $limit\n      offset: $offset\n      searchBy: $searchBy\n      filter: $filter\n      sortBy: $sortBy\n    ) {\n      count\n      movies {\n        primaryTitle\n        totalVotes\n        imdbID\n        startYear\n        runtimeMinutes\n        poster\n        originalTitle\n        isAdult\n        averageRating\n        genres\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetMovieStats {\n    movieStats {\n      averageRatingRange {\n        max\n        min\n      }\n      releaseYearRange {\n        max\n        min\n      }\n      runtimeMinutesRange {\n        max\n        min\n      }\n      totalVotesRange {\n        max\n        min\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetMovieStats {\n    movieStats {\n      averageRatingRange {\n        max\n        min\n      }\n      releaseYearRange {\n        max\n        min\n      }\n      runtimeMinutesRange {\n        max\n        min\n      }\n      totalVotesRange {\n        max\n        min\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -85,10 +89,6 @@ export function graphql(source: "\n  mutation addMovieToLibrary($libraryId: ID!,
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n"): (typeof documents)["\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

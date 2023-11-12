@@ -1,8 +1,8 @@
-import { graphql } from "../generated";
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import { MovieContent, SERVER_URL } from "../interfaces";
+import { MovieContent, MovieStats, MovieData, SERVER_URL } from "../interfaces";
 import { MovieFilter, SortType } from "../generated/graphql";
+import { graphql } from "../generated";
 
 const GET_MOVIE = graphql(`
   query GetUser($imdbId: ID!) {
@@ -36,16 +36,42 @@ const GET_MOVIES = graphql(`
       filter: $filter
       sortBy: $sortBy
     ) {
-      averageRating
-      genres
-      imdbID
-      isAdult
-      originalTitle
-      poster
-      primaryTitle
-      runtimeMinutes
-      startYear
-      totalVotes
+      count
+      movies {
+        primaryTitle
+        totalVotes
+        imdbID
+        startYear
+        runtimeMinutes
+        poster
+        originalTitle
+        isAdult
+        averageRating
+        genres
+      }
+    }
+  }
+`);
+
+const GET_MOVIE_STATS = graphql(`
+  query GetMovieStats {
+    movieStats {
+      averageRatingRange {
+        max
+        min
+      }
+      releaseYearRange {
+        max
+        min
+      }
+      runtimeMinutesRange {
+        max
+        min
+      }
+      totalVotesRange {
+        max
+        min
+      }
     }
   }
 `);
@@ -64,7 +90,7 @@ const getMovies = async (
   searchBy?: string,
   filter?: MovieFilter,
   sortBy?: SortType
-): Promise<MovieContent[]> => {
+): Promise<MovieData> => {
   const parameters = {
     limit,
     offset,
@@ -74,7 +100,13 @@ const getMovies = async (
   };
   const { movies } = await request(SERVER_URL, GET_MOVIES, parameters);
 
-  return movies as MovieContent[];
+  return movies as MovieData;
+};
+
+const getMovieStats = async () => {
+  const { movieStats } = await request(SERVER_URL, GET_MOVIE_STATS);
+
+  return movieStats as MovieStats;
 };
 
 export const useMovie = (imdbId: string) => {
@@ -87,14 +119,21 @@ export const useMovie = (imdbId: string) => {
 export const useMovies = (
   page: number = 0,
   limit: number = 10,
-  offset: number = page * limit,
   searchBy?: string,
   filter?: MovieFilter,
   sortBy?: SortType
 ) => {
+  const offset = page * limit;
   return useQuery({
-    queryKey: ["Movies: " + page, searchBy, filter, sortBy],
+    queryKey: ["Movies: " + page, limit, searchBy, filter, sortBy],
     queryFn: () => getMovies(limit, offset, searchBy, filter, sortBy),
     keepPreviousData: true,
+  });
+};
+
+export const useMovieStats = () => {
+  return useQuery({
+    queryKey: ["MovieStats"],
+    queryFn: () => getMovieStats(),
   });
 };
