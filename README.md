@@ -2,7 +2,7 @@
 
 
 ## We would like you to test the following:
-- Register, Login and Log out
+- Register, Log in and Log out
 - Navigate between different pages
 - Test filtering, sorting, and search
 
