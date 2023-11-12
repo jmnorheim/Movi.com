@@ -222,21 +222,28 @@ const HomePage: React.FC = () => {
           )}
         </div>
         <div className="contentContainer">
-          {data && (
-            <TablePagination
-              className="pagination"
-              component="div"
-              count={data.count}
-              page={page.value}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage.value}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          )}
-          <div className="sortMenuContainer">
-            <SortMenu
-              onSort={(value) => handleSort(value as SortType)}
-            ></SortMenu>
+          <div className="paginationAndSortContainer">
+            <div className="spacer"></div>
+            <div className="paginationContainer">
+              {data && (
+                <TablePagination
+                  sx={{ size: "large" }}
+                  className="pagination custom-pagination"
+                  component="div"
+                  count={data.count}
+                  page={page.value}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage.value}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              )}
+            </div>
+            <div className="spacer-2"></div>
+            <div className="sortMenuContainer">
+              <SortMenu
+                onSort={(value) => handleSort(value as SortType)}
+              ></SortMenu>
+            </div>
           </div>
 
           <div className="gridContainer">
