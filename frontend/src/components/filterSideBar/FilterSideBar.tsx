@@ -5,7 +5,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { filterSignals, page } from "../../pages/HomePage/HomePage";
-import { FilterState, MovieContent } from "../../interfaces";
+import { FilterState, MovieContent, MovieStats } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
 

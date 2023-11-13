@@ -39,7 +39,35 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 0px;
+  /* margin-top: 5px; */
+  /* background-color: red; */
+}
+
+.paginationContainer {
+}
+
+.spacer {
+  flex-grow: 1.6;
+}
+
+.spacer-2 {
+  flex-grow: 1
+}
+
+.paginationAndSortContainer {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortMenuContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* padding-top: 30px; */
+  padding-right: 8%;
+  margin-left: auto;
   /* background-color: red; */
 }
 
@@ -50,17 +78,10 @@ html {
   /* background-color: green; */
 }
 
-.sortMenuContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-top: 30px;
-  padding-right: 8%;
-  /* background-color: red; */
-}
+
 
 .gridContainer {
-  padding-top: 50px;
+  padding-top: 10px;
   /* background-color: blue; */
 }
 
