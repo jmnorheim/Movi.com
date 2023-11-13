@@ -254,10 +254,10 @@ export const movieResolver: Resolvers = {
               { startYear: { gte: movie.startYear - 10 } },
               { startYear: { lte: movie.startYear + 10 } },
               {
-                runtimeMinutes: { gte: movie.runtimeMinutes - 10 },
+                runtimeMinutes: { gte: movie.runtimeMinutes - 30 },
               },
               {
-                runtimeMinutes: { lte: movie.runtimeMinutes + 10 },
+                runtimeMinutes: { lte: movie.runtimeMinutes + 30 },
               },
               { averageRating: { gte: movie.averageRating - 2.5 } },
               { averageRating: { lte: movie.averageRating + 2.5 } },
