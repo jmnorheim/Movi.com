@@ -10,8 +10,11 @@
 }
 
 .recommended-text {
-  width: 100%;
-  text-align: center;
+  font-size: 48px;
+  text-align: left;
+  margin-left: 9%;
+  margin-bottom: 20px;
+  font-family: "Gotham SSm-Bold", Helvetica;
 }
 
 .movie-card {

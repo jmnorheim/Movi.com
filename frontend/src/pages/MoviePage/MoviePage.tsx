@@ -157,7 +157,7 @@ const MoviePage: React.FC = () => {
           </div>
           {recommendedMovies && (
             <div className="recommended">
-              <h2 className="recommended-text">Recommended</h2>
+              <h1 className="recommended-text">Recommended</h1>
               <MovieContainerGrid movies={recommendedMovies} />
             </div>
           )}
