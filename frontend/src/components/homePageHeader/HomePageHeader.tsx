@@ -9,10 +9,9 @@ import filtericon from "../../assets/icons/filter-icon.svg";
 
 interface HomePageHeaderProps {
   genres: string[] | [];
-  onFilter: (filters: CurrentFilter) => void;
 }
 
-const HomePageHeader: FC<HomePageHeaderProps> = ({ genres, onFilter }) => {
+const HomePageHeader: FC<HomePageHeaderProps> = ({ genres }) => {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
   const filterSidebarRef = useRef<HTMLDivElement>(null);
   const filterButtonRef = useRef<HTMLButtonElement>(null);

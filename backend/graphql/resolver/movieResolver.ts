@@ -106,6 +106,20 @@ export const movieResolver: Resolvers = {
           { averageRating: { lte: args.filter?.averageRatingRange?.max } },
           { totalVotes: { gte: args.filter?.totalVotesRange?.min } },
           { totalVotes: { lte: args.filter?.totalVotesRange?.max } },
+          args.filter.genres?.length > 0
+            ? {
+                MovieGenre: {
+                  some: {
+                    Genre: {
+                      genreName: {
+                        in: args.filter?.genres,
+                      },
+                    },
+                  },
+                },
+              }
+            : {},
+
           {
             OR: [
               { imdbID: { contains: args.searchBy } },
@@ -117,17 +131,7 @@ export const movieResolver: Resolvers = {
       };
 
       try {
-        const movies = await context.prisma.movie.findMany({
-          where: whereConditions,
-          orderBy: orderBy,
-          skip: args.offset ? args.offset : 0,
-          take: args.limit ? args.limit : 10,
-        });
-
-        const totalMovies = await context.prisma.movie.count({
-          where: whereConditions,
-        });
-
+        // Get all the genres to filter on
         const genre = await context.prisma.genre.findMany({
           select: {
             genreName: true,
@@ -139,47 +143,29 @@ export const movieResolver: Resolvers = {
           genres.add(gen.genreName);
         });
 
-        // Step 2: Get the imdbIDs of all fetched movies
-        const imdbIDs = movies.map((movie) => movie.imdbID);
-
-        // Step 3: Fetch all the movie-genre relations for these movies
-        const movieGenres = await context.prisma.movieGenre.findMany({
-          where: { imdbID: { in: imdbIDs } },
+        const movies = await context.prisma.movie.findMany({
+          where: whereConditions,
+          orderBy: orderBy,
+          skip: args.offset ? args.offset : 0,
+          take: args.limit ? args.limit : 10,
           include: {
-            Genre: true, // Include Genre model to get genreName
+            MovieGenre: {
+              include: {
+                Genre: true,
+              },
+            },
           },
         });
 
-        // Step 4: Create a map (dictionary) to associate imdbID with its genres
-        const genresMap: Record<string, string[]> = {};
-        movieGenres.forEach((movieGenre) => {
-          if (!genresMap[movieGenre.imdbID]) {
-            genresMap[movieGenre.imdbID] = [];
-          }
-          genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+        const totalMovies = await context.prisma.movie.count({
+          where: whereConditions,
         });
 
-        // Step 5: Add the genres to each movie
         const moviesWithGenres = movies.map((movie) => ({
           ...movie,
-          genres: genresMap[movie.imdbID] || [],
+          genres: movie.MovieGenre.map((mg) => mg.Genre.genreName),
         }));
 
-        if (args.filter?.genres?.length > 0) {
-          // If a genre-filter is applied
-          // Step 6: Filter out movies that don't have any of the required genres
-          const filteredMovies = moviesWithGenres.filter((movie) => {
-            return movie.genres.some((genre) =>
-              args.filter.genres.includes(genre)
-            );
-          });
-          const moviesData: MoviesData = {
-            movies: filteredMovies,
-            count: totalMovies,
-            genres: Array.from(genres),
-          };
-          return moviesData;
-        }
         const moviesData: MoviesData = {
           movies: moviesWithGenres,
           count: totalMovies,

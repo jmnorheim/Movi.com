@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
-import {
-  CurrentFilter,
-  Movie,
-  MovieContent,
-  User,
-  MovieStats,
-} from "../../interfaces";
+import { Movie, MovieContent } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 
-import headerImage from "./img.png";
 import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
-import { Signal, effect, signal, useSignal } from "@preact/signals-react";
+import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { useMovies } from "../../services/getMovies";
 import { TablePagination } from "@mui/material";
@@ -132,58 +125,6 @@ const HomePage: React.FC = () => {
     });
   };
 
-  // Filtering=============================================================================================================
-
-  const handleFilter = (filterTypeList: CurrentFilter) => {
-    const newFilter = {
-      isAdult: filterTypeList.isAdult,
-      genres: filterTypeList.genres,
-    };
-
-    setCurrentFilter(newFilter);
-
-    // If no filters are applied, reset the movies state to the original list
-    if (
-      !newFilter.isAdult &&
-      (!newFilter.genres || newFilter.genres.length === 0)
-    ) {
-      setMovies(originalMovies);
-      return;
-    }
-
-    // Apply filters and set the movies state
-    if (originalMovies) {
-      const filteredMovies = applyFilter(originalMovies, newFilter);
-      setMovies(filteredMovies);
-    }
-  };
-
-  // Apply the current filter to a list of movies
-  const applyFilter = (
-    movieList: MovieContent[],
-    newFilter: CurrentFilter
-  ): MovieContent[] => {
-    return movieList.filter((movie) => {
-      // Check isAdult filter
-      if (
-        newFilter.isAdult !== undefined &&
-        movie.isAdult !== newFilter.isAdult
-      ) {
-        return false;
-      }
-
-      // Check genres filter
-      if (newFilter.genres && newFilter.genres.length) {
-        // Ensure all selected genres are present in the movie's genres list
-        if (!newFilter.genres.every((genre) => movie.genres.includes(genre))) {
-          return false;
-        }
-      }
-
-      return true; // If neither the isAdult nor genres filter is active, include the movie
-    });
-  };
-
   // =======================================================================================================================
 
   const handleChangePage = (
@@ -208,12 +149,7 @@ const HomePage: React.FC = () => {
       <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
-          {data && (
-            <HomePageHeader
-              genres={data.genres}
-              onFilter={handleFilter}
-            ></HomePageHeader>
-          )}
+          {data && <HomePageHeader genres={data.genres}></HomePageHeader>}
         </div>
         <div className="contentContainer">
           <div className="paginationAndSortContainer">
