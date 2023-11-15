@@ -31,7 +31,10 @@ const MyLibrariesGrid = ({
         libraries?.map(
           (library, index) =>
             index >= 0 && (
-              <Link to={"/my-library/" + library.name} key={index}>
+              <Link
+                to={"/my-library/" + library.libraryID + ":" + library.name}
+                key={index}
+              >
                 <MyLibraryContainer library={library} />
               </Link>
             )

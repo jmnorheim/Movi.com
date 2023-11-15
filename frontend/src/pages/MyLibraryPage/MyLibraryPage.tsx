@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   Dialog,
@@ -9,18 +8,14 @@ import {
   TextField,
 } from "@mui/material";
 import MyLibrariesGrid from "../../components/myLibrariesGrid/MyLibrariesGrid";
-import { useEffect, useState } from "react";
-import { Library, User } from "../../interfaces";
+import { useState } from "react";
 import { useAuth } from "../../services/auth/AuthContext";
 import "./MyLibraryPage.css";
-
 import { DocumentIcon } from "../../assets/icons/DocumentIcon.tsx";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
-
 import { useCreateLibrary } from "../../services/mutateLibrary.ts";
-import { useUserQuery } from "../../services/getUser.ts";
 import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
 
 /**
@@ -47,8 +42,6 @@ const MyLibraryPage: React.FC = () => {
   const addLibrary = (libraryName: string) => {
     mutate(libraryName);
   };
-
-  console.log(libraries);
 
   // Return =============================================================
   return (

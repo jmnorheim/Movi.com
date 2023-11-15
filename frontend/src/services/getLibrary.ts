@@ -30,12 +30,14 @@ export const useLibraryQuery = (libraryID: string) => {
 const GET_LIBRARY_BY_USER_AND_NAME = graphql(`
   query LibraryByUserAndName($userId: ID!, $name: String!) {
     libraryByUserAndName(userID: $userId, name: $name) {
+      libraryID
       movies
+      name
     }
   }
 `);
 
-const getLibraryByUserAndName = async (
+export const getLibraryByUserAndName = async (
   userID: string,
   libraryName: string
 ): Promise<Library> => {

@@ -1,4 +1,4 @@
-import { Resolvers } from "../../generated/resolvers-types";
+import { Movie, Resolvers } from "../../generated/resolvers-types";
 import { Context } from "../../src";
 
 // Helper functions=========================================================================================================
@@ -40,6 +40,52 @@ const getLibrariesByID = async (libraryID: string, context: Context) => {
   return library;
 };
 
+const getListOfAllMoviesInLibrary = async (
+  libraryID: string,
+  context: Context
+): Promise<Movie[]> => {
+  // Step 1: Fetch all movies in the library with their IMDb IDs
+  const libraryMovies = await context.prisma.libraryMovie
+    .findMany({
+      where: { libraryID },
+      select: { imdbID: true }
+    });
+
+  // Extracting IMDb IDs for genre and movie fetching
+  const imdbIDs = libraryMovies.map((libMovie) => libMovie.imdbID);
+
+  // Step 2: Fetch all movies with their full details
+  const movies = await context.prisma.movie.findMany({
+    where: { imdbID: { in: imdbIDs } },
+  });
+
+  // Step 3: Fetch all the movie-genre relations for these movies
+  const movieGenres = await context.prisma.movieGenre.findMany({
+    where: { imdbID: { in: imdbIDs } },
+    include: {
+      Genre: true,
+    },
+  });
+
+  // Step 4: Create a map to associate IMDb IDs with their genres
+  const genresMap: Record<string, string[]> = {};
+  movieGenres.forEach((movieGenre) => {
+    if (!genresMap[movieGenre.imdbID]) {
+      genresMap[movieGenre.imdbID] = [];
+    }
+    genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+  });
+
+  // Step 5: Combine the movies with their genres
+  const moviesWithGenres = movies.map((movie) => ({
+    ...movie,
+    genres: genresMap[movie.imdbID] || [],
+  }));
+
+  return moviesWithGenres;
+};
+
+
 // Resolvers=========================================================================================================
 export const libraryResolver: Resolvers = {
   // Queries=====================================================================================================
@@ -56,6 +102,18 @@ export const libraryResolver: Resolvers = {
     libraryByID: async (_, { libraryID }, context: Context) => {
       try {
         return getLibrariesByID(libraryID, context);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    /**
+     * Fetch a list of movies in a unique library.
+     */
+    moviesByLibraryID: async (_, { libraryID }, context: Context) => {
+      try {
+        const movies = getListOfAllMoviesInLibrary(libraryID ,context);
+        return movies;
       } catch (error) {
         throw new Error(error);
       }

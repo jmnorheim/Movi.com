@@ -1,6 +1,12 @@
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import { MovieContent, MovieStats, MovieData, SERVER_URL } from "../interfaces";
+import {
+  MovieContent,
+  MovieStats,
+  MovieData,
+  SERVER_URL,
+  Movie,
+} from "../interfaces";
 import { MovieFilter, SortType } from "../generated/graphql";
 import { graphql } from "../generated";
 
@@ -135,5 +141,50 @@ export const useMovieStats = () => {
   return useQuery({
     queryKey: ["MovieStats"],
     queryFn: () => getMovieStats(),
+  });
+};
+
+// Get movies in library
+const GET_MOVIES_BY_LIBRARY_ID = graphql(`
+  query MoviesByLibraryID($libraryId: ID!) {
+    moviesByLibraryID(libraryID: $libraryId) {
+      imdbID
+      primaryTitle
+      averageRating
+      runtimeMinutes
+    }
+  }
+`);
+
+/**
+ * Get a user by unique ID.
+ * @param {string} libraryID
+ * @returns {Promise<Movie[]>}
+ */
+export const getMoviesByLibraryID = async (
+  libraryID: string
+): Promise<Movie[]> => {
+  const { moviesByLibraryID } = await request(
+    SERVER_URL,
+    GET_MOVIES_BY_LIBRARY_ID,
+    {
+      libraryId: libraryID,
+    }
+  );
+  return moviesByLibraryID as Movie[];
+};
+
+/**
+ * React Query hook for user data by unique ID.
+ * @param {string} libraryID
+ * @returns {object}
+ */
+export const useMoviesInByLibraryIDQuery = (libraryID: string | undefined) => {
+  return useQuery({
+    queryKey: [libraryID],
+    queryFn: () => {
+      return getMoviesByLibraryID(libraryID!);
+    },
+    enabled: !!libraryID,
   });
 };
