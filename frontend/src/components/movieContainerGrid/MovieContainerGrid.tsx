@@ -22,8 +22,15 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
   return (
     <div className="MovieContainerGrid">
       {movies.map((movie, index) => (
-        <div key={index} style={{ position: "relative" }}>
-          <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
+        <div
+          key={index}
+          style={{ position: "relative", textDecoration: "none" }}
+        >
+          <Link
+            to={"/movie/" + movie.imdbID}
+            key={movie.imdbID}
+            style={{ textDecoration: "none" }}
+          >
             <MovieContainer movie={movie} />
           </Link>
           <button className="button">

@@ -10,13 +10,8 @@ const PageFooter = () => {
   return (
     <div className="bottomFooter">
       <div className="content">
-        <img className="logo" alt="Logo" src={logo} />
-        <div className="footer-links">
-          <div className="link">Link One</div>
-          <div className="link">Link Two</div>
-          <div className="link">Link Three</div>
-          <div className="link">Link Four</div>
-          <div className="link">Link Five</div>
+        <div className="logo-container">
+          <img className="logo" alt="Logo" src={logo} />
         </div>
         <div className="social-links">
           <a
