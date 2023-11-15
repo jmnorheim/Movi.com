@@ -7,6 +7,7 @@ import { useState } from "react";
 
 // Icons
 import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
+import AddToLibraryButton from "../addToLibraryButton/AddToLibraryButton";
 
 interface MovieContainerGridProps {
   movies: MovieContent[];
@@ -26,10 +27,7 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
           <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
             <MovieContainer movie={movie} />
           </Link>
-          <button className="button">
-            <div className="text-wrapper-2">Add To Library</div>
-            <ArrowDownIcon className="icon-instance" />
-          </button>
+          <AddToLibraryButton />
         </div>
       ))}
     </div>
