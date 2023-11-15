@@ -52,6 +52,19 @@ export type MovieFilter = {
   totalVotesRange?: InputMaybe<VotesRange>;
 };
 
+export type MovieInput = {
+  averageRating: Scalars['Float']['input'];
+  genres: Array<Scalars['String']['input']>;
+  imdbID: Scalars['ID']['input'];
+  isAdult: Scalars['Boolean']['input'];
+  originalTitle: Scalars['String']['input'];
+  poster?: InputMaybe<Scalars['String']['input']>;
+  primaryTitle: Scalars['String']['input'];
+  runtimeMinutes: Scalars['Int']['input'];
+  startYear: Scalars['Int']['input'];
+  totalVotes: Scalars['Int']['input'];
+};
+
 export type MovieStats = {
   __typename?: 'MovieStats';
   averageRatingRange: Range;
@@ -144,6 +157,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getRecommendedMovies: Array<Movie>;
   libraries: Array<Library>;
   librariesByUserID: Array<Library>;
   libraryByID: Library;
@@ -157,6 +171,11 @@ export type Query = {
   userByID: User;
   users: Array<User>;
   verifyPassword: Scalars['Boolean']['output'];
+};
+
+
+export type QueryGetRecommendedMoviesArgs = {
+  movie: MovieInput;
 };
 
 
@@ -353,6 +372,7 @@ export type ResolversTypes = ResolversObject<{
   MinutesRange: MinutesRange;
   Movie: ResolverTypeWrapper<Movie>;
   MovieFilter: MovieFilter;
+  MovieInput: MovieInput;
   MovieStats: ResolverTypeWrapper<MovieStats>;
   MoviesData: ResolverTypeWrapper<MoviesData>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -376,6 +396,7 @@ export type ResolversParentTypes = ResolversObject<{
   MinutesRange: MinutesRange;
   Movie: Movie;
   MovieFilter: MovieFilter;
+  MovieInput: MovieInput;
   MovieStats: MovieStats;
   MoviesData: MoviesData;
   Mutation: {};
@@ -438,6 +459,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getRecommendedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryGetRecommendedMoviesArgs, 'movie'>>;
   libraries?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, Partial<QueryLibrariesArgs>>;
   librariesByUserID?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, RequireFields<QueryLibrariesByUserIdArgs, 'userID'>>;
   libraryByID?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<QueryLibraryByIdArgs, 'libraryID'>>;

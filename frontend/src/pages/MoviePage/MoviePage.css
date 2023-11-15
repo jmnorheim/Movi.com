@@ -4,6 +4,19 @@
   position: absolute;
 }
 
+.recommended {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommended-text {
+  font-size: 48px;
+  text-align: left;
+  margin-left: 9%;
+  margin-bottom: 20px;
+  font-family: "Gotham SSm-Bold", Helvetica;
+}
+
 .movie-card {
   height: 800px;
   width: 100vw;

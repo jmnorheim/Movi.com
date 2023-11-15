@@ -4,6 +4,7 @@ import {
   SortType,
 } from "../../generated/resolvers-types";
 import { Context } from "../../src";
+import { getRecommendations } from "../../src/recommended.js";
 
 export const movieResolver: Resolvers = {
   Query: {
@@ -240,6 +241,61 @@ export const movieResolver: Resolvers = {
             max: totalVotesAggregates._max.totalVotes,
           },
         };
+      } catch (error) {
+        throw new Error(`Error in movieStats resolver: ${error.message}`);
+      }
+    },
+    getRecommendedMovies: async (_, { movie }, context: Context) => {
+      try {
+        const potensiallMovies = await context.prisma.movie.findMany({
+          where: {
+            AND: [
+              { isAdult: { equals: movie.isAdult } },
+              { startYear: { gte: movie.startYear - 10 } },
+              { startYear: { lte: movie.startYear + 10 } },
+              {
+                runtimeMinutes: { gte: movie.runtimeMinutes - 30 },
+              },
+              {
+                runtimeMinutes: { lte: movie.runtimeMinutes + 30 },
+              },
+              { averageRating: { gte: movie.averageRating - 2.5 } },
+              { averageRating: { lte: movie.averageRating + 2.5 } },
+            ],
+          },
+          take: 2000,
+        });
+
+        // Same steps as in movies resolver
+        // Step 2: Get the imdbIDs of all fetched movies
+        const imdbIDs = potensiallMovies.map((movie) => movie.imdbID);
+
+        // Step 3: Fetch all the movie-genre relations for these movies
+        const movieGenres = await context.prisma.movieGenre.findMany({
+          where: { imdbID: { in: imdbIDs } },
+          include: {
+            Genre: true, // Include Genre model to get genreName
+          },
+        });
+
+        // Step 4: Create a map (dictionary) to associate imdbID with its genres
+        const genresMap: Record<string, string[]> = {};
+        movieGenres.forEach((movieGenre) => {
+          if (!genresMap[movieGenre.imdbID]) {
+            genresMap[movieGenre.imdbID] = [];
+          }
+          genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+        });
+
+        // Step 5: Add the genres to each movie
+        const moviesWithGenres = potensiallMovies.map((movie) => ({
+          ...movie,
+          genres: genresMap[movie.imdbID] || [],
+        }));
+
+        const recommended = getRecommendations(movie, moviesWithGenres, 5);
+
+        return recommended;
       } catch (error) {
         throw new Error(`Error in movieStats resolver: ${error.message}`);
       }
