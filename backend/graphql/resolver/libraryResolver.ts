@@ -86,6 +86,49 @@ const getListOfAllMoviesInLibrary = async (
 };
 
 
+const getListOfAllMoviesInFavorites = async (
+  context: Context
+): Promise<Movie[]> => {
+
+  // Step 1: Fetch all movies in the library with their IMDb IDs
+  const libraryMovies = await context.prisma.userFavorites.findMany({
+    select: { imdbID: true }
+  });
+
+  // Extracting IMDb IDs for genre and movie fetching
+  const imdbIDs = libraryMovies.map((libMovie) => libMovie.imdbID);
+
+  // Step 2: Fetch all movies with their full details
+  const movies = await context.prisma.movie.findMany({
+    where: { imdbID: { in: imdbIDs } },
+  });
+
+  // Step 3: Fetch all the movie-genre relations for these movies
+  const movieGenres = await context.prisma.movieGenre.findMany({
+    where: { imdbID: { in: imdbIDs } },
+    include: {
+      Genre: true,
+    },
+  });
+
+  // Step 4: Create a map to associate IMDb IDs with their genres
+  const genresMap: Record<string, string[]> = {};
+  movieGenres.forEach((movieGenre) => {
+    if (!genresMap[movieGenre.imdbID]) {
+      genresMap[movieGenre.imdbID] = [];
+    }
+    genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+  });
+
+  // Step 5: Combine the movies with their genres
+  const moviesWithGenres = movies.map((movie) => ({
+    ...movie,
+    genres: genresMap[movie.imdbID] || [],
+  }));
+
+  return moviesWithGenres;
+};
+
 // Resolvers=========================================================================================================
 export const libraryResolver: Resolvers = {
   // Queries=====================================================================================================
@@ -112,8 +155,10 @@ export const libraryResolver: Resolvers = {
      */
     moviesByLibraryID: async (_, { libraryID }, context: Context) => {
       try {
-        const movies = getListOfAllMoviesInLibrary(libraryID ,context);
-        return movies;
+        if (libraryID === "favorites") {
+          return getListOfAllMoviesInFavorites(context);
+        }
+        return getListOfAllMoviesInLibrary(libraryID ,context);
       } catch (error) {
         throw new Error(error);
       }
