@@ -61,7 +61,7 @@ describe("Test Moviecontainergrid + Moviecontainer", () => {
     render(
       <MovieContainerGrid
         movies={mockMovies}
-        onToggleFavorite={mockToggleFavorite}
+        // onToggleFavorite={mockToggleFavorite}
       />
     );
     const element = await screen.findByText(/Test Movie 1/);
@@ -75,7 +75,7 @@ describe("Test Moviecontainergrid + Moviecontainer", () => {
     render(
       <MovieContainerGrid
         movies={mockMovies}
-        onToggleFavorite={mockToggleFavorite}
+        // onToggleFavorite={mockToggleFavorite}
       />
     );
     // const starElements = screen.getAllByText("★");

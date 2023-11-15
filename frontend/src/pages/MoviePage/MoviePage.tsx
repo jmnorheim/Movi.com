@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getMovieById } from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { Movie, User } from "../../interfaces";
+import { MovieContent, User } from "../../interfaces";
 import { Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +12,6 @@ import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
 import { useMovie } from "../../services/getMovies";
@@ -25,7 +22,7 @@ import { useMovie } from "../../services/getMovies";
  */
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [movie, setMovie] = useState<MovieContent | null>(null);
   const { isLoggedIn, email } = useAuth();
 
   effect(() => {
@@ -42,7 +39,7 @@ const MoviePage: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setMovie(data as Movie);
+      setMovie(data);
     }
   }, [data]);
 

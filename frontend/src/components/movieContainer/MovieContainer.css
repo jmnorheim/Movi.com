@@ -40,6 +40,11 @@
   margin-top: -1px;
   position: relative;
   width: 140px;
+  height: 55px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .movie-container .button {

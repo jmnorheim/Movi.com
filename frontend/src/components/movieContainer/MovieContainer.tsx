@@ -1,9 +1,9 @@
-import { Movie } from "../../interfaces";
+import { Movie, MovieContent } from "../../interfaces";
 import "./MovieContainer.css";
 import posterImage from "./rectangle-1.png";
 
 interface MovieContainerProps {
-  movie: Movie;
+  movie: MovieContent;
 }
 
 const MovieContainer = ({ movie }: MovieContainerProps) => {

@@ -11,6 +11,11 @@ export interface MovieContent {
   poster: string;
 }
 
+export interface MovieData {
+  movies: MovieContent[];
+  count: number;
+}
+
 export interface Movie {
   imdbID: string;
   primaryTitle: string;
@@ -23,6 +28,13 @@ export interface Movie {
   totalVotes: number;
   poster: string;
   favorited: boolean;
+}
+
+export interface MovieStats {
+  releaseYearRange: { min: number; max: number };
+  runtimeMinutesRange: { min: number; max: number };
+  averageRatingRange: { min: number; max: number };
+  totalVotesRange: { min: number; max: number };
 }
 
 export interface User {
@@ -42,6 +54,15 @@ export interface Library {
 export interface CurrentFilter {
   isAdult?: boolean;
   genres?: string[];
+}
+
+export interface FilterState {
+  yearRange: number[];
+  runtimeRange: number[];
+  ratingRange: number[];
+  totalVotesRange: number[];
+  isAdult: boolean;
+  selectedGenres: Set<string>;
 }
 
 export const SERVER_URL = "http://localhost:4000/";
