@@ -1,5 +1,5 @@
 import request from "graphql-request";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import { MovieContent, MovieStats, MovieData, SERVER_URL } from "../interfaces";
 import { MovieFilter, SortType } from "../generated/graphql";
 import { graphql } from "../generated";
@@ -136,5 +136,20 @@ export const useMovieStats = () => {
   return useQuery({
     queryKey: ["MovieStats"],
     queryFn: () => getMovieStats(),
+  });
+};
+
+export const handlePreFetch = async (
+  client: QueryClient,
+  page: number = 0,
+  limit: number = 10,
+  searchBy?: string,
+  filter?: MovieFilter,
+  sortBy?: SortType
+) => {
+  const offset = (page + 1) * limit;
+  await client.prefetchQuery({
+    queryKey: ["Movies: " + page + 1, limit, searchBy, filter, sortBy],
+    queryFn: () => getMovies(limit, offset, searchBy, filter, sortBy),
   });
 };

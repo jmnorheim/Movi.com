@@ -13,8 +13,9 @@ import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
 import { Signal, effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
-import { useMovies } from "../../services/getMovies";
+import { handlePreFetch, useMovies } from "../../services/getMovies";
 import { TablePagination } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -140,6 +141,18 @@ const HomePage: React.FC = () => {
     rowsPerPage.value = parseInt(event.target.value, 10);
 
     page.value = 0;
+  };
+
+  const queryClient = useQueryClient();
+  const handlePreFetching = async () => {
+    await handlePreFetch(
+      queryClient,
+      page.value,
+      rowsPerPage.value,
+      currentSearch.value,
+      filterSignals.value as MovieFilter,
+      currentSort as SortType
+    );
   };
 
   if (isLoading) return <div>Loading...</div>;
