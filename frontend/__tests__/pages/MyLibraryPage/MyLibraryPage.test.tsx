@@ -34,23 +34,16 @@ vi.mock("../../../src/services/auth/AuthContext", async () => {
   };
 });
 
-/**
- * Mocks the getUser hook.
- */
-vi.mock("../../../src/services/getUser", () => ({
-  useUserQuery: vi.fn(() => ({
+// Mock useUsersLibrariesQuery
+vi.mock("../../../src/services/getUserLibraries.ts", () => ({
+  useUsersLibrariesQuery: () => ({
     data: {
-      currentUser: {
-        userID: "123",
-        username: "testuser",
-        email: "test@example.com",
-        password: "password123",
-        favorites: [],
-        library: [],
-      },
+      libraries: [
+        { movies: [], name: "library 1" },
+        { movies: [], name: "library 2" },
+      ],
     },
-    isLoading: false,
-  })),
+  }),
 }));
 
 /**
@@ -103,7 +96,7 @@ describe("MyLibraryPage Component", () => {
     render(<MyLibraryPage />);
 
     // Click the Create Libary button.
-    fireEvent.click(screen.getByText("Create Library"));
+    fireEvent.click(screen.getByText("Create New"));
 
     // Fill in the new libary name.
     fireEvent.change(screen.getByLabelText("Library Name"), {
@@ -118,6 +111,26 @@ describe("MyLibraryPage Component", () => {
       expect(mockMutate).toHaveBeenCalledWith("New Library");
     });
   });
+
+  /**
+   * Test canceling the creation of a new library.
+   */
+  it("Test canceling the library creation.", async () => {
+    render(<MyLibraryPage />);
+
+    // Click the Create Libary button.
+    fireEvent.click(screen.getByText("Create New"));
+
+    // Fill in the new library name.
+    const input = screen.getByLabelText("Library Name");
+    fireEvent.change(input, {
+      target: { value: "New Library" },
+    });
+
+    // Click the Cancel button.
+    fireEvent.click(screen.getByText("Cancel"));
+
+    // Check if the popup is closed.
+    expect(screen.getByText("My Library")).toBeDefined();
+  });
 });
-
-
