@@ -22,7 +22,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
 
   useEffect(() => {
-    console.log("isInitialSetupComplete", isInitialSetupComplete);
     if (isInitialSetupComplete) {
       updateSessionStorage();
     }
@@ -52,7 +51,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         selectedGenres: new Set<string>(parsedStates.selectedGenres),
       };
     } else if (statsData && !isLoadingStats) {
-      console.log("statsData", statsData);
       initialFilterStates = {
         yearRange: [
           statsData.releaseYearRange.min,
@@ -283,8 +281,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     display: "flex",
     boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
   };
-
-  console.log(genres);
 
   return (
     <div style={sidebarStyle} onTransitionEnd={onSidebarTransitionEnd}>

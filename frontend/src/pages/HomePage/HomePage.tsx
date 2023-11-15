@@ -144,7 +144,7 @@ const HomePage: React.FC = () => {
   };
 
   const queryClient = useQueryClient();
-  const handlePreFetching = async () => {
+  const handlePreFetching = async (): Promise<void> => {
     await handlePreFetch(
       queryClient,
       page.value,
@@ -154,6 +154,40 @@ const HomePage: React.FC = () => {
       currentSort as SortType
     );
   };
+
+  const handleHoverOnRightArrow = () => {
+    void handlePreFetching();
+  };
+
+  // Handle pre-fetching when hovering on the right arrow button setup
+  useEffect(() => {
+    const attachHoverListener = () => {
+      const rightArrowButton = document.querySelector(
+        '.MuiTablePagination-actions button[aria-label="Go to next page"]'
+      );
+      if (rightArrowButton) {
+        rightArrowButton.addEventListener(
+          "mouseenter",
+          handleHoverOnRightArrow
+        );
+      }
+    };
+
+    attachHoverListener();
+
+    // Re-attach the listener when pagination updates
+    return () => {
+      const rightArrowButton = document.querySelector(
+        '.MuiTablePagination-actions button[aria-label="Go to next page"]'
+      );
+      if (rightArrowButton) {
+        rightArrowButton.removeEventListener(
+          "mouseenter",
+          handleHoverOnRightArrow
+        );
+      }
+    };
+  }, [movies]);
 
   if (isLoading) return <div>Loading...</div>;
 
