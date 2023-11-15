@@ -46,9 +46,9 @@ const PageFooter = () => {
       </div>
       <div className="credits">
         <div className="divider" />
-        <div className="div">
+        <div className="legal-info-outer-container">
           <p className="text">2023 Møvie Inc. All rights reserved.</p>
-          <div className="div">
+          <div className="legal-stuff">
             <div className="text-wrapper">Privacy Policy</div>
             <div className="text-wrapper">Terms of Service</div>
             <div className="text-wrapper">Cookies Settings</div>

@@ -24,7 +24,7 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
         <div className="text-wrapper-2">Browse over 290 000 movies!</div>
         <div className="div-2">
           <div className="content-wrapper">
-            <div className="content">
+            <div className="search-bar">
               <SearchBar />
             </div>
           </div>

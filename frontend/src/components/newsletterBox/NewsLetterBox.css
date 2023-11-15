@@ -1,3 +1,4 @@
+
 .footerOuterContainer {
   display: flex;
   justify-content: center;
@@ -10,7 +11,7 @@
   height: 35vh;
   overflow: hidden;
   width: 60%;
-  min-width: 570px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,7 +32,7 @@
 .join-us-container .text-wrapper {
   color: #f5f5f5;
   font-family: "Gotham SSm-Bold", Helvetica;
-  font-size: 64px;
+  font-size: 4em;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -87,4 +88,11 @@
   cursor: pointer; /* Make the button appear clickable */
   outline: none; /* Remove the default outline */
   padding: 0; /* Remove any default padding */
+}
+
+@media screen and (max-width: 768px) {
+  .join-us-container .text-wrapper {
+    font-size: 2.5em;
+  }
+  
 }

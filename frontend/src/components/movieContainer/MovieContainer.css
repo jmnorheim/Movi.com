@@ -47,10 +47,6 @@
   -webkit-box-orient: vertical;
 }
 
-.movie-container a {
-
-}
-
 .movie-container .button {
   all: unset;
   align-items: center;

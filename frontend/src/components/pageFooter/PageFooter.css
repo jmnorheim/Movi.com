@@ -4,12 +4,13 @@
   display: flex;
   flex-direction: column;
   gap: 80px;
-  padding: 32px 64px 16px;
+  padding: 32px 20px 16px;
   margin-top: 64px;
   position: relative;
-  width: 90vw;
-  max-width: 90vw;
-  background-color: blue;
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
+  /* background-color: blue; */
 }
 
 .bottomFooter .content {
@@ -25,7 +26,7 @@
 }
 
 .bottomFooter .logo-container {
-  background-color: purple;
+  /* background-color: purple; */
   flex: 1;
 }
 
@@ -36,7 +37,10 @@
   flex: 1;
   /* flex-grow: 1; */
   /* position: relative; */
-  background-color: green;
+  height: 100%;
+  max-width: 100%;
+
+  /* background-color: green; */
 }
 
 
@@ -49,7 +53,7 @@
   justify-content: flex-end;
   /* position: relative; */
   width: 50%;
-  background-color: red;
+  /* background-color: red; */
 }
 
 .bottomFooter .icon-instance-node {
@@ -77,12 +81,17 @@
   width: 100%;
 }
 
-.bottomFooter .div {
+.bottomFooter .legal-info-outer-container {
+
+}
+
+.bottomFooter .legal-stuff {
   align-items: flex-start;
   display: inline-flex;
   flex: 0 0 auto;
   gap: 24px;
   position: relative;
+  /* background-color: red; */
 }
 
 .bottomFooter .text {
@@ -110,4 +119,10 @@
   text-decoration: underline;
   white-space: nowrap;
   width: fit-content;
+}
+
+@media screen and (max-width: 768px) {
+  /* .bottomFooter {
+    max-width: 87vw;
+  } */
 }
