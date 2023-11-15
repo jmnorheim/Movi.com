@@ -21,6 +21,7 @@ import { effect } from "@preact/signals-react";
 
 import { useCreateLibrary } from "../../services/mutateLibrary.ts";
 import { useUserQuery } from "../../services/getUser.ts";
+import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
 
 /**
  * Render the MyLibaryPage component.
@@ -30,38 +31,15 @@ const MyLibraryPage: React.FC = () => {
   // State definitions
   const [dialogForm, setDialogForm] = useState(false);
   const [nameOfLibrary, setNameOfLibrary] = useState("");
-  const [libraries, setLibraries] = useState<Library[] | null>(null);
 
   // Hooks for user authentication and data fetching
   const { userID } = useAuth();
-  const { data: currentUser } = useUserQuery(userID);
+  const { data: libraries } = useUsersLibrariesQuery(userID);
   const { mutate } = useCreateLibrary(userID);
 
   effect(() => {
     navbarColor.value = "black";
   });
-
-  /**
-   * Fetches the current users libraries and updates the state.
-   */
-  useEffect(() => {
-    if (currentUser) {
-      getUserLibraries();
-    }
-  }, [currentUser, nameOfLibrary]);
-
-  /**
-   * Function to fetch libraries.
-   */
-  const getUserLibraries = () => {
-    if (currentUser && Array.isArray(currentUser.library)) {
-      const favLibrary: Library = {
-        name: "Favorites",
-        movies: currentUser.favorites,
-      };
-      setLibraries([favLibrary, ...currentUser.library]);
-    }
-  };
 
   /**
    * Adds a new library to the users.
@@ -70,30 +48,34 @@ const MyLibraryPage: React.FC = () => {
     mutate(libraryName);
   };
 
+  console.log(libraries);
+
   // Return =============================================================
   return (
     <>
       <>
-        <div className="myLibraryPageContainer">
-          <div className="title-container">
-            <div className="text-wrapper">My Library</div>
-            {/* Button to open popup for creating a new library */}
-            <button
-              className="create-library-button"
-              onClick={() => {
-                setDialogForm(true);
-              }}
-            >
-              <div className="div">Create Library</div>
-              <DocumentIcon className="vuesax-linear" />
-            </button>
+        {libraries && (
+          <div className="myLibraryPageContainer">
+            <div className="title-container">
+              <div className="text-wrapper">My Library</div>
+              {/* Button to open popup for creating a new library */}
+              <button
+                className="create-library-button"
+                onClick={() => {
+                  setDialogForm(true);
+                }}
+              >
+                <div className="div">Create Library</div>
+                <DocumentIcon className="vuesax-linear" />
+              </button>
+            </div>
+            {/* Grid. Displays users libraries */}
+            <MyLibrariesGrid
+              libraries={libraries}
+              onCreateNewPress={setDialogForm}
+            />
           </div>
-          {/* Grid. Displays users libraries */}
-          <MyLibrariesGrid
-            libraries={libraries}
-            onCreateNewPress={setDialogForm}
-          />
-        </div>
+        )}
         <div style={{ marginTop: "50px" }}>
           <PageFooter />
         </div>

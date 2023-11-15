@@ -25,3 +25,38 @@ export const useLibraryQuery = (libraryID: string) => {
     queryFn: () => getLibrary(libraryID),
   });
 };
+
+// getLibraryByUserAndName
+const GET_LIBRARY_BY_USER_AND_NAME = graphql(`
+  query LibraryByUserAndName($userId: ID!, $name: String!) {
+    libraryByUserAndName(userID: $userId, name: $name) {
+      movies
+    }
+  }
+`);
+
+const getLibraryByUserAndName = async (
+  userID: string,
+  libraryName: string
+): Promise<Library> => {
+  const { libraryByUserAndName } = await request(
+    SERVER_URL,
+    GET_LIBRARY_BY_USER_AND_NAME,
+    {
+      userId: userID,
+      name: libraryName,
+    }
+  );
+  return libraryByUserAndName as Library;
+};
+
+export const useLibraryByUserAndNameQuery = (
+  userID: string,
+  libraryName: string | undefined
+) => {
+  return useQuery({
+    queryKey: ["Library: " + userID, libraryName],
+    queryFn: () => getLibraryByUserAndName(userID, libraryName!),
+    enabled: !!libraryName,
+  });
+};
