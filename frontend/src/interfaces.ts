@@ -14,6 +14,7 @@ export interface MovieContent {
 export interface MovieData {
   movies: MovieContent[];
   count: number;
+  genres: string[];
 }
 
 export interface Movie {

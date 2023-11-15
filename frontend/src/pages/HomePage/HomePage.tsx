@@ -65,8 +65,6 @@ const HomePage: React.FC = () => {
     genres?: string[];
   }>({ isAdult: false, genres: [] });
 
-  //TODO: change to signal and set this to 0 when the filter, search or sort changes
-
   const { data, isLoading } = useMovies(
     page.value,
     rowsPerPage.value,
@@ -210,9 +208,9 @@ const HomePage: React.FC = () => {
       <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
-          {originalMovies && (
+          {data && (
             <HomePageHeader
-              movies={originalMovies}
+              genres={data.genres}
               onFilter={handleFilter}
             ></HomePageHeader>
           )}

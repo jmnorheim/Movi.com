@@ -11,10 +11,10 @@ import { useMovieStats } from "../../services/getMovies";
 
 interface FilterSideBarProps {
   open: boolean;
-  movies: MovieContent[] | [];
+  genres: string[] | [];
 }
 
-const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
+const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
@@ -135,10 +135,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
     sessionStorage.setItem("filterStates", JSON.stringify(statesToSave));
   };
-
-  const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie: MovieContent) => movie.genres))
-  );
 
   const commitYearChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
@@ -288,6 +284,8 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
   };
 
+  console.log(genres);
+
   return (
     <div style={sidebarStyle} onTransitionEnd={onSidebarTransitionEnd}>
       {contentVisible && (
@@ -395,7 +393,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           </FormGroup>
           <h3>Filter by genres</h3>
           <FormGroup>
-            {uniqueGenres.map((genre) => (
+            {genres.map((genre) => (
               <FormControlLabel
                 key={genre}
                 control={

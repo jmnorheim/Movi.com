@@ -37,6 +37,7 @@ const GET_MOVIES = graphql(`
       sortBy: $sortBy
     ) {
       count
+      genres
       movies {
         primaryTitle
         totalVotes
