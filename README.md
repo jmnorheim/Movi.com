@@ -27,8 +27,9 @@
    - Navigate to the project directory: `cd .\prosjekt-2\`
    - Install dependencies: `npm run setup`
 
-3. **Starting the Project**:
+3. **Starting the Project**: 
 
+   These commands should be run from the outer folder:
    - Run server: `npm run server`
    - Run client: `npm run dev`
 
