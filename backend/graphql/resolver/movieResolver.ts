@@ -128,6 +128,17 @@ export const movieResolver: Resolvers = {
           where: whereConditions,
         });
 
+        const genre = await context.prisma.genre.findMany({
+          select: {
+            genreName: true,
+          },
+        });
+
+        const genres = new Set<string>();
+        genre.forEach((gen) => {
+          genres.add(gen.genreName);
+        });
+
         // Step 2: Get the imdbIDs of all fetched movies
         const imdbIDs = movies.map((movie) => movie.imdbID);
 
@@ -165,12 +176,14 @@ export const movieResolver: Resolvers = {
           const moviesData: MoviesData = {
             movies: filteredMovies,
             count: totalMovies,
+            genres: Array.from(genres),
           };
           return moviesData;
         }
         const moviesData: MoviesData = {
           movies: moviesWithGenres,
           count: totalMovies,
+          genres: Array.from(genres),
         };
         return moviesData;
       } catch (error) {

@@ -8,11 +8,11 @@ import FilterSideBar from "../filterSideBar/FilterSideBar";
 import filtericon from "../../assets/icons/filter-icon.svg";
 
 interface HomePageHeaderProps {
-  movies: MovieContent[] | [];
+  genres: string[] | [];
   onFilter: (filters: CurrentFilter) => void;
 }
 
-const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
+const HomePageHeader: FC<HomePageHeaderProps> = ({ genres, onFilter }) => {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
   const filterSidebarRef = useRef<HTMLDivElement>(null);
   const filterButtonRef = useRef<HTMLButtonElement>(null);
@@ -60,7 +60,7 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
             onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
           />
           <div ref={filterSidebarRef}>
-            <FilterSideBar open={isFilterSidebarOpen} movies={movies} />
+            <FilterSideBar open={isFilterSidebarOpen} genres={genres} />
           </div>
         </div>
       </div>

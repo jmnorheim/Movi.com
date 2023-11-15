@@ -91,4 +91,5 @@ type Range {
 type MoviesData {
   movies: [Movie!]!
   count: Int!
+  genres: [String!]!
 }
