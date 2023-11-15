@@ -49,6 +49,7 @@ export interface User {
 export interface Library {
   name: string;
   movies: string[];
+  libraryID: string;
 }
 
 export interface CurrentFilter {

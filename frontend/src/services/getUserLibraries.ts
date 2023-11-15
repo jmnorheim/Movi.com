@@ -8,6 +8,7 @@ const USER_LIBRARIES = graphql(`
     librariesByUserID(userID: $userId) {
       movies
       name
+      libraryID
     }
   }
 `);

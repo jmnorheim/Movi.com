@@ -12,7 +12,7 @@ interface MyLibrariesGridProps {
   onCreateNewPress: (value: boolean) => void;
 }
 const MyLibrariesGrid = ({
-  libraries,
+  libraries = [],
   onCreateNewPress,
 }: MyLibrariesGridProps) => {
   console.log("Libraries inside the grid:", libraries);
@@ -27,14 +27,18 @@ const MyLibrariesGrid = ({
           </div>
         </div>
       </Link>
-      {libraries?.map(
-        (library, index) =>
-          index > 0 && (
-            <Link to={"/my-library/" + library.name} key={index}>
-              <MyLibraryContainer library={library} />
-            </Link>
-          )
-      )}
+      {Array.isArray(libraries) &&
+        libraries?.map(
+          (library, index) =>
+            index >= 0 && (
+              <Link
+                to={"/my-library/" + library.libraryID + ":" + library.name}
+                key={index}
+              >
+                <MyLibraryContainer library={library} />
+              </Link>
+            )
+        )}
       <div className="add-new-container">
         <button
           className="add-new-button"

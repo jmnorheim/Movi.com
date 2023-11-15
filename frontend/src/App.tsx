@@ -50,7 +50,7 @@ const App: React.FC = () => {
               }
             />
             <Route
-              path="/my-library/:libraryName"
+              path="/my-library/:libraryProp"
               element={
                 <RequireAuth>
                   <LibraryPage />

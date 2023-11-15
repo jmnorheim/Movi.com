@@ -1,4 +1,4 @@
-import { Resolvers } from "../../generated/resolvers-types";
+import { Movie, Resolvers } from "../../generated/resolvers-types";
 import { Context } from "../../src";
 
 // Helper functions=========================================================================================================
@@ -40,6 +40,83 @@ const getLibrariesByID = async (libraryID: string, context: Context) => {
   return library;
 };
 
+// Define a type for the shape of each library movie
+type LibraryMovie = { imdbID: string };
+
+/**
+ * Fetches detailed information about movies, including their genres.
+ * @param {LibraryMovie[]} libraryMovies - An array of objects containing IMDb IDs.
+ * @param {Context} context - The context object containing the Prisma client.
+ * @returns {Promise<Movie[]>} - A promise that resolves to an array of Movie objects with genre information.
+ */
+const getListOfAllMovies = async (
+  libraryMovies: LibraryMovie[],
+  context: Context
+): Promise<Movie[]> => {
+
+  // Step 1: Extracting IMDb IDs for genre and movie fetching
+  const imdbIDs = libraryMovies.map((libMovie) => libMovie.imdbID);
+
+  // Step 2: Fetch all movies with their full details
+  const movies = await context.prisma.movie.findMany({
+    where: { imdbID: { in: imdbIDs } },
+  });
+
+  // Step 3: Fetch all the movie-genre relations for these movies
+  const movieGenres = await context.prisma.movieGenre.findMany({
+    where: { imdbID: { in: imdbIDs } },
+    include: {
+      Genre: true,
+    },
+  });
+
+  // Step 4: Create a map to associate IMDb IDs with their genres
+  const genresMap: Record<string, string[]> = {};
+  movieGenres.forEach((movieGenre) => {
+    if (!genresMap[movieGenre.imdbID]) {
+      genresMap[movieGenre.imdbID] = [];
+    }
+    genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+  });
+
+  // Step 5: Combine the movies with their genres
+  const moviesWithGenres = movies.map((movie) => ({
+    ...movie,
+    genres: genresMap[movie.imdbID] || [],
+  }));
+
+  return moviesWithGenres;
+};
+
+const getListOfAllMoviesInLibrary = async (
+  libraryID: string,
+  context: Context
+): Promise<Movie[]> => {
+
+  // Step 1: Fetch all movies in the library with their IMDb IDs
+  const libraryMovies = await context.prisma.libraryMovie
+    .findMany({
+      where: { libraryID },
+      select: { imdbID: true }
+    });
+
+  // Step 2: Return list of movies
+  return getListOfAllMovies(libraryMovies, context);
+};
+
+
+const getListOfAllMoviesInFavorites = async (
+  context: Context
+): Promise<Movie[]> => {
+
+  // Step 1: Fetch all movies in the library with their IMDb IDs
+  const libraryMovies = await context.prisma.userFavorites.findMany({
+    select: { imdbID: true }
+  });
+
+  return getListOfAllMovies(libraryMovies, context);
+};
+
 // Resolvers=========================================================================================================
 export const libraryResolver: Resolvers = {
   // Queries=====================================================================================================
@@ -56,6 +133,20 @@ export const libraryResolver: Resolvers = {
     libraryByID: async (_, { libraryID }, context: Context) => {
       try {
         return getLibrariesByID(libraryID, context);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    /**
+     * Fetch a list of movies in a unique library.
+     */
+    moviesByLibraryID: async (_, { libraryID }, context: Context) => {
+      try {
+        if (libraryID === "favorites") {
+          return getListOfAllMoviesInFavorites(context);
+        }
+        return getListOfAllMoviesInLibrary(libraryID ,context);
       } catch (error) {
         throw new Error(error);
       }
