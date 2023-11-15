@@ -11,6 +11,11 @@ export interface MovieContent {
   poster: string;
 }
 
+export interface MovieData {
+  movies: MovieContent[];
+  count: number;
+}
+
 export interface Movie {
   imdbID: string;
   primaryTitle: string;

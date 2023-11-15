@@ -4,28 +4,22 @@ import Slider from "@mui/material/Slider";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { filterSignals } from "../../pages/HomePage/HomePage";
-import { FilterState, Movie, MovieStats } from "../../interfaces";
+import { filterSignals, page } from "../../pages/HomePage/HomePage";
+import { FilterState, MovieContent, MovieStats } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
-import { set } from "lodash";
 
 interface FilterSideBarProps {
   open: boolean;
-  movies: Movie[] | [];
+  movies: MovieContent[] | [];
 }
 
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
-
-  // console.log("getInitialState", getInitialState());
-
-  useEffect(() => {
-    const session = sessionStorage.getItem("filterStates");
-    console.log("session", session);
-  }, [filterStates]);
+  // Get min and max values for each slider
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
 
   useEffect(() => {
     console.log("isInitialSetupComplete", isInitialSetupComplete);
@@ -41,9 +35,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     totalVotesRange: [0, 0],
   });
 
-  // Get min and max values for each slider
-  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
-
   // Fill filterStates with necessary data fetched either from the filterSignals in HomePage or from sessionStorage.
   // Fill min- and max-values for each slider with values fetched from backend
   useEffect(() => {
@@ -53,7 +44,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const getInitialState = () => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
-    console.log("savedFilterStates", savedFilterStates);
     if (savedFilterStates) {
       const parsedStates = JSON.parse(savedFilterStates) as FilterState;
       initialFilterStates = {
@@ -87,6 +77,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     setFilterStates(initialFilterStates as FilterState);
 
     if (initialFilterStates) {
+      page.value = 0;
       filterSignals.value = {
         releaseYearRange: {
           min: initialFilterStates.yearRange[0],
@@ -146,7 +137,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie: Movie) => movie.genres))
+    new Set(movies.flatMap((movie: MovieContent) => movie.genres))
   );
 
   const commitYearChange = (event: Event, newValue: number[]) => {
@@ -159,6 +150,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleYearChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         releaseYearRange: {
@@ -180,6 +172,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleRuntimeChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         runtimeMinutesRange: {
@@ -201,6 +194,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleRatingChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         averageRatingRange: {
@@ -222,6 +216,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
 
   const handleTotalVotesChange = useCallback(
     debounce((newValue: number[]) => {
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         totalVotesRange: {
@@ -246,6 +241,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   };
 
   const handleIsAdultChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    page.value = 0;
     filterSignals.value = {
       ...filterSignals.value,
       isAdult: event.target.checked,
@@ -264,6 +260,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         newSelectedGenres.add(genre);
       }
       // Update filterSignals immediately with the new set of genres
+      page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
         genres: Array.from(newSelectedGenres),
@@ -274,17 +271,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       };
     });
   };
-
-  // const handleGenreChange = useCallback(
-  //   debounce((newGenre) => {
-  //     console.log("newGenre", newGenre);
-  //     filterSignals.value = {
-  //       ...filterSignals.value,
-  //       genres: Array.from(...filterStates, newGenre),
-  //     };
-  //   }, 1000),
-  //   []
-  // );
 
   const sidebarStyle = {
     height: "100vh",

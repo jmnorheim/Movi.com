@@ -1,5 +1,10 @@
-import { Resolvers, SortType } from "../../generated/resolvers-types";
+import {
+  MoviesData,
+  Resolvers,
+  SortType,
+} from "../../generated/resolvers-types";
 import { Context } from "../../src";
+import { getRecommendations } from "../../src/recommended.js";
 
 export const movieResolver: Resolvers = {
   Query: {
@@ -48,7 +53,7 @@ export const movieResolver: Resolvers = {
      * @param {string} args.searchBy - A search string to filter movies by primaryTitle, originalTitle or imdbID.
      * @param {object} args.filter - Various filters to apply, contains isAdult, releaseYearRange, runtimeMinutesRange, averageRatingRange, totalVotesRange and genres.
      * @param {Context} context - The context object which gives access to Prisma.
-     * @returns {Promise<Array<object>>} An array of objects representing the list of movies, or an error if something goes wrong.
+     * @returns {Promise<Array<MoviesData>>} An array of objects representing the list of movies, or an error if something goes wrong.
      */
     movies: async (_, args, context: Context) => {
       let orderBy;
@@ -86,35 +91,41 @@ export const movieResolver: Resolvers = {
           break;
       }
 
-      try {
-        const movies = await context.prisma.movie.findMany({
-          where: {
-            AND: [
-              { isAdult: { equals: args.filter?.isAdult } },
-              { startYear: { gte: args.filter?.releaseYearRange?.min } },
-              { startYear: { lte: args.filter?.releaseYearRange?.max } },
-              {
-                runtimeMinutes: { gte: args.filter?.runtimeMinutesRange?.min },
-              },
-              {
-                runtimeMinutes: { lte: args.filter?.runtimeMinutesRange?.max },
-              },
-              { averageRating: { gte: args.filter?.averageRatingRange?.min } },
-              { averageRating: { lte: args.filter?.averageRatingRange?.max } },
-              { totalVotes: { gte: args.filter?.totalVotesRange?.min } },
-              { totalVotes: { lte: args.filter?.totalVotesRange?.max } },
-              {
-                OR: [
-                  { imdbID: { contains: args.searchBy } },
-                  { primaryTitle: { contains: args.searchBy } },
-                  { originalTitle: { contains: args.searchBy } },
-                ],
-              },
+      const whereConditions = {
+        AND: [
+          { isAdult: { equals: args.filter?.isAdult } },
+          { startYear: { gte: args.filter?.releaseYearRange?.min } },
+          { startYear: { lte: args.filter?.releaseYearRange?.max } },
+          {
+            runtimeMinutes: { gte: args.filter?.runtimeMinutesRange?.min },
+          },
+          {
+            runtimeMinutes: { lte: args.filter?.runtimeMinutesRange?.max },
+          },
+          { averageRating: { gte: args.filter?.averageRatingRange?.min } },
+          { averageRating: { lte: args.filter?.averageRatingRange?.max } },
+          { totalVotes: { gte: args.filter?.totalVotesRange?.min } },
+          { totalVotes: { lte: args.filter?.totalVotesRange?.max } },
+          {
+            OR: [
+              { imdbID: { contains: args.searchBy } },
+              { primaryTitle: { contains: args.searchBy } },
+              { originalTitle: { contains: args.searchBy } },
             ],
           },
+        ],
+      };
+
+      try {
+        const movies = await context.prisma.movie.findMany({
+          where: whereConditions,
           orderBy: orderBy,
           skip: args.offset ? args.offset : 0,
           take: args.limit ? args.limit : 10,
+        });
+
+        const totalMovies = await context.prisma.movie.count({
+          where: whereConditions,
         });
 
         // Step 2: Get the imdbIDs of all fetched movies
@@ -151,9 +162,17 @@ export const movieResolver: Resolvers = {
               args.filter.genres.includes(genre)
             );
           });
-          return filteredMovies;
+          const moviesData: MoviesData = {
+            movies: filteredMovies,
+            count: totalMovies,
+          };
+          return moviesData;
         }
-        return moviesWithGenres;
+        const moviesData: MoviesData = {
+          movies: moviesWithGenres,
+          count: totalMovies,
+        };
+        return moviesData;
       } catch (error) {
         throw new Error(`Error: ${error.message}`);
       }
@@ -222,6 +241,61 @@ export const movieResolver: Resolvers = {
             max: totalVotesAggregates._max.totalVotes,
           },
         };
+      } catch (error) {
+        throw new Error(`Error in movieStats resolver: ${error.message}`);
+      }
+    },
+    getRecommendedMovies: async (_, { movie }, context: Context) => {
+      try {
+        const potensiallMovies = await context.prisma.movie.findMany({
+          where: {
+            AND: [
+              { isAdult: { equals: movie.isAdult } },
+              { startYear: { gte: movie.startYear - 10 } },
+              { startYear: { lte: movie.startYear + 10 } },
+              {
+                runtimeMinutes: { gte: movie.runtimeMinutes - 30 },
+              },
+              {
+                runtimeMinutes: { lte: movie.runtimeMinutes + 30 },
+              },
+              { averageRating: { gte: movie.averageRating - 2.5 } },
+              { averageRating: { lte: movie.averageRating + 2.5 } },
+            ],
+          },
+          take: 2000,
+        });
+
+        // Same steps as in movies resolver
+        // Step 2: Get the imdbIDs of all fetched movies
+        const imdbIDs = potensiallMovies.map((movie) => movie.imdbID);
+
+        // Step 3: Fetch all the movie-genre relations for these movies
+        const movieGenres = await context.prisma.movieGenre.findMany({
+          where: { imdbID: { in: imdbIDs } },
+          include: {
+            Genre: true, // Include Genre model to get genreName
+          },
+        });
+
+        // Step 4: Create a map (dictionary) to associate imdbID with its genres
+        const genresMap: Record<string, string[]> = {};
+        movieGenres.forEach((movieGenre) => {
+          if (!genresMap[movieGenre.imdbID]) {
+            genresMap[movieGenre.imdbID] = [];
+          }
+          genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+        });
+
+        // Step 5: Add the genres to each movie
+        const moviesWithGenres = potensiallMovies.map((movie) => ({
+          ...movie,
+          genres: genresMap[movie.imdbID] || [],
+        }));
+
+        const recommended = getRecommendations(movie, moviesWithGenres, 5);
+
+        return recommended;
       } catch (error) {
         throw new Error(`Error in movieStats resolver: ${error.message}`);
       }

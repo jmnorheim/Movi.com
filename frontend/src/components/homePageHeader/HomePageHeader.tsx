@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import "./HomePageHeader.css";
-import { CurrentFilter, Movie } from "../../interfaces";
+import { CurrentFilter, Movie, MovieContent } from "../../interfaces";
 import headerImage from "../../assets/images/headerImage.png";
 import SearchBar from "../searchBar/SearchBar";
 import FilterSideBar from "../filterSideBar/FilterSideBar";
@@ -8,22 +8,22 @@ import FilterSideBar from "../filterSideBar/FilterSideBar";
 import filtericon from "../../assets/icons/filter-icon.svg";
 
 interface HomePageHeaderProps {
-  movies: Movie[] | [];
+  movies: MovieContent[] | [];
   onFilter: (filters: CurrentFilter) => void;
 }
 
 const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
-  const filterSidebarRef = useRef(null);
-  const filterButtonRef = useRef(null);
+  const filterSidebarRef = useRef<HTMLDivElement>(null);
+  const filterButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handleClickOutside(event: MouseEvent) {
       if (
         filterSidebarRef.current &&
-        !filterSidebarRef.current.contains(event.target) &&
+        !filterSidebarRef.current.contains(event.target as Node) &&
         filterButtonRef.current &&
-        !filterButtonRef.current.contains(event.target)
+        !filterButtonRef.current.contains(event.target as Node)
       ) {
         setIsFilterSidebarOpen(false);
       }
@@ -62,7 +62,6 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
           <div ref={filterSidebarRef}>
             <FilterSideBar open={isFilterSidebarOpen} movies={movies} />
           </div>
-          {/* {movies?.length && <FilterMenu movies={movies} onFilter={onFilter} />} */}
         </div>
       </div>
     </div>
