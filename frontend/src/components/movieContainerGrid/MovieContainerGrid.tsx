@@ -27,7 +27,7 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
           <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
             <MovieContainer movie={movie} />
           </Link>
-          <AddToLibraryButton />
+          <AddToLibraryButton imdbID={movie.imdbID} />
         </div>
       ))}
     </div>

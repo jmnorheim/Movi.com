@@ -6,9 +6,9 @@ import { SERVER_URL } from "../interfaces";
  * GraphQL query to authenticate a user.
  */
 const ADD_MOVIE_TO_LIBRARY = graphql(`
-  mutation Mutation($libraryId: ID!, $movieId: String!) {
+  mutation AddMovieToLibrary($libraryId: ID!, $movieId: String!) {
     addMovieToLibrary(libraryID: $libraryId, movieID: $movieId) {
-      name
+      userID
     }
   }
 `);
@@ -19,14 +19,9 @@ const ADD_MOVIE_TO_LIBRARY = graphql(`
 export const addMovieToLibrary = async (
   libraryID: string,
   movieID: string
-): Promise<string> => {
-  const { addMovieToLibrary } = await request(
-    SERVER_URL,
-    ADD_MOVIE_TO_LIBRARY,
-    {
-      libraryId: libraryID,
-      movieId: movieID,
-    }
-  );
-  return addMovieToLibrary.name;
+): Promise<void> => {
+  await request(SERVER_URL, ADD_MOVIE_TO_LIBRARY, {
+    libraryId: libraryID,
+    movieId: movieID,
+  });
 };

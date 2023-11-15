@@ -5,10 +5,18 @@ import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
 import { addMovieToLibrary } from "../../services/addMovieToLibrary.ts";
 import { addMovieToFavorite } from "../../services/addMovieToFavorites.ts";
 
-const AddToLibraryButton = () => {
+interface AddToLibraryButtonProps {
+  imdbID: string;
+}
+
+const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { userID } = useAuth();
   const { data: libraries } = useUsersLibrariesQuery(userID);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const addMovieLibrary = async (libID: string, imdbID: string) => {
     await addMovieToLibrary(imdbID, libID);
@@ -19,10 +27,40 @@ const AddToLibraryButton = () => {
   };
 
   return (
-    <button className="button">
-      <div className="text-wrapper-2">Add To Library</div>
-      <ArrowDownIcon className="icon-instance" />
-    </button>
+    <div>
+      <button
+        className="button"
+        onClick={toggleDropdown}
+        aria-haspopup="true"
+        aria-expanded={isDropdownOpen}
+      >
+        <div className="text-wrapper-2">Add To Library</div>
+        <ArrowDownIcon
+          className={isDropdownOpen ? "icon-instance-open" : "icon-instance"}
+        />
+      </button>
+      {isDropdownOpen && (
+        <div className="dropdown-menu-library">
+          <div
+            className="dropdown-item"
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onClick={() => addMovieFavorites(userID, imdbID)}
+          >
+            Favorites
+          </div>
+          {libraries?.map((library) => (
+            <div
+              key={library.libraryID}
+              className="dropdown-item"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={() => addMovieLibrary(library.libraryID, imdbID)}
+            >
+              {library.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
