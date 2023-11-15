@@ -4,6 +4,7 @@ html {
   margin: 0; /* Removes default margins */
   height: 100%; /* Ensures that html and body cover the full viewport height */
   width: 100%; /* Ensures that html and body cover the full viewport width */
+  max-width: 100vw;
 }
 
 .homePageContainer {
@@ -51,7 +52,7 @@ html {
 }
 
 .spacer-2 {
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 .paginationAndSortContainer {
@@ -77,8 +78,6 @@ html {
   justify-content: flex-start;
   /* background-color: green; */
 }
-
-
 
 .gridContainer {
   padding-top: 10px;

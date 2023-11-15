@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { FormControl, TextField, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -30,6 +31,13 @@ const TypeSearch = () => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.key === "Enter") {
+      page.value = 0;
+      currentSearch.value = searchValue;
+    }
+  };
+
   const handleClick = (): void => {
     setSearchValue("");
     currentSearch.value = "";
@@ -43,6 +51,7 @@ const TypeSearch = () => {
           value={searchValue}
           variant="outlined"
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           placeholder="Search for any movie..."
           sx={{
             "& .MuiOutlinedInput-root": {

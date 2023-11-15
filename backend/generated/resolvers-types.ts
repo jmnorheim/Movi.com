@@ -76,6 +76,7 @@ export type MovieStats = {
 export type MoviesData = {
   __typename?: 'MoviesData';
   count: Scalars['Int']['output'];
+  genres: Array<Scalars['String']['output']>;
   movies: Array<Movie>;
 };
 
@@ -447,6 +448,7 @@ export type MovieStatsResolvers<ContextType = any, ParentType extends ResolversP
 
 export type MoviesDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['MoviesData'] = ResolversParentTypes['MoviesData']> = ResolversObject<{
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  genres?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   movies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

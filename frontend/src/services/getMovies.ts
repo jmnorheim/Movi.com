@@ -1,12 +1,6 @@
 import request from "graphql-request";
-import { useQuery } from "@tanstack/react-query";
-import {
-  MovieContent,
-  MovieStats,
-  MovieData,
-  SERVER_URL,
-  Movie,
-} from "../interfaces";
+import { QueryClient, useQuery } from "@tanstack/react-query";
+import { MovieContent, MovieStats, MovieData, SERVER_URL } from "../interfaces";
 import { MovieFilter, SortType } from "../generated/graphql";
 import { graphql } from "../generated";
 
@@ -43,6 +37,7 @@ const GET_MOVIES = graphql(`
       sortBy: $sortBy
     ) {
       count
+      genres
       movies {
         primaryTitle
         totalVotes
@@ -144,6 +139,21 @@ export const useMovieStats = () => {
   });
 };
 
+export const handlePreFetch = async (
+  client: QueryClient,
+  page: number = 0,
+  limit: number = 10,
+  searchBy?: string,
+  filter?: MovieFilter,
+  sortBy?: SortType
+) => {
+  const offset = (page + 1) * limit;
+  await client.prefetchQuery({
+    queryKey: ["Movies: " + page + 1, limit, searchBy, filter, sortBy],
+    queryFn: () => getMovies(limit, offset, searchBy, filter, sortBy),
+  });
+};
+
 // Get movies in library
 const GET_MOVIES_BY_LIBRARY_ID = graphql(`
   query MoviesByLibraryID($libraryId: ID!) {
@@ -163,7 +173,7 @@ const GET_MOVIES_BY_LIBRARY_ID = graphql(`
  */
 export const getMoviesByLibraryID = async (
   libraryID: string
-): Promise<Movie[]> => {
+): Promise<MovieContent[]> => {
   const { moviesByLibraryID } = await request(
     SERVER_URL,
     GET_MOVIES_BY_LIBRARY_ID,
@@ -171,7 +181,7 @@ export const getMoviesByLibraryID = async (
       libraryId: libraryID,
     }
   );
-  return moviesByLibraryID as Movie[];
+  return moviesByLibraryID as MovieContent[];
 };
 
 /**

@@ -26,16 +26,27 @@
   text-decoration: none;
   color: inherit;
 }  */
+body,
+html {
+  /* background-color: #d1e8e2; */
+  margin: 0; /* Removes default margins */
+  padding: 0;
+  max-width: 100vw;
+}
 
 .navbar {
+  box-sizing: border-box;
   display: flex;
+  overflow-x: hidden;
 
   align-items: center;
   height: 72px;
   /* justify-content: flex-end; */
   padding: 0px 64px;
+  /* margin-left: 64px; */
   position: relative;
   width: 100vw;
+  max-width: 100vw;
   /* background-color: red; */
   z-index: 1000;
 }
@@ -50,6 +61,7 @@
   position: relative;
   height: 72px;
   width: 100%;
+  outline: none;
   /* background-color: yellow; */
 }
 
@@ -105,6 +117,7 @@
   width: fit-content;
   background: none;
   border: none;
+
   text-decoration: none;
 }
 
