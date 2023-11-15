@@ -44,7 +44,13 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   // Get min and max values for each slider
   const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
 
+  // Fill filterStates with necessary data fetched either from the filterSignals in HomePage or from sessionStorage.
+  // Fill min- and max-values for each slider with values fetched from backend
   useEffect(() => {
+    getInitialState();
+  }, [statsData, isLoadingStats]);
+
+  const getInitialState = () => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
     console.log("savedFilterStates", savedFilterStates);
@@ -124,7 +130,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       });
     }
     setIsInitialSetupComplete(true);
-  }, [statsData, isLoadingStats]);
+  };
 
   const onSidebarTransitionEnd = () => {
     // Only show content if the sidebar is fully open

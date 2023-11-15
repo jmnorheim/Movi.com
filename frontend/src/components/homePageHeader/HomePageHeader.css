@@ -116,8 +116,9 @@
   width: 40px;
   height: 40px;
   border: none;
-  background-color: transparent;
+  /* background-color: transparent; */
   cursor: pointer;
+  background: none;
   background-size: contain;
   background-repeat: no-repeat;
   border-width: 4px;

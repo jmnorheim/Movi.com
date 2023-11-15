@@ -50,6 +50,7 @@
   position: relative;
   height: 72px;
   width: 100%;
+  outline: none;
   /* background-color: yellow; */
 }
 
@@ -106,6 +107,7 @@
   width: fit-content;
   background: none;
   border: none;
+
   text-decoration: none;
 }
 
