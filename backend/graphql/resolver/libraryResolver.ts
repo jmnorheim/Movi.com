@@ -199,6 +199,7 @@ export const libraryResolver: Resolvers = {
       }
     },
 
+    
     /**
      * Retrieves a library by the user's identifier and the library's name.
      * @function
@@ -209,6 +210,7 @@ export const libraryResolver: Resolvers = {
      * @param {Context} context - The context object containing the Prisma client.
      * @returns {Promise<Library>} A promise resolving to the library object.
      */
+    /*
     libraryByUserAndName: async (_, { userID, name }, context: Context) => {
       try {
         const libraryPrisma = await context.prisma.library.findUnique({
@@ -234,7 +236,7 @@ export const libraryResolver: Resolvers = {
       } catch (error) {
         throw new Error(error);
       }
-    },
+    },*/
 
     /**
      * Retrieves a list of libraries with pagination.

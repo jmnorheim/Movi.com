@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useUserQuery } from "../../services/getUser";
+import { deleteUser } from "../../services/deleteUser";
 import "./ProfilePage.css";
 
 import { ArrowCircleLeft } from "../../assets/icons/ArrowCircleLeft";
@@ -36,6 +37,14 @@ function ProfilePage() {
   };
 
   /**
+   * Handles the delete user.
+   */
+  const handleDeleteUser = async () => {
+    await deleteUser(userID);
+    navigate("/login");
+  };
+
+  /**
    * Display loading state .
    */
   if (isLoading) {
@@ -66,6 +75,15 @@ function ProfilePage() {
             </div>
             <button className="button" onClick={handleLogout}>
               <div className="text-wrapper-5">Log Out</div>
+            </button>
+            <button
+              className="button"
+              style={{ backgroundColor: "red" }}
+              onClick={() => {
+                void handleDeleteUser();
+              }}
+            >
+              <div className="text-wrapper-5">Delete User</div>
             </button>
           </div>
         </div>
