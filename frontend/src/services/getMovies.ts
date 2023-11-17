@@ -190,9 +190,12 @@ export const getMoviesByLibraryID = async (
  * @param {string} libraryID
  * @returns {object}
  */
-export const useMoviesInByLibraryIDQuery = (libraryID: string | undefined) => {
+export const useMoviesInByLibraryIDQuery = (
+  libraryID: string | undefined,
+  userID: string
+) => {
   return useQuery({
-    queryKey: [libraryID],
+    queryKey: [libraryID + " : " + userID],
     queryFn: () => {
       return getMoviesByLibraryID(libraryID!);
     },
