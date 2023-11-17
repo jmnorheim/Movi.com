@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowDownIcon } from "../../../src/assets/icons/ArrowDownIcon";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
@@ -13,21 +13,40 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { userID } = useAuth();
   const { data: libraries } = useUsersLibrariesQuery(userID);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const addMovieLibrary = async (libID: string, imdbID: string) => {
-    await addMovieToLibrary(imdbID, libID);
+    await addMovieToLibrary(libID, imdbID);
+    toggleDropdown();
   };
 
   const addMovieFavorites = async (userId: string, imdbID: string) => {
     await addMovieToFavorite(userId, imdbID);
+    toggleDropdown();
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div>
+    <div ref={dropdownRef}>
       <button
         className="button"
         onClick={toggleDropdown}
@@ -43,8 +62,9 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
         <div className="dropdown-menu-library">
           <div
             className="dropdown-item"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={() => addMovieFavorites(userID, imdbID)}
+            onClick={() => {
+              void addMovieFavorites(userID, imdbID); // This call is now 'fire-and-forget'
+            }}
           >
             Favorites
           </div>
@@ -52,8 +72,9 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
             <div
               key={library.libraryID}
               className="dropdown-item"
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={() => addMovieLibrary(library.libraryID, imdbID)}
+              onClick={() => {
+                void addMovieLibrary(library.libraryID, imdbID);
+              }}
             >
               {library.name}
             </div>
