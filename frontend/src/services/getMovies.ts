@@ -110,10 +110,11 @@ const getMovieStats = async () => {
   return movieStats as MovieStats;
 };
 
-export const useMovie = (imdbId: string) => {
+export const useMovie = (imdbId: string | undefined) => {
   return useQuery({
     queryKey: ["Movie: " + imdbId],
-    queryFn: () => getMovie(imdbId),
+    queryFn: () => getMovie(imdbId!),
+    enabled: !!imdbId,
   });
 };
 
