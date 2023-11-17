@@ -82,16 +82,19 @@
 }
 
 .bottomFooter .legal-info-outer-container {
-
+  /* background-color: red; */
+  flex-direction: row;
+  display: flex;
 }
 
 .bottomFooter .legal-stuff {
-  align-items: flex-start;
+  /* align-items: flex-start; */
   display: inline-flex;
   flex: 0 0 auto;
   gap: 24px;
   position: relative;
-  /* background-color: red; */
+  margin-left: 24px;
+  /* background-color: blue; */
 }
 
 .bottomFooter .text {
@@ -125,4 +128,9 @@
   /* .bottomFooter {
     max-width: 87vw;
   } */
+
+  .bottomFooter .legal-info-outer-container {
+    flex-direction: column;
+    align-items: center;
+  }
 }

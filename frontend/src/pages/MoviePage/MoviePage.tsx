@@ -126,13 +126,13 @@ const MoviePage: React.FC = () => {
                     </div>
                   </div>
                   <div className="div-5">
-                    <div className="div-4">
+                    <div className="div-6">
                       <img className="img" alt="Image" src={imdb_logo} />
                       <div className="text-wrapper-5">
                         {movie.averageRating}/10
                       </div>
                     </div>
-                    <div className="div-4">
+                    <div className="div-6">
                       <div className="text-wrapper-6">Votes</div>
                       <div className="text-wrapper-7">({movie.totalVotes})</div>
                     </div>
