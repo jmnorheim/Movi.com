@@ -10,10 +10,14 @@ interface HeartIconProps {
 }
 
 export const HeartIcon = ({ className }: HeartIconProps) => {
+  let fill = "#F5F5F5";
+  if (className) {
+    fill = "#FF0000";
+  }
   return (
     <svg
       className={`vuesax-linear-heart ${className}`}
-      fill="none"
+      fill={fill}
       height="24"
       viewBox="0 0 24 24"
       width="24"

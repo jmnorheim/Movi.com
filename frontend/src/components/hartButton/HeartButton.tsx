@@ -18,7 +18,6 @@ const HeartButton = ({ userID, movieID }: HeartButtonProps) => {
   const queryClient = useQueryClient();
 
   const { data } = useIsMovieInFavorites(userID, movieID);
-  console.log(userID, movieID);
 
   useEffect(() => {
     if (data !== undefined) {
@@ -27,8 +26,6 @@ const HeartButton = ({ userID, movieID }: HeartButtonProps) => {
   }, [data]);
 
   const handleHeartClick = async () => {
-    console.log("noe");
-
     if (isHearted) {
       setIsHearted(false);
     } else {
