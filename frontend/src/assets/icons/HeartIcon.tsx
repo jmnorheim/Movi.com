@@ -6,7 +6,7 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 import React from "react";
 
 interface HeartIconProps {
-  className?: string;
+  className?: boolean;
 }
 
 export const HeartIcon = ({ className }: HeartIconProps) => {

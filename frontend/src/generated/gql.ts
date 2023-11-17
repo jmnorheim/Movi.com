@@ -27,6 +27,7 @@ const documents = {
     "\n  query UserByID($userID: ID!) {\n    userByID(userID: $userID) {\n      userID\n      username\n      password\n      email\n      library {\n        libraryID\n        userID\n        name\n        movies\n      }\n      favorites\n    }\n  }\n": types.UserByIdDocument,
     "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n": types.GetUserFavoritesDocument,
     "\n  query GetUsersLibraries($userId: ID!) {\n    librariesByUserID(userID: $userId) {\n      movies\n      name\n      libraryID\n    }\n  }\n": types.GetUsersLibrariesDocument,
+    "\n  query IsMovieInFavorite($userId: ID!, $imdbId: ID!) {\n    movieInFavoriteByUserID(userID: $userId, imdbID: $imdbId)\n  }\n": types.IsMovieInFavoriteDocument,
     "\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n": types.AddLibraryToUserDocument,
     "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.RemoveMovieFromLibraryDocument,
     "\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n": types.VerifyPasswordDocument,
@@ -102,6 +103,10 @@ export function graphql(source: "\n  query GetUserFavorites($userId: ID!) {\n   
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetUsersLibraries($userId: ID!) {\n    librariesByUserID(userID: $userId) {\n      movies\n      name\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  query GetUsersLibraries($userId: ID!) {\n    librariesByUserID(userID: $userId) {\n      movies\n      name\n      libraryID\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query IsMovieInFavorite($userId: ID!, $imdbId: ID!) {\n    movieInFavoriteByUserID(userID: $userId, imdbID: $imdbId)\n  }\n"): (typeof documents)["\n  query IsMovieInFavorite($userId: ID!, $imdbId: ID!) {\n    movieInFavoriteByUserID(userID: $userId, imdbID: $imdbId)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

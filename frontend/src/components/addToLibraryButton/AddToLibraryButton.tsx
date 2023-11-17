@@ -43,8 +43,7 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
         <div className="dropdown-menu-library">
           <div
             className="dropdown-item"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={() => addMovieFavorites(userID, imdbID)}
+            onClick={() => void addMovieFavorites(userID, imdbID)}
           >
             Favorites
           </div>
@@ -52,8 +51,7 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
             <div
               key={library.libraryID}
               className="dropdown-item"
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={() => addMovieLibrary(library.libraryID, imdbID)}
+              onClick={() => void addMovieLibrary(library.libraryID, imdbID)}
             >
               {library.name}
             </div>

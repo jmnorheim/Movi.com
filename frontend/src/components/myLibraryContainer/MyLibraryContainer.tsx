@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Library } from "../../interfaces";
-import { getMovieById } from "../../services/movieAPI";
+
 import "./MyLibraryContainer.css";
 
 interface MyLibraryProps {
@@ -10,19 +10,19 @@ interface MyLibraryProps {
 
 const MyLibaryContainer = ({ library }: MyLibraryProps) => {
   const [image, setImage] = useState<string>("");
-  useEffect(() => {
-    if (library.movies[0]) {
-      getMovieById(library.movies[0])
-        .then((movie) => {
-          setImage(movie.poster);
-          console.log("poster");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [library.movies[0]]);
-  console.log("library", library);
+  // useEffect(() => {
+  //   if (library.movies[0]) {
+  //     getMovieById(library.movies[0])
+  //       .then((movie) => {
+  //         setImage(movie.poster);
+  //         console.log("poster");
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }, [library.movies[0]]);
+  // console.log("library", library);
 
   return (
     <div className="library-container">

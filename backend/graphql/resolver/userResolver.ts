@@ -114,10 +114,7 @@ export const userResolver: Resolvers = {
       { userID, imdbID },
       context: Context
     ) => {
-      const user = await context.prisma.user.findUnique({
-        where: { userID: userID },
-      });
-      return isMovieInFavorites(user.userID, imdbID, context);
+      return isMovieInFavorites(userID, imdbID, context);
     },
 
     /**
