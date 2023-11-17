@@ -47,6 +47,24 @@
   -webkit-box-orient: vertical;
 }
 
+.movie-container .no-poster-text {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  white-space: nowrap;
+
+  top: 43%; /* Add this line */
+  left: 50%; /* Add this line */
+  transform: translate(-50%, -50%);
+}
+
 .movie-container .button {
   all: unset;
   align-items: center;

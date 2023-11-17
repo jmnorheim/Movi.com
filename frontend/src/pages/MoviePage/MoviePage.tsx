@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MovieContent, User } from "../../interfaces";
@@ -18,6 +19,8 @@ import { useMovie, useMovies } from "../../services/getMovies";
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid.tsx";
 import { MovieFilter } from "../../generated/graphql.ts";
 import { useRecommendedMovies } from "../../services/getRecommended.ts";
+
+import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
 /**
  * Render the MoviePage component.
@@ -47,6 +50,15 @@ const MoviePage: React.FC = () => {
       setMovie(data);
     }
   }, [data]);
+
+  let posterSrc = movie?.poster;
+  let posterIsEmpty = false;
+  if (movie) {
+    posterSrc = movie.poster.startsWith("data")
+      ? empty_poster_pic
+      : movie.poster;
+    posterIsEmpty = movie.poster.startsWith("data");
+  }
 
   useEffect(() => {
     if (recommendedData) {
@@ -146,11 +158,16 @@ const MoviePage: React.FC = () => {
                   </div>
                 </div>
                 <div className="poster-image-container">
-                  <img
-                    className="poster-image"
-                    alt="movieposter"
-                    src={movie.poster}
-                  />
+                  <div className="poster-content">
+                    <img
+                      className="poster-image"
+                      alt="movieposter"
+                      src={posterSrc}
+                    />
+                    {posterIsEmpty && (
+                      <div className="no-poster-text">No poster available</div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

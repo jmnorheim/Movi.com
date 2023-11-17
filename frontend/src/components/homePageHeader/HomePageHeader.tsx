@@ -20,8 +20,8 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
       <div className="ellipse" />
       <img className="IMG" alt="Img" src={headerImage} />
       <div className="div">
-        <div className="text-wrapper">Welcome to the Møvie database</div>
-        <div className="text-wrapper-2">Browse over 290 000 movies!</div>
+        <div className="text-wrapper">Welcome to the Møvi database</div>
+        <div className="text-wrapper-2">Browse over 260 000 movies!</div>
         <div className="div-2">
           <div className="content-wrapper">
             <div className="search-bar">
