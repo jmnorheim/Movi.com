@@ -20,9 +20,10 @@ const getUsersLibraries = async (userID: string): Promise<Library[]> => {
   return librariesByUserID as Library[];
 };
 
-export const useUsersLibrariesQuery = (userID: string) => {
+export const useUsersLibrariesQuery = (userID: string | undefined) => {
   return useQuery({
     queryKey: ["Libraries: " + userID],
-    queryFn: () => getUsersLibraries(userID),
+    queryFn: () => getUsersLibraries(userID!),
+    enabled: !!userID,
   });
 };
