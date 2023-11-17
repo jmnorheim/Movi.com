@@ -17,10 +17,9 @@ model Library {
   libraryID    String         @id @default(uuid())
   userID       String
   name         String
-  User         User           @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+  User         User           @relation(fields: [userID], references: [userID], onDelete: Cascade, onUpdate: Cascade)
   LibraryMovie LibraryMovie[]
 
-  @@unique([userID, name])
   @@index([libraryID, userID])
 }
 
@@ -28,8 +27,8 @@ model Library {
 model LibraryMovie {
   libraryID String
   imdbID    String
-  Movie     Movie   @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
-  Library   Library @relation(fields: [libraryID], references: [libraryID], onDelete: NoAction, onUpdate: NoAction)
+  Movie     Movie   @relation(fields: [imdbID], references: [imdbID], onDelete: Cascade, onUpdate: Cascade)
+  Library   Library @relation(fields: [libraryID], references: [libraryID], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([libraryID, imdbID])
 }
@@ -56,8 +55,8 @@ model Movie {
 model MovieGenre {
   imdbID  String
   genreID Int
-  Genre   Genre  @relation(fields: [genreID], references: [genreID], onDelete: NoAction, onUpdate: NoAction)
-  Movie   Movie  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
+  Genre   Genre  @relation(fields: [genreID], references: [genreID], onDelete: Cascade, onUpdate: Cascade)
+  Movie   Movie  @relation(fields: [imdbID], references: [imdbID], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([imdbID, genreID])
 }

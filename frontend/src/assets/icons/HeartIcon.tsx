@@ -6,14 +6,18 @@ Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcN
 import React from "react";
 
 interface HeartIconProps {
-  className?: string;
+  className?: boolean;
 }
 
 export const HeartIcon = ({ className }: HeartIconProps) => {
+  let fill = "#F5F5F5";
+  if (className) {
+    fill = "#FF0000";
+  }
   return (
     <svg
       className={`vuesax-linear-heart ${className}`}
-      fill="none"
+      fill={fill}
       height="24"
       viewBox="0 0 24 24"
       width="24"
