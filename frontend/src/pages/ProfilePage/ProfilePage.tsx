@@ -1,4 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useUserQuery } from "../../services/getUser";
@@ -20,6 +29,21 @@ function ProfilePage() {
   const navigate = useNavigate();
   const { userID, logout } = useAuth();
   const { data: user, isLoading } = useUserQuery(userID);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  /**
+   * Open popup to confirm delete user.
+   */
+  const openDeleteDialog = () => {
+    setIsDeleteDialogOpen(!isDeleteDialogOpen);
+  };
+
+  /**
+   * Close popup to confirm delete user.
+   */
+  const closeDeleteDialog = () => {
+    setIsDeleteDialogOpen(!isDeleteDialogOpen);
+  };
 
   effect(() => {
     navbarColor.value = "white";
@@ -39,7 +63,7 @@ function ProfilePage() {
   /**
    * Handles the delete user.
    */
-  const handleDeleteUser = async () => {
+  const confirmDeleteUser = async () => {
     await deleteUser(userID);
     navigate("/login");
   };
@@ -79,12 +103,30 @@ function ProfilePage() {
             <button
               className="button"
               style={{ backgroundColor: "red" }}
-              onClick={() => {
-                void handleDeleteUser();
-              }}
+              onClick={openDeleteDialog}
             >
               <div className="text-wrapper-5">Delete User</div>
             </button>
+
+            {/* Confirmation Dialog for Deleting User */}
+            <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+              <DialogTitle>Confirm Deletion</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete your account? This action
+                  cannot be undone.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeDeleteDialog}>Cancel</Button>
+                <Button
+                  onClick={() => void confirmDeleteUser()}
+                  style={{ backgroundColor: "red", color: "white" }}
+                >
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
       </div>
