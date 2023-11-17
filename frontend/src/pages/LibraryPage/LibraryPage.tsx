@@ -3,6 +3,8 @@ import "./LibraryPage.css";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { ArrowCircleLeftBlack } from "../../assets/icons/ArrowCircleLeftBlack";
 import { useMoviesInByLibraryIDQuery } from "../../../src/services/getMovies.ts";
+import { useRemoveMovieFromFavorites } from "../../../src/services/removeMovieFromFavorites.ts";
+import { useAuth } from "../../services/auth/AuthContext.tsx";
 
 /**
  * Render the RegisterPage component.
@@ -21,6 +23,8 @@ const LibraryPage: React.FC = () => {
 
   // Hooks for fetching movies and navigation
   const { data: movies } = useMoviesInByLibraryIDQuery(libraryID);
+  const { userID } = useAuth();
+  const { mutate } = useRemoveMovieFromFavorites(userID);
   const navigate = useNavigate();
 
   /**
@@ -28,6 +32,13 @@ const LibraryPage: React.FC = () => {
    */
   const formatNumber = (number: number) => {
     return number < 10 ? `0${number}` : number.toString();
+  };
+
+  /**
+   * Handles the delete user.
+   */
+  const handleDelete = (imdbID: string) => {
+    mutate(imdbID);
   };
 
   // Return =============================================================
@@ -69,6 +80,13 @@ const LibraryPage: React.FC = () => {
                     {movie.runtimeMinutes} Minutes
                   </div>
                 </div>
+                {/* Delete button */}
+                <button
+                  onClick={() => handleDelete(movie.imdbID)}
+                  style={{ backgroundColor: "red", color: "white" }}
+                >
+                  Delete
+                </button>
               </div>
             </Link>
           ))}
