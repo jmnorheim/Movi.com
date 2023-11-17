@@ -38,7 +38,7 @@ export const useRemoveMovieFromFavorites = (userID: string) => {
     (imdbID: string) => removeMovieFromFavorites(userID, imdbID),
     {
       onSuccess: async () => {
-        await client.invalidateQueries({ queryKey: ["Favorites: " + userID] });
+        await client.invalidateQueries({ queryKey: ["favorites : " + userID] });
       },
     }
   );

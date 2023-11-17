@@ -4,7 +4,9 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { ArrowCircleLeftBlack } from "../../assets/icons/ArrowCircleLeftBlack";
 import { useMoviesInByLibraryIDQuery } from "../../../src/services/getMovies.ts";
 import { useRemoveMovieFromFavorites } from "../../../src/services/removeMovieFromFavorites.ts";
+import { useRemoveMovieFromLibrary } from "../../../src/services/removeMovieFromLibrary.ts";
 import { useAuth } from "../../services/auth/AuthContext.tsx";
+import ClearIcon from "@mui/icons-material/Clear";
 
 /**
  * Render the RegisterPage component.
@@ -22,9 +24,13 @@ const LibraryPage: React.FC = () => {
   }
 
   // Hooks for fetching movies and navigation
-  const { data: movies } = useMoviesInByLibraryIDQuery(libraryID);
   const { userID } = useAuth();
-  const { mutate } = useRemoveMovieFromFavorites(userID);
+  const { data: movies } = useMoviesInByLibraryIDQuery(libraryID, userID);
+  const { mutate: mutateFavorites } = useRemoveMovieFromFavorites(userID);
+  const { mutate: mutateLibrary } = useRemoveMovieFromLibrary(
+    userID,
+    libraryID
+  );
   const navigate = useNavigate();
 
   /**
@@ -38,7 +44,11 @@ const LibraryPage: React.FC = () => {
    * Handles the delete user.
    */
   const handleDelete = (imdbID: string) => {
-    mutate(imdbID);
+    // Check if it is the favorites library.
+    if (libraryID === "favorites") {
+      mutateFavorites(imdbID);
+    }
+    mutateLibrary(imdbID);
   };
 
   // Return =============================================================
@@ -70,8 +80,8 @@ const LibraryPage: React.FC = () => {
         {/* Display list of movies */}
         {movies &&
           movies.map((movie, index) => (
-            <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
-              <div className="list-row">
+            <div key={movie.imdbID} className="list-row">
+              <Link to={"/movie/" + movie.imdbID}>
                 <div className="text-wrapper">{formatNumber(index + 1)}</div>
                 <div className="group">
                   <div className="div">{movie.primaryTitle}</div>
@@ -80,15 +90,20 @@ const LibraryPage: React.FC = () => {
                     {movie.runtimeMinutes} Minutes
                   </div>
                 </div>
-                {/* Delete button */}
-                <button
-                  onClick={() => handleDelete(movie.imdbID)}
-                  style={{ backgroundColor: "red", color: "white" }}
-                >
-                  Delete
-                </button>
-              </div>
-            </Link>
+              </Link>
+              {/* Clear icon as delete button */}
+              <ClearIcon
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents link activation
+                  handleDelete(movie.imdbID);
+                }}
+                style={{
+                  cursor: "pointer",
+                  opacity: 1,
+                  fontSize: "3em",
+                }}
+              />
+            </div>
           ))}
       </div>
 
