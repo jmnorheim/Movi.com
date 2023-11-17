@@ -4,6 +4,7 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { ArrowCircleLeftBlack } from "../../assets/icons/ArrowCircleLeftBlack";
 import { useMoviesInByLibraryIDQuery } from "../../../src/services/getMovies.ts";
 import { useRemoveMovieFromFavorites } from "../../../src/services/removeMovieFromFavorites.ts";
+import { useRemoveMovieFromLibrary } from "../../../src/services/removeMovieFromLibrary.ts";
 import { useAuth } from "../../services/auth/AuthContext.tsx";
 import ClearIcon from "@mui/icons-material/Clear";
 
@@ -22,12 +23,14 @@ const LibraryPage: React.FC = () => {
     [libraryID, libraryName] = libraryProp.split(":");
   }
 
-  console.log(libraryID);
-
   // Hooks for fetching movies and navigation
   const { userID } = useAuth();
   const { data: movies } = useMoviesInByLibraryIDQuery(libraryID, userID);
-  const { mutate } = useRemoveMovieFromFavorites(userID);
+  const { mutate: mutateFavorites } = useRemoveMovieFromFavorites(userID);
+  const { mutate: mutateLibrary } = useRemoveMovieFromLibrary(
+    userID,
+    libraryID
+  );
   const navigate = useNavigate();
 
   /**
@@ -41,7 +44,11 @@ const LibraryPage: React.FC = () => {
    * Handles the delete user.
    */
   const handleDelete = (imdbID: string) => {
-    mutate(imdbID);
+    // Check if it is the favorites library.
+    if (libraryID === "favorites") {
+      mutateFavorites(imdbID);
+    }
+    mutateLibrary(imdbID);
   };
 
   // Return =============================================================

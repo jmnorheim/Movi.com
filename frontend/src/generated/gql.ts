@@ -28,8 +28,8 @@ const documents = {
     "\n  query GetUserFavorites($userId: ID!) {\n    userByID(userID: $userId) {\n      favorites\n    }\n  }\n": types.GetUserFavoritesDocument,
     "\n  query GetUsersLibraries($userId: ID!) {\n    librariesByUserID(userID: $userId) {\n      movies\n      name\n      libraryID\n    }\n  }\n": types.GetUsersLibrariesDocument,
     "\n  mutation addLibraryToUser($userId: ID!, $libraryName: String!) {\n    addLibrary(userID: $userId, libraryName: $libraryName) {\n      userID\n    }\n  }\n": types.AddLibraryToUserDocument,
-    "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.RemoveMovieFromLibraryDocument,
     "\n  mutation Mutation($userId: ID!, $imdbId: ID!) {\n    removeMovieFromFavorite(userID: $userId, imdbID: $imdbId) {\n      userID\n    }\n  }\n": types.MutationDocument,
+    "\n  mutation RemoveMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n": types.RemoveMovieFromLibraryDocument,
     "\n  query VerifyPassword($email: String!, $password: String!) {\n    verifyPassword(email: $email, password: $password)\n  }\n": types.VerifyPasswordDocument,
 };
 
@@ -110,11 +110,11 @@ export function graphql(source: "\n  mutation addLibraryToUser($userId: ID!, $li
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  mutation removeMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Mutation($userId: ID!, $imdbId: ID!) {\n    removeMovieFromFavorite(userID: $userId, imdbID: $imdbId) {\n      userID\n    }\n  }\n"): (typeof documents)["\n  mutation Mutation($userId: ID!, $imdbId: ID!) {\n    removeMovieFromFavorite(userID: $userId, imdbID: $imdbId) {\n      userID\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Mutation($userId: ID!, $imdbId: ID!) {\n    removeMovieFromFavorite(userID: $userId, imdbID: $imdbId) {\n      userID\n    }\n  }\n"): (typeof documents)["\n  mutation Mutation($userId: ID!, $imdbId: ID!) {\n    removeMovieFromFavorite(userID: $userId, imdbID: $imdbId) {\n      userID\n    }\n  }\n"];
+export function graphql(source: "\n  mutation RemoveMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"): (typeof documents)["\n  mutation RemoveMovieFromLibrary($libraryId: ID!, $movieId: String!) {\n    removeMovieFromLibrary(libraryID: $libraryId, movieID: $movieId) {\n      libraryID\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
