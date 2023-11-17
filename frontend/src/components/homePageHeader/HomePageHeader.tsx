@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import "./HomePageHeader.css";
 import { CurrentFilter, Movie, MovieContent } from "../../interfaces";
 import headerImage from "../../assets/images/headerImage.png";
@@ -8,12 +8,31 @@ import FilterSideBar from "../filterSideBar/FilterSideBar";
 import filtericon from "../../assets/icons/filter-icon.svg";
 
 interface HomePageHeaderProps {
-  movies: MovieContent[] | [];
-  onFilter: (filters: CurrentFilter) => void;
+  genres: string[] | [];
 }
 
-const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
+const HomePageHeader: FC<HomePageHeaderProps> = ({ genres }) => {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
+  const filterSidebarRef = useRef<HTMLDivElement>(null);
+  const filterButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        filterSidebarRef.current &&
+        !filterSidebarRef.current.contains(event.target as Node) &&
+        filterButtonRef.current &&
+        !filterButtonRef.current.contains(event.target as Node)
+      ) {
+        setIsFilterSidebarOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="overlap-group">
@@ -29,16 +48,19 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ movies, onFilter }) => {
             </div>
           </div>
           <button
+            ref={filterButtonRef}
             className="filterButton"
             style={{
               backgroundImage: `url(${filtericon})`,
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
+              outline: "none",
             }}
             onClick={() => setIsFilterSidebarOpen(!isFilterSidebarOpen)}
           />
-          <FilterSideBar open={isFilterSidebarOpen} movies={movies} />
-          {/* {movies?.length && <FilterMenu movies={movies} onFilter={onFilter} />} */}
+          <div ref={filterSidebarRef}>
+            <FilterSideBar open={isFilterSidebarOpen} genres={genres} />
+          </div>
         </div>
       </div>
     </div>

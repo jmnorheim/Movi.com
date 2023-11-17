@@ -6,17 +6,19 @@ import "./MyLibrariesGrid.css";
 import star from "../../assets/images/star.svg";
 import MyLibraryContainer from "../myLibraryContainer/MyLibraryContainer";
 import { AddLibraryIcon } from "../../assets/icons/AddLibraryIcon";
+import { useUsersLibrariesQuery } from "../../services/getUserLibraries";
+import { useAuth } from "../../services/auth/AuthContext";
 
 interface MyLibrariesGridProps {
   libraries: Library[] | null;
   onCreateNewPress: (value: boolean) => void;
 }
+
 const MyLibrariesGrid = ({
   libraries = [],
   onCreateNewPress,
 }: MyLibrariesGridProps) => {
-  console.log("Libraries inside the grid:", libraries);
-
+  const { userID } = useAuth();
   return (
     <div className="MyLibrariesGrid">
       <Link to={"/my-library/favorites"}>

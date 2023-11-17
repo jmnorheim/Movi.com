@@ -26,7 +26,7 @@ export const useLibraryQuery = (libraryID: string) => {
   });
 };
 
-// getLibraryByUserAndName
+/*// getLibraryByUserAndName
 const GET_LIBRARY_BY_USER_AND_NAME = graphql(`
   query LibraryByUserAndName($userId: ID!, $name: String!) {
     libraryByUserAndName(userID: $userId, name: $name) {
@@ -61,4 +61,4 @@ export const useLibraryByUserAndNameQuery = (
     queryFn: () => getLibraryByUserAndName(userID, libraryName!),
     enabled: !!libraryName,
   });
-};
+};*/
