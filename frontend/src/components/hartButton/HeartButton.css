@@ -2,5 +2,6 @@
   background-color: transparent;
   margin: 0%;
   border: 0cm;
-  size: 20cm;
+  cursor: pointer;
+  /* TODO Make the heart button bigger */
 }

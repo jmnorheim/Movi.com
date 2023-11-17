@@ -7,6 +7,7 @@ import "./HeartButton.css";
 import { HeartIcon } from "../../assets/icons/HeartIcon";
 import { addMovieToFavorite } from "../../services/addMovieToFavorites";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRemoveMovieFromFavorites } from "../../services/removeMovieFromFavorites";
 
 interface HeartButtonProps {
   userID: string;
@@ -16,6 +17,7 @@ interface HeartButtonProps {
 const HeartButton = ({ userID, movieID }: HeartButtonProps) => {
   const [isHearted, setIsHearted] = useState<boolean | null>(null);
   const queryClient = useQueryClient();
+  const { mutate } = useRemoveMovieFromFavorites(userID);
 
   const { data } = useIsMovieInFavorites(userID, movieID);
 
@@ -28,6 +30,7 @@ const HeartButton = ({ userID, movieID }: HeartButtonProps) => {
   const handleHeartClick = async () => {
     if (isHearted) {
       setIsHearted(false);
+      mutate(movieID);
     } else {
       setIsHearted(true);
       await addMovieToFavorite(userID, movieID);
