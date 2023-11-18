@@ -18,6 +18,7 @@ const TypeSearch = () => {
     debounce((searchString: string) => {
       page.value = 0;
       currentSearch.value = searchString;
+      sessionStorage.setItem("search", searchString);
     }, 800),
     [] // Dependency array is empty, so this function is created only once
   );
@@ -35,12 +36,14 @@ const TypeSearch = () => {
     if (event.key === "Enter") {
       page.value = 0;
       currentSearch.value = searchValue;
+      sessionStorage.setItem("search", searchValue);
     }
   };
 
   const handleClick = (): void => {
     setSearchValue("");
     currentSearch.value = "";
+    sessionStorage.setItem("search", "");
     page.value = 0;
   };
 

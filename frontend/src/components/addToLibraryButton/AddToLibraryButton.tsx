@@ -4,6 +4,8 @@ import { useAuth } from "../../services/auth/AuthContext";
 import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
 import { addMovieToLibrary } from "../../services/addMovieToLibrary.ts";
 import { addMovieToFavorite } from "../../services/addMovieToFavorites.ts";
+import { invalidateIsMovieInFavorites } from "../../services/isMovieInFavorite.ts";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AddToLibraryButtonProps {
   imdbID: string;
@@ -14,6 +16,7 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
   const { userID } = useAuth();
   const { data: libraries } = useUsersLibrariesQuery(userID);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -64,6 +67,7 @@ const AddToLibraryButton = ({ imdbID }: AddToLibraryButtonProps) => {
             className="dropdown-item"
             onClick={() => {
               void addMovieFavorites(userID, imdbID); // This call is now 'fire-and-forget'
+              void invalidateIsMovieInFavorites(userID, imdbID, queryClient);
             }}
           >
             Favorites
