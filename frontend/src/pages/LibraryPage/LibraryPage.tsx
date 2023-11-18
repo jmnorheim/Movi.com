@@ -7,6 +7,7 @@ import { useRemoveMovieFromFavorites } from "../../../src/services/removeMovieFr
 import { useRemoveMovieFromLibrary } from "../../../src/services/removeMovieFromLibrary.ts";
 import { useAuth } from "../../services/auth/AuthContext.tsx";
 import ClearIcon from "@mui/icons-material/Clear";
+import empty_library from "../../assets/images/empty_library.png";
 
 /**
  * Render the RegisterPage component.
@@ -67,44 +68,55 @@ const LibraryPage: React.FC = () => {
           <div className="text-wrapper">{libraryName}</div>
         </div>
 
-        {/* Movie list headers */}
-        <div className="column-info">
-          <div className="invisible">01</div>
-          <div className="group">
-            <div className="text-wrapper">Title</div>
-            <div className="div">Rating</div>
-            <div className="text-wrapper-2">Length</div>
-          </div>
-        </div>
-
         {/* Display list of movies */}
-        {movies &&
-          movies.map((movie, index) => (
-            <div key={movie.imdbID} className="list-row">
-              <Link to={"/movie/" + movie.imdbID}>
-                <div className="text-wrapper">{formatNumber(index + 1)}</div>
-                <div className="group">
-                  <div className="div">{movie.primaryTitle}</div>
-                  <div className="text-wrapper-2">{movie.averageRating}</div>
-                  <div className="text-wrapper-3">
-                    {movie.runtimeMinutes} Minutes
-                  </div>
-                </div>
-              </Link>
-              {/* Clear icon as delete button */}
-              <ClearIcon
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevents link activation
-                  handleDelete(movie.imdbID);
-                }}
-                style={{
-                  cursor: "pointer",
-                  opacity: 1,
-                  fontSize: "3em",
-                }}
-              />
+        {!movies || movies.length === 0 ? (
+          <div className="empty-library-container">
+            <img className="image" alt="Image" src={empty_library} />
+            <p className="no-movies-found">No Movies Found In This Library</p>
+            <button className="div-wrapper" onClick={() => navigate("../../")}>
+              <div className="text-wrapper">Add Movies</div>
+            </button>
+          </div>
+        ) : (
+          <div>
+            {/* Movie list headers */}
+            <div className="column-info">
+              <div className="invisible">01</div>
+              <div className="group">
+                <div className="text-wrapper">Title</div>
+                <div className="div">Rating</div>
+                <div className="text-wrapper-2">Length</div>
+              </div>
             </div>
-          ))}
+
+            {movies.map((movie, index) => (
+              <div key={movie.imdbID} className="list-row">
+                <Link to={"/movie/" + movie.imdbID}>
+                  <div className="text-wrapper">{formatNumber(index + 1)}</div>
+                  <div className="group">
+                    <div className="div">{movie.primaryTitle}</div>
+                    <div className="text-wrapper-2">{movie.averageRating}</div>
+                    <div className="text-wrapper-3">
+                      {movie.runtimeMinutes} Minutes
+                    </div>
+                  </div>
+                </Link>
+                {/* Clear icon as delete button */}
+                <ClearIcon
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevents link activation
+                    handleDelete(movie.imdbID);
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    opacity: 1,
+                    fontSize: "3em",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Footer component */}

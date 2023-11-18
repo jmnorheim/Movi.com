@@ -30,14 +30,12 @@ const NewsLetterBox = () => {
         <div className="join-us-container">
           <div className="text-wrapper">Join Us Today!</div>
           <div className="text-wrapper-2">Description here</div>
-          <div className="div-wrapper">
-            <button
-              className="join-now-button"
-              onClick={() => setDialogForm(true)}
-            >
-              Join Now
-            </button>
-          </div>
+          <button
+            className="join-now-button"
+            onClick={() => setDialogForm(true)}
+          >
+            <p className="join-now-button-text">Join Now</p>
+          </button>
         </div>
       </div>
       <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>

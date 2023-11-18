@@ -17,6 +17,65 @@
   border: none;
 }
 
+.LibraryPage .empty-library-container {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.LibraryPage .empty-library-container .image {
+  height: 96px;
+  mix-blend-mode: darken;
+  object-fit: cover;
+  position: relative;
+  width: 132.45px;
+}
+
+.LibraryPage .empty-library-container .no-movies-found {
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.LibraryPage .empty-library-container .div-wrapper {
+  align-items: center;
+  background: linear-gradient(101deg, 
+  #5279A3 -64.72%, 
+  #A8CDF5 -1.54%, 
+  #4CD3CB 52.11%, 
+  #3DDCD2 96.22%, 
+  #0DBEB4 154.63%);
+  border-radius: 48px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  justify-content: center;
+  padding: 10px 42px;
+  position: relative;
+  border: none;
+  cursor: pointer;
+}
+
+.LibraryPage .empty-library-container .text-wrapper {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 26px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
 .libraryName {
   font-size: 2rem;
   text-align: center;

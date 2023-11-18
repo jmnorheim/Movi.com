@@ -126,6 +126,12 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     setContentVisible(open);
   };
 
+  useEffect(() => {
+    if (!open) {
+      setContentVisible(false);
+    }
+  }, [open]);
+
   const updateSessionStorage = () => {
     const statesToSave = {
       ...filterStates,

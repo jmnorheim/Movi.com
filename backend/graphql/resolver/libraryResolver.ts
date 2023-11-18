@@ -53,7 +53,6 @@ const getListOfAllMovies = async (
   libraryMovies: LibraryMovie[],
   context: Context
 ): Promise<Movie[]> => {
-
   // Step 1: Extracting IMDb IDs for genre and movie fetching
   const imdbIDs = libraryMovies.map((libMovie) => libMovie.imdbID);
 
@@ -92,26 +91,22 @@ const getListOfAllMoviesInLibrary = async (
   libraryID: string,
   context: Context
 ): Promise<Movie[]> => {
-
   // Step 1: Fetch all movies in the library with their IMDb IDs
-  const libraryMovies = await context.prisma.libraryMovie
-    .findMany({
-      where: { libraryID },
-      select: { imdbID: true }
-    });
+  const libraryMovies = await context.prisma.libraryMovie.findMany({
+    where: { libraryID },
+    select: { imdbID: true },
+  });
 
   // Step 2: Return list of movies
   return getListOfAllMovies(libraryMovies, context);
 };
 
-
 const getListOfAllMoviesInFavorites = async (
   context: Context
 ): Promise<Movie[]> => {
-
   // Step 1: Fetch all movies in the library with their IMDb IDs
   const libraryMovies = await context.prisma.userFavorites.findMany({
-    select: { imdbID: true }
+    select: { imdbID: true },
   });
 
   return getListOfAllMovies(libraryMovies, context);
@@ -119,7 +114,7 @@ const getListOfAllMoviesInFavorites = async (
 
 // Resolvers=========================================================================================================
 export const libraryResolver: Resolvers = {
-  // Queries=====================================================================================================
+  // Queries=========================================================================================================
   Query: {
     /**
      * Retrieves a library by its unique identifier.
@@ -146,7 +141,7 @@ export const libraryResolver: Resolvers = {
         if (libraryID === "favorites") {
           return getListOfAllMoviesInFavorites(context);
         }
-        return getListOfAllMoviesInLibrary(libraryID ,context);
+        return getListOfAllMoviesInLibrary(libraryID, context);
       } catch (error) {
         throw new Error(error);
       }
@@ -199,7 +194,6 @@ export const libraryResolver: Resolvers = {
       }
     },
 
-    
     /**
      * Retrieves a library by the user's identifier and the library's name.
      * @function
