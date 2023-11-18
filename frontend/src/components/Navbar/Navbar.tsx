@@ -34,9 +34,11 @@ const NavBar: React.FC<Props> = ({ textColor }) => {
               <Link to="/" className={`link ${textClass}`}>
                 Home
               </Link>
-              <Link to="/my-library" className={`text-wrapper ${textClass}`}>
-                Library
-              </Link>
+              {isLoggedIn && (
+                <Link to="/my-library" className={`text-wrapper ${textClass}`}>
+                  Library
+                </Link>
+              )}
               <Link
                 to={isLoggedIn ? "/profile" : "/login"}
                 className={`text-wrapper ${textClass}`}

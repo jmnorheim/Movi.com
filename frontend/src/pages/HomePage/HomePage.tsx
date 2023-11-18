@@ -29,14 +29,16 @@ interface FilterSettings {
 //Signals that contain the selected filters from the FilterSideBar-component
 export const filterSignals = signal<FilterSettings>({
   releaseYearRange: { max: 2023, min: 1900 },
-  runtimeMinutesRange: { max: 300, min: 0 },
+  runtimeMinutesRange: { max: 300, min: 1 },
   averageRatingRange: { max: 10, min: 0 },
   totalVotesRange: { max: 2900000, min: 0 },
   genres: [],
   isAdult: false,
 });
 
-export const currentSearch = signal<string>("");
+export const currentSearch = signal<string>(
+  sessionStorage.getItem("search") || ""
+);
 
 //Signal that contains the current page number and the number of rows per page are stored externally from the page component
 export const page = signal<number>(0);
@@ -53,11 +55,9 @@ const HomePage: React.FC = () => {
     null
   ); // All movies
   const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
-  const [currentSort, setCurrentSort] = useState<SortType | null>(null);
-  const [currentFilter, setCurrentFilter] = useState<{
-    isAdult?: boolean;
-    genres?: string[];
-  }>({ isAdult: false, genres: [] });
+  const [currentSort, setCurrentSort] = useState<SortType | null>(
+    (sessionStorage.getItem("sort") as SortType) || null
+  );
 
   const { data, isLoading } = useMovies(
     page.value,

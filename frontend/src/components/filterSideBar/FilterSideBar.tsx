@@ -163,9 +163,13 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   );
 
   const commitRuntimeChange = (event: Event, newValue: number[]) => {
+    const newValues = newValue;
+    if (newValues[1] === 301) {
+      newValues[1] = statsData?.runtimeMinutesRange.max ?? 300;
+    }
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
-      runtimeRange: newValue,
+      runtimeRange: newValues,
     }));
     updateSessionStorage();
   };
@@ -177,7 +181,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         ...filterSignals.value,
         runtimeMinutesRange: {
           min: newValue[0],
-          max: newValue[1],
+          max:
+            newValue[1] === 301 && statsData?.runtimeMinutesRange.max
+              ? statsData?.runtimeMinutesRange.max
+              : newValue[1],
         },
       };
     }, 500),
@@ -288,6 +295,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
   };
 
+  const runtimeLabelFormat = (value: number) => {
+    return value > 300 ? "300++" : value;
+  };
+
   return (
     <div style={sidebarStyle} onTransitionEnd={onSidebarTransitionEnd}>
       {contentVisible && (
@@ -330,9 +341,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
                 handleRuntimeChange(value as number[])
               }
               valueLabelDisplay="auto"
+              valueLabelFormat={runtimeLabelFormat}
               aria-labelledby="range-slider"
               min={minAndMaxValuesSliders.runtimeRange[0]}
-              max={minAndMaxValuesSliders.runtimeRange[1]}
+              max={301}
             />
           </div>
           <div>

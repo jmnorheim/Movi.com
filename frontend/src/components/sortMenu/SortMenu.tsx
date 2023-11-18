@@ -18,18 +18,22 @@ interface SortMenuProps {
 }
 
 const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
-  const [selectedSort, setSelectedSort] = useState<SortType | null>(null);
+  const [selectedSort, setSelectedSort] = useState<SortType | null>(
+    (sessionStorage.getItem("sort") as SortType) || null
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSort = (sortType: SortType) => {
     onSort(sortType);
     setSelectedSort(sortType);
+    sessionStorage.setItem("sort", sortType);
     setIsOpen(false);
   };
 
   const resetSort = () => {
     onSort(null);
     setSelectedSort(null);
+    sessionStorage.removeItem("sort");
     setIsOpen(false);
   };
 
