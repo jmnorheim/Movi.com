@@ -37,6 +37,7 @@ html {
 .navbar {
   box-sizing: border-box;
   display: flex;
+  overflow-x: hidden;
 
   align-items: center;
   height: 72px;

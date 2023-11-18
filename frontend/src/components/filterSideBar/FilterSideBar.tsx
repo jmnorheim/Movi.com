@@ -11,10 +11,10 @@ import { useMovieStats } from "../../services/getMovies";
 
 interface FilterSideBarProps {
   open: boolean;
-  movies: MovieContent[] | [];
+  genres: string[] | [];
 }
 
-const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
+const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
@@ -22,7 +22,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
   const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
 
   useEffect(() => {
-    console.log("isInitialSetupComplete", isInitialSetupComplete);
     if (isInitialSetupComplete) {
       updateSessionStorage();
     }
@@ -35,7 +34,13 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     totalVotesRange: [0, 0],
   });
 
+  // Fill filterStates with necessary data fetched either from the filterSignals in HomePage or from sessionStorage.
+  // Fill min- and max-values for each slider with values fetched from backend
   useEffect(() => {
+    getInitialState();
+  }, [statsData, isLoadingStats]);
+
+  const getInitialState = () => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
     if (savedFilterStates) {
@@ -46,7 +51,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         selectedGenres: new Set<string>(parsedStates.selectedGenres),
       };
     } else if (statsData && !isLoadingStats) {
-      console.log("statsData", statsData);
       initialFilterStates = {
         yearRange: [
           statsData.releaseYearRange.min,
@@ -115,7 +119,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       });
     }
     setIsInitialSetupComplete(true);
-  }, [statsData, isLoadingStats]);
+  };
 
   const onSidebarTransitionEnd = () => {
     // Only show content if the sidebar is fully open
@@ -129,10 +133,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
     sessionStorage.setItem("filterStates", JSON.stringify(statesToSave));
   };
-
-  const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie: MovieContent) => movie.genres))
-  );
 
   const commitYearChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
@@ -389,7 +389,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
           </FormGroup>
           <h3>Filter by genres</h3>
           <FormGroup>
-            {uniqueGenres.map((genre) => (
+            {genres.map((genre) => (
               <FormControlLabel
                 key={genre}
                 control={

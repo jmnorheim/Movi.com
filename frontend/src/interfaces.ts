@@ -14,6 +14,7 @@ export interface MovieContent {
 export interface MovieData {
   movies: MovieContent[];
   count: number;
+  genres: string[];
 }
 
 export interface Movie {
@@ -49,6 +50,7 @@ export interface User {
 export interface Library {
   name: string;
   movies: string[];
+  libraryID: string;
 }
 
 export interface CurrentFilter {

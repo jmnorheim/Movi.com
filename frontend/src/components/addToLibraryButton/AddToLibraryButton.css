@@ -1,0 +1,13 @@
+.dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+
+.button-arrow-down-icon {
+    cursor: pointer;
+  }

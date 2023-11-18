@@ -76,6 +76,7 @@ export type MovieStats = {
 export type MoviesData = {
   __typename?: 'MoviesData';
   count: Scalars['Int']['output'];
+  genres: Array<Scalars['String']['output']>;
   movies: Array<Movie>;
 };
 
@@ -167,6 +168,7 @@ export type Query = {
   movieInFavoriteByUserID: Scalars['Boolean']['output'];
   movieStats: MovieStats;
   movies: MoviesData;
+  moviesByLibraryID?: Maybe<Array<Movie>>;
   userByEmail: User;
   userByID: User;
   users: Array<User>;
@@ -226,6 +228,11 @@ export type QueryMoviesArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   searchBy?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<SortType>;
+};
+
+
+export type QueryMoviesByLibraryIdArgs = {
+  libraryID: Scalars['ID']['input'];
 };
 
 
@@ -441,6 +448,7 @@ export type MovieStatsResolvers<ContextType = any, ParentType extends ResolversP
 
 export type MoviesDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['MoviesData'] = ResolversParentTypes['MoviesData']> = ResolversObject<{
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  genres?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   movies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -469,6 +477,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   movieInFavoriteByUserID?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryMovieInFavoriteByUserIdArgs, 'imdbID' | 'userID'>>;
   movieStats?: Resolver<ResolversTypes['MovieStats'], ParentType, ContextType>;
   movies?: Resolver<ResolversTypes['MoviesData'], ParentType, ContextType, Partial<QueryMoviesArgs>>;
+  moviesByLibraryID?: Resolver<Maybe<Array<ResolversTypes['Movie']>>, ParentType, ContextType, RequireFields<QueryMoviesByLibraryIdArgs, 'libraryID'>>;
   userByEmail?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByEmailArgs, 'email'>>;
   userByID?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByIdArgs, 'userID'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;

@@ -19,6 +19,8 @@ import { useMovie, useMovies } from "../../services/getMovies";
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid.tsx";
 import { MovieFilter } from "../../generated/graphql.ts";
 import { useRecommendedMovies } from "../../services/getRecommended.ts";
+import AddToLibraryButton from "../../components/addToLibraryButton/AddToLibraryButton.tsx";
+import HartButton from "../../components/hartButton/HeartButton.tsx";
 
 import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
@@ -30,7 +32,7 @@ const MoviePage: React.FC = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieContent | null>(null);
   const [recommendedMovies, setRecommendedMovies] = useState<MovieContent[]>();
-  const { isLoggedIn, email } = useAuth();
+  const { isLoggedIn, email, userID } = useAuth();
   const navigate = useNavigate();
 
   effect(() => {
@@ -149,13 +151,13 @@ const MoviePage: React.FC = () => {
                       <div className="text-wrapper-7">({movie.totalVotes})</div>
                     </div>
                   </div>
-                  <div className="div-5">
-                    <button className="button">
-                      <div className="text-wrapper-8">Add To Library</div>
-                      <ArrowDownIcon className="icon-instance" />
-                    </button>
-                    <HeartIcon className="vuesax-linear-heart" />
-                  </div>
+                  {userID && (
+                    <div className="div-5">
+                      <AddToLibraryButton imdbID={movie.imdbID} />
+                      {/* <HeartIcon className="vuesax-linear-heart" /> */}
+                      <HartButton userID={userID} movieID={movie.imdbID} />
+                    </div>
+                  )}
                 </div>
                 <div className="poster-image-container">
                   <div className="poster-content">
