@@ -53,7 +53,7 @@ function ProfilePage() {
             alt="Movie background"
             src={background_image}
           />
-          <button className="back-button" onClick={() => navigate(-1)}>
+          <button className="back-button" onClick={() => navigate("../")}>
             <ArrowCircleLeft className="vuesax-linear-arrow" />
           </button>{" "}
           <div className="div">

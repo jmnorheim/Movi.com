@@ -29,6 +29,7 @@
 .profile-container .back-button {
   background: red;
   border: none;
+  cursor: pointer;
 }
 
 .profile-container .movie-background {
