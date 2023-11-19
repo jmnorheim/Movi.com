@@ -53,7 +53,7 @@ const MyLibaryContainer = ({ library }: MyLibraryProps) => {
       <div className="library-content-container">
         {!isLibraryEmpty ? (
           <div className="populated-mylibrary-container">
-            <div className="text-wrapper">Library Name</div>
+            <div className="text-wrapper">Library {library.name}</div>
             <div className="div">
               {posterImages &&
                 posterImages.map((img, index) => (

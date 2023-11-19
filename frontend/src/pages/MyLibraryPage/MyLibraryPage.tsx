@@ -50,7 +50,7 @@ const MyLibraryPage: React.FC = () => {
         {libraries && (
           <div className="myLibraryPageContainer">
             <div className="title-container">
-              <div className="text-wrapper">My Library</div>
+              <div className="text-wrapper">My Libraries</div>
               {/* Button to open popup for creating a new library */}
               <button
                 className="create-library-button"

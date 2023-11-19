@@ -38,7 +38,11 @@ const NewsLetterBox = () => {
           </button>
         </div>
       </div>
-      <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>
+      <Dialog
+        open={dialogForm}
+        onClose={() => setDialogForm(false)}
+        style={{ zIndex: 100 }}
+      >
         <DialogTitle>News Letter</DialogTitle>
         <DialogContent>
           <DialogContentText>

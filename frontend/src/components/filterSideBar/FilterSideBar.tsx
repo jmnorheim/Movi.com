@@ -296,7 +296,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   };
 
   const runtimeLabelFormat = (value: number) => {
-    return value > 300 ? "300++" : value;
+    return value > 300 ? "300+" : value;
   };
 
   return (
