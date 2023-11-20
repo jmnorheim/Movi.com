@@ -73,7 +73,6 @@ html {
 @media screen and (max-width: 768px) {
   .title-container {
     width: 90vw;
-    right: 10px;
   }
 
   .title-container .text-wrapper {
