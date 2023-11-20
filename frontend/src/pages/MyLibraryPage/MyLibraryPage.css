@@ -11,6 +11,7 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 100vw;
 }
 
 .title-container {
@@ -70,8 +71,26 @@ html {
 }
 
 @media screen and (max-width: 768px) {
+  .title-container {
+    width: 90vw;
+    right: 10px;
+  }
+
   .title-container .text-wrapper {
     font-size: 28px;
     line-height: 72px;
   }
+
+  .title-container .create-library-button {
+    margin-right: 16px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .title-container .text-wrapper {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+
 }
