@@ -20,7 +20,7 @@ import MovieContainerGrid from "../../components/movieContainerGrid/MovieContain
 import { MovieFilter } from "../../generated/graphql.ts";
 import { useRecommendedMovies } from "../../services/getRecommended.ts";
 import AddToLibraryButton from "../../components/addToLibraryButton/AddToLibraryButton.tsx";
-import HartButton from "../../components/hartButton/HeartButton.tsx";
+import HeartButton from "../../components/heartButton/HeartButton.tsx";
 
 import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
@@ -153,9 +153,14 @@ const MoviePage: React.FC = () => {
                   </div>
                   {userID && (
                     <div className="div-5">
-                      <AddToLibraryButton imdbID={movie.imdbID} />
+                      <AddToLibraryButton
+                        imdbID={movie.imdbID}
+                        width="200px"
+                        height="40px"
+                        fontSize="18px"
+                      />
                       {/* <HeartIcon className="vuesax-linear-heart" /> */}
-                      <HartButton userID={userID} movieID={movie.imdbID} />
+                      <HeartButton userID={userID} movieID={movie.imdbID} />
                     </div>
                   )}
                 </div>

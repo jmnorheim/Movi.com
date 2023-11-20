@@ -16,11 +16,11 @@ export const HeartIcon = ({ className }: HeartIconProps) => {
   }
   return (
     <svg
-      className={`vuesax-linear-heart ${className}`}
+      className={`vuesax-linear-heart ${className ? "hearted" : ""}`}
       fill={fill}
-      height="24"
+      height="4em"
       viewBox="0 0 24 24"
-      width="24"
+      width="4em"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

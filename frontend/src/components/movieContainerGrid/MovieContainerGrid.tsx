@@ -34,7 +34,13 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
           >
             <MovieContainer movie={movie} />
           </Link>
-          <AddToLibraryButton imdbID={movie.imdbID} />
+          <AddToLibraryButton
+            imdbID={movie.imdbID}
+            width="120px"
+            height="25px"
+            fontSize="12px"
+            dropdownPosition={{ top: "97.8%", left: "55%" }}
+          />
         </div>
       ))}
     </div>

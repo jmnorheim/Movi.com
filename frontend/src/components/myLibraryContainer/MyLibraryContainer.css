@@ -98,8 +98,12 @@
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
+  max-width: 300px;
   position: absolute;
   top: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .populated-mylibrary-container .div {

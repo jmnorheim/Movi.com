@@ -161,6 +161,7 @@
   position: absolute;
   white-space: nowrap;
   margin-left: 5%;
+  margin-top: 4px;
   max-width: 38vw;
   overflow: hidden;
   text-overflow: ellipsis;
