@@ -153,7 +153,7 @@
 .list-row .div {
   color: #0a0a0a;
   font-family: "Gotham SSm-Bold", Helvetica;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   left: 0;
   letter-spacing: 0;
@@ -161,6 +161,9 @@
   position: absolute;
   white-space: nowrap;
   margin-left: 5%;
+  max-width: 38vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* background-color: yellow; */
 }
 
@@ -277,6 +280,7 @@
     max-width: 250px;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 68vw;
   }
 
   .column-info .text-wrapper {
@@ -293,6 +297,7 @@
 
   .column-info .div {
     opacity: 0;
+
   }
 
   .list-row .text-wrapper-3 {
