@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Movie, MovieContent } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
@@ -40,7 +40,7 @@ export const currentSearch = signal<string>(
   sessionStorage.getItem("search") || ""
 );
 
-//Signal that contains the current page number and the number of rows per page are stored externally from the page component
+//Signals that contain the current page number and the number of rows per page - stored externally from the page component
 export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
   const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
     null
   ); // All movies
-  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
+  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering or search)
   const [currentSort, setCurrentSort] = useState<SortType | null>(
     (sessionStorage.getItem("sort") as SortType) || null
   );
@@ -73,6 +73,32 @@ const HomePage: React.FC = () => {
   effect(() => {
     navbarColor.value = "white";
   });
+
+  // Ref for the content container
+  const contentContainerRef = useRef<HTMLDivElement>(null);
+
+  // Ref to track the previous value of currentSearch
+  const prevSearchValueRef = useRef("");
+
+  // Effect to handle smooth scrolling based on currentSearch changes
+  useEffect(() => {
+    const currentSearchValue = currentSearch.value;
+
+    // Scroll to the top if the search term is completely cleared
+    if (currentSearchValue === "") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    // Scroll to the contentContainer if the search term has been added to
+    else if (
+      contentContainerRef.current &&
+      currentSearchValue.length > prevSearchValueRef.current.length
+    ) {
+      contentContainerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Update the previous search value
+    prevSearchValueRef.current = currentSearchValue;
+  }, [currentSearch.value]); // Dependency on currentSearch signal
 
   // =======================================================================================================================
 
@@ -198,7 +224,7 @@ const HomePage: React.FC = () => {
         <div className="headerContainer">
           {data && <HomePageHeader genres={data.genres}></HomePageHeader>}
         </div>
-        <div className="contentContainer">
+        <div ref={contentContainerRef} className="contentContainer">
           <div className="paginationAndSortContainer">
             <div className="spacer"></div>
             <div className="paginationContainer">
