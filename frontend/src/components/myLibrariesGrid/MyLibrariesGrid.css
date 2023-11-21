@@ -91,7 +91,7 @@
 
 @media screen and (max-width: 768px) {
   .MyLibrariesGrid {
-    max-width: 80vw;
+    max-width: 90vw;
     padding-right: 1%;
   }
 
@@ -106,7 +106,7 @@
 
 @media screen and (max-width: 400px) {
   .MyLibrariesGrid {
-    max-width: 90vw;
+    max-width: 95vw;
     padding-left: 16%;
   }
 

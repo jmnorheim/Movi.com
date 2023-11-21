@@ -40,6 +40,7 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
             height="25px"
             fontSize="12px"
             dropdownPosition={{ top: "97.8%", left: "55%" }}
+            dropDownItemMaxWidth="140px"
           />
         </div>
       ))}

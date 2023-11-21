@@ -219,7 +219,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homePageContainer">
-      <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
           {data && <HomePageHeader genres={data.genres}></HomePageHeader>}

@@ -22,7 +22,7 @@
   height: 800px;
   width: 100vw;
   position: relative;
-  margin-top: -95px;
+  margin-top: -96px;
 }
 
 .movie-card .overlap-group {
@@ -83,7 +83,7 @@
   letter-spacing: 0;
   line-height: 24px;
   position: relative;
-  width: 50vw;
+  width: 90vw;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -194,7 +194,7 @@
 .movie-card .text-wrapper-5 {
   color: #f5f5f5;
   font-family: "Gotham SSm-Light", Helvetica;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 300;
   letter-spacing: 0;
   line-height: 12px;
@@ -228,7 +228,7 @@
 .movie-card .text-wrapper-7 {
   color: #b0b0b0;
   font-family: "Gotham SSm-Light", Helvetica;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 300;
   letter-spacing: 0;
   line-height: 12px;
@@ -381,7 +381,7 @@
 @media screen and (max-width: 768px) {
   .movie-card {
     height: 330px;
-    margin-bottom: 850px;
+    margin-bottom: 900px;
   }
 
   .movie-card .div {
@@ -389,7 +389,7 @@
   }
 
   .background-image {
-    min-height: 1200px;
+    min-height: 1250px;
     min-width: 100vw;
   }
 

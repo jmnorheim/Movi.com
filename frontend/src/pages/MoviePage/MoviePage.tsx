@@ -155,9 +155,9 @@ const MoviePage: React.FC = () => {
                     <div className="div-5">
                       <AddToLibraryButton
                         imdbID={movie.imdbID}
-                        width="200px"
+                        width="230px"
                         height="40px"
-                        fontSize="18px"
+                        fontSize="22px"
                       />
                       {/* <HeartIcon className="vuesax-linear-heart" /> */}
                       <HeartButton userID={userID} movieID={movie.imdbID} />
