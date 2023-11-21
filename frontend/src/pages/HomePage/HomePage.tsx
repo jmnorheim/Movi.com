@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { Movie, MovieContent } from "../../interfaces";
 
@@ -41,6 +42,7 @@ export const currentSearch = signal<string>(
 );
 
 //Signals that contain the current page number and the number of rows per page - stored externally from the page component
+//Initialvalue of page is either the value stored in sessionStorage or 0
 export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
@@ -74,37 +76,44 @@ const HomePage: React.FC = () => {
     navbarColor.value = "white";
   });
 
-  // Ref for the content container
+  // Set initial-value of page-signal =======================================================================================
+  useEffect(() => {
+    const storedPageValue = sessionStorage.getItem("pageNumber");
+    if (storedPageValue) {
+      page.value = Number(JSON.parse(storedPageValue));
+    }
+  }, []);
+
+  // Console log value in sessionStorage
+  useEffect(() => {
+    console.log("Page value: ", sessionStorage.getItem("pageNumber"));
+  }, [page.value]);
+
+  // Automatic scrolling when searching ====================================================================================
+
   const contentContainerRef = useRef<HTMLDivElement>(null);
 
-  // Ref to track the previous value of currentSearch
   const prevSearchValueRef = useRef("");
 
-  // Effect to handle smooth scrolling based on currentSearch changes
   useEffect(() => {
     const currentSearchValue = currentSearch.value;
 
-    // Scroll to the top if the search term is completely cleared
     if (currentSearchValue === "") {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    // Scroll to the contentContainer if the search term has been added to
-    else if (
+    } else if (
       contentContainerRef.current &&
       currentSearchValue.length > prevSearchValueRef.current.length
     ) {
       contentContainerRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
-    // Update the previous search value
     prevSearchValueRef.current = currentSearchValue;
-  }, [currentSearch.value]); // Dependency on currentSearch signal
+  }, [currentSearch.value]);
 
   // =======================================================================================================================
 
   useEffect(() => {
     if (data) {
-      // Fetch the current user's favorites from localStorage
       setMovies(data.movies);
       setOriginalMovies(data.movies);
       console.log("Data has been set");
@@ -152,7 +161,7 @@ const HomePage: React.FC = () => {
     });
   };
 
-  // =======================================================================================================================
+  // Pagination=============================================================================================================
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -214,6 +223,8 @@ const HomePage: React.FC = () => {
       }
     };
   }, [movies]);
+
+  // =======================================================================================================================
 
   if (isLoading) return <div>Loading...</div>;
 

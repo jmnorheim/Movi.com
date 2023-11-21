@@ -162,6 +162,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     []
   );
 
+  const runtimeLabelFormat = (value: number) => {
+    return value > 300 ? "300+" : value;
+  };
+
   const commitRuntimeChange = (event: Event, newValue: number[]) => {
     const newValues = newValue;
     if (newValues[1] === 301) {
@@ -213,10 +217,18 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     []
   );
 
+  const totalVotesLabelFormat = (value: number) => {
+    return value > 10000 ? "10000+" : value;
+  };
+
   const commitTotalVotesChange = (event: Event, newValue: number[]) => {
+    const newValues = newValue;
+    if (newValues[1] === 10001) {
+      newValues[1] = statsData?.totalVotesRange.max ?? 10000;
+    }
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
-      totalVotesRange: newValue,
+      totalVotesRange: newValues,
     }));
     updateSessionStorage();
   };
@@ -228,7 +240,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         ...filterSignals.value,
         totalVotesRange: {
           min: newValue[0],
-          max: newValue[1],
+          max:
+            newValue[1] === 10001 && statsData?.totalVotesRange.max
+              ? statsData?.totalVotesRange.max
+              : newValue[1],
         },
       };
     }, 500),
@@ -281,7 +296,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
 
   const sidebarStyle = {
     height: "100vh",
-    width: open ? "250px" : "0",
+    width: open ? "280px" : "0",
     position: "fixed" as const,
     zIndex: 1001,
     top: 0,
@@ -289,14 +304,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     backgroundColor: "#FFF",
     overflowX: "hidden" as const,
     transition: "0.4s",
-    padding: open ? "10px 20px" : "10px 0",
+    padding: open ? "10px 30px" : "10px 0",
     flexDirection: "column" as const,
     display: "flex",
     boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
-  };
-
-  const runtimeLabelFormat = (value: number) => {
-    return value > 300 ? "300+" : value;
   };
 
   return (
@@ -384,9 +395,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
                 handleTotalVotesChange(value as number[])
               }
               valueLabelDisplay="auto"
+              valueLabelFormat={totalVotesLabelFormat}
               aria-labelledby="range-slider"
               min={minAndMaxValuesSliders.totalVotesRange[0]}
-              max={minAndMaxValuesSliders.totalVotesRange[1]}
+              max={10001}
             />
           </div>
           <FormGroup>

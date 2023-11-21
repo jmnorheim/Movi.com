@@ -126,6 +126,7 @@
   position: relative;
   width: 160px;
   border-radius: 8px;
+  /* border: 1px solid black; */
 }
 
 .populated-mylibrary-container .group {
