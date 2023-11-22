@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { Library, MovieContent } from "../../interfaces";
-import {
-  useMovie,
-  useMoviesInByLibraryIDQuery,
-} from "../../services/getMovies";
+import { Library } from "../../interfaces";
+import { useMoviesInByLibraryIDQuery } from "../../services/getMovies";
 import "./MyLibraryContainer.css";
 import empty_library from "../../assets/images/empty_library.png";
-import { getMoviesByLibraryID } from "../../services/getMovies";
-import { lib } from "crypto-js";
 import { useAuth } from "../../services/auth/AuthContext";
 
 interface MyLibraryProps {
@@ -26,12 +21,6 @@ const MyLibaryContainer = ({ library }: MyLibraryProps) => {
     if (!moviesData) return;
 
     const updatedPosters = Array.from({ length: 4 }, (_, i) => {
-      // Debugging: log each movie's poster URL or undefined if not available
-      console.log(
-        "moviesData[i]",
-        moviesData && moviesData[i] ? moviesData[i].poster : "undefined"
-      );
-
       // Return the poster URL or the empty library image
       return moviesData && moviesData[i] ? moviesData[i].poster : empty_library;
     });
@@ -40,11 +29,6 @@ const MyLibaryContainer = ({ library }: MyLibraryProps) => {
   }, [moviesData]);
 
   const isLibraryEmpty = !moviesData || moviesData.length === 0;
-
-  useEffect(() => {
-    console.log("moviesData", moviesData);
-    console.log("posterImages", posterImages);
-  }, [moviesData, posterImages]);
 
   // Renter the library container
   // Return =============================================================

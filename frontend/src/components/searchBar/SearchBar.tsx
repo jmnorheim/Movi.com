@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FormControl, TextField, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
@@ -20,7 +20,7 @@ const TypeSearch = () => {
       currentSearch.value = searchString;
       sessionStorage.setItem("search", searchString);
     }, 800),
-    [] // Dependency array is empty, so this function is created only once
+    []
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {

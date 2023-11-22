@@ -18,9 +18,8 @@ const NewsLetterBox = () => {
   const handleSendEmail = async () => {
     try {
       await sendEmail(email);
-      console.log(email);
     } catch (error) {
-      console.log(error);
+      throw Error("Error sending email");
     }
   };
 
@@ -46,7 +45,10 @@ const NewsLetterBox = () => {
         <DialogTitle>News Letter</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter your email to join our newsletter
+            Enter your email to join our newsletter (not ntnu-email)
+          </DialogContentText>
+          <DialogContentText>
+            Remember to check your spam folder!
           </DialogContentText>
           <TextField
             autoFocus

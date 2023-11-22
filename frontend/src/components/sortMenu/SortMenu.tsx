@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { useState } from "react";
 import "./SortMenu.css";
 import { ArrowIcon } from "../../assets/icons/ArrowIcon";
 import { SortType } from "../../generated/graphql";
@@ -17,7 +17,7 @@ interface SortMenuProps {
   onSort: (sortType: SortType | null) => void;
 }
 
-const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
+const SortMenu = ({ onSort }: SortMenuProps) => {
   const [selectedSort, setSelectedSort] = useState<SortType | null>(
     (sessionStorage.getItem("sort") as SortType) || null
   );
