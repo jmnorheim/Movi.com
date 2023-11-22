@@ -51,4 +51,4 @@ All following commands should be run from the outer folder (not inside frontend 
 
 ### Detailed documentation:
 
-[Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/home)
+[Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/Documentation-Overview)
