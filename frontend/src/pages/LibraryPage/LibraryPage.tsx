@@ -17,6 +17,7 @@ import { useAuth } from "../../services/auth/AuthContext.tsx";
 import ClearIcon from "@mui/icons-material/Clear";
 import empty_library from "../../assets/images/empty_library.png";
 import { useState } from "react";
+import { useRemoveLibrary } from "../../services/removeLibrary.ts";
 
 /**
  * Render the RegisterPage component.
@@ -42,6 +43,7 @@ const LibraryPage: React.FC = () => {
     userID,
     libraryID
   );
+  const { mutate: removeLibrary } = useRemoveLibrary(userID, libraryID);
   const navigate = useNavigate();
 
   /**
@@ -60,9 +62,12 @@ const LibraryPage: React.FC = () => {
     setIsDeleteDialogOpen(false);
   };
 
+  /**
+   * Deletes the library.
+   */
   const confirmDeleteLibrary = () => {
-    console.log("Delete confirmed for library with ID:", libraryID);
-    // Placeholder for actual delete logic
+    removeLibrary();
+    navigate("/my-library");
     closeDeleteDialog();
   };
 
@@ -90,17 +95,19 @@ const LibraryPage: React.FC = () => {
         </div>
 
         {/* Display library title */}
-        <div className="library-title">
-          <div className="text-wrapper">{libraryName}</div>
-          <div className="delete-library-button">
-            <button
-              className="delete-library-button-text"
-              onClick={openDeleteDialog}
-            >
-              Delete Library
-            </button>
+        {libraryID !== "favorites" && (
+          <div className="library-title">
+            <div className="text-wrapper">{libraryName}</div>
+            <div className="delete-library-button">
+              <button
+                className="delete-library-button-text"
+                onClick={openDeleteDialog}
+              >
+                Delete Library
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Display list of movies */}
         {!movies || movies.length === 0 ? (
