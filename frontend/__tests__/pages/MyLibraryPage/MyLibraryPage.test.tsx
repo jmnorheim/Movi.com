@@ -86,7 +86,7 @@ describe("MyLibraryPage Component", () => {
    */
   it("Test rendering of MyLibraryPage", async () => {
     render(<MyLibraryPage />);
-    expect(screen.getByText("My Library")).toBeDefined();
+    expect(screen.getByText("My Libraries")).toBeDefined();
   });
 
   /**
@@ -131,6 +131,6 @@ describe("MyLibraryPage Component", () => {
     fireEvent.click(screen.getByText("Cancel"));
 
     // Check if the popup is closed.
-    expect(screen.getByText("My Library")).toBeDefined();
+    expect(screen.getByText("My Libraries")).toBeDefined();
   });
 });
