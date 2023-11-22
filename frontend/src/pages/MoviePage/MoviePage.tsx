@@ -76,14 +76,14 @@ const MoviePage: React.FC = () => {
   };
 
   const generateRandomDateWithinYear = (year: number): string => {
-    const start = new Date(year, 0, 1); // start of the year
-    const end = new Date(year + 1, 0, 1); // start of the next year
+    const start = new Date(year, 0, 1);
+    const end = new Date(year + 1, 0, 1);
 
     const randomDate = new Date(
       start.getTime() + Math.random() * (end.getTime() - start.getTime())
     );
     const day = String(randomDate.getDate()).padStart(2, "0");
-    const month = String(randomDate.getMonth() + 1).padStart(2, "0"); // JS months are 0-based
+    const month = String(randomDate.getMonth() + 1).padStart(2, "0");
 
     return `${day}/${month}/${year}`;
   };
@@ -156,7 +156,6 @@ const MoviePage: React.FC = () => {
                         height="40px"
                         fontSize="22px"
                       />
-                      {/* <HeartIcon className="vuesax-linear-heart" /> */}
                       <HeartButton userID={userID} movieID={movie.imdbID} />
                     </div>
                   )}

@@ -53,10 +53,7 @@ const rowsPerPage = signal<number>(10);
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
-    null
-  ); // All movies
-  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering or search)
+  const [movies, setMovies] = useState<MovieContent[] | null>(null);
   const [currentSort, setCurrentSort] = useState<SortType | null>(
     (sessionStorage.getItem("sort") as SortType) || null
   );
@@ -75,6 +72,7 @@ const HomePage: React.FC = () => {
   });
 
   // Set initial-value of page-signal =======================================================================================
+
   useEffect(() => {
     const storedPageValue = sessionStorage.getItem("pageNumber");
     if (storedPageValue) {
@@ -82,13 +80,13 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
-  // Automatic scrolling when searching ====================================================================================
+  // Automatic scrolling when searching =====================================================================================
 
   const contentContainerRef = useRef<HTMLDivElement>(null);
 
   const prevSearchValueRef = useRef("");
 
-  effect(() => {
+  useEffect(() => {
     const currentSearchValue = currentSearch.value;
 
     if (currentSearchValue === "") {
@@ -101,59 +99,23 @@ const HomePage: React.FC = () => {
     }
 
     prevSearchValueRef.current = currentSearchValue;
-  });
+  }, [currentSearch.value]);
 
-  // =======================================================================================================================
+  // Set movies=============================================================================================================
 
   useEffect(() => {
     if (data) {
       setMovies(data.movies);
-      setOriginalMovies(data.movies);
     }
   }, [data]);
 
-  // Sorting==================================================================================================================
+  // Sorting=================================================================================================================
 
   const handleSort = (sortType: SortType) => {
-    setCurrentSort(sortType); // Save the current sort type
-
-    if (!movies) return;
-
-    const sortedMovies = applySort(movies, sortType);
-    setMovies(sortedMovies); // Cast sortedMovies to Movie[] type
+    setCurrentSort(sortType);
   };
 
-  const applySort = (
-    movieList: MovieContent[],
-    sortType: SortType
-  ): MovieContent[] => {
-    if (sortType === null) return originalMovies as MovieContent[];
-
-    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
-      switch (sortType) {
-        case SortType.TitleAz:
-          return a.primaryTitle.localeCompare(b.primaryTitle);
-        case SortType.TitleZa:
-          return b.primaryTitle.localeCompare(a.primaryTitle);
-        case SortType.RatingHilo:
-          return b.averageRating - a.averageRating;
-        case SortType.RatingLohi:
-          return a.averageRating - b.averageRating;
-        case SortType.DurationHilo:
-          return b.runtimeMinutes - a.runtimeMinutes;
-        case SortType.DurationLohi:
-          return a.runtimeMinutes - b.runtimeMinutes;
-        case SortType.YearHilo:
-          return b.startYear - a.startYear;
-        case SortType.YearLohi:
-          return a.startYear - b.startYear;
-        default:
-          return 0;
-      }
-    });
-  };
-
-  // Pagination=============================================================================================================
+  // Pagination==============================================================================================================
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -186,7 +148,7 @@ const HomePage: React.FC = () => {
     void handlePreFetching();
   };
 
-  // Handle pre-fetching when hovering on the right arrow button setup
+  // Handle pre-fetching when hovering over the right arrow on the HandlePagination component
   useEffect(() => {
     const attachHoverListener = () => {
       const rightArrowButton = document.querySelector(
@@ -216,7 +178,7 @@ const HomePage: React.FC = () => {
     };
   }, [movies]);
 
-  // =======================================================================================================================
+  // JSX====================================================================================================================
 
   if (isLoading) return <div>Loading...</div>;
 

@@ -35,7 +35,6 @@
 .movie-card .div {
   align-items: center;
   display: inline-flex;
-  /* gap: 128px; */
   left: 64px;
   position: relative;
   top: 90px;
@@ -277,8 +276,6 @@
 }
 
 .movie-card .poster-image-container {
-  /* width: 500px;
-  height: 580px; */
   display: flex;
   justify-content: center;
   align-items: center;

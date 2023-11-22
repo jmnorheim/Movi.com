@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDownIcon } from "../../../src/assets/icons/ArrowDownIcon";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
@@ -15,11 +15,11 @@ import { Library } from "../../interfaces.ts";
 
 interface AddToLibraryButtonProps {
   imdbID: string;
-  width: string; // e.g. '200px', '100%'
-  height: string; // e.g. '40px'
-  fontSize: string; // e.g. '16px'
-  dropdownPosition?: { top: string; left: string }; // e.g. { top: '100%', left: '0' }
-  dropDownItemMaxWidth?: string; // e.g. '100%'
+  width: string;
+  height: string;
+  fontSize: string;
+  dropdownPosition?: { top: string; left: string };
+  dropDownItemMaxWidth?: string;
 }
 
 const AddToLibraryButton = ({
@@ -56,11 +56,6 @@ const AddToLibraryButton = ({
     }
   };
 
-  // const addMovieLibrary = async (libID: string, imdbID: string) => {
-  //   await addMovieToLibrary(libID, imdbID);
-  //   toggleDropdown();
-  // };
-
   const addMovieFavorites = async (userID: string, imdbID: string) => {
     try {
       await addMovieToFavorite(userID, imdbID);
@@ -71,11 +66,6 @@ const AddToLibraryButton = ({
       setShowAlert(true);
     }
   };
-
-  // const addMovieFavorites = async (userId: string, imdbID: string) => {
-  //   await addMovieToFavorite(userId, imdbID);
-  //   toggleDropdown();
-  // };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

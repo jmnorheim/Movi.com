@@ -1,6 +1,5 @@
 body,
 html {
-  /* background-color: #d1e8e2; */
   margin: 0;
   padding: 0;
   max-width: 100vw;
@@ -60,7 +59,6 @@ html {
   font-size: 5em;
   font-weight: 700;
   letter-spacing: 0;
-  /* line-height: 80px; */
   margin-top: -1px;
   position: relative;
   width: 700px;
@@ -82,8 +80,6 @@ html {
   display: inline-flex;
   flex: 0 0 auto;
   position: relative;
-  /* width: 40vw; */
-  /* background-color: blue; */
 }
 
 .headerContainer .content-wrapper {
@@ -97,13 +93,11 @@ html {
   position: relative;
   width: 100%;
   height: 100%;
-  /* background-color: blue; */
 }
 
 .headerContainer .search-bar {
   width: 100%;
   height: 100%;
-  /* background-color: yellow; */
 }
 
 .headerContainer .text-wrapper-3 {
@@ -122,7 +116,6 @@ html {
   width: 40px;
   height: 40px;
   border: none;
-  /* background-color: transparent; */
   cursor: pointer;
   background: none;
   background-size: contain;
@@ -146,14 +139,12 @@ html {
     flex-direction: column;
     display: flex;
     align-items: flex-start;
-    /* background-color: red; */
   }
 
   .headerContainer .content-wrapper {
     backdrop-filter: transparent;
     background: transparent;
     width: 70vw;
-    /* background-color: red; */
   }
 
   .headerContainer .div {

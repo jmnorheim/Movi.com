@@ -1,6 +1,6 @@
 import { useAuth } from "../../services/auth/AuthContext";
 import MovieContainer from "../../components/movieContainer/MovieContainer";
-import { Movie, MovieContent } from "../../interfaces";
+import { MovieContent } from "../../interfaces";
 import "./MovieContainerGrid.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
