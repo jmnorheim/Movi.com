@@ -2,8 +2,9 @@
 .MyLibrariesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 40px; /* You can adjust this gap for spacing between grid items */
-  justify-content: center; /* This centers the grid items when there's remaining space */
+  gap: 40px; 
+  justify-content: center; 
+  align-items: center;
   max-width: 100%;
   overflow: hidden;
   padding-left: 10%;
@@ -11,23 +12,10 @@
   padding-top: 6%;
 }
 
-/* Adjust grid for screens 600px or smaller */
-@media (max-width: 600px) {
-  .MyLibrariesGrid {
-    /* grid-template-columns: 1fr; Stacks items in a single column */
-    /* margin: 0 auto; */
-  }
-}
-
-/*Styling for each individual container - You can adjust as necessary
-.MyLibraryContainer {
-  max-width: 400px;
-  max-height: 400px;
-  min-width: 200px;
-  min-height: 200px;
-  /* Additional styles can be added if necessary */
-
 .favorites-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #f5f5f5;
   border-radius: 24px;
   height: 384px;
@@ -40,9 +28,7 @@
   display: inline-flex;
   flex-direction: column;
   gap: 8px;
-  left: 73px;
   position: relative;
-  top: 36px;
 }
 
 .favorites-container .big.star {
@@ -58,12 +44,16 @@
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
-  position: relative;
+  position: absolute;
   width: fit-content;
+  text-decoration: none;
+  bottom: -40px;
 }
 
 .add-new-button {
   display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid;
   border-color: #0a0a0a;
   border-radius: 24px;
@@ -78,9 +68,7 @@
   display: inline-flex;
   flex-direction: column;
   gap: 8px;
-  left: 136px;
   position: relative;
-  top: 110px;
 }
 
 .add-new-container .text-wrapper {
@@ -99,4 +87,35 @@
   height: 128px !important;
   position: relative !important;
   width: 128px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .MyLibrariesGrid {
+    max-width: 90vw;
+    padding-right: 1%;
+  }
+
+  .favorites-container {
+    width: 360px;
+  }
+
+  .add-new-button {
+    width: 360px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .MyLibrariesGrid {
+    max-width: 95vw;
+    padding-left: 16%;
+  }
+
+  
+  .favorites-container {
+    width: 340px;
+  }
+
+  .add-new-button {
+    width: 340px;
+  }
 }

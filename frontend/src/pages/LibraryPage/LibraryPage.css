@@ -17,6 +17,65 @@
   border: none;
 }
 
+.LibraryPage .empty-library-container {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+.LibraryPage .empty-library-container .image {
+  height: 96px;
+  mix-blend-mode: darken;
+  object-fit: cover;
+  position: relative;
+  width: 132.45px;
+}
+
+.LibraryPage .empty-library-container .no-movies-found {
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.LibraryPage .empty-library-container .div-wrapper {
+  align-items: center;
+  background: linear-gradient(101deg, 
+  #5279A3 -64.72%, 
+  #A8CDF5 -1.54%, 
+  #4CD3CB 52.11%, 
+  #3DDCD2 96.22%, 
+  #0DBEB4 154.63%);
+  border-radius: 48px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  justify-content: center;
+  padding: 10px 42px;
+  position: relative;
+  border: none;
+  cursor: pointer;
+}
+
+.LibraryPage .empty-library-container .text-wrapper {
+  color: #f5f5f5;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 26px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
 .libraryName {
   font-size: 2rem;
   text-align: center;
@@ -54,7 +113,7 @@
   border-color: #0a0a0a;
   border-top-style: solid;
   border-top-width: 1px;
-  display: inline-flex;
+  display: flex;
   gap: 32px;
   padding: 24px 0px;
   position: relative;
@@ -71,6 +130,7 @@
   line-height: normal;
   position: relative;
   width: fit-content;
+  margin-top: 4px;
 }
 
 .list-row .group,
@@ -78,10 +138,10 @@
   height: 38px;
   margin-right: -6px;
   position: relative;
-  width: 1257px;
+  width: 90vw;
   /* background-color: red; */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 /* .column-info .group {
@@ -93,13 +153,18 @@
 .list-row .div {
   color: #0a0a0a;
   font-family: "Gotham SSm-Bold", Helvetica;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   left: 0;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   white-space: nowrap;
+  margin-left: 5%;
+  margin-top: 4px;
+  max-width: 38vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* background-color: yellow; */
 }
 
@@ -111,8 +176,10 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 0;
-  right: 30%;
+  /* top: 0; */
+  margin-top: 8px;
+  margin-left: 50%;
+  /* right: 30%; */
   /* background-color: green; */
 }
 
@@ -124,8 +191,10 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 0;
-  right: 0;
+  /* top: 0; */
+  margin-top: 8px;
+  margin-left: 70%;
+  /* right: 0; */
   /* background-color: orange; */
 }
 
@@ -154,6 +223,7 @@
   line-height: normal;
   position: absolute;
   top: 0;
+  margin-left: 5%;
   white-space: nowrap;
 }
 
@@ -166,7 +236,8 @@
   line-height: normal;
   position: absolute;
   top: 0;
-  right: 30%;
+  margin-left: 50%;
+  /* right: 30%; */
   white-space: nowrap;
 }
 
@@ -179,6 +250,72 @@
   line-height: normal;
   position: absolute;
   top: 0;
+  margin-left: 70%;
+  /* right: 0; */
+  white-space: nowrap;
+}
+
+.column-info .text-wrapper-3 {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
   right: 0;
   white-space: nowrap;
+}
+
+@media screen and (max-width: 930px) {
+  .LibraryPage {
+    padding: 0;
+  }
+
+  .list-row .div {
+    /* background-color: red; */
+    font-size: 24px;
+    margin-top: 8px;
+    margin-left: 40px;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 68vw;
+  }
+
+  .column-info .text-wrapper {
+    margin-left: 40px;
+  }
+
+  .list-row .text-wrapper {
+    margin-top: 8px;
+  }
+
+  .list-row .text-wrapper-2 {
+    opacity: 0;
+  }
+
+  .column-info .div {
+    opacity: 0;
+
+  }
+
+  .list-row .text-wrapper-3 {
+    opacity: 0;
+  }
+
+  .column-info .text-wrapper-2 {
+    opacity: 0;
+  }
+
+  .LibraryPage .empty-library-container .no-movies-found {
+    font-size: 20px;
+    max-width: 90vw;
+  }
+
+  
+.library-title .text-wrapper {
+  font-size: 48px;
+
 }

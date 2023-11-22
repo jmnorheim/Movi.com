@@ -10,13 +10,8 @@ const PageFooter = () => {
   return (
     <div className="bottomFooter">
       <div className="content">
-        <img className="logo" alt="Logo" src={logo} />
-        <div className="footer-links">
-          <div className="link">Link One</div>
-          <div className="link">Link Two</div>
-          <div className="link">Link Three</div>
-          <div className="link">Link Four</div>
-          <div className="link">Link Five</div>
+        <div className="logo-container">
+          <img className="logo" alt="Logo" src={logo} />
         </div>
         <div className="social-links">
           <a
@@ -51,9 +46,9 @@ const PageFooter = () => {
       </div>
       <div className="credits">
         <div className="divider" />
-        <div className="div">
+        <div className="legal-info-outer-container">
           <p className="text">2023 Møvie Inc. All rights reserved.</p>
-          <div className="div">
+          <div className="legal-stuff">
             <div className="text-wrapper">Privacy Policy</div>
             <div className="text-wrapper">Terms of Service</div>
             <div className="text-wrapper">Cookies Settings</div>

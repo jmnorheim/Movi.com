@@ -4,6 +4,7 @@ import { Movie, MovieContent } from "../../interfaces";
 import "./MovieContainerGrid.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { page } from "../../pages/HomePage/HomePage";
 
 // Icons
 import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
@@ -20,14 +21,33 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
     Record<string, Record<string, boolean>>
   >({});
 
+  const storePageValue = () => {
+    sessionStorage.setItem("pageNumber", page.value.toString());
+  };
+
   return (
     <div className="MovieContainerGrid">
       {movies.map((movie, index) => (
-        <div key={index} style={{ position: "relative" }}>
-          <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
+        <div
+          key={index}
+          style={{ position: "relative", textDecoration: "none" }}
+        >
+          <Link
+            to={"/movie/" + movie.imdbID}
+            key={movie.imdbID}
+            style={{ textDecoration: "none" }}
+            onClick={storePageValue}
+          >
             <MovieContainer movie={movie} />
           </Link>
-          <AddToLibraryButton imdbID={movie.imdbID} />
+          <AddToLibraryButton
+            imdbID={movie.imdbID}
+            width="120px"
+            height="25px"
+            fontSize="12px"
+            dropdownPosition={{ top: "97.8%", left: "55%" }}
+            dropDownItemMaxWidth="140px"
+          />
         </div>
       ))}
     </div>

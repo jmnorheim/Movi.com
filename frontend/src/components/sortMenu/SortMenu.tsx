@@ -49,13 +49,16 @@ const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
       </button>
       {isOpen && (
         <div className="dropdown-menu-sorting">
-          <button className="dropdown-item reset-text" onClick={resetSort}>
+          <button
+            className="dropdown-item-sorting reset-text"
+            onClick={resetSort}
+          >
             Reset sorting
           </button>
           {Object.values(SortType).map((sortType) => (
             <button
               key={sortType}
-              className="dropdown-item"
+              className="dropdown-item-sorting"
               onClick={() => handleSort(sortType)}
             >
               {sortTypeDisplayMapping[sortType]}

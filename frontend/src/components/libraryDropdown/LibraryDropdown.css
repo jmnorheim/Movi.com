@@ -3,9 +3,9 @@
   background-color: white;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   padding: 12px 16px;
-  z-index: 10001; /* Make sure this is higher than other elements */
+  z-index: 10001; 
   right: 0;
-  width: 200px; /* Adjust as necessary */
+  width: 200px;
 }
 
 .dropdown-item {

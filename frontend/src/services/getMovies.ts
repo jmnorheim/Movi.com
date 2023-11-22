@@ -163,6 +163,7 @@ const GET_MOVIES_BY_LIBRARY_ID = graphql(`
       primaryTitle
       averageRating
       runtimeMinutes
+      poster
     }
   }
 `);

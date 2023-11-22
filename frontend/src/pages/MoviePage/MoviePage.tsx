@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MovieContent, User } from "../../interfaces";
@@ -19,7 +20,9 @@ import MovieContainerGrid from "../../components/movieContainerGrid/MovieContain
 import { MovieFilter } from "../../generated/graphql.ts";
 import { useRecommendedMovies } from "../../services/getRecommended.ts";
 import AddToLibraryButton from "../../components/addToLibraryButton/AddToLibraryButton.tsx";
-import HartButton from "../../components/hartButton/HeartButton.tsx";
+import HeartButton from "../../components/heartButton/HeartButton.tsx";
+
+import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
 /**
  * Render the MoviePage component.
@@ -49,6 +52,15 @@ const MoviePage: React.FC = () => {
       setMovie(data);
     }
   }, [data]);
+
+  let posterSrc = movie?.poster;
+  let posterIsEmpty = false;
+  if (movie) {
+    posterSrc = movie.poster.startsWith("data")
+      ? empty_poster_pic
+      : movie.poster;
+    posterIsEmpty = movie.poster.startsWith("data");
+  }
 
   useEffect(() => {
     if (recommendedData) {
@@ -128,31 +140,41 @@ const MoviePage: React.FC = () => {
                     </div>
                   </div>
                   <div className="div-5">
-                    <div className="div-4">
+                    <div className="div-6">
                       <img className="img" alt="Image" src={imdb_logo} />
                       <div className="text-wrapper-5">
                         {movie.averageRating}/10
                       </div>
                     </div>
-                    <div className="div-4">
+                    <div className="div-6">
                       <div className="text-wrapper-6">Votes</div>
                       <div className="text-wrapper-7">({movie.totalVotes})</div>
                     </div>
                   </div>
                   {userID && (
                     <div className="div-5">
-                      <AddToLibraryButton imdbID={movie.imdbID} />
+                      <AddToLibraryButton
+                        imdbID={movie.imdbID}
+                        width="230px"
+                        height="40px"
+                        fontSize="22px"
+                      />
                       {/* <HeartIcon className="vuesax-linear-heart" /> */}
-                      <HartButton userID={userID} movieID={movie.imdbID} />
+                      <HeartButton userID={userID} movieID={movie.imdbID} />
                     </div>
                   )}
                 </div>
                 <div className="poster-image-container">
-                  <img
-                    className="poster-image"
-                    alt="movieposter"
-                    src={movie.poster}
-                  />
+                  <div className="poster-content">
+                    <img
+                      className="poster-image"
+                      alt="movieposter"
+                      src={posterSrc}
+                    />
+                    {posterIsEmpty && (
+                      <div className="no-poster-text">No poster available</div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

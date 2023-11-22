@@ -24,6 +24,7 @@ html {
   justify-content: center;
   flex-direction: column;
   padding-top: 50px;
+  max-width: 100vw;
   /* background-color: red; */
 }
 
@@ -94,4 +95,22 @@ html {
   color: #3d405b;
   text-align: center;
   /* background-color: red; */
+}
+
+@media screen and (max-width: 768px) {
+  .paginationAndSortContainer {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    /* justify-content: center; */
+    
+  }
+
+  .sortMenuContainer {
+    justify-content: center;
+    padding-right: 0;
+    margin-left: 0;
+    padding-top: 10px;
+  }
+  
 }

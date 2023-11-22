@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef, useState } from "react";
 import { Movie, MovieContent } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
@@ -40,7 +41,8 @@ export const currentSearch = signal<string>(
   sessionStorage.getItem("search") || ""
 );
 
-//Signal that contains the current page number and the number of rows per page are stored externally from the page component
+//Signals that contain the current page number and the number of rows per page - stored externally from the page component
+//Initialvalue of page is either the value stored in sessionStorage or 0
 export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
@@ -54,7 +56,7 @@ const HomePage: React.FC = () => {
   const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
     null
   ); // All movies
-  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
+  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering or search)
   const [currentSort, setCurrentSort] = useState<SortType | null>(
     (sessionStorage.getItem("sort") as SortType) || null
   );
@@ -74,11 +76,44 @@ const HomePage: React.FC = () => {
     navbarColor.value = "white";
   });
 
+  // Set initial-value of page-signal =======================================================================================
+  useEffect(() => {
+    const storedPageValue = sessionStorage.getItem("pageNumber");
+    if (storedPageValue) {
+      page.value = Number(JSON.parse(storedPageValue));
+    }
+  }, []);
+
+  // Console log value in sessionStorage
+  useEffect(() => {
+    console.log("Page value: ", sessionStorage.getItem("pageNumber"));
+  }, [page.value]);
+
+  // Automatic scrolling when searching ====================================================================================
+
+  const contentContainerRef = useRef<HTMLDivElement>(null);
+
+  const prevSearchValueRef = useRef("");
+
+  useEffect(() => {
+    const currentSearchValue = currentSearch.value;
+
+    if (currentSearchValue === "") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (
+      contentContainerRef.current &&
+      currentSearchValue.length > prevSearchValueRef.current.length
+    ) {
+      contentContainerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    prevSearchValueRef.current = currentSearchValue;
+  }, [currentSearch.value]);
+
   // =======================================================================================================================
 
   useEffect(() => {
     if (data) {
-      // Fetch the current user's favorites from localStorage
       setMovies(data.movies);
       setOriginalMovies(data.movies);
       console.log("Data has been set");
@@ -126,7 +161,7 @@ const HomePage: React.FC = () => {
     });
   };
 
-  // =======================================================================================================================
+  // Pagination=============================================================================================================
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -189,16 +224,17 @@ const HomePage: React.FC = () => {
     };
   }, [movies]);
 
+  // =======================================================================================================================
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="homePageContainer">
-      <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
           {data && <HomePageHeader genres={data.genres}></HomePageHeader>}
         </div>
-        <div className="contentContainer">
+        <div ref={contentContainerRef} className="contentContainer">
           <div className="paginationAndSortContainer">
             <div className="spacer"></div>
             <div className="paginationContainer">

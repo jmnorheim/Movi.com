@@ -49,6 +49,7 @@ html {
   max-width: 100vw;
   /* background-color: red; */
   z-index: 1000;
+  /* background-color: red; */
 }
 
 .navbar .navContainer {
@@ -123,4 +124,14 @@ html {
 
 .navbar .text-black {
   color: black;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0px 28px;
+  }
+
+  .navbar .navContainer {
+    gap: 20%;
+  }
 }
