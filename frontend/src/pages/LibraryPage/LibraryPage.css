@@ -93,6 +93,9 @@
   height: 96px;
   width: 90vw;
   margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .library-title .text-wrapper {
@@ -103,6 +106,36 @@
   letter-spacing: 0;
   line-height: 96px;
   white-space: nowrap;
+}
+
+.library-title .delete-library-button {
+  align-items: center;
+  border: 1px solid;
+  border-color: #0a0a0a;
+  border-radius: 56px;
+  display: inline-flex;
+  height: 45px;
+  gap: 8px;
+  padding: 8px 16px;
+  position: relative;
+  background: none;
+  cursor: pointer;
+}
+
+.library-title .delete-library-button .delete-library-button-text {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Light", Helvetica;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 27px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .list-row {
