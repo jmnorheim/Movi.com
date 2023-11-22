@@ -11,7 +11,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/auth/AuthContext";
 import { getUserByEmail } from "../../services/getUser";
-import { verifyPassword } from "../../services/utilities/hashFunction";
 import "./LoginPage.css";
 
 import { navbarColor } from "../../App";
@@ -19,6 +18,7 @@ import { effect } from "@preact/signals-react";
 
 import background_image from "../../assets/images/moviepage_background.png";
 import "./LoginPage.css";
+import { verifyPassword } from "../../services/utilities/hashFunction";
 
 // Regex used to check email format
 const emailRegex = /\S+@\S+\.\S+/;
@@ -82,7 +82,8 @@ const LoginPage: React.FC = () => {
      */
     try {
       const { userID } = await getUserByEmail(inputEmail);
-      if (userID && (await verifyPassword(userID, inputPassword))) {
+      // Check if the password is correct from backend with alot of hashing goodness there :)
+      if (await verifyPassword(inputEmail, inputPassword)) {
         login(inputEmail, userID);
         navigate("/profile");
       } else {

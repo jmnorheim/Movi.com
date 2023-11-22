@@ -9,7 +9,6 @@ import {
 } from "@testing-library/react";
 import { describe, it, vi, expect, afterEach, beforeEach } from "vitest";
 import LoginPage from "../../../src/pages/LoginPage/LoginPage";
-import * as hashFunction from "../../../src/services/utilities/hashFunction";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
@@ -30,13 +29,6 @@ window.alert = vi.fn();
  */
 vi.mock("../../../src/services/getUser", () => ({
   getUserByEmail: vi.fn(),
-}));
-
-/**
- * Mocks `verifyPassword` for hashfunction.
- */
-vi.mock("../../../src/services/utilities/hashFunction", () => ({
-  verifyPassword: vi.fn(() => Promise.resolve(true)),
 }));
 
 /** QueryClient instance */
@@ -80,7 +72,6 @@ describe("Tests LoginPage", () => {
 
     // Mock the getUserByEmail and verifyPassword function using spyOn.
     vi.spyOn(getUser, "getUserByEmail").mockResolvedValue(mockUser);
-    vi.spyOn(hashFunction, "verifyPassword").mockResolvedValue(true);
 
     render(<LoginPage />);
 
@@ -98,10 +89,6 @@ describe("Tests LoginPage", () => {
     // Assert that the login process functions as expected.
     await waitFor(() => {
       expect(getUser.getUserByEmail).toHaveBeenCalledWith(mockUser.email);
-      expect(hashFunction.verifyPassword).toHaveBeenCalledWith(
-        mockUser.userID,
-        "password123"
-      );
     });
   });
 

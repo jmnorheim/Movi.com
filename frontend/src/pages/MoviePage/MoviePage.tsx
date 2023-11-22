@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getMovieById } from "../../services/movieAPI";
 import { useEffect, useState } from "react";
-import { Movie, User } from "../../interfaces";
+import { MovieContent, User } from "../../interfaces";
 import { Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -14,10 +12,12 @@ import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
 import PageFooter from "../../components/pageFooter/PageFooter";
-import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
-import { useMovie } from "../../services/getMovies";
+import { useMovie, useMovies } from "../../services/getMovies";
+import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid.tsx";
+import { MovieFilter } from "../../generated/graphql.ts";
+import { useRecommendedMovies } from "../../services/getRecommended.ts";
 
 /**
  * Render the MoviePage component.
@@ -25,14 +25,14 @@ import { useMovie } from "../../services/getMovies";
  */
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [movie, setMovie] = useState<MovieContent | null>(null);
+  const [recommendedMovies, setRecommendedMovies] = useState<MovieContent[]>();
   const { isLoggedIn, email } = useAuth();
+  const navigate = useNavigate();
 
   effect(() => {
     navbarColor.value = "white";
   });
-
-  const navigate = useNavigate();
 
   if (!movieId) {
     throw new Error("Movie ID is required");
@@ -40,11 +40,21 @@ const MoviePage: React.FC = () => {
 
   const { data, isLoading } = useMovie(movieId);
 
+  const { data: recommendedData } = useRecommendedMovies(movie);
+
   useEffect(() => {
     if (data) {
-      setMovie(data as Movie);
+      setMovie(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (recommendedData) {
+      setRecommendedMovies(
+        recommendedData.filter((movie) => movie.imdbID !== movieId)
+      );
+    }
+  }, [recommendedData, movieId]);
 
   const printGenresNicely = (genres: string[]) => {
     let genresString = "";
@@ -145,55 +155,16 @@ const MoviePage: React.FC = () => {
               </div>
             </div>
           </div>
+          {recommendedMovies && (
+            <div className="recommended">
+              <h1 className="recommended-text">Recommended</h1>
+              <MovieContainerGrid movies={recommendedMovies} />
+            </div>
+          )}
           <div className="footer-container">
             <PageFooter></PageFooter>
           </div>
         </>
-        // <div className="styled-movie-container">
-        //   <Typography
-        //     variant="h3"
-        //     gutterBottom
-        //     align="center"
-        //     className="title"
-        //   >
-        //     {movie.primaryTitle}
-        //   </Typography>
-        //   <img className="styled-poster" src={movie.poster} alt="poster" />
-        //   <div className="styled-info-box">
-        //     <div className="styled-info-container">
-        //       <div className="star-container">
-        //         {isLoggedIn && (
-        //           <div
-        //             className={`moviepage-star ${
-        //               movie.favorited ? "star-filled" : "star-outline"
-        //             }`}
-        //             onClick={() => {
-        //               toggleStar(movie.imdbID);
-        //             }}
-        //           >
-        //             ★
-        //           </div>
-        //         )}
-        //       </div>
-        //       <Typography variant="h5">
-        //         Original title: {movie.originalTitle}
-        //       </Typography>
-        //       <Typography variant="h5">
-        //         Rating: {movie.averageRating}
-        //       </Typography>
-        //       <Typography variant="h5">
-        //         Total votes: {movie.totalVotes}
-        //       </Typography>
-        //       <Typography variant="h5">
-        //         Runtime: {movie.runtimeMinutes} minutes
-        //       </Typography>
-        //       <Typography variant="h5">
-        //         Genres: {printGenresNicely(movie.genres)}
-        //       </Typography>
-        //       <Typography variant="subtitle1">Movie ID: {movieId}</Typography>
-        //     </div>
-        //   </div>
-        // </div>
       )}
     </>
   );

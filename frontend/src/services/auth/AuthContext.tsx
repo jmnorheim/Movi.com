@@ -86,7 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
     setEmail(localStorage.getItem("email") || "");
-    setUserID(sessionStorage.getItem("userID") || "");
+    setUserID(localStorage.getItem("userID") || "");
   }, []);
 
   return (

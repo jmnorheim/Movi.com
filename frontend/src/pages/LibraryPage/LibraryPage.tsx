@@ -1,101 +1,52 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Movie, User } from "../../interfaces";
-import { useAuth } from "../../services/auth/AuthContext";
-import { getMovieById } from "../../services/movieAPI";
-import MovieContainer from "../../components/movieContainer/MovieContainer";
 import "./LibraryPage.css";
 import PageFooter from "../../components/pageFooter/PageFooter";
-
 import { ArrowCircleLeftBlack } from "../../assets/icons/ArrowCircleLeftBlack";
-import { navbarColor } from "../../App";
-import { effect } from "@preact/signals-react";
+import { useMoviesInByLibraryIDQuery } from "../../../src/services/getMovies.ts";
 
-const LibraryPage = () => {
-  const { libraryName } = useParams();
-  const [movies, setMovies] = useState<Movie[] | null>(null);
-  const { email } = useAuth();
+/**
+ * Render the RegisterPage component.
+ * @returns {React.FC}
+ */
+const LibraryPage: React.FC = () => {
+  // State definitions
+  const { libraryProp } = useParams();
 
-  effect(() => {
-    navbarColor.value = "black";
-  });
-
-  const navigate = useNavigate();
-
-  const getMovies = () => {
-    const usersJSON = localStorage.getItem("users");
-
-    let users: User[] = [];
-    if (usersJSON && typeof JSON.parse(usersJSON) === typeof users) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      users = JSON.parse(usersJSON);
-    }
-    const currentUser = users.find((user: User) => user.email === email);
-
-    if (!currentUser) return null; // exit if user not found
-
-    const movies: Movie[] = [];
-
-    if (libraryName !== "Favorites") {
-      const currentLibrary = currentUser.library.find(
-        (library) => library.name === libraryName
-      );
-      if (!currentLibrary) return null; // exit if user not found
-
-      currentLibrary.movies.forEach((movieId) => {
-        let movie: Movie | null = null;
-        getMovieById(movieId)
-          .then((res) => {
-            movie = {
-              ...res,
-              favorited: currentUser.favorites.includes(movieId),
-            };
-            movies.push(movie);
-          })
-          .catch((err) => {
-            throw new Error("Error getting movie by ID");
-          });
-      });
-    } else {
-      currentUser.favorites.forEach((movieId) => {
-        let movie: Movie | null = null;
-        getMovieById(movieId)
-          .then((res) => {
-            movie = {
-              ...res,
-              favorited: true,
-            };
-            movies.push(movie);
-          })
-          .catch((err) => {
-            throw new Error("Error getting movie by ID");
-          });
-      });
-    }
-
-    setMovies(movies);
-  };
-
-  useEffect(() => {
-    getMovies();
-  }, [email]);
-
-  function formatNumber(number: number) {
-    return number < 10 ? `0${number}` : number.toString();
+  // Set libraryID and libraryName
+  let libraryID: string = "";
+  let libraryName: string = "";
+  if (libraryProp) {
+    [libraryID, libraryName] = libraryProp.split(":");
   }
 
+  // Hooks for fetching movies and navigation
+  const { data: movies } = useMoviesInByLibraryIDQuery(libraryID);
+  const navigate = useNavigate();
+
+  /**
+   * Formats a number to a two-digit string (e.g., 1 becomes "01").
+   */
+  const formatNumber = (number: number) => {
+    return number < 10 ? `0${number}` : number.toString();
+  };
+
+  // Return =============================================================
   return (
     <>
       <div className="LibraryPage">
+        {/* Back navigation button */}
         <div className="back-button-container">
           <button className="back-button-library" onClick={() => navigate(-1)}>
             <ArrowCircleLeftBlack />
           </button>
         </div>
+
+        {/* Display library title */}
         <div className="library-title">
           <div className="text-wrapper">{libraryName}</div>
         </div>
+
+        {/* Movie list headers */}
         <div className="column-info">
           <div className="invisible">01</div>
           <div className="group">
@@ -104,6 +55,8 @@ const LibraryPage = () => {
             <div className="text-wrapper-2">Length</div>
           </div>
         </div>
+
+        {/* Display list of movies */}
         {movies &&
           movies.map((movie, index) => (
             <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
@@ -120,6 +73,8 @@ const LibraryPage = () => {
             </Link>
           ))}
       </div>
+
+      {/* Footer component */}
       <div>
         <PageFooter></PageFooter>
       </div>

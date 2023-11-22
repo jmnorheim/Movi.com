@@ -5,8 +5,10 @@ type Query {
     searchBy: String
     filter: MovieFilter
     sortBy: SortType
-  ): [Movie!]!
+  ): MoviesData!
   movie(imdbID: ID!): Movie!
+  movieStats: MovieStats!
+  getRecommendedMovies(movie: MovieInput!): [Movie!]!
 }
 
 enum SortType {
@@ -60,4 +62,33 @@ type Movie {
   totalVotes: Int!
   poster: String
   genres: [String!]!
+}
+input MovieInput {
+  imdbID: ID!
+  primaryTitle: String!
+  originalTitle: String!
+  isAdult: Boolean!
+  startYear: Int!
+  runtimeMinutes: Int!
+  averageRating: Float!
+  totalVotes: Int!
+  poster: String
+  genres: [String!]!
+}
+
+type MovieStats {
+  releaseYearRange: Range!
+  runtimeMinutesRange: Range!
+  averageRatingRange: Range!
+  totalVotesRange: Range!
+}
+
+type Range {
+  min: Int!
+  max: Int!
+}
+
+type MoviesData {
+  movies: [Movie!]!
+  count: Int!
 }

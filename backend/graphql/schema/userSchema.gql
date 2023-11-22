@@ -4,6 +4,7 @@ type Query {
   userByEmail(email: String!): User!
   movieInFavoriteByUserID(userID: ID!, imdbID: ID!): Boolean!
   movieInFavoriteByUserEmail(email: String!, imdbID: ID!): Boolean!
+  verifyPassword(email: String!, password: String!): Boolean!
 }
 
 type Mutation {

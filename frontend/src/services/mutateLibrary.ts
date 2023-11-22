@@ -11,7 +11,7 @@ const ADD_LIBRARY = graphql(`
   }
 `);
 
-const addLibrary = async (
+const createLibrary = async (
   userID: string,
   libraryName: string
 ): Promise<string> => {
@@ -22,12 +22,15 @@ const addLibrary = async (
   return addLibrary.userID;
 };
 
-export const useAddLibrary = (userID: string, libraryName: string) => {
+export const useCreateLibrary = (userID: string) => {
   const client = useQueryClient();
-  return useMutation({
-    mutationFn: () => addLibrary(userID, libraryName),
-    onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: ["Libraries: " + userID] });
-    },
-  });
+
+  return useMutation(
+    (libraryName: string) => createLibrary(userID, libraryName),
+    {
+      onSuccess: async () => {
+        await client.invalidateQueries({ queryKey: ["Libraries: " + userID] });
+      },
+    }
+  );
 };
