@@ -1,6 +1,14 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./LibraryPage.css";
 import PageFooter from "../../components/pageFooter/PageFooter";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import { ArrowCircleLeftBlack } from "../../assets/icons/ArrowCircleLeftBlack";
 import { useMoviesInByLibraryIDQuery } from "../../../src/services/getMovies.ts";
 import { useRemoveMovieFromFavorites } from "../../../src/services/removeMovieFromFavorites.ts";
@@ -8,6 +16,7 @@ import { useRemoveMovieFromLibrary } from "../../../src/services/removeMovieFrom
 import { useAuth } from "../../services/auth/AuthContext.tsx";
 import ClearIcon from "@mui/icons-material/Clear";
 import empty_library from "../../assets/images/empty_library.png";
+import { useState } from "react";
 
 /**
  * Render the RegisterPage component.
@@ -16,6 +25,7 @@ import empty_library from "../../assets/images/empty_library.png";
 const LibraryPage: React.FC = () => {
   // State definitions
   const { libraryProp } = useParams();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Set libraryID and libraryName
   let libraryID: string = "";
@@ -41,8 +51,24 @@ const LibraryPage: React.FC = () => {
     return number < 10 ? `0${number}` : number.toString();
   };
 
+  // Delete entire library====================================================================================
+  const openDeleteDialog = () => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const confirmDeleteLibrary = () => {
+    console.log("Delete confirmed for library with ID:", libraryID);
+    // Placeholder for actual delete logic
+    closeDeleteDialog();
+  };
+
+  // Delete movie from library==========================================================================
   /**
-   * Handles the delete user.
+   * Handle deletion of a movie from a library.
    */
   const handleDelete = (imdbID: string) => {
     // Check if it is the favorites library.
@@ -66,6 +92,14 @@ const LibraryPage: React.FC = () => {
         {/* Display library title */}
         <div className="library-title">
           <div className="text-wrapper">{libraryName}</div>
+          <div className="delete-library-button">
+            <button
+              className="delete-library-button-text"
+              onClick={openDeleteDialog}
+            >
+              Delete Library
+            </button>
+          </div>
         </div>
 
         {/* Display list of movies */}
@@ -137,6 +171,24 @@ const LibraryPage: React.FC = () => {
       >
         <PageFooter></PageFooter>
       </div>
+      <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+        <DialogTitle>Delete Library</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this library? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog}>Cancel</Button>
+          <Button
+            onClick={confirmDeleteLibrary}
+            style={{ backgroundColor: "red", color: "white" }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
