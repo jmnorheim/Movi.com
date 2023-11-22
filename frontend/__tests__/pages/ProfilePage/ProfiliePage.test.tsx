@@ -81,7 +81,7 @@ function render(ui: React.ReactElement) {
 /**
  * Tests ProfilePage.
  */
-describe("ProfilePage Component", () => {
+describe("Tests ProfilePage", () => {
   // Cleans up before and after each test.
   afterEach(cleanup);
   beforeEach(cleanup);

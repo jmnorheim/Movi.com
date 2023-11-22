@@ -6,7 +6,8 @@
   "scripts": {
     "generatePrisma": "prisma generate",
     "generateTypes": "graphql-codegen --config GQLCodeGenConfig.ts",
-    "start": "tsc && node ./dist/src/index.js"
+    "start": "tsc && node ./dist/src/index.js",
+    "test": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -29,9 +30,11 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@types/node": "^20.8.6",
+    "@vitest/coverage-v8": "^0.34.6",
     "prisma": "^5.4.2",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
   }
 }
