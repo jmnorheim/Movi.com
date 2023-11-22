@@ -67,7 +67,10 @@ const MoviePage: React.FC = () => {
     }
   }, [recommendedData, movieId]);
 
-  const printGenresNicely = (genres: string[]) => {
+  const printGenresNicely = (genres: string[] | undefined) => {
+    if (!Array.isArray(genres)) {
+      return ""; // or a default string
+    }
     let genresString = "";
     genres.forEach((genre: string) => {
       genresString += genre + ", ";

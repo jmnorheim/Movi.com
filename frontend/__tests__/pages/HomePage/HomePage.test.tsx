@@ -1,96 +1,47 @@
-import { render as rtlRender, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { describe, it, vi, expect } from "vitest";
-import HomePage from "../../../src/pages/HomePage/HomePage";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  render as rtlRender,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { describe, it, vi, expect } from "vitest";
+import { AuthProvider } from "../../../src/services/auth/AuthContext";
+import HomePage from "../../../src/pages/HomePage/HomePage";
 
 /**
  * @vitest-environment jsdom
  */
 
+/** Overrides default window alert with mock function. */
+window.alert = vi.fn();
+
 /** QueryClient instance */
 const queryClient = new QueryClient();
 
-// /**
-//  * Mock implementation for the movieAPI.
-//  * @returns {Object}
-//  */
-// vi.mock("../../../src/services/movieAPI", () => {
-//   const mockMovies = [
-//     {
-//       imdbID: "1",
-//       primaryTitle: "Test Movie 1",
-//       originalTitle: "Original Test Movie 1",
-//       isAdult: false,
-//       startYear: 2022,
-//       runtimeMinutes: 120,
-//       genres: ["Drama"],
-//       averageRating: 8.5,
-//       totalVotes: 2000,
-//       poster: "https://example.com/testmovie1.jpg",
-//       favorited: false,
-//     },
-//   ];
-//   return {
-//     default: () => Promise.resolve(mockMovies),
-//   };
-// });
+/**
+ * Render component with necessary providers.
+ * @param {React.ReactElement} ui
+ */
+function render(ui: React.ReactElement) {
+  return rtlRender(
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <BrowserRouter>{ui}</BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 /**
-//  * Mock implementation for the AuthContext.
-//  * @returns {Object}
-//  */
-// vi.mock("../../../src/services/auth/AuthContext", () => ({
-//   useAuth: vi.fn().mockReturnValue({ email: "test@example.com" }),
-// }));
-
-// /**
-//  * Render component with necessary providers.
-//  * @param {React.ReactElement} ui
-//  */
-// function render(ui: React.ReactElement) {
-//   return rtlRender(
-//     <QueryClientProvider client={queryClient}>
-//       <BrowserRouter>{ui}</BrowserRouter>
-//     </QueryClientProvider>
-//   );
-// }
-/*
- * Tests HomePage component.
+ * Tests HomePage.
  */
-// describe("Tests HomePage component", () => {
-//   it("displays movies after fetching", async () => {
-//     render(<HomePage />);
-//     await waitFor(() => {
-//       expect(screen.getByText(/Test Movie 1/)).toBeDefined();
-//     });
-//   });
-
-/*it("Snapshot test", () => {
-    const { asFragment } = render(<HomePage />);
-    expect(asFragment()).toMatchSnapshot();
-  });*/
-// });
-
-/**
- * Test  that always runs
- */
-describe("Test App", () => {
+describe("HomePage Component", () => {
   /**
+   * Tests rendering of movies.
    */
-  it("Test that always runs", () => {
-    expect(true);
-  });
-});
-
-/**
- * Test  that always runs
- */
-describe("Test App", () => {
-  /**
-   */
-  it("Test that always runs", () => {
-    expect(true);
+  it("renders HomePage", async () => {
+    render(<HomePage />);
   });
 });
