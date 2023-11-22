@@ -40,7 +40,7 @@
   margin-top: -1px;
   position: relative;
   width: 140px;
-  height: 55px;
+  height: fit-content;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;

@@ -89,6 +89,11 @@ const HomePage: React.FC = () => {
     console.log("Page value: ", sessionStorage.getItem("pageNumber"));
   }, [page.value]);
 
+  //Console log filterSignals
+  useEffect(() => {
+    console.log("Filter signals: ", filterSignals.value);
+  }, [filterSignals.value]);
+
   // Automatic scrolling when searching ====================================================================================
 
   const contentContainerRef = useRef<HTMLDivElement>(null);

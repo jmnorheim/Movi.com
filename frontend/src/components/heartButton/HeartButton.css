@@ -6,8 +6,8 @@
   display: flex; 
   align-items: center;
   justify-content: center;
-  width: 4em;
-  height: 4em;
+  width: 3em;
+  height: 3em;
 }
 
 .favorite-button .vuesax-linear-heart {

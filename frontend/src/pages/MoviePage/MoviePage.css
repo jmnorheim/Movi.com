@@ -83,7 +83,7 @@
   letter-spacing: 0;
   line-height: 24px;
   position: relative;
-  width: 90vw;
+  width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -184,6 +184,14 @@
   position: relative;
 }
 
+.movie-card .div-7 {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
+}
+
 .movie-card .image {
   height: 24.34px;
   object-fit: cover;
@@ -242,7 +250,7 @@
   all: unset;
   align-items: center;
   background-color: #a7cdf5;
-  border-radius: 56px;
+  border-radius: 12px;
   box-sizing: border-box;
   display: inline-flex;
   flex: 0 0 auto;
