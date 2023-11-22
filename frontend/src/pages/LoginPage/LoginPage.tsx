@@ -69,10 +69,8 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Clear the error message
     setError("");
 
-    //  Check if the input fields are valid
     if (validateFields()) {
       return;
     }

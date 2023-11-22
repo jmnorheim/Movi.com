@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { MovieContent, User } from "../../interfaces";
+import { MovieContent } from "../../interfaces";
 import { Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowCircleLeft } from "../../assets/icons/ArrowCircleLeft";
 import "./MoviePage.css";
 
-import { HeartIcon } from "../../assets/icons/HeartIcon.tsx";
-import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import imdb_logo from "../../assets/images/imdb_logo.png";
 import moviepage_background from "../../assets/images/moviepage_background.png";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
-import { useMovie, useMovies } from "../../services/getMovies";
+import { useMovie } from "../../services/getMovies";
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid.tsx";
-import { MovieFilter } from "../../generated/graphql.ts";
 import { useRecommendedMovies } from "../../services/getRecommended.ts";
 import AddToLibraryButton from "../../components/addToLibraryButton/AddToLibraryButton.tsx";
 import HeartButton from "../../components/heartButton/HeartButton.tsx";
@@ -32,7 +29,7 @@ const MoviePage: React.FC = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieContent | null>(null);
   const [recommendedMovies, setRecommendedMovies] = useState<MovieContent[]>();
-  const { isLoggedIn, email, userID } = useAuth();
+  const { userID } = useAuth();
   const navigate = useNavigate();
 
   effect(() => {

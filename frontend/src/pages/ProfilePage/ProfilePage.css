@@ -57,7 +57,6 @@
   position: absolute;
   top: 180px;
   max-width: 45vw;
-  /* background-color: yellow; */
 }
 
 .profile-container .text-wrapper {
@@ -70,13 +69,10 @@
   margin-top: -1px;
   position: relative;
   text-align: left;
-  /* white-space: nowrap; */
-  /* width: fit-content; */
   width: 50vw;
   max-width: 50vw;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* white-space: nowrap; */
 }
 
 .profile-container .div-2 {
@@ -94,7 +90,6 @@
   max-width: 100%;
   box-sizing: border-box;
   position: relative;
-  /* width: 30vw; */
   height: fit-content;
 }
 
@@ -178,7 +173,6 @@
   .profile-container .text-wrapper {
     font-size: 30px;
     line-height: 48px;
-    /* max-width: 50vw; */
     justify-content: flex-start;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -204,11 +198,8 @@
   }
 
   .profile-container .div-2 {
-    /* width: 30;
-    max-width: 50%; */
     padding: 8px 50vw 8px 24px;
     box-sizing: border-box;
     max-width: 70vw;
-    /* background-color: red; */
   }
 }

@@ -12,7 +12,7 @@ import PageFooter from "../../components/pageFooter/PageFooter";
 import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
-import { Signal, effect, signal } from "@preact/signals-react";
+import { effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { handlePreFetch, useMovies } from "../../services/getMovies";
 import { TablePagination } from "@mui/material";
@@ -69,8 +69,6 @@ const HomePage: React.FC = () => {
     currentSort as SortType
   );
 
-  const { email } = useAuth();
-
   // Set color of text in Navbar to white
   effect(() => {
     navbarColor.value = "white";
@@ -84,18 +82,13 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
-  // Console log value in sessionStorage
-  useEffect(() => {
-    console.log("Page value: ", sessionStorage.getItem("pageNumber"));
-  }, [page.value]);
-
   // Automatic scrolling when searching ====================================================================================
 
   const contentContainerRef = useRef<HTMLDivElement>(null);
 
   const prevSearchValueRef = useRef("");
 
-  useEffect(() => {
+  effect(() => {
     const currentSearchValue = currentSearch.value;
 
     if (currentSearchValue === "") {
@@ -108,7 +101,7 @@ const HomePage: React.FC = () => {
     }
 
     prevSearchValueRef.current = currentSearchValue;
-  }, [currentSearch.value]);
+  });
 
   // =======================================================================================================================
 
@@ -116,7 +109,6 @@ const HomePage: React.FC = () => {
     if (data) {
       setMovies(data.movies);
       setOriginalMovies(data.movies);
-      console.log("Data has been set");
     }
   }, [data]);
 

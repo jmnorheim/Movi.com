@@ -122,6 +122,56 @@ const RegisterPage: React.FC = () => {
     handleRegister(event).catch(console.error);
   };
 
+  const handleUsername = (username: string) => {
+    setInputUsername(username);
+    setValidationErrors((prev) => ({
+      ...prev,
+      username: "",
+    }));
+  };
+
+  const handleEmail = (email: string) => {
+    setInputEmail(email);
+    setValidationErrors((prev) => ({
+      ...prev,
+      email: email
+        ? !emailRegex.test(email)
+          ? "Please enter a valid email"
+          : ""
+        : "",
+    }));
+  };
+
+  const handlePassword = (password: string) => {
+    setInputPassword(password);
+    setValidationErrors((prev) => ({
+      ...prev,
+      password: password
+        ? password.length >= 8
+          ? containsNumberRegex.test(password)
+            ? containsSpecialCharRegex.test(password)
+              ? ""
+              : "Password must include at least one special character"
+            : "Password must include at least one number"
+          : "Password must be at least 8 characters"
+        : "",
+    }));
+  };
+
+  const handleConfirmPassword = (confirmPassword: string) => {
+    setInputConfirmPassword(confirmPassword);
+
+    setValidationErrors((prev) => ({
+      ...prev,
+      confirmPassword:
+        confirmPassword === ""
+          ? ""
+          : confirmPassword !== inputPassword
+          ? "Passwords do not match"
+          : "",
+    }));
+  };
+
   // Return =============================================================
   return (
     <Container component="main" maxWidth="xs" className="register-container">
@@ -163,11 +213,7 @@ const RegisterPage: React.FC = () => {
             helperText={validationErrors.username}
             onChange={(e) => {
               const newUsername = e.target.value;
-              setInputUsername(newUsername);
-              setValidationErrors((prev) => ({
-                ...prev,
-                username: "",
-              }));
+              handleUsername(newUsername);
             }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
@@ -222,15 +268,7 @@ const RegisterPage: React.FC = () => {
             helperText={validationErrors.email}
             onChange={(e) => {
               const newEmail = e.target.value;
-              setInputEmail(newEmail);
-              setValidationErrors((prev) => ({
-                ...prev,
-                email: newEmail
-                  ? !emailRegex.test(newEmail)
-                    ? "Please enter a valid email"
-                    : ""
-                  : "",
-              }));
+              handleEmail(newEmail);
             }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
@@ -286,19 +324,7 @@ const RegisterPage: React.FC = () => {
             helperText={validationErrors.password}
             onChange={(e) => {
               const newPassword = e.target.value;
-              setInputPassword(newPassword);
-              setValidationErrors((prev) => ({
-                ...prev,
-                password: newPassword
-                  ? newPassword.length >= 8
-                    ? containsNumberRegex.test(newPassword)
-                      ? containsSpecialCharRegex.test(newPassword)
-                        ? ""
-                        : "Password must include at least one special character"
-                      : "Password must include at least one number"
-                    : "Password must be at least 8 characters"
-                  : "",
-              }));
+              handlePassword(newPassword);
             }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
@@ -353,17 +379,7 @@ const RegisterPage: React.FC = () => {
             helperText={validationErrors.confirmPassword}
             onChange={(e) => {
               const newConfirmPassword = e.target.value;
-              setInputConfirmPassword(newConfirmPassword);
-
-              setValidationErrors((prev) => ({
-                ...prev,
-                confirmPassword:
-                  newConfirmPassword === ""
-                    ? ""
-                    : newConfirmPassword !== inputPassword
-                    ? "Passwords do not match"
-                    : "",
-              }));
+              handleConfirmPassword(newConfirmPassword);
             }}
             InputLabelProps={{
               style: { color: "#fff" }, // White label
