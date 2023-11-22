@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { useState } from "react";
 import "./SortMenu.css";
 import { ArrowIcon } from "../../assets/icons/ArrowIcon";
 import { SortType } from "../../generated/graphql";
@@ -17,19 +17,23 @@ interface SortMenuProps {
   onSort: (sortType: SortType | null) => void;
 }
 
-const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
-  const [selectedSort, setSelectedSort] = useState<SortType | null>(null);
+const SortMenu = ({ onSort }: SortMenuProps) => {
+  const [selectedSort, setSelectedSort] = useState<SortType | null>(
+    (sessionStorage.getItem("sort") as SortType) || null
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSort = (sortType: SortType) => {
     onSort(sortType);
     setSelectedSort(sortType);
+    sessionStorage.setItem("sort", sortType);
     setIsOpen(false);
   };
 
   const resetSort = () => {
     onSort(null);
     setSelectedSort(null);
+    sessionStorage.removeItem("sort");
     setIsOpen(false);
   };
 
@@ -45,13 +49,16 @@ const SortMenu: FC<SortMenuProps> = ({ onSort }) => {
       </button>
       {isOpen && (
         <div className="dropdown-menu-sorting">
-          <button className="dropdown-item reset-text" onClick={resetSort}>
+          <button
+            className="dropdown-item-sorting reset-text"
+            onClick={resetSort}
+          >
             Reset sorting
           </button>
           {Object.values(SortType).map((sortType) => (
             <button
               key={sortType}
-              className="dropdown-item"
+              className="dropdown-item-sorting"
               onClick={() => handleSort(sortType)}
             >
               {sortTypeDisplayMapping[sortType]}

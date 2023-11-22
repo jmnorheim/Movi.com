@@ -18,9 +18,8 @@ const NewsLetterBox = () => {
   const handleSendEmail = async () => {
     try {
       await sendEmail(email);
-      console.log(email);
     } catch (error) {
-      console.log(error);
+      throw Error("Error sending email");
     }
   };
 
@@ -30,21 +29,26 @@ const NewsLetterBox = () => {
         <div className="join-us-container">
           <div className="text-wrapper">Join Us Today!</div>
           <div className="text-wrapper-2">Description here</div>
-          <div className="div-wrapper">
-            <button
-              className="join-now-button"
-              onClick={() => setDialogForm(true)}
-            >
-              Join Now
-            </button>
-          </div>
+          <button
+            className="join-now-button"
+            onClick={() => setDialogForm(true)}
+          >
+            <p className="join-now-button-text">Join Now</p>
+          </button>
         </div>
       </div>
-      <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>
+      <Dialog
+        open={dialogForm}
+        onClose={() => setDialogForm(false)}
+        style={{ zIndex: 100 }}
+      >
         <DialogTitle>News Letter</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter your email to join our newsletter
+            Enter your email to join our newsletter (not ntnu-email)
+          </DialogContentText>
+          <DialogContentText>
+            Remember to check your spam folder!
           </DialogContentText>
           <TextField
             autoFocus

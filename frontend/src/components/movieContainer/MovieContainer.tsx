@@ -1,15 +1,23 @@
-import { Movie, MovieContent } from "../../interfaces";
+import { MovieContent } from "../../interfaces";
 import "./MovieContainer.css";
-import posterImage from "./rectangle-1.png";
+import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
 interface MovieContainerProps {
   movie: MovieContent;
 }
 
 const MovieContainer = ({ movie }: MovieContainerProps) => {
+  const posterSrc = movie.poster.startsWith("data")
+    ? empty_poster_pic
+    : movie.poster;
+  const posterIsEmpty = movie.poster.startsWith("data");
+
   return (
     <div className="movie-container">
-      <img className="rectangle" alt="Rectangle" src={movie.poster} />
+      <img className="rectangle" alt="Rectangle" src={posterSrc} />
+      {posterIsEmpty && (
+        <div className="no-poster-text">No poster available</div>
+      )}
       <div className="div">
         <div className="text-wrapper">{movie.primaryTitle}</div>
       </div>

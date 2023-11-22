@@ -5,24 +5,23 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { filterSignals, page } from "../../pages/HomePage/HomePage";
-import { FilterState, MovieContent } from "../../interfaces";
+import { FilterState } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
+import "./FilterSideBar.css";
 
 interface FilterSideBarProps {
   open: boolean;
-  movies: MovieContent[] | [];
+  genres: string[] | [];
 }
 
-const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
+const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
-  // Get min and max values for each slider
-  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats(); // Get min and max values for each slider
 
   useEffect(() => {
-    console.log("isInitialSetupComplete", isInitialSetupComplete);
     if (isInitialSetupComplete) {
       updateSessionStorage();
     }
@@ -35,7 +34,18 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     totalVotesRange: [0, 0],
   });
 
+  // Fill filterStates with necessary data fetched either from the filterSignals in HomePage or from sessionStorage.
+  // Fill min- and max-values for each slider with values fetched from backend
   useEffect(() => {
+    getInitialState();
+  }, [statsData, isLoadingStats]);
+
+  //Console log sessionStorage
+  useEffect(() => {
+    console.log("sessionStorage", sessionStorage.getItem("filterStates"));
+  }, [filterStates]);
+
+  const getInitialState = () => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
     if (savedFilterStates) {
@@ -46,7 +56,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         selectedGenres: new Set<string>(parsedStates.selectedGenres),
       };
     } else if (statsData && !isLoadingStats) {
-      console.log("statsData", statsData);
       initialFilterStates = {
         yearRange: [
           statsData.releaseYearRange.min,
@@ -66,6 +75,17 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         ],
         selectedGenres: new Set<string>(),
       };
+    }
+
+    console.log("initialFilterStates", initialFilterStates);
+
+    if (initialFilterStates && statsData && !isLoadingStats) {
+      if (initialFilterStates.runtimeRange[1] === 301) {
+        initialFilterStates.runtimeRange[1] = statsData.runtimeMinutesRange.max;
+      }
+      if (initialFilterStates.totalVotesRange[1] === 10001) {
+        initialFilterStates.totalVotesRange[1] = statsData.totalVotesRange.max;
+      }
     }
 
     setFilterStates(initialFilterStates as FilterState);
@@ -115,12 +135,19 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
       });
     }
     setIsInitialSetupComplete(true);
-  }, [statsData, isLoadingStats]);
+  };
 
+  // Only show content if the sidebar is fully open
   const onSidebarTransitionEnd = () => {
-    // Only show content if the sidebar is fully open
     setContentVisible(open);
   };
+
+  // Hide content when sidebar starts closing
+  useEffect(() => {
+    if (!open) {
+      setContentVisible(false);
+    }
+  }, [open]);
 
   const updateSessionStorage = () => {
     const statesToSave = {
@@ -129,10 +156,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     };
     sessionStorage.setItem("filterStates", JSON.stringify(statesToSave));
   };
-
-  const uniqueGenres = Array.from(
-    new Set(movies.flatMap((movie: MovieContent) => movie.genres))
-  );
 
   const commitYearChange = (event: Event, newValue: number[]) => {
     setFilterStates((prevState) => ({
@@ -156,10 +179,18 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     []
   );
 
+  const runtimeLabelFormat = (value: number) => {
+    return value > 300 ? "300+" : value;
+  };
+
   const commitRuntimeChange = (event: Event, newValue: number[]) => {
+    const newValues = newValue;
+    if (newValues[1] === 301) {
+      newValues[1] = statsData?.runtimeMinutesRange.max ?? 300;
+    }
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
-      runtimeRange: newValue,
+      runtimeRange: newValues,
     }));
     updateSessionStorage();
   };
@@ -171,7 +202,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         ...filterSignals.value,
         runtimeMinutesRange: {
           min: newValue[0],
-          max: newValue[1],
+          max:
+            newValue[1] === 301 && statsData?.runtimeMinutesRange.max
+              ? statsData?.runtimeMinutesRange.max
+              : newValue[1],
         },
       };
     }, 500),
@@ -200,10 +234,20 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     []
   );
 
+  const totalVotesLabelFormat = (value: number) => {
+    return value > 10000 ? "10000+" : value;
+  };
+
   const commitTotalVotesChange = (event: Event, newValue: number[]) => {
+    const newValues = newValue;
+    console.log("newValues", newValues[1]);
+    if (newValues[1] === 10001) {
+      console.log("BALLE");
+      newValues[1] = statsData?.totalVotesRange.max ?? 10000;
+    }
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
-      totalVotesRange: newValue,
+      totalVotesRange: newValues,
     }));
     updateSessionStorage();
   };
@@ -215,7 +259,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
         ...filterSignals.value,
         totalVotesRange: {
           min: newValue[0],
-          max: newValue[1],
+          max:
+            newValue[1] === 10001 && statsData?.totalVotesRange.max
+              ? statsData?.totalVotesRange.max
+              : newValue[1],
         },
       };
     }, 500),
@@ -266,24 +313,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
     });
   };
 
-  const sidebarStyle = {
-    height: "100vh",
-    width: open ? "250px" : "0",
-    position: "fixed" as const,
-    zIndex: 1001,
-    top: 0,
-    left: 0,
-    backgroundColor: "#FFF",
-    overflowX: "hidden" as const,
-    transition: "0.4s",
-    padding: open ? "10px 20px" : "10px 0",
-    flexDirection: "column" as const,
-    display: "flex",
-    boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
-  };
-
   return (
-    <div style={sidebarStyle} onTransitionEnd={onSidebarTransitionEnd}>
+    <div
+      className={`sidebar ${open ? "" : "sidebar-closed"}`}
+      onTransitionEnd={onSidebarTransitionEnd}
+    >
       {contentVisible && (
         <>
           <h2>Filter movies:</h2>
@@ -324,9 +358,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 handleRuntimeChange(value as number[])
               }
               valueLabelDisplay="auto"
+              valueLabelFormat={runtimeLabelFormat}
               aria-labelledby="range-slider"
               min={minAndMaxValuesSliders.runtimeRange[0]}
-              max={minAndMaxValuesSliders.runtimeRange[1]}
+              max={301}
             />
           </div>
           <div>
@@ -366,9 +401,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
                 handleTotalVotesChange(value as number[])
               }
               valueLabelDisplay="auto"
+              valueLabelFormat={totalVotesLabelFormat}
               aria-labelledby="range-slider"
               min={minAndMaxValuesSliders.totalVotesRange[0]}
-              max={minAndMaxValuesSliders.totalVotesRange[1]}
+              max={10001}
             />
           </div>
           <FormGroup>
@@ -385,11 +421,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               }
               label="Age-limit 18+"
             />
-            {/* =========================================================================================== */}
           </FormGroup>
           <h3>Filter by genres</h3>
           <FormGroup>
-            {uniqueGenres.map((genre) => (
+            {genres.map((genre) => (
               <FormControlLabel
                 key={genre}
                 control={
@@ -405,7 +440,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, movies }) => {
               />
             ))}
           </FormGroup>
-          {/* =========================================================================================== */}
         </>
       )}
     </div>

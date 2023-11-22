@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: red; */
 }
 .join-us-container {
   background-color: #5279a3;
@@ -10,7 +9,7 @@
   height: 35vh;
   overflow: hidden;
   width: 60%;
-  min-width: 570px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,7 +30,7 @@
 .join-us-container .text-wrapper {
   color: #f5f5f5;
   font-family: "Gotham SSm-Bold", Helvetica;
-  font-size: 64px;
+  font-size: 4em;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -57,21 +56,25 @@
 .join-now-button {
   align-items: center;
   background: linear-gradient(
-    to right,
-    /* rgb(82, 121, 163) 0%, */ rgb(167.72, 205.14, 245.44) 3.6%,
-    rgb(75.77, 211.44, 203.3) 40.04%,
-    rgb(61.4, 219.94, 210.43) 100%,
-    rgb(13.47, 190.19, 179.58) 95.83%
+    101deg,
+    #5279a3 -64.72%,
+    #a8cdf5 -1.54%,
+    #4cd3cb 52.11%,
+    #3ddcd2 96.22%,
+    #0dbeb4 154.63%
   );
   background-color: rgba(255, 255, 255, 1);
   border-radius: 48px;
   display: inline-flex;
   justify-content: center;
-  padding: 8px 40px;
+  align-items: center;
+  padding: 0px 40px;
   position: relative;
+  border: none;
+  cursor: pointer;
 }
 
-.join-now-button {
+.join-now-button-text {
   background: none;
   border: none;
   color: #f5f5f5;
@@ -79,12 +82,16 @@
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 26px;
-  margin-top: -1px;
   position: relative;
   white-space: nowrap;
   width: fit-content;
-  cursor: pointer; /* Make the button appear clickable */
-  outline: none; /* Remove the default outline */
-  padding: 0; /* Remove any default padding */
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .join-us-container .text-wrapper {
+    font-size: 2.5em;
+  }
 }

@@ -1,4 +1,4 @@
-import { Resolvers } from "../../generated/resolvers-types";
+import { Movie, Resolvers } from "../../generated/resolvers-types";
 import { Context } from "../../src";
 
 // Helper functions=========================================================================================================
@@ -25,6 +25,15 @@ const getMoviesInLibrary = async (
   return moviesInLibrary;
 };
 
+/**
+ * Retrieves a specific library and its associated movies based on the given library ID.
+ *
+ * @param {string} libraryID - The unique identifier for the library to be fetched.
+ * @param {Context} context - The GraphQL context object, providing access to the Prisma client for database interactions.
+ * @returns {Promise<Library>} A promise that resolves to an object representing the library, including its associated movies.
+ *
+ * @throws {Error} Throws an error if the database query for either the library or its movies fails.
+ */
 const getLibrariesByID = async (libraryID: string, context: Context) => {
   const libraryPrisma = await context.prisma.library.findUnique({
     where: { libraryID: libraryID },
@@ -40,9 +49,91 @@ const getLibrariesByID = async (libraryID: string, context: Context) => {
   return library;
 };
 
+// Define a type for the shape of each library movie
+type LibraryMovie = { imdbID: string };
+
+/**
+ * Fetches detailed information about movies, including their genres.
+ * @param {LibraryMovie[]} libraryMovies - An array of objects containing IMDb IDs.
+ * @param {Context} context - The context object containing the Prisma client.
+ * @returns {Promise<Movie[]>} - A promise that resolves to an array of Movie objects with genre information.
+ */
+const getListOfAllMovies = async (
+  libraryMovies: LibraryMovie[],
+  context: Context
+): Promise<Movie[]> => {
+  const imdbIDs = libraryMovies.map((libMovie) => libMovie.imdbID);
+
+  const movies = await context.prisma.movie.findMany({
+    where: { imdbID: { in: imdbIDs } },
+  });
+
+  const movieGenres = await context.prisma.movieGenre.findMany({
+    where: { imdbID: { in: imdbIDs } },
+    include: {
+      Genre: true,
+    },
+  });
+
+  const genresMap: Record<string, string[]> = {};
+  movieGenres.forEach((movieGenre) => {
+    if (!genresMap[movieGenre.imdbID]) {
+      genresMap[movieGenre.imdbID] = [];
+    }
+    genresMap[movieGenre.imdbID].push(movieGenre.Genre.genreName); // Use genreName
+  });
+
+  const moviesWithGenres = movies.map((movie) => ({
+    ...movie,
+    genres: genresMap[movie.imdbID] || [],
+  }));
+
+  return moviesWithGenres;
+};
+
+/**
+ * Asynchronously retrieves all movies in a specific library by the library's ID.
+ *
+ * @param {string} libraryID - The unique identifier of the library.
+ * @param {Context} context - The GraphQL context object, providing access to the Prisma client.
+ * @returns {Promise<Movie[]>} - A promise that resolves to an array of Movie objects associated with the specified library.
+ *
+ * @throws {Error} - Throws an error if the database query fails.
+ */
+const getListOfAllMoviesInLibrary = async (
+  libraryID: string,
+  context: Context
+): Promise<Movie[]> => {
+  const libraryMovies = await context.prisma.libraryMovie.findMany({
+    where: { libraryID },
+    select: { imdbID: true },
+  });
+
+  return getListOfAllMovies(libraryMovies, context);
+};
+
+/**
+ * Asynchronously retrieves all movies in the user's favorites list.
+ *
+ * @param {Context} context - The GraphQL context object, providing access to the Prisma client.
+ * @returns {Promise<Movie[]>} - A promise that resolves to an array of Movie objects in the user's favorites list.
+ *
+ * @throws {Error} - Throws an error if the database query for fetching favorite movies fails.
+ */
+const getListOfAllMoviesInFavorites = async (
+  context: Context
+): Promise<Movie[]> => {
+  // Step 1: Fetch all movies in the library with their IMDb IDs
+  const libraryMovies = await context.prisma.userFavorites.findMany({
+    select: { imdbID: true },
+  });
+
+  return getListOfAllMovies(libraryMovies, context);
+};
+
 // Resolvers=========================================================================================================
 export const libraryResolver: Resolvers = {
-  // Queries=====================================================================================================
+  // Queries=========================================================================================================
   Query: {
     /**
      * Retrieves a library by its unique identifier.
@@ -52,10 +143,33 @@ export const libraryResolver: Resolvers = {
      * @param {string} libraryID - The unique identifier of the library.
      * @param {Context} context - The context object containing the Prisma client.
      * @returns {Promise<Library>} A promise resolving to the library object.
+     * @throws {Error} - Throws an error if the database query fails.
      */
     libraryByID: async (_, { libraryID }, context: Context) => {
       try {
         return getLibrariesByID(libraryID, context);
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    /**
+     * Retrieves a list of movies from either a specific library or the user's favorites, based on the provided library ID.
+     * @function
+     * @async
+     * @param {object} _ - The root object, which remains unused in this resolver.
+     * @param {string} libraryID - The unique identifier of the library, or "favorites" to indicate the user's favorite movies.
+     * @param {Context} context - The GraphQL context object, providing access to the Prisma client for database interactions.
+     * @returns {Promise<Movie[]>} A promise that resolves to an array of movies from the specified library or the user's favorites.
+     *
+     * @throws {Error} Throws an error if the retrieval process encounters any issues.
+     */
+    moviesByLibraryID: async (_, { libraryID }, context: Context) => {
+      try {
+        if (libraryID === "favorites") {
+          return getListOfAllMoviesInFavorites(context);
+        }
+        return getListOfAllMoviesInLibrary(libraryID, context);
       } catch (error) {
         throw new Error(error);
       }
@@ -109,7 +223,9 @@ export const libraryResolver: Resolvers = {
     },
 
     /**
-     * Retrieves a library by the user's identifier and the library's name.
+     * Not used in the current version of the application, planed for future use to retrieve a library
+     * by the user's name and the library's name like spotify for libraries
+     * Retrieves a library by the user's name and the library's name.
      * @function
      * @async
      * @param {object} _ - The parent object, which is not used in this resolver.
@@ -118,6 +234,7 @@ export const libraryResolver: Resolvers = {
      * @param {Context} context - The context object containing the Prisma client.
      * @returns {Promise<Library>} A promise resolving to the library object.
      */
+
     libraryByUserAndName: async (_, { userID, name }, context: Context) => {
       try {
         const libraryPrisma = await context.prisma.library.findUnique({
@@ -147,6 +264,7 @@ export const libraryResolver: Resolvers = {
 
     /**
      * Retrieves a list of libraries with pagination.
+     * Not currecntly used in the application, planned for future use.
      * @function
      * @async
      * @param {object} _ - The parent object, which is not used in this resolver.

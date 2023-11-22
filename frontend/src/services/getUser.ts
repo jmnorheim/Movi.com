@@ -73,6 +73,7 @@ export const getUserByID = async (userID: string): Promise<User> => {
  * React Query hook for user data by unique ID.
  * @param {string} userID
  * @returns {object}
+ * Note: The query is only enabled when a valid movie object is provided.
  */
 export const useUserQuery = (userID: string) => {
   return useQuery({

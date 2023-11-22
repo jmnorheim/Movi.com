@@ -1,12 +1,14 @@
 import { useAuth } from "../../services/auth/AuthContext";
 import MovieContainer from "../../components/movieContainer/MovieContainer";
-import { Movie, MovieContent } from "../../interfaces";
+import { MovieContent } from "../../interfaces";
 import "./MovieContainerGrid.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { page } from "../../pages/HomePage/HomePage";
 
 // Icons
 import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
+import AddToLibraryButton from "../addToLibraryButton/AddToLibraryButton";
 
 interface MovieContainerGridProps {
   movies: MovieContent[];
@@ -19,17 +21,35 @@ const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
     Record<string, Record<string, boolean>>
   >({});
 
+  const storePageValue = () => {
+    sessionStorage.setItem("pageNumber", page.value.toString());
+  };
+
   return (
     <div className="MovieContainerGrid">
       {movies.map((movie, index) => (
-        <div key={index} style={{ position: "relative" }}>
-          <Link to={"/movie/" + movie.imdbID} key={movie.imdbID}>
+        <div
+          key={index}
+          style={{ position: "relative", textDecoration: "none" }}
+        >
+          <Link
+            to={"/movie/" + movie.imdbID}
+            key={movie.imdbID}
+            style={{ textDecoration: "none" }}
+            onClick={storePageValue}
+          >
             <MovieContainer movie={movie} />
           </Link>
-          <button className="button">
-            <div className="text-wrapper-2">Add To Library</div>
-            <ArrowDownIcon className="icon-instance" />
-          </button>
+          {isLoggedIn && (
+            <AddToLibraryButton
+              imdbID={movie.imdbID}
+              width="120px"
+              height="25px"
+              fontSize="12px"
+              dropdownPosition={{ top: "98%", left: "55%" }}
+              dropDownItemMaxWidth="140px"
+            />
+          )}
         </div>
       ))}
     </div>

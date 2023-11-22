@@ -4,6 +4,7 @@ html {
   margin: 0; /* Removes default margins */
   height: 100%; /* Ensures that html and body cover the full viewport height */
   width: 100%; /* Ensures that html and body cover the full viewport width */
+  max-width: 100vw;
 }
 
 .homePageContainer {
@@ -23,6 +24,7 @@ html {
   justify-content: center;
   flex-direction: column;
   padding-top: 50px;
+  max-width: 100vw;
   /* background-color: red; */
 }
 
@@ -39,7 +41,35 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 0px;
+  /* margin-top: 5px; */
+  /* background-color: red; */
+}
+
+.paginationContainer {
+}
+
+.spacer {
+  flex-grow: 1.6;
+}
+
+.spacer-2 {
+  flex-grow: 1;
+}
+
+.paginationAndSortContainer {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortMenuContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* padding-top: 30px; */
+  padding-right: 8%;
+  margin-left: auto;
   /* background-color: red; */
 }
 
@@ -50,17 +80,8 @@ html {
   /* background-color: green; */
 }
 
-.sortMenuContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-top: 30px;
-  padding-right: 8%;
-  /* background-color: red; */
-}
-
 .gridContainer {
-  padding-top: 50px;
+  padding-top: 10px;
   /* background-color: blue; */
 }
 
@@ -74,4 +95,20 @@ html {
   color: #3d405b;
   text-align: center;
   /* background-color: red; */
+}
+
+@media screen and (max-width: 768px) {
+  .paginationAndSortContainer {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    /* justify-content: center; */
+  }
+
+  .sortMenuContainer {
+    justify-content: center;
+    padding-right: 0;
+    margin-left: 0;
+    padding-top: 10px;
+  }
 }

@@ -1,0 +1,16 @@
+.favorite-button {
+  background-color: transparent;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3em;
+  height: 3em;
+}
+
+.favorite-button .vuesax-linear-heart {
+  width: 100%;
+  height: 100%;
+}

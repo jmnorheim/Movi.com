@@ -1,6 +1,5 @@
-import { Library, User } from "../../interfaces";
+import { Library } from "../../interfaces";
 import { Link } from "react-router-dom";
-import MyLibaryContainer from "../myLibraryContainer/MyLibraryContainer";
 import "./MyLibrariesGrid.css";
 
 import star from "../../assets/images/star.svg";
@@ -11,12 +10,11 @@ interface MyLibrariesGridProps {
   libraries: Library[] | null;
   onCreateNewPress: (value: boolean) => void;
 }
+
 const MyLibrariesGrid = ({
-  libraries,
+  libraries = [],
   onCreateNewPress,
 }: MyLibrariesGridProps) => {
-  console.log("Libraries inside the grid:", libraries);
-
   return (
     <div className="MyLibrariesGrid">
       <Link to={"/my-library/favorites"}>
@@ -27,14 +25,18 @@ const MyLibrariesGrid = ({
           </div>
         </div>
       </Link>
-      {libraries?.map(
-        (library, index) =>
-          index > 0 && (
-            <Link to={"/my-library/" + library.name} key={index}>
-              <MyLibraryContainer library={library} />
-            </Link>
-          )
-      )}
+      {Array.isArray(libraries) &&
+        libraries?.map(
+          (library, index) =>
+            index >= 0 && (
+              <Link
+                to={"/my-library/" + library.libraryID + ":" + library.name}
+                key={index}
+              >
+                <MyLibraryContainer library={library} />
+              </Link>
+            )
+        )}
       <div className="add-new-container">
         <button
           className="add-new-button"

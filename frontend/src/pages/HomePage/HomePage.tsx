@@ -1,31 +1,22 @@
-import { useEffect, useState } from "react";
-import {
-  CurrentFilter,
-  Movie,
-  MovieContent,
-  User,
-  MovieStats,
-} from "../../interfaces";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef, useState } from "react";
+import { MovieContent } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
 import { useAuth } from "../../services/auth/AuthContext";
 
-import SearchBar from "../../components/searchBar/SearchBar";
-// import SortMenu from "../../components/sortMenu/SortMenu";
-import FilterMenu from "../../components/filterMenu/FilterMenu";
-
-import headerImage from "./img.png";
 import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
 import PageFooter from "../../components/pageFooter/PageFooter";
 import { MovieFilter, SortType } from "../../generated/graphql";
 import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 
-import { Signal, effect, signal, useSignal } from "@preact/signals-react";
+import { effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
-import { useMovies } from "../../services/getMovies";
+import { handlePreFetch, useMovies } from "../../services/getMovies";
 import { TablePagination } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface FilterSettings {
   releaseYearRange: { max: number; min: number };
@@ -39,16 +30,19 @@ interface FilterSettings {
 //Signals that contain the selected filters from the FilterSideBar-component
 export const filterSignals = signal<FilterSettings>({
   releaseYearRange: { max: 2023, min: 1900 },
-  runtimeMinutesRange: { max: 300, min: 0 },
+  runtimeMinutesRange: { max: 300, min: 1 },
   averageRatingRange: { max: 10, min: 0 },
   totalVotesRange: { max: 2900000, min: 0 },
   genres: [],
   isAdult: false,
 });
 
-export const currentSearch = signal<string>("");
+export const currentSearch = signal<string>(
+  sessionStorage.getItem("search") || ""
+);
 
-//Signal that contains the current page number and the number of rows per page are stored externally from the page component
+//Signals that contain the current page number and the number of rows per page - stored externally from the page component
+//Initialvalue of page is either the value stored in sessionStorage or 0
 export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
@@ -59,17 +53,10 @@ const rowsPerPage = signal<number>(10);
  * @returns {React.FC}
  */
 const HomePage: React.FC = () => {
-  const [originalMovies, setOriginalMovies] = useState<MovieContent[] | null>(
-    null
-  ); // All movies
-  const [movies, setMovies] = useState<MovieContent[] | null>(null); // Movies that are actually displayed on the page (e.g. after filtering)
-  const [currentSort, setCurrentSort] = useState<SortType | null>(null);
-  const [currentFilter, setCurrentFilter] = useState<{
-    isAdult?: boolean;
-    genres?: string[];
-  }>({ isAdult: false, genres: [] });
-
-  //TODO: change to signal and set this to 0 when the filter, search or sort changes
+  const [movies, setMovies] = useState<MovieContent[] | null>(null);
+  const [currentSort, setCurrentSort] = useState<SortType | null>(
+    (sessionStorage.getItem("sort") as SortType) || null
+  );
 
   const { data, isLoading } = useMovies(
     page.value,
@@ -79,118 +66,56 @@ const HomePage: React.FC = () => {
     currentSort as SortType
   );
 
-  const { email } = useAuth();
-
   // Set color of text in Navbar to white
   effect(() => {
     navbarColor.value = "white";
   });
 
-  // =======================================================================================================================
+  // Set initial-value of page-signal =======================================================================================
+
+  useEffect(() => {
+    const storedPageValue = sessionStorage.getItem("pageNumber");
+    if (storedPageValue) {
+      page.value = Number(JSON.parse(storedPageValue));
+    }
+  }, []);
+
+  // Automatic scrolling when searching =====================================================================================
+
+  const contentContainerRef = useRef<HTMLDivElement>(null);
+
+  const prevSearchValueRef = useRef("");
+
+  useEffect(() => {
+    const currentSearchValue = currentSearch.value;
+
+    if (currentSearchValue === "") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (
+      contentContainerRef.current &&
+      currentSearchValue.length > prevSearchValueRef.current.length
+    ) {
+      contentContainerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    prevSearchValueRef.current = currentSearchValue;
+  }, [currentSearch.value]);
+
+  // Set movies=============================================================================================================
 
   useEffect(() => {
     if (data) {
-      // Fetch the current user's favorites from localStorage
       setMovies(data.movies);
-      setOriginalMovies(data.movies);
-      console.log("Data has been set");
     }
   }, [data]);
 
-  // Sorting==================================================================================================================
+  // Sorting=================================================================================================================
 
   const handleSort = (sortType: SortType) => {
-    setCurrentSort(sortType); // Save the current sort type
-
-    if (!movies) return;
-
-    const sortedMovies = applySort(movies, sortType);
-    setMovies(sortedMovies); // Cast sortedMovies to Movie[] type
+    setCurrentSort(sortType);
   };
 
-  const applySort = (
-    movieList: MovieContent[],
-    sortType: SortType
-  ): MovieContent[] => {
-    if (sortType === null) return originalMovies as Movie[];
-
-    return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
-      switch (sortType) {
-        case SortType.TitleAz:
-          return a.primaryTitle.localeCompare(b.primaryTitle);
-        case SortType.TitleZa:
-          return b.primaryTitle.localeCompare(a.primaryTitle);
-        case SortType.RatingHilo:
-          return b.averageRating - a.averageRating;
-        case SortType.RatingLohi:
-          return a.averageRating - b.averageRating;
-        case SortType.DurationHilo:
-          return b.runtimeMinutes - a.runtimeMinutes;
-        case SortType.DurationLohi:
-          return a.runtimeMinutes - b.runtimeMinutes;
-        case SortType.YearHilo:
-          return b.startYear - a.startYear;
-        case SortType.YearLohi:
-          return a.startYear - b.startYear;
-        default:
-          return 0;
-      }
-    });
-  };
-
-  // Filtering=============================================================================================================
-
-  const handleFilter = (filterTypeList: CurrentFilter) => {
-    const newFilter = {
-      isAdult: filterTypeList.isAdult,
-      genres: filterTypeList.genres,
-    };
-
-    setCurrentFilter(newFilter);
-
-    // If no filters are applied, reset the movies state to the original list
-    if (
-      !newFilter.isAdult &&
-      (!newFilter.genres || newFilter.genres.length === 0)
-    ) {
-      setMovies(originalMovies);
-      return;
-    }
-
-    // Apply filters and set the movies state
-    if (originalMovies) {
-      const filteredMovies = applyFilter(originalMovies, newFilter);
-      setMovies(filteredMovies);
-    }
-  };
-
-  // Apply the current filter to a list of movies
-  const applyFilter = (
-    movieList: MovieContent[],
-    newFilter: CurrentFilter
-  ): MovieContent[] => {
-    return movieList.filter((movie) => {
-      // Check isAdult filter
-      if (
-        newFilter.isAdult !== undefined &&
-        movie.isAdult !== newFilter.isAdult
-      ) {
-        return false;
-      }
-
-      // Check genres filter
-      if (newFilter.genres && newFilter.genres.length) {
-        // Ensure all selected genres are present in the movie's genres list
-        if (!newFilter.genres.every((genre) => movie.genres.includes(genre))) {
-          return false;
-        }
-      }
-
-      return true; // If neither the isAdult nor genres filter is active, include the movie
-    });
-  };
-
-  // =======================================================================================================================
+  // Pagination==============================================================================================================
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -207,36 +132,85 @@ const HomePage: React.FC = () => {
     page.value = 0;
   };
 
+  const queryClient = useQueryClient();
+  const handlePreFetching = async (): Promise<void> => {
+    await handlePreFetch(
+      queryClient,
+      page.value,
+      rowsPerPage.value,
+      currentSearch.value,
+      filterSignals.value as MovieFilter,
+      currentSort as SortType
+    );
+  };
+
+  const handleHoverOnRightArrow = () => {
+    void handlePreFetching();
+  };
+
+  // Handle pre-fetching when hovering over the right arrow on the HandlePagination component
+  useEffect(() => {
+    const attachHoverListener = () => {
+      const rightArrowButton = document.querySelector(
+        '.MuiTablePagination-actions button[aria-label="Go to next page"]'
+      );
+      if (rightArrowButton) {
+        rightArrowButton.addEventListener(
+          "mouseenter",
+          handleHoverOnRightArrow
+        );
+      }
+    };
+
+    attachHoverListener();
+
+    // Re-attach the listener when pagination updates
+    return () => {
+      const rightArrowButton = document.querySelector(
+        '.MuiTablePagination-actions button[aria-label="Go to next page"]'
+      );
+      if (rightArrowButton) {
+        rightArrowButton.removeEventListener(
+          "mouseenter",
+          handleHoverOnRightArrow
+        );
+      }
+    };
+  }, [movies]);
+
+  // JSX====================================================================================================================
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="homePageContainer">
-      <div>{filterSignals.value.genres}</div>
       <div className="pageContainer>">
         <div className="headerContainer">
-          {originalMovies && (
-            <HomePageHeader
-              movies={originalMovies}
-              onFilter={handleFilter}
-            ></HomePageHeader>
-          )}
+          {data && <HomePageHeader genres={data.genres}></HomePageHeader>}
         </div>
-        <div className="contentContainer">
-          {data && (
-            <TablePagination
-              className="pagination"
-              component="div"
-              count={data.count}
-              page={page.value}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage.value}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          )}
-          <div className="sortMenuContainer">
-            <SortMenu
-              onSort={(value) => handleSort(value as SortType)}
-            ></SortMenu>
+        <div ref={contentContainerRef} className="contentContainer">
+          <div className="paginationAndSortContainer">
+            <div className="spacer"></div>
+            <div className="paginationContainer">
+              {data && (
+                <TablePagination
+                  sx={{ size: "large" }}
+                  className="pagination custom-pagination"
+                  component="div"
+                  count={data.count}
+                  page={page.value}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage.value}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              )}
+            </div>
+            <div className="spacer-2"></div>
+            <div className="sortMenuContainer">
+              <SortMenu
+                onSort={(value) => handleSort(value as SortType)}
+              ></SortMenu>
+            </div>
           </div>
 
           <div className="gridContainer">

@@ -29,6 +29,7 @@
 .profile-container .back-button {
   background: red;
   border: none;
+  cursor: pointer;
 }
 
 .profile-container .movie-background {
@@ -55,7 +56,7 @@
   left: 196px;
   position: absolute;
   top: 180px;
-  /* background-color: yellow; */
+  max-width: 45vw;
 }
 
 .profile-container .text-wrapper {
@@ -64,13 +65,14 @@
   font-size: 64px;
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 64px;
+  line-height: 80px;
   margin-top: -1px;
   position: relative;
-  text-align: center;
-  white-space: nowrap;
-  width: fit-content;
-  max-width: 30vw;
+  text-align: left;
+  width: 50vw;
+  max-width: 50vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-container .div-2 {
@@ -84,10 +86,11 @@
   flex-direction: column;
   gap: 8px;
   justify-content: center;
-  padding: 8px 290px 8px 24px;
+  padding: 8px 40vw 8px 24px;
+  max-width: 100%;
+  box-sizing: border-box;
   position: relative;
-  width: 30vw;
-  height: 20vh;
+  height: fit-content;
 }
 
 .profile-container .text-wrapper-2 {
@@ -113,6 +116,9 @@
   position: relative;
   white-space: nowrap;
   width: fit-content;
+  max-width: 50vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-container .text-wrapper-4 {
@@ -125,6 +131,9 @@
   position: relative;
   white-space: nowrap;
   width: fit-content;
+  max-width: 50vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-container .button {
@@ -157,4 +166,39 @@
 }
 
 .page-footer {
+}
+
+@media screen and (max-width: 900px) {
+  .profile-container .text-wrapper {
+    font-size: 30px;
+    line-height: 48px;
+    justify-content: flex-start;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 70vw;
+    max-width: 70vw;
+  }
+
+  .profile-container .text-wrapper-2 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .profile-container .text-wrapper-3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .profile-container .div {
+    width: 70vw;
+    max-width: 70vw;
+  }
+
+  .profile-container .div-2 {
+    padding: 8px 50vw 8px 24px;
+    box-sizing: border-box;
+    max-width: 70vw;
+  }
 }

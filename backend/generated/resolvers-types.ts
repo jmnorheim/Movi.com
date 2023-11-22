@@ -52,6 +52,19 @@ export type MovieFilter = {
   totalVotesRange?: InputMaybe<VotesRange>;
 };
 
+export type MovieInput = {
+  averageRating: Scalars['Float']['input'];
+  genres: Array<Scalars['String']['input']>;
+  imdbID: Scalars['ID']['input'];
+  isAdult: Scalars['Boolean']['input'];
+  originalTitle: Scalars['String']['input'];
+  poster?: InputMaybe<Scalars['String']['input']>;
+  primaryTitle: Scalars['String']['input'];
+  runtimeMinutes: Scalars['Int']['input'];
+  startYear: Scalars['Int']['input'];
+  totalVotes: Scalars['Int']['input'];
+};
+
 export type MovieStats = {
   __typename?: 'MovieStats';
   averageRatingRange: Range;
@@ -63,6 +76,7 @@ export type MovieStats = {
 export type MoviesData = {
   __typename?: 'MoviesData';
   count: Scalars['Int']['output'];
+  genres: Array<Scalars['String']['output']>;
   movies: Array<Movie>;
 };
 
@@ -144,6 +158,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getRecommendedMovies: Array<Movie>;
   libraries: Array<Library>;
   librariesByUserID: Array<Library>;
   libraryByID: Library;
@@ -153,10 +168,16 @@ export type Query = {
   movieInFavoriteByUserID: Scalars['Boolean']['output'];
   movieStats: MovieStats;
   movies: MoviesData;
+  moviesByLibraryID?: Maybe<Array<Movie>>;
   userByEmail: User;
   userByID: User;
   users: Array<User>;
   verifyPassword: Scalars['Boolean']['output'];
+};
+
+
+export type QueryGetRecommendedMoviesArgs = {
+  movie: MovieInput;
 };
 
 
@@ -207,6 +228,11 @@ export type QueryMoviesArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   searchBy?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<SortType>;
+};
+
+
+export type QueryMoviesByLibraryIdArgs = {
+  libraryID: Scalars['ID']['input'];
 };
 
 
@@ -353,6 +379,7 @@ export type ResolversTypes = ResolversObject<{
   MinutesRange: MinutesRange;
   Movie: ResolverTypeWrapper<Movie>;
   MovieFilter: MovieFilter;
+  MovieInput: MovieInput;
   MovieStats: ResolverTypeWrapper<MovieStats>;
   MoviesData: ResolverTypeWrapper<MoviesData>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -376,6 +403,7 @@ export type ResolversParentTypes = ResolversObject<{
   MinutesRange: MinutesRange;
   Movie: Movie;
   MovieFilter: MovieFilter;
+  MovieInput: MovieInput;
   MovieStats: MovieStats;
   MoviesData: MoviesData;
   Mutation: {};
@@ -420,6 +448,7 @@ export type MovieStatsResolvers<ContextType = any, ParentType extends ResolversP
 
 export type MoviesDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['MoviesData'] = ResolversParentTypes['MoviesData']> = ResolversObject<{
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  genres?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   movies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -438,6 +467,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getRecommendedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryGetRecommendedMoviesArgs, 'movie'>>;
   libraries?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, Partial<QueryLibrariesArgs>>;
   librariesByUserID?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, RequireFields<QueryLibrariesByUserIdArgs, 'userID'>>;
   libraryByID?: Resolver<ResolversTypes['Library'], ParentType, ContextType, RequireFields<QueryLibraryByIdArgs, 'libraryID'>>;
@@ -447,6 +477,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   movieInFavoriteByUserID?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryMovieInFavoriteByUserIdArgs, 'imdbID' | 'userID'>>;
   movieStats?: Resolver<ResolversTypes['MovieStats'], ParentType, ContextType>;
   movies?: Resolver<ResolversTypes['MoviesData'], ParentType, ContextType, Partial<QueryMoviesArgs>>;
+  moviesByLibraryID?: Resolver<Maybe<Array<ResolversTypes['Movie']>>, ParentType, ContextType, RequireFields<QueryMoviesByLibraryIdArgs, 'libraryID'>>;
   userByEmail?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByEmailArgs, 'email'>>;
   userByID?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserByIdArgs, 'userID'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUsersArgs>>;

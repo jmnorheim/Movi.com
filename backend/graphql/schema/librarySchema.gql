@@ -3,6 +3,7 @@ type Query {
   libraryByID(libraryID: ID!): Library!
   libraryByUserAndName(userID: ID!, name: String!): Library!
   librariesByUserID(userID: ID!, limit: Int, offset: Int): [Library!]!
+  moviesByLibraryID(libraryID: ID!): [Movie!]
 }
 
 type Mutation {

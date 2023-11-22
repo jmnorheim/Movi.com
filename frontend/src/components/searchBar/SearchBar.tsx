@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useState } from "react";
 import { FormControl, TextField, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,8 +18,9 @@ const TypeSearch = () => {
     debounce((searchString: string) => {
       page.value = 0;
       currentSearch.value = searchString;
+      sessionStorage.setItem("search", searchString);
     }, 800),
-    [] // Dependency array is empty, so this function is created only once
+    []
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -30,9 +32,18 @@ const TypeSearch = () => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
+    if (event.key === "Enter") {
+      page.value = 0;
+      currentSearch.value = searchValue;
+      sessionStorage.setItem("search", searchValue);
+    }
+  };
+
   const handleClick = (): void => {
     setSearchValue("");
     currentSearch.value = "";
+    sessionStorage.setItem("search", "");
     page.value = 0;
   };
 
@@ -43,6 +54,7 @@ const TypeSearch = () => {
           value={searchValue}
           variant="outlined"
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           placeholder="Search for any movie..."
           sx={{
             "& .MuiOutlinedInput-root": {

@@ -14,20 +14,7 @@ export interface MovieContent {
 export interface MovieData {
   movies: MovieContent[];
   count: number;
-}
-
-export interface Movie {
-  imdbID: string;
-  primaryTitle: string;
-  originalTitle: string;
-  isAdult: boolean;
-  startYear: number;
-  runtimeMinutes: number;
   genres: string[];
-  averageRating: number;
-  totalVotes: number;
-  poster: string;
-  favorited: boolean;
 }
 
 export interface MovieStats {
@@ -49,6 +36,7 @@ export interface User {
 export interface Library {
   name: string;
   movies: string[];
+  libraryID: string;
 }
 
 export interface CurrentFilter {
