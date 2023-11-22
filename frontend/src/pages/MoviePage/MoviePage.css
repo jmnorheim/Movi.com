@@ -83,7 +83,7 @@
   letter-spacing: 0;
   line-height: 24px;
   position: relative;
-  width: 90vw;
+  width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -177,6 +177,14 @@
 }
 
 .movie-card .div-6 {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
+}
+
+.movie-card .div-7 {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;

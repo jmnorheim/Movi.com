@@ -152,7 +152,7 @@ const MoviePage: React.FC = () => {
                     </div>
                   </div>
                   {userID && (
-                    <div className="div-5">
+                    <div className="div-7">
                       <AddToLibraryButton
                         imdbID={movie.imdbID}
                         width="230px"

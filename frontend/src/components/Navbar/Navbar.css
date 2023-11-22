@@ -66,9 +66,10 @@ html {
   /* background-color: yellow; */
 }
 
-.navbar .column {
+.navbar .logo {
   flex: 0 0 auto;
   position: relative;
+  cursor: pointer;
 }
 
 .navbar .navbar-wrapper {
