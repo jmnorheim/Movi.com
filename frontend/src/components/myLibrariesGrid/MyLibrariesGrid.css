@@ -27,13 +27,13 @@
   align-items: center;
   display: inline-flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 100px;
   position: relative;
 }
 
 .favorites-container .big.star {
   height: 248.74px;
-  position: relative;
+  position: absolute;
   width: 261.54px;
 }
 
@@ -61,6 +61,7 @@
   overflow: hidden;
   width: 421px;
   background: transparent;
+  cursor: pointer;
 }
 
 .add-new-container .div {
