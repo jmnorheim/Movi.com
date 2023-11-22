@@ -6,6 +6,7 @@ import { describe, it, vi, expect } from "vitest";
 import LibraryPage from "../../../src/pages/LibraryPage/LibraryPage";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import MoviePage from "../../../src/pages/MoviePage/MoviePage";
+import Module from "module";
 
 /**
  * @vitest-environment jsdom
@@ -25,7 +26,7 @@ vi.mock("../../../src/services/getMovies.ts", () => ({
  * AuthContext.tsx`: Mocks `useAuth` to simulate an authenticated user context.
  */
 vi.mock("../../../src/services/auth/AuthContext.tsx", async () => {
-  const actual = await vi.importActual(
+  const actual: Module = await vi.importActual(
     "../../../src/services/auth/AuthContext.tsx"
   );
   return {

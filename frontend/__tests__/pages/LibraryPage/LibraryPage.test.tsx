@@ -1,14 +1,11 @@
 import React from "react";
-import {
-  render as rtlRender,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { render as rtlRender, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, it, vi, expect } from "vitest";
 import LibraryPage from "../../../src/pages/LibraryPage/LibraryPage";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
+import Module from "module";
 
 /**
  * @vitest-environment jsdom
@@ -21,7 +18,7 @@ window.alert = vi.fn();
  * react-router-dom`: Mocks `useParams` and `useNavigate` hooks for routing.
  */
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
+  const actual: Module = await vi.importActual("react-router-dom");
   return {
     ...actual,
     useParams: () => ({ libraryProp: "library123 : My Library" }),
@@ -40,7 +37,7 @@ vi.mock("../../../src/services/getMovies.ts", () => ({
  * AuthContext.tsx`: Mocks `useAuth` to simulate an authenticated user context.
  */
 vi.mock("../../../src/services/auth/AuthContext.tsx", async () => {
-  const actual = await vi.importActual(
+  const actual: Module = await vi.importActual(
     "../../../src/services/auth/AuthContext.tsx"
   );
   return {

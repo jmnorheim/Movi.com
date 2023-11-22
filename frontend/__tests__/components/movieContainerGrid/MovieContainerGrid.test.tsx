@@ -2,16 +2,16 @@ import { render as rtlRender, screen } from "@testing-library/react";
 import React from "react";
 import { describe, it, vi, expect } from "vitest";
 import MovieContainerGrid from "../../../src/components/movieContainerGrid/MovieContainerGrid";
-import { Movie } from "../../../src/interfaces";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
+import { MovieContent } from "../../../src/interfaces";
 
 /**
  * @vitest-environment jsdom
  */
 
 /** Mocked movie */
-const mockMovies: Movie[] = [
+const mockMovies: MovieContent[] = [
   {
     imdbID: "1",
     primaryTitle: "Test Movie 1",
@@ -23,7 +23,6 @@ const mockMovies: Movie[] = [
     averageRating: 8.5,
     totalVotes: 2000,
     poster: "https://example.com/testmovie1.jpg",
-    favorited: false,
   },
 ];
 
