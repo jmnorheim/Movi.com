@@ -67,6 +67,6 @@ export interface FilterState {
   selectedGenres: Set<string>;
 }
 
-export const SERVER_URL = "http://192.168.0.105:4000/";
+export const SERVER_URL = "http://localhost:4000/";
 // http://localhost:4000/
 // http://it2810-29.idi.ntnu.no:4000
