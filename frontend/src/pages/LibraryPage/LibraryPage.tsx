@@ -131,39 +131,44 @@ const LibraryPage: React.FC = () => {
               </div>
             </div>
 
-            {movies.map((movie, index) => (
-              <div key={movie.imdbID} className="list-row">
-                <Link to={"/movie/" + movie.imdbID}>
-                  <div className="group">
-                    <div className="text-wrapper">
-                      {formatNumber(index + 1)}
+            {movies &&
+              Array.isArray(movies) &&
+              movies.map((movie, index) => (
+                <div key={movie.imdbID} className="list-row">
+                  <Link to={"/movie/" + movie.imdbID}>
+                    <div className="group">
+                      <div className="text-wrapper">
+                        {formatNumber(index + 1)}
+                      </div>
+                      <div className="div">{movie.primaryTitle}</div>
+                      <div className="text-wrapper-2">
+                        {movie.averageRating}
+                      </div>
+                      <div className="text-wrapper-3">
+                        {movie.runtimeMinutes} Minutes
+                      </div>
+                      <ClearIcon
+                        data-testid={`delete-movie-${movie.imdbID}`}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevents link activation
+                          e.preventDefault(); // Prevents link activation
+                          handleDelete(movie.imdbID);
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          opacity: 1,
+                          fontSize: "3em",
+                          position: "absolute",
+                          right: 0,
+                          color: "red",
+                          zIndex: 10,
+                        }}
+                      />
                     </div>
-                    <div className="div">{movie.primaryTitle}</div>
-                    <div className="text-wrapper-2">{movie.averageRating}</div>
-                    <div className="text-wrapper-3">
-                      {movie.runtimeMinutes} Minutes
-                    </div>
-                    <ClearIcon
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevents link activation
-                        e.preventDefault(); // Prevents link activation
-                        handleDelete(movie.imdbID);
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        opacity: 1,
-                        fontSize: "3em",
-                        position: "absolute",
-                        right: 0,
-                        color: "red",
-                        zIndex: 10,
-                      }}
-                    />
-                  </div>
-                </Link>
-                {/* Clear icon as delete button */}
-              </div>
-            ))}
+                  </Link>
+                  {/* Clear icon as delete button */}
+                </div>
+              ))}
           </div>
         )}
       </div>
