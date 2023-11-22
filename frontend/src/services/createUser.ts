@@ -23,12 +23,23 @@ const CREATE_USER = graphql(`
   }
 `);
 
+/**
+ * Creates a new user account and adds it to the database.
+ *
+ * This function sends a GraphQL mutation to create a new user with a specified username, email, and password. The password is hashed at the backend for security. The function returns the newly created user data.
+ *
+ * @param {string} username - The desired username for the new user.
+ * @param {string} email - The email address associated with the new user account.
+ * @param {string} password - The password for the new user account. It will be hashed at the backend.
+ * @returns {Promise<User>} A promise that resolves to an object containing the newly created user's information.
+ *
+ * @throws {Error} Throws an error if the GraphQL request fails or if there's an issue with user creation on the server.
+ */
 export const createUser = async (
   username: string,
   email: string,
   password: string
 ): Promise<User> => {
-  const endpoint = SERVER_URL;
   // Password is Hashed in backend
 
   const variables = {
@@ -36,6 +47,6 @@ export const createUser = async (
     email,
     password,
   };
-  const data = await request(endpoint, CREATE_USER, variables);
-  return data.createUser;
+  const { createUser } = await request(SERVER_URL, CREATE_USER, variables);
+  return createUser;
 };

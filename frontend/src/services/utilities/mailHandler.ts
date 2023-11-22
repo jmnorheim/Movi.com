@@ -13,6 +13,5 @@ export async function sendEmail(to: string) {
     Port: 2525,
   }).then((message: any) => {
     Promise.resolve();
-    console.log(message);
   });
 }

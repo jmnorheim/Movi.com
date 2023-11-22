@@ -67,27 +67,25 @@
   min-height: 20px;
   min-width: 20px;
   margin-right: 10px;
-} 
+}
 
 .dropdown-menu-library .dropdown-item:hover {
   background-color: #79b5f5;
 }
 
 .dropdown-item {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #f0f0f0;
-    color: #333;
-    
-  }
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
 
 .button-arrow-down-icon {
-    cursor: pointer;
-   
-  }
+  cursor: pointer;
+}
 
 .icon-instance {
   transition: transform 0.2s ease-in-out;
@@ -101,4 +99,3 @@
 .alert-hidden {
   transform: translateY(100%);
 }
-

@@ -2,8 +2,8 @@
 .MyLibrariesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 40px; 
-  justify-content: center; 
+  gap: 40px;
+  justify-content: center;
   align-items: center;
   max-width: 100%;
   overflow: hidden;
@@ -110,7 +110,6 @@
     padding-left: 16%;
   }
 
-  
   .favorites-container {
     width: 340px;
   }

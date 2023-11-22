@@ -1,6 +1,6 @@
 body,
 html {
-  margin: 0; /* Removes default margins */
+  margin: 0;
   padding: 0;
   max-width: 100vw;
 }
@@ -12,21 +12,16 @@ html {
 
   align-items: center;
   height: 72px;
-  /* justify-content: flex-end; */
   padding: 0px 64px;
-  /* margin-left: 64px; */
   position: relative;
   width: 100vw;
   max-width: 100vw;
-  /* background-color: red; */
   z-index: 1000;
-  /* background-color: red; */
 }
 
 .navbar .navContainer {
   align-items: center;
   justify-content: flex-start;
-  /* align-self: stretch; */
   display: flex;
   flex: 0 0 auto;
   gap: 37%;
@@ -34,7 +29,6 @@ html {
   height: 72px;
   width: 100%;
   outline: none;
-  /* background-color: yellow; */
 }
 
 .navbar .logo {
@@ -58,7 +52,6 @@ html {
   flex: 0 0 auto;
   gap: 32px;
   position: relative;
-  /* background-color: blue; */
 }
 
 .navbar .link {
@@ -99,38 +92,44 @@ html {
   color: black;
 }
 
-.navbar .link::before, .navbar .text-wrapper::before {
-  content: '';
+.navbar .link::before,
+.navbar .text-wrapper::before {
+  content: "";
   position: absolute;
-  bottom: -1px; 
+  bottom: -1px;
   left: 0;
   width: 0;
   height: 2px;
-  background-color: white; 
+  background-color: white;
   transition: width 0.3s ease;
 }
 
-.navbar .link::after, .navbar .text-wrapper::after {
-  content: '';
+.navbar .link::after,
+.navbar .text-wrapper::after {
+  content: "";
   position: absolute;
-  bottom: -3px; 
+  bottom: -3px;
   left: 0;
   width: 0;
-  height: 2px; 
+  height: 2px;
   background-color: black;
   transition: width 0.3s ease;
 }
 
-.navbar .link:hover::before, .navbar .link:hover::after,
-.navbar .text-wrapper:hover::before, .navbar .text-wrapper:hover::after {
+.navbar .link:hover::before,
+.navbar .link:hover::after,
+.navbar .text-wrapper:hover::before,
+.navbar .text-wrapper:hover::after {
   width: 100%;
 }
 
-.navbar.text-black .link::before, .navbar.text-black .text-wrapper::before {
+.navbar.text-black .link::before,
+.navbar.text-black .text-wrapper::before {
   background-color: black;
 }
 
-.navbar.text-black .link::after, .navbar.text-black .text-wrapper::after {
+.navbar.text-black .link::after,
+.navbar.text-black .text-wrapper::after {
   background-color: white;
 }
 

@@ -46,12 +46,14 @@
 
 .LibraryPage .empty-library-container .div-wrapper {
   align-items: center;
-  background: linear-gradient(101deg, 
-  #5279A3 -64.72%, 
-  #A8CDF5 -1.54%, 
-  #4CD3CB 52.11%, 
-  #3DDCD2 96.22%, 
-  #0DBEB4 154.63%);
+  background: linear-gradient(
+    101deg,
+    #5279a3 -64.72%,
+    #a8cdf5 -1.54%,
+    #4cd3cb 52.11%,
+    #3ddcd2 96.22%,
+    #0dbeb4 154.63%
+  );
   border-radius: 48px;
   display: inline-flex;
   flex: 0 0 auto;
@@ -84,8 +86,8 @@
 
 .LibraryPage a {
   display: block;
-  width: fit-content; /* Adjusts the width to fit the content */
-  margin: 15px auto; /* Centers the link horizontally and adds space between each movie item */
+  width: fit-content;
+  margin: 15px auto;
   text-decoration: none;
 }
 
@@ -151,7 +153,6 @@
   padding: 24px 0px;
   position: relative;
   width: 90vw;
-  /* background-color: blue; */
 }
 
 .list-row .text-wrapper {
@@ -172,16 +173,9 @@
   margin-right: -6px;
   position: relative;
   width: 90vw;
-  /* background-color: red; */
   display: flex;
   justify-content: flex-start;
 }
-
-/* .column-info .group {
-  height: 38px;
-  position: relative;
-  width: 1257px;
-} */
 
 .list-row .div {
   color: #0a0a0a;
@@ -198,7 +192,6 @@
   max-width: 38vw;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* background-color: yellow; */
 }
 
 .list-row .text-wrapper-2 {
@@ -209,11 +202,8 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  /* top: 0; */
   margin-top: 8px;
   margin-left: 50%;
-  /* right: 30%; */
-  /* background-color: green; */
 }
 
 .list-row .text-wrapper-3 {
@@ -224,11 +214,8 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  /* top: 0; */
   margin-top: 8px;
   margin-left: 70%;
-  /* right: 0; */
-  /* background-color: orange; */
 }
 
 .column-info {
@@ -270,7 +257,6 @@
   position: absolute;
   top: 0;
   margin-left: 50%;
-  /* right: 30%; */
   white-space: nowrap;
 }
 
@@ -284,7 +270,6 @@
   position: absolute;
   top: 0;
   margin-left: 70%;
-  /* right: 0; */
   white-space: nowrap;
 }
 
@@ -307,7 +292,6 @@
   }
 
   .list-row .div {
-    /* background-color: red; */
     font-size: 24px;
     margin-top: 8px;
     margin-left: 40px;
@@ -331,7 +315,6 @@
 
   .column-info .div {
     opacity: 0;
-
   }
 
   .list-row .text-wrapper-3 {
@@ -347,8 +330,7 @@
     max-width: 90vw;
   }
 
-  
-.library-title .text-wrapper {
-  font-size: 48px;
-
+  .library-title .text-wrapper {
+    font-size: 48px;
+  }
 }

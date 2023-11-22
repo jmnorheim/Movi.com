@@ -4,16 +4,23 @@ import { hashPassword, verifyPassword } from "../../src/encryption.js";
 
 // Helper functions=========================================================================================================
 
+type SimpleUser = {
+  userID: string;
+  username: string;
+  email: string;
+  password: string;
+};
+
 /**
  * Helper function.
  *
  * Fetch detailed information of a user, including libraries and favorite movies.
  *
- * @param {Object} user - The user object.
+ * @param {SimpleUser} user - The user object.
  * @param {Context} context - The Prisma context.
- * @returns {Promise<Object>} - An object containing detailed user-info.
+ * @returns {Promise<User>} - An User containing detailed user-info.
  */
-const getUserDetails = async (user: any, context: Context) => {
+const getUserDetails = async (user: SimpleUser, context: Context) => {
   // Fetch users libraries
   const libraries = await context.prisma.library.findMany({
     where: { userID: user.userID },
@@ -59,7 +66,6 @@ async function isMovieInFavorites(
   imdbID: string,
   context: Context
 ): Promise<boolean> {
-  // Fetch users favorite by movie ID
   const favorite = await context.prisma.userFavorites.findFirst({
     where: {
       userID: userID,
@@ -80,10 +86,13 @@ export const userResolver: Resolvers = {
      */
     users: async (_, { limit, offset }, context: Context) => {
       const users = await context.prisma.user.findMany({
-        take: limit, // number of records to take (limit)
-        skip: offset, // number of records to skip (offset)
+        take: limit,
+        skip: offset,
       });
-      return Promise.all(users.map((user) => getUserDetails(user, context)));
+      const usersWithAllData = Promise.all(
+        users.map((user) => getUserDetails(user, context))
+      );
+      return usersWithAllData;
     },
 
     /**
@@ -144,6 +153,7 @@ export const userResolver: Resolvers = {
      * Create a new user.
      */
     createUser: async (_, { username, email, password }, context: Context) => {
+      // Hash the password before storing it
       const hashedPassword = hashPassword(password);
 
       const newUser = await context.prisma.user.create({

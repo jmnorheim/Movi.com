@@ -23,7 +23,6 @@ import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
  * @returns {React.Component}
  */
 const MyLibraryPage: React.FC = () => {
-  // State definitions
   const [dialogForm, setDialogForm] = useState(false);
   const [nameOfLibrary, setNameOfLibrary] = useState("");
 
@@ -36,14 +35,12 @@ const MyLibraryPage: React.FC = () => {
     navbarColor.value = "black";
   });
 
-  /**
-   * Adds a new library to the users.
-   */
   const addLibrary = (libraryName: string) => {
     mutate(libraryName);
   };
 
-  // Return =============================================================
+  // JSX=======================================================================================================
+
   return (
     <>
       <>
@@ -51,7 +48,6 @@ const MyLibraryPage: React.FC = () => {
           <div className="myLibraryPageContainer">
             <div className="title-container">
               <div className="text-wrapper">My Libraries</div>
-              {/* Button to open popup for creating a new library */}
               <button
                 className="create-library-button"
                 onClick={() => {
@@ -62,7 +58,6 @@ const MyLibraryPage: React.FC = () => {
                 <DocumentIcon className="vuesax-linear" />
               </button>
             </div>
-            {/* Grid. Displays users libraries */}
             <MyLibrariesGrid
               libraries={libraries}
               onCreateNewPress={setDialogForm}
@@ -74,7 +69,6 @@ const MyLibraryPage: React.FC = () => {
         </div>
       </>
 
-      {/* Popup for creating a new library */}
       <Dialog open={dialogForm} onClose={() => setDialogForm(false)}>
         <DialogTitle>Create Library</DialogTitle>
         <DialogContent>
@@ -94,7 +88,6 @@ const MyLibraryPage: React.FC = () => {
           />
         </DialogContent>
         <DialogActions>
-          {/* Buttons for cancel or create a new library */}
           <Button
             onClick={() => {
               setDialogForm(false);

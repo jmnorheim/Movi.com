@@ -18,9 +18,8 @@ const NewsLetterBox = () => {
   const handleSendEmail = async () => {
     try {
       await sendEmail(email);
-      console.log(email);
     } catch (error) {
-      console.log(error);
+      throw Error("Error sending email");
     }
   };
 

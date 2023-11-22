@@ -1,4 +1,3 @@
-import React from "react";
 import "./PageFooter.css";
 import { FacebookIcon } from "../../assets/icons/FacebookIcon";
 import { InstagramIcon } from "../../assets/icons/InstagramIcon";

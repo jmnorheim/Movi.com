@@ -5,9 +5,10 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { filterSignals, page } from "../../pages/HomePage/HomePage";
-import { FilterState, MovieContent, MovieStats } from "../../interfaces";
+import { FilterState } from "../../interfaces";
 import debounce from "lodash/debounce";
 import { useMovieStats } from "../../services/getMovies";
+import "./FilterSideBar.css";
 
 interface FilterSideBarProps {
   open: boolean;
@@ -18,8 +19,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
   const [filterStates, setFilterStates] = useState<FilterState>();
-  // Get min and max values for each slider
-  const { data: statsData, isLoading: isLoadingStats } = useMovieStats();
+  const { data: statsData, isLoading: isLoadingStats } = useMovieStats(); // Get min and max values for each slider
 
   useEffect(() => {
     if (isInitialSetupComplete) {
@@ -137,11 +137,12 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     setIsInitialSetupComplete(true);
   };
 
+  // Only show content if the sidebar is fully open
   const onSidebarTransitionEnd = () => {
-    // Only show content if the sidebar is fully open
     setContentVisible(open);
   };
 
+  // Hide content when sidebar starts closing
   useEffect(() => {
     if (!open) {
       setContentVisible(false);
@@ -312,24 +313,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     });
   };
 
-  const sidebarStyle = {
-    height: "100vh",
-    width: open ? "280px" : "0",
-    position: "fixed" as const,
-    zIndex: 1001,
-    top: 0,
-    left: 0,
-    backgroundColor: "#FFF",
-    overflowX: "hidden" as const,
-    transition: "0.4s",
-    padding: open ? "10px 30px" : "10px 0",
-    flexDirection: "column" as const,
-    display: "flex",
-    boxShadow: open ? "4px 0px 10px rgba(0, 0, 0, 0.7)" : "none",
-  };
-
   return (
-    <div style={sidebarStyle} onTransitionEnd={onSidebarTransitionEnd}>
+    <div
+      className={`sidebar ${open ? "" : "sidebar-closed"}`}
+      onTransitionEnd={onSidebarTransitionEnd}
+    >
       {contentVisible && (
         <>
           <h2>Filter movies:</h2>
@@ -433,7 +421,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
               }
               label="Age-limit 18+"
             />
-            {/* =========================================================================================== */}
           </FormGroup>
           <h3>Filter by genres</h3>
           <FormGroup>
@@ -453,7 +440,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
               />
             ))}
           </FormGroup>
-          {/* =========================================================================================== */}
         </>
       )}
     </div>

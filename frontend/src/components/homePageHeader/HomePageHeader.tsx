@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import "./HomePageHeader.css";
-import { CurrentFilter, Movie, MovieContent } from "../../interfaces";
 import headerImage from "../../assets/images/headerImage.png";
 import SearchBar from "../searchBar/SearchBar";
 import FilterSideBar from "../filterSideBar/FilterSideBar";

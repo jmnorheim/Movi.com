@@ -1,9 +1,8 @@
 body,
 html {
-  /* background-color: #d1e8e2; */
-  margin: 0; /* Removes default margins */
-  height: 100%; /* Ensures that html and body cover the full viewport height */
-  width: 100%; /* Ensures that html and body cover the full viewport width */
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .myLibraryPageContainer {
@@ -90,6 +89,4 @@ html {
     font-size: 20px;
     line-height: 24px;
   }
-
-
 }

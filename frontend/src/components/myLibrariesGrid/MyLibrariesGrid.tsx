@@ -1,13 +1,10 @@
-import { Library, User } from "../../interfaces";
+import { Library } from "../../interfaces";
 import { Link } from "react-router-dom";
-import MyLibaryContainer from "../myLibraryContainer/MyLibraryContainer";
 import "./MyLibrariesGrid.css";
 
 import star from "../../assets/images/star.svg";
 import MyLibraryContainer from "../myLibraryContainer/MyLibraryContainer";
 import { AddLibraryIcon } from "../../assets/icons/AddLibraryIcon";
-import { useUsersLibrariesQuery } from "../../services/getUserLibraries";
-import { useAuth } from "../../services/auth/AuthContext";
 
 interface MyLibrariesGridProps {
   libraries: Library[] | null;
@@ -18,7 +15,6 @@ const MyLibrariesGrid = ({
   libraries = [],
   onCreateNewPress,
 }: MyLibrariesGridProps) => {
-  const { userID } = useAuth();
   return (
     <div className="MyLibrariesGrid">
       <Link to={"/my-library/favorites"}>

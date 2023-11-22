@@ -35,7 +35,6 @@
 .movie-card .div {
   align-items: center;
   display: inline-flex;
-  /* gap: 128px; */
   left: 64px;
   position: relative;
   top: 90px;
@@ -259,8 +258,6 @@
   position: relative;
 }
 
-
-
 .movie-card .text-wrapper-8 {
   color: #f5f5f5;
   font-family: "Gotham SSm-Bold", Helvetica;
@@ -287,8 +284,6 @@
 }
 
 .movie-card .poster-image-container {
-  /* width: 500px;
-  height: 580px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -297,14 +292,11 @@
 }
 
 .movie-card .poster-image-container .poster-content {
-  /* position: relative; */
   max-height: 100%;
   max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* width: 500px;
-  height: 580px; */
 }
 
 .movie-card .poster-image-container .poster-image {
@@ -328,11 +320,6 @@
   align-self: center;
   justify-self: center;
   white-space: nowrap;
-
-  /* top: 50%; 
-  right: 13.5%; */
-  /* right: 50%; 
-  /* transform: translate(-50%, -50%);  */
 }
 
 .footer-container {
@@ -349,14 +336,13 @@
 
   .movie-card .div {
     flex-direction: column;
-    left: 0
+    left: 0;
   }
 
   .background-image {
     height: 1200px;
     min-width: 100vw;
   }
-  
 
   .movie-card .div-2 {
     width: 80%;
@@ -364,12 +350,6 @@
   }
 
   .movie-card .poster-image-container {
-    /* width: 400px;
-    height: 480px; */
-    /* margin-left: 100px;
-    margin-top: 50px; */
-    /* background-color: red; */
-
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -378,10 +358,7 @@
   .movie-card .poster-image-container .poster-content {
     width: 400px;
     height: 480px;
-    /* margin-left: 100px; */
-    /* margin-top: 50px; */
   }
-  
 }
 
 /* ==2====================================================================================================================== */
@@ -428,31 +405,23 @@
   }
 
   .background-image {
-    min-width: 100vw;   
+    min-width: 100vw;
     height: 120vh;
   }
 
   .movie-card .poster-image-container {
-    /* width: 300px;
-    height: 380px; */
     margin-left: 0;
     margin-top: 0;
-    /* background-color: red; */
   }
 
   .movie-card .poster-image-container .poster-content {
-    /* width: 300px;
-    height: 380px; */
     margin-left: 0;
-    /* margin-top: 50px; */
   }
 
   .movie-card .poster-image-container .poster-content .poster-image {
     width: 300px;
     height: 380px;
     margin-left: 0;
-    /* margin-top: 50px; */
-    /* background-color: red; */
   }
 
   .recommended {

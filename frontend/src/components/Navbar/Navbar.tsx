@@ -1,10 +1,5 @@
-import { useEffect, useState } from "react";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LoginIcon from "@mui/icons-material/Login";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../../services/auth/AuthContext";
 import "../../../fonts.css";
 import logo from "../../assets/icons/logo_white.svg";

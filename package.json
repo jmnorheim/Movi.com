@@ -4,19 +4,18 @@
   "description": "The outer commands for the project",
   "main": "index.js",
   "scripts": {
-    "setup": "cd frontend && npm install && cd ../backend && npm install",
+    "setup": "npm install && cd frontend && npm install && cd ../backend && npm install",
     "server": "cd backend && npm start",
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run tsc && vite build",
-    "test": "cd frontend && npm run test",
+    "test:frontend": "cd frontend && npm run test",
+    "test:backend": "cd backend && npm run test",
     "lint": "cd frontend && npm run lint",
     "lint:fix": "cd frontend && npx prettier -w . && npm run lint:fix"
   },
   "author": "Group 29",
   "license": "ISC",
-  "dependencies": {
-    "react-router-dom": "^6.16.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "cypress": "^13.4.0"
   }

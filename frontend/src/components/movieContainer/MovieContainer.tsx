@@ -1,6 +1,5 @@
-import { Movie, MovieContent } from "../../interfaces";
+import { MovieContent } from "../../interfaces";
 import "./MovieContainer.css";
-import posterImage from "./rectangle-1.png";
 import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
 interface MovieContainerProps {
