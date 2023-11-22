@@ -1,7 +1,15 @@
 import * as math from "mathjs";
 import { Movie } from "../generated/resolvers-types";
 
-function calculateSimilarity(movie1: Movie, movie2: Movie): number {
+/**
+ * Calculates the similarity between two movies based on their genres.
+ * The similarity is computed using the cosine similarity formula.
+ *
+ * @param {Movie} movie1 - The first movie to compare.
+ * @param {Movie} movie2 - The second movie to compare.
+ * @returns {number} A number representing the similarity between the two movies (ranging from 0 to 1).
+ */
+const calculateSimilarity = (movie1: Movie, movie2: Movie): number => {
   let genres = Array.from(new Set([...movie1.genres, ...movie2.genres]));
 
   let vector1: number[] = genres.map((genre) =>
@@ -24,13 +32,13 @@ function calculateSimilarity(movie1: Movie, movie2: Movie): number {
   }
 
   return dotProduct / (norm1 * norm2);
-}
+};
 
-export function getRecommendations(
+export const getRecommendations = (
   targetMovie: Movie,
   allMovies: Movie[],
   topN: number = 5
-): Movie[] {
+): Movie[] => {
   return allMovies
     .map((movie) => ({
       movie,
@@ -39,4 +47,4 @@ export function getRecommendations(
     .sort((a, b) => b.similarity - a.similarity)
     .slice(0, topN)
     .map((item) => item.movie);
-}
+};
