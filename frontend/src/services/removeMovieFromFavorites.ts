@@ -15,21 +15,31 @@ const REMOVE_MOVIE_FROM_FAVORITES = graphql(`
 `);
 
 /**
- * Remove Movie From Favorites.
+ * Removes a movie from a user's favorite list.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @param {string} imdbID - The IMDb identifier of the movie to be removed.
+ * @returns {Promise<void>} A promise that resolves when the movie is successfully removed from favorites.
  */
 export const removeMovieFromFavorites = async (
   userID: string,
   imdbID: string
 ): Promise<void> => {
-  const endpoint = SERVER_URL;
-  const response = await request(endpoint, REMOVE_MOVIE_FROM_FAVORITES, {
+  await request(SERVER_URL, REMOVE_MOVIE_FROM_FAVORITES, {
     userId: userID,
     imdbId: imdbID,
   });
 };
 
 /**
- * Usequery Remove Movie From Favorites.
+ * React Query mutation hook for removing a movie from a user's favorites.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @returns {object} A mutation object that includes the mutate function, status, and other metadata.
+ *
+ * This mutation hook takes an IMDb ID as an argument and executes the removal process.
+ * Upon successful completion, it invalidates queries related to the user's favorites to
+ * ensure the UI reflects the updated list of favorite movies.
  */
 export const useRemoveMovieFromFavorites = (userID: string) => {
   const client = useQueryClient();

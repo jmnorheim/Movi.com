@@ -15,21 +15,28 @@ const REMOVE_LIBRARY = graphql(`
 `);
 
 /**
- * Remove Library.
+ * Removes a specified library from a user's account.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @param {string} libraryID - The unique identifier of the library to be removed.
+ * @returns {Promise<void>} A promise that resolves when the library has been successfully removed.
  */
 export const removeLibrary = async (
   userID: string,
   libraryID: string
 ): Promise<void> => {
-  const endpoint = SERVER_URL;
-  const response = await request(endpoint, REMOVE_LIBRARY, {
+  await request(SERVER_URL, REMOVE_LIBRARY, {
     userId: userID,
     libraryId: libraryID,
   });
 };
 
 /**
- * Usequery Remove Library
+ * React Query mutation hook to remove a library from a user's account.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @param {string} libraryID - The unique identifier of the library to be removed.
+ * @returns {object} A mutation object that includes the mutate function, status, and other metadata.
  */
 export const useRemoveLibrary = (userID: string, libraryID: string) => {
   const client = useQueryClient();

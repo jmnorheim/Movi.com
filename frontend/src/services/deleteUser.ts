@@ -14,15 +14,20 @@ const DELETE_USER = graphql(`
 `);
 
 /**
- * Delete User.
+ * Deletes an existing user account from the database.
+ *
+ * This function sends a GraphQL mutation request to delete a user specified by their user ID. It ensures the user is removed from the system, handling any necessary clean-up or database updates.
+ *
+ * @param {string} userID - The unique identifier of the user to be deleted.
+ * @returns {Promise<void>} A promise that resolves once the user has been successfully deleted.
+ *
+ * @throws {Error} Throws an error if the GraphQL request fails, or if the server encounters an issue during the process of deleting the user.
  */
 export const deleteUser = async (userID: string): Promise<void> => {
-  const endpoint = SERVER_URL;
   try {
     // Pass the userID as a variable to the DELETE_USER mutation
-    const response = await request(endpoint, DELETE_USER, { userId: userID });
-    console.log("User deleted:", response);
+    await request(SERVER_URL, DELETE_USER, { userId: userID });
   } catch (error) {
-    console.error("Error deleting user:", error);
+    throw Error("Error deleting user:");
   }
 };

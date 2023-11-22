@@ -15,7 +15,11 @@ const REMOVE_MOVIE_FROM_LIBRARY = graphql(`
 `);
 
 /**
- * Remove Movie From Library.
+ * Removes a movie from a specified library.
+ *
+ * @param {string} libraryID - The unique identifier of the library.
+ * @param {string} imdbID - The IMDb identifier of the movie to be removed.
+ * @returns {Promise<void>} A promise that resolves when the movie is successfully removed from the library.
  */
 export const removeMovieFromLibrary = async (
   libraryID: string,
@@ -28,7 +32,15 @@ export const removeMovieFromLibrary = async (
 };
 
 /**
- * Usequery Remove Movie From Favorites.
+ * React Query mutation hook for removing a movie from a library.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @param {string} libraryID - The unique identifier of the library.
+ * @returns {object} A mutation object that includes the mutate function, status, and other metadata.
+ *
+ * This mutation hook takes an IMDb ID as an argument and executes the removal process.
+ * Upon successful completion, it invalidates queries related to the specific library to
+ * ensure the UI reflects the updated list of movies in the library.
  */
 export const useRemoveMovieFromLibrary = (
   userID: string,

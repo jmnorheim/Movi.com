@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
-import { Movie, MovieContent } from "../../interfaces";
+import { MovieContent } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
@@ -135,7 +135,7 @@ const HomePage: React.FC = () => {
     movieList: MovieContent[],
     sortType: SortType
   ): MovieContent[] => {
-    if (sortType === null) return originalMovies as Movie[];
+    if (sortType === null) return originalMovies as MovieContent[];
 
     return [...movieList].sort((a: MovieContent, b: MovieContent): number => {
       switch (sortType) {

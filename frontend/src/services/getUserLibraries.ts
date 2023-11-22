@@ -13,6 +13,12 @@ const USER_LIBRARIES = graphql(`
   }
 `);
 
+/**
+ * Fetches the list of libraries associated with a given user.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @returns {Promise<Library[]>} A promise that resolves to an array of Library objects.
+ */
 const getUsersLibraries = async (userID: string): Promise<Library[]> => {
   const { librariesByUserID } = await request(SERVER_URL, USER_LIBRARIES, {
     userId: userID,
@@ -20,6 +26,12 @@ const getUsersLibraries = async (userID: string): Promise<Library[]> => {
   return librariesByUserID as Library[];
 };
 
+/**
+ * React Query hook for fetching a user's libraries.
+ *
+ * @param {string | undefined} userID - The unique identifier of the user. Can be undefined.
+ * @returns {object} A query object that includes the data (user's libraries), status, and other metadata.
+ */
 export const useUsersLibrariesQuery = (userID: string | undefined) => {
   return useQuery({
     queryKey: ["Libraries: " + userID],
