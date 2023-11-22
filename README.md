@@ -4,7 +4,12 @@
 ## We would like you to test the following:
 - Register, Log in and Log out
 - Navigate between different pages
-- Test filtering, sorting, and search
+- Test filtering, sorting, and search on HomePage
+- Test pagination
+- Try creating and deleting libraries
+- Try adding movies to libraries + favorites
+- Try deleting movies from libraries + favorites
+- Test responsive design on all pages
 
 ## Students
 
@@ -27,9 +32,10 @@
    - Navigate to the project directory: `cd .\prosjekt-2\`
    - Install dependencies: `npm run setup`
 
+All following commands should be run from the outer folder (not inside frontend or backend)
+
 3. **Starting the Project**: 
 
-   These commands should be run from the outer folder:
    - Run server: `npm run server`
    - Run client: `npm run dev`
 
