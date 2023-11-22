@@ -41,7 +41,8 @@ All following commands should be run from the outer folder (not inside frontend 
 
 4. **Testing**:
 
-   - Run the tests: `npm run test`
+   - Run backend-tests: `npm run test:backend`
+   - Run frontend-tests: `npm run test:frontend`
 
 5. **Code formatting**:
 
