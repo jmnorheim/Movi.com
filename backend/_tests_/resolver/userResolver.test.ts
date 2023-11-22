@@ -128,16 +128,24 @@ describe("userResolver", () => {
         it("Mutation: createUser - Should create a new user.", async () => {
             const newUser = { username: 'NewUser', email: 'newuser@example.com', password: "Password" };
             mockContext.prisma.user.create.mockResolvedValue(newUser);
+        
             mockContext.prisma.library.findMany.mockResolvedValue([]);
             mockContext.prisma.libraryMovie.findMany.mockResolvedValue([]);
             mockContext.prisma.userFavorites.findMany.mockResolvedValue([]);
-    
+        
             const result = await userResolver.Mutation.createUser(null, newUser, mockContext as unknown as Context);
-    
-            expect(mockContext.prisma.user.create).toHaveBeenCalledWith({ data: newUser });
+        
+            expect(mockContext.prisma.user.create).toHaveBeenCalledWith({
+                data: {
+                    username: "NewUser",
+                    email: "newuser@example.com",
+                    password: expect.any(String)
+                }
+            });
+        
             expect(result).toEqual(expect.objectContaining({
-                username: 'NewUser',
-                email: 'newuser@example.com',
+                username: "NewUser",
+                email: "newuser@example.com",
                 library: [],
                 favorites: [],
             }));
