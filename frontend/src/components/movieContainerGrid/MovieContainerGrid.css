@@ -14,26 +14,10 @@ html {
   align-items: stretch;
   row-gap: 4rem; /* Increased gap between rows */
   column-gap: 2rem; /* Gap between columns */
-  /* max-width: 100%; */
-  /* min-width: 100%; */
   padding-left: 8%;
   padding-right: 8%;
   position: relative;
   margin-bottom: 50px;
-}
-
-.three-dots-container {
-  position: relative;
-  left: -4%;
-  top: 10%;
-  cursor: pointer;
-  margin-top: 15px;
-  /* resize: contain; */
-  /* background-color: red; */
-}
-
-.three-dots {
-  width: 1.5em;
 }
 
 .add-to-library-button {

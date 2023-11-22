@@ -40,6 +40,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     getInitialState();
   }, [statsData, isLoadingStats]);
 
+  //Console log sessionStorage
+  useEffect(() => {
+    console.log("sessionStorage", sessionStorage.getItem("filterStates"));
+  }, [filterStates]);
+
   const getInitialState = () => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
@@ -70,6 +75,17 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         ],
         selectedGenres: new Set<string>(),
       };
+    }
+
+    console.log("initialFilterStates", initialFilterStates);
+
+    if (initialFilterStates && statsData && !isLoadingStats) {
+      if (initialFilterStates.runtimeRange[1] === 301) {
+        initialFilterStates.runtimeRange[1] = statsData.runtimeMinutesRange.max;
+      }
+      if (initialFilterStates.totalVotesRange[1] === 10001) {
+        initialFilterStates.totalVotesRange[1] = statsData.totalVotesRange.max;
+      }
     }
 
     setFilterStates(initialFilterStates as FilterState);
@@ -223,7 +239,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
 
   const commitTotalVotesChange = (event: Event, newValue: number[]) => {
     const newValues = newValue;
+    console.log("newValues", newValues[1]);
     if (newValues[1] === 10001) {
+      console.log("BALLE");
       newValues[1] = statsData?.totalVotesRange.max ?? 10000;
     }
     setFilterStates((prevState) => ({
