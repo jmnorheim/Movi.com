@@ -209,7 +209,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         },
       };
     }, 500),
-    []
+    [statsData]
   );
 
   const commitRatingChange = (event: Event, newValue: number[]) => {
@@ -240,11 +240,10 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
 
   const commitTotalVotesChange = (event: Event, newValue: number[]) => {
     const newValues = newValue;
-    console.log("newValues", newValues[1]);
     if (newValues[1] === 10001) {
-      console.log("BALLE");
       newValues[1] = statsData?.totalVotesRange.max ?? 10000;
     }
+    // console.log("Den nye newValues er", newValues[1]);
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
       totalVotesRange: newValues,
@@ -254,6 +253,11 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
 
   const handleTotalVotesChange = useCallback(
     debounce((newValue: number[]) => {
+      console.log("newValue", newValue);
+      console.log(
+        "statsData?.totalVotesRange.max",
+        statsData?.totalVotesRange.max
+      );
       page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
@@ -266,7 +270,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         },
       };
     }, 500),
-    []
+    [statsData]
   );
 
   const commitIsAdultChange = (
