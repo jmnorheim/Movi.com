@@ -255,9 +255,16 @@ export const userResolver: Resolvers = {
      * Removes a library based on libraryID.
      */
     removeLibrary: async (_, { userID, libraryID }, context: Context) => {
+      // First, delete all LibraryMovie records related to this library
+      await context.prisma.libraryMovie.deleteMany({
+        where: { libraryID: libraryID },
+      });
+
+      // Then, delete the library
       await context.prisma.library.delete({
         where: { libraryID: libraryID },
       });
+
       const user = await context.prisma.user.findUnique({
         where: { userID: userID },
       });
