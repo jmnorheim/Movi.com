@@ -40,11 +40,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     getInitialState();
   }, [statsData, isLoadingStats]);
 
-  //Console log sessionStorage
-  useEffect(() => {
-    console.log("sessionStorage", sessionStorage.getItem("filterStates"));
-  }, [filterStates]);
-
   const getInitialState = () => {
     let initialFilterStates;
     const savedFilterStates = sessionStorage.getItem("filterStates");
@@ -76,8 +71,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
         selectedGenres: new Set<string>(),
       };
     }
-
-    console.log("initialFilterStates", initialFilterStates);
 
     if (initialFilterStates && statsData && !isLoadingStats) {
       if (initialFilterStates.runtimeRange[1] === 301) {
@@ -243,7 +236,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     if (newValues[1] === 10001) {
       newValues[1] = statsData?.totalVotesRange.max ?? 10000;
     }
-    // console.log("Den nye newValues er", newValues[1]);
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
       totalVotesRange: newValues,
@@ -253,11 +245,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
 
   const handleTotalVotesChange = useCallback(
     debounce((newValue: number[]) => {
-      console.log("newValue", newValue);
-      console.log(
-        "statsData?.totalVotesRange.max",
-        statsData?.totalVotesRange.max
-      );
       page.value = 0;
       filterSignals.value = {
         ...filterSignals.value,
@@ -277,7 +264,6 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     event: React.ChangeEvent<HTMLInputElement>,
     newValue: boolean
   ) => {
-    console.log("newValue", newValue);
     setFilterStates((prevState) => ({
       ...(prevState as FilterState),
       isAdult: newValue,

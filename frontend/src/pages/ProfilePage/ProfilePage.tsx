@@ -64,6 +64,7 @@ function ProfilePage() {
    * Handles the delete user.
    */
   const confirmDeleteUser = async () => {
+    logout();
     await deleteUser(userID);
     navigate("/login");
   };

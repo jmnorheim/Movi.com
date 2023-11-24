@@ -64,7 +64,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUserID(userID);
     setIsLoggedIn(true);
     setEmail(email);
-    console.log(email);
   };
 
   /**

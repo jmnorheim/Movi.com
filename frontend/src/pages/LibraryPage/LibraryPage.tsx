@@ -18,6 +18,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import empty_library from "../../assets/images/empty_library.png";
 import { useState } from "react";
 import { useRemoveLibrary } from "../../services/removeLibrary.ts";
+import { effect } from "@preact/signals-react";
+import { navbarColor } from "../../App.tsx";
 
 /**
  * Render the RegisterPage component.
@@ -45,6 +47,10 @@ const LibraryPage: React.FC = () => {
   );
   const { mutate: removeLibrary } = useRemoveLibrary(userID, libraryID);
   const navigate = useNavigate();
+
+  effect(() => {
+    navbarColor.value = "black";
+  });
 
   /**
    * Formats a number to a two-digit string (e.g., 1 becomes "01").
@@ -77,10 +83,12 @@ const LibraryPage: React.FC = () => {
    */
   const handleDelete = (imdbID: string) => {
     // Check if it is the favorites library.
+
     if (libraryID === "favorites") {
       mutateFavorites(imdbID);
+    } else {
+      mutateLibrary(imdbID);
     }
-    mutateLibrary(imdbID);
   };
 
   // Return =============================================================

@@ -237,12 +237,10 @@ export const libraryResolver: Resolvers = {
 
     libraryByUserAndName: async (_, { userID, name }, context: Context) => {
       try {
-        const libraryPrisma = await context.prisma.library.findUnique({
+        const libraryPrisma = await context.prisma.library.findFirst({
           where: {
-            userID_name: {
-              userID: userID,
-              name: name,
-            },
+            userID: userID,
+            name: name,
           },
         });
 

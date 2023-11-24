@@ -22,8 +22,6 @@ const NavBar: React.FC<Props> = ({ textColor }) => {
   const navigate = useNavigate();
   const textClass = textColor.value === "black" ? "text-black" : "";
   const logo = textColor.value === "black" ? logo_black : logo_white;
-  console.log("textColor = ", textColor.value);
-  console.log("Logo = ", logo);
 
   return (
     <>
