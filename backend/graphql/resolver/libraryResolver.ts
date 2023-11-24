@@ -166,9 +166,6 @@ export const libraryResolver: Resolvers = {
      */
     moviesByLibraryID: async (_, { libraryID }, context: Context) => {
       try {
-        if (libraryID === "favorites") {
-          return getListOfAllMoviesInFavorites(context);
-        }
         return getListOfAllMoviesInLibrary(libraryID, context);
       } catch (error) {
         throw new Error(error);

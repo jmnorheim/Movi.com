@@ -158,6 +158,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  favorites: Array<Movie>;
   getRecommendedMovies: Array<Movie>;
   libraries: Array<Library>;
   librariesByUserID: Array<Library>;
@@ -173,6 +174,11 @@ export type Query = {
   userByID: User;
   users: Array<User>;
   verifyPassword: Scalars['Boolean']['output'];
+};
+
+
+export type QueryFavoritesArgs = {
+  userID: Scalars['ID']['input'];
 };
 
 
@@ -467,6 +473,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  favorites?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryFavoritesArgs, 'userID'>>;
   getRecommendedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryGetRecommendedMoviesArgs, 'movie'>>;
   libraries?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, Partial<QueryLibrariesArgs>>;
   librariesByUserID?: Resolver<Array<ResolversTypes['Library']>, ParentType, ContextType, RequireFields<QueryLibrariesByUserIdArgs, 'userID'>>;

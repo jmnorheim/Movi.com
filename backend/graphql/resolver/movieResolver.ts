@@ -19,25 +19,31 @@ export const movieResolver: Resolvers = {
      */
     movie: async (_, { imdbID }, context: Context) => {
       try {
-        const movie = await context.prisma.movie.findUnique({
+        const movieWithGenres = await context.prisma.movie.findUnique({
           where: { imdbID: imdbID },
-        });
-        const genres = await context.prisma.movieGenre.findMany({
-          where: { imdbID: imdbID },
-          select: {
-            Genre: true,
+          include: {
+            MovieGenre: {
+              select: {
+                Genre: {
+                  select: {
+                    genreName: true,
+                  },
+                },
+              },
+            },
           },
         });
 
-        if (!movie) {
+        if (!movieWithGenres) {
           throw new Error(`Movie with imdbID ${imdbID} not found`);
         }
 
-        const movieWithGenres = {
-          ...movie,
-          genres: genres.map((genre) => genre.Genre.genreName),
+        const formattedMovie = {
+          ...movieWithGenres,
+          genres: movieWithGenres.MovieGenre.map((mg) => mg.Genre.genreName),
         };
-        return movieWithGenres;
+
+        return formattedMovie;
       } catch (error) {
         throw new Error(`Error: ${error.message}`);
       }
