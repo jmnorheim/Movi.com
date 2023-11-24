@@ -324,7 +324,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
     >
       {contentVisible && (
         <>
-          <h2>Filter movies:</h2>
+          <div className="title-text">Filter movies:</div>
           <div>
             <p>Release year</p>
             <Slider

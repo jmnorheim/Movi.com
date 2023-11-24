@@ -46,8 +46,6 @@ export const currentSearch = signal<string>(
 export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
-// export const currentSort = signal<SortType | null>(null);
-
 /**
  * Render the HomePage component.
  * @returns {React.FC}
