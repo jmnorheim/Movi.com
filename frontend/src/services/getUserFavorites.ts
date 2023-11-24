@@ -41,9 +41,10 @@ const getUserFavorites = async (userID: string): Promise<MovieContent[]> => {
  * @param {string} userID - The unique identifier of the user.
  * @returns {object} A query object that includes the data (user's favorites), status, and other metadata.
  */
-export const useUserFavoritesQuery = (userID: string) => {
+export const useUserFavoritesQuery = (userID: string | undefined) => {
   return useQuery({
-    queryKey: ["Favorites: " + userID],
-    queryFn: () => getUserFavorites(userID),
+    queryKey: ["favorites : " + userID],
+    queryFn: () => getUserFavorites(userID!),
+    enabled: !!userID,
   });
 };
