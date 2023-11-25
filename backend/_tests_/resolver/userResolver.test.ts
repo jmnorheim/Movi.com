@@ -361,10 +361,10 @@ describe("userResolver", () => {
       mockContext.prisma.libraryMovie.findMany.mockResolvedValue([]);
       mockContext.prisma.userFavorites.findMany.mockResolvedValue([]);
 
-      const result = await userResolver.Mutation.addLibrary(
+      const result = await (userResolver.Mutation?.addLibrary as Function)(
         null,
         { userID, libraryName },
-        mockContext as unknown as Context
+        mockContext as Context
       );
 
       expect(result).toEqual(
@@ -402,10 +402,10 @@ describe("userResolver", () => {
       mockContext.prisma.libraryMovie.findMany.mockResolvedValue([]);
       mockContext.prisma.userFavorites.findMany.mockResolvedValue([]);
 
-      const result = await userResolver.Mutation.removeLibrary(
+      const result = await (userResolver.Mutation?.removeLibrary as Function)(
         null,
-        { userID, libraryID },
-        mockContext as unknown as Context
+        { libraryID, userID },
+        mockContext as Context
       );
 
       expect(mockContext.prisma.library.delete).toHaveBeenCalledWith({
@@ -483,6 +483,7 @@ const setupMockContext = () => {
       },
       libraryMovie: {
         findMany: vi.fn(),
+        deleteMany: vi.fn(),
       },
       userFavorites: {
         findMany: vi.fn(),
