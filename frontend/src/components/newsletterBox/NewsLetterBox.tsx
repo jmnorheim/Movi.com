@@ -69,7 +69,7 @@ const NewsLetterBox = () => {
               handleSendEmail()
                 .then(() => setEmail(""))
                 .catch((err) => {
-                  console.log(err);
+                  console.error(err);
                 });
               setDialogForm(false);
             }}

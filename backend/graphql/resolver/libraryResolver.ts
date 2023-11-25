@@ -166,9 +166,6 @@ export const libraryResolver: Resolvers = {
      */
     moviesByLibraryID: async (_, { libraryID }, context: Context) => {
       try {
-        if (libraryID === "favorites") {
-          return getListOfAllMoviesInFavorites(context);
-        }
         return getListOfAllMoviesInLibrary(libraryID, context);
       } catch (error) {
         throw new Error(error);
@@ -237,12 +234,10 @@ export const libraryResolver: Resolvers = {
 
     libraryByUserAndName: async (_, { userID, name }, context: Context) => {
       try {
-        const libraryPrisma = await context.prisma.library.findUnique({
+        const libraryPrisma = await context.prisma.library.findFirst({
           where: {
-            userID_name: {
-              userID: userID,
-              name: name,
-            },
+            userID: userID,
+            name: name,
           },
         });
 

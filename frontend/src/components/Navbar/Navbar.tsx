@@ -2,7 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../../services/auth/AuthContext";
 import "../../../fonts.css";
-import logo from "../../assets/icons/logo_white.svg";
+import logo_white from "../../assets/icons/logo_white.svg";
+import { InstagramIcon } from "../../assets/icons/InstagramIcon";
+import logo_black from "../../assets/icons/logo_black.svg";
 import { Signal } from "@preact/signals-react";
 
 /**
@@ -19,6 +21,7 @@ const NavBar: React.FC<Props> = ({ textColor }) => {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const textClass = textColor.value === "black" ? "text-black" : "";
+  const logo = textColor.value === "black" ? logo_black : logo_white;
 
   return (
     <>
