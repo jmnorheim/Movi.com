@@ -16,8 +16,12 @@ import { useRemoveMovieFromLibrary } from "../../../src/services/removeMovieFrom
 import { useAuth } from "../../services/auth/AuthContext.tsx";
 import ClearIcon from "@mui/icons-material/Clear";
 import empty_library from "../../assets/images/empty_library.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRemoveLibrary } from "../../services/removeLibrary.ts";
+import { effect } from "@preact/signals-react";
+import { navbarColor } from "../../App.tsx";
+import { useUserFavoritesQuery } from "../../services/getUserFavorites.ts";
+import { MovieContent } from "../../interfaces.ts";
 
 /**
  * Render the RegisterPage component.
@@ -26,6 +30,9 @@ import { useRemoveLibrary } from "../../services/removeLibrary.ts";
 const LibraryPage: React.FC = () => {
   // State definitions
   const { libraryProp } = useParams();
+  const [libraryMovies, setLibraryMovies] = useState<MovieContent[] | null>(
+    null
+  );
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Set libraryID and libraryName
@@ -37,6 +44,7 @@ const LibraryPage: React.FC = () => {
 
   // Hooks for fetching movies and navigation
   const { userID } = useAuth();
+  const { data: favorites } = useUserFavoritesQuery(userID);
   const { data: movies } = useMoviesInByLibraryIDQuery(libraryID, userID);
   const { mutate: mutateFavorites } = useRemoveMovieFromFavorites(userID);
   const { mutate: mutateLibrary } = useRemoveMovieFromLibrary(
@@ -45,6 +53,18 @@ const LibraryPage: React.FC = () => {
   );
   const { mutate: removeLibrary } = useRemoveLibrary(userID, libraryID);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (movies && libraryID !== "favorites") {
+      setLibraryMovies(movies);
+    } else if (favorites && libraryID === "favorites") {
+      setLibraryMovies(favorites);
+    }
+  }, [favorites, libraryID, movies]);
+
+  effect(() => {
+    navbarColor.value = "black";
+  });
 
   /**
    * Formats a number to a two-digit string (e.g., 1 becomes "01").
@@ -77,10 +97,12 @@ const LibraryPage: React.FC = () => {
    */
   const handleDelete = (imdbID: string) => {
     // Check if it is the favorites library.
+
     if (libraryID === "favorites") {
       mutateFavorites(imdbID);
+    } else {
+      mutateLibrary(imdbID);
     }
-    mutateLibrary(imdbID);
   };
 
   // Return =============================================================
@@ -110,7 +132,7 @@ const LibraryPage: React.FC = () => {
         )}
 
         {/* Display list of movies */}
-        {!movies || movies.length === 0 ? (
+        {!libraryMovies || libraryMovies.length === 0 ? (
           <div className="empty-library-container">
             <img className="image" alt="Image" src={empty_library} />
             <p className="no-movies-found">No Movies Found In This Library</p>
@@ -131,9 +153,9 @@ const LibraryPage: React.FC = () => {
               </div>
             </div>
 
-            {movies &&
-              Array.isArray(movies) &&
-              movies.map((movie, index) => (
+            {libraryMovies &&
+              Array.isArray(libraryMovies) &&
+              libraryMovies.map((movie, index) => (
                 <div key={movie.imdbID} className="list-row">
                   <Link to={"/movie/" + movie.imdbID}>
                     <div className="group">

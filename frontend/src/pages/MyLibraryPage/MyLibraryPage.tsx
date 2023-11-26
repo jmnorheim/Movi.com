@@ -85,6 +85,14 @@ const MyLibraryPage: React.FC = () => {
             variant="standard"
             value={nameOfLibrary}
             onChange={(e) => setNameOfLibrary(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                addLibrary(nameOfLibrary);
+                setDialogForm(false);
+                setNameOfLibrary("");
+                e.preventDefault();
+              }
+            }}
           />
         </DialogContent>
         <DialogActions>

@@ -76,8 +76,8 @@ model User {
 model UserFavorites {
   userID String
   imdbID String
-  Movie  Movie  @relation(fields: [imdbID], references: [imdbID], onDelete: NoAction, onUpdate: NoAction)
-  User   User   @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction)
+  Movie  Movie  @relation(fields: [imdbID], references: [imdbID], onDelete: Cascade, onUpdate: Cascade)
+  User   User   @relation(fields: [userID], references: [userID], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userID, imdbID])
 }

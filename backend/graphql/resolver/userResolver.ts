@@ -139,11 +139,47 @@ export const userResolver: Resolvers = {
       });
       return isMovieInFavorites(user.userID, imdbID, context);
     },
+    /**
+     * Check if the password is correct for a given email.
+     * @returns {Promise<boolean>} - True if the password is correct, otherwise false.
+     * @throws {Error} - If the user does not exist.
+     */
     verifyPassword: async (_, { email, password }, context: Context) => {
       const user = await context.prisma.user.findUnique({
         where: { email: email },
       });
       return verifyPassword(password, user.password);
+    },
+    /**
+     * Fetch the user's favorites.
+     */
+    favorites: async (_, { userID }, context: Context) => {
+      const userFavoritesWithMoviesAndGenres =
+        await context.prisma.userFavorites.findMany({
+          where: { userID: userID },
+          include: {
+            Movie: {
+              include: {
+                MovieGenre: {
+                  select: {
+                    Genre: {
+                      select: {
+                        genreName: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+
+      const favorites = userFavoritesWithMoviesAndGenres.map((fav) => ({
+        ...fav.Movie,
+        genres: fav.Movie.MovieGenre.map((mg) => mg.Genre.genreName),
+      }));
+
+      return favorites;
     },
   },
 
@@ -255,9 +291,16 @@ export const userResolver: Resolvers = {
      * Removes a library based on libraryID.
      */
     removeLibrary: async (_, { userID, libraryID }, context: Context) => {
+      // First, delete all LibraryMovie records related to this library
+      await context.prisma.libraryMovie.deleteMany({
+        where: { libraryID: libraryID },
+      });
+
+      // Then, delete the library
       await context.prisma.library.delete({
         where: { libraryID: libraryID },
       });
+
       const user = await context.prisma.user.findUnique({
         where: { userID: userID },
       });

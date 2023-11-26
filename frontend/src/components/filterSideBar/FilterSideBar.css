@@ -19,3 +19,18 @@
   padding: 10px 0;
   box-shadow: none;
 }
+
+.title-text {
+  color: #0a0a0a;
+  font-family: "Gotham SSm-Bold", Helvetica;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1px;
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

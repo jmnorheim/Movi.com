@@ -4,7 +4,7 @@
   "description": "The outer commands for the project",
   "main": "index.js",
   "scripts": {
-    "setup": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "setup": "npm install && cd frontend && npm install && cd ../backend && npm install && npm run generatePrisma",
     "server": "cd backend && npm start",
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run tsc && vite build",

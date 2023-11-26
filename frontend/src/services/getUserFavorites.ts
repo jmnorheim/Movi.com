@@ -1,12 +1,22 @@
 import { graphql } from "../generated";
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
-import { SERVER_URL } from "../interfaces";
+import { MovieContent, SERVER_URL } from "../interfaces";
+import { as } from "vitest/dist/reporters-5f784f42.js";
 
 const USER_FAVORITES = graphql(`
-  query GetUserFavorites($userId: ID!) {
-    userByID(userID: $userId) {
-      favorites
+  query getFavorites($userId: ID!) {
+    favorites(userID: $userId) {
+      imdbID
+      genres
+      primaryTitle
+      totalVotes
+      startYear
+      runtimeMinutes
+      poster
+      originalTitle
+      isAdult
+      averageRating
     }
   }
 `);
@@ -15,14 +25,14 @@ const USER_FAVORITES = graphql(`
  * Fetches the list of favorite movies for a given user.
  *
  * @param {string} userID - The unique identifier of the user.
- * @returns {Promise<string[]>} A promise that resolves to an array of favorite movies (represented by their IMDb IDs).
+ * @returns {Promise<MovieContent[]>} A promise that resolves to an array of favorite movies (represented by their IMDb IDs).
  */
-const getUserFavorites = async (userID: string): Promise<string[]> => {
-  const { userByID } = await request(SERVER_URL, USER_FAVORITES, {
+const getUserFavorites = async (userID: string): Promise<MovieContent[]> => {
+  const { favorites } = await request(SERVER_URL, USER_FAVORITES, {
     userId: userID,
   });
 
-  return userByID.favorites;
+  return favorites as MovieContent[];
 };
 
 /**
@@ -31,9 +41,10 @@ const getUserFavorites = async (userID: string): Promise<string[]> => {
  * @param {string} userID - The unique identifier of the user.
  * @returns {object} A query object that includes the data (user's favorites), status, and other metadata.
  */
-export const useUserFavoritesQuery = (userID: string) => {
+export const useUserFavoritesQuery = (userID: string | undefined) => {
   return useQuery({
-    queryKey: ["Favorites: " + userID],
-    queryFn: () => getUserFavorites(userID),
+    queryKey: ["favorites : " + userID],
+    queryFn: () => getUserFavorites(userID!),
+    enabled: !!userID,
   });
 };
