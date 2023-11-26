@@ -220,6 +220,20 @@ const HomePage: React.FC = () => {
               <h2 className="noMatchesText">No matches found</h2>
             )}
           </div>
+          <div className="paginationContainer">
+            {data && (
+              <TablePagination
+                sx={{ size: "large" }}
+                className="pagination custom-pagination"
+                component="div"
+                count={data.count}
+                page={page.value}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage.value}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
+          </div>
           <div className="footerContainer">
             <NewsLetterBox></NewsLetterBox>
             <PageFooter></PageFooter>
