@@ -483,6 +483,7 @@ const setupMockContext = () => {
       },
       libraryMovie: {
         findMany: vi.fn(),
+        deleteMany: vi.fn(),
       },
       userFavorites: {
         findMany: vi.fn(),

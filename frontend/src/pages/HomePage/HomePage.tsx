@@ -200,6 +200,7 @@ const HomePage: React.FC = () => {
                   onPageChange={handleChangePage}
                   rowsPerPage={rowsPerPage.value}
                   onRowsPerPageChange={handleChangeRowsPerPage}
+                  labelRowsPerPage="Movies per page:"
                 />
               )}
             </div>
@@ -229,6 +230,7 @@ const HomePage: React.FC = () => {
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage.value}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="Movies per page:"
               />
             )}
           </div>
