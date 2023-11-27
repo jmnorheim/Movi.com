@@ -18,5 +18,6 @@
   "dependencies": {},
   "devDependencies": {
     "cypress": "^13.4.0"
-  }
+  },
+  "baseUrl": "http://it2810-29.idi.ntnu.no/project2"
 }

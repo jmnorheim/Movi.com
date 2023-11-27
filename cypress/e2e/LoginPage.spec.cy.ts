@@ -6,7 +6,7 @@ describe('Login Page', () => {
      * Before each test, visit the login page.
      */
     beforeEach(() => {
-      cy.visit('/login');
+      cy.visit('http://it2810-29.idi.ntnu.no/project2/login');
     });
   
     /**
