@@ -1,7 +1,4 @@
-import {
-  render as rtlRender,
-  screen,
-} from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import HomePageHeader from "../../../src/components/homePageHeader/HomePageHeader";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
