@@ -23,9 +23,10 @@ describe("HomePage Tests", () => {
    * Test searchbar.
    */
   it("allows the user to type and search for a movie", () => {
+    const searchText = "Inception";
     // Write into searchbar.
     cy.get(".SearchbarContainer input")
-      .type("Inception")
+      .type(searchText)
       .should("have.value", searchText);
 
     // Debounce check (wait more than 800ms)
