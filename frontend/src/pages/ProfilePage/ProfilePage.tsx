@@ -6,6 +6,7 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  CircularProgress,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -72,9 +73,13 @@ function ProfilePage() {
   /**
    * Display loading state .
    */
-  if (isLoading) {
-    return <div> isLoading ... </div>;
-  }
+  if (isLoading)
+    return (
+      <div className="Loader">
+        <CircularProgress></CircularProgress>
+        <h3>Loading...</h3>
+      </div>
+    );
 
   // Return =============================================================
   return (

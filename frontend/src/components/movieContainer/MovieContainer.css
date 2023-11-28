@@ -25,6 +25,10 @@
   border: 1px solid black;
 }
 
+.movie-container .rectangle:hover {
+  border: 3px solid rgb(9, 113, 166);
+}
+
 .movie-container .div {
   align-items: center;
   display: inline-flex;

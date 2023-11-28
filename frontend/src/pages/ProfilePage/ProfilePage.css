@@ -8,6 +8,15 @@
   flex-direction: column;
 }
 
+.Loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  margin: 10px;
+}
+
 .profile-container .overlap-group {
   height: 600px;
   left: -132px;

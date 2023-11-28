@@ -15,7 +15,7 @@ import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 import { effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { handlePreFetch, useMovies } from "../../services/getMovies";
-import { TablePagination } from "@mui/material";
+import { CircularProgress, TablePagination } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface FilterSettings {
@@ -178,7 +178,13 @@ const HomePage: React.FC = () => {
 
   // JSX====================================================================================================================
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="Loader">
+        <CircularProgress></CircularProgress>
+        <h3>Loading...</h3>
+      </div>
+    );
 
   return (
     <div className="homePageContainer">
