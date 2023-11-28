@@ -10,8 +10,8 @@ const sortTypeDisplayMapping: { [key in SortType]: string } = {
   RatingLOHI: "Rating: Low to High",
   TitleAZ: "Title: A to Z",
   TitleZA: "Title: Z to A",
-  YearHILO: "Year: New to Old",
-  YearLOHI: "Year: Old to New",
+  YearHILO: "Release Year: New to Old",
+  YearLOHI: "Release Year: Old to New",
 };
 interface SortMenuProps {
   onSort: (sortType: SortType | null) => void;
