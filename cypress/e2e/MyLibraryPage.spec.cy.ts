@@ -1,4 +1,10 @@
+/**
+ * Cypress tests for the MyLibraryPage.
+ */
 describe("MyLibraryPage Tests", () => {
+  /**
+   * Before each test, login and go to MyLibraryPage.
+   */
   beforeEach(() => {
     cy.visit("http://it2810-29.idi.ntnu.no/project2/login");
     cy.get("[id=email]").type("newuserLoginTest@example.com");
