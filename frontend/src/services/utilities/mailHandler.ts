@@ -4,12 +4,12 @@ declare const Email: any;
 export async function sendEmail(to: string) {
   Email.send({
     Host: "smtp.elasticemail.com",
-    Username: "prometheus.gruppe41@gmail.com",
-    Password: "EBBEEA44C1463CC77DB0F689A27091B933E0",
-    From: "prometheus.gruppe41@gmail.com",
+    Username: "moviincorporated@gmail.com",
+    Password: "georgeadrianstoica123",
+    From: "moviincorporated@gmail.com",
     To: to,
-    Subject: "This is the subject",
-    Body: "And this is the body for jens to see if it works :) ",
+    Subject: "The Møvi teams' top movie picks for this christmas!",
+    Body: "Here is our list of must-watch movies for the Christmas season 2024!",
     Port: 2525,
   }).then((message: any) => {
     Promise.resolve();

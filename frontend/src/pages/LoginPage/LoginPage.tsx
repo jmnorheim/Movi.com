@@ -117,7 +117,7 @@ const LoginPage: React.FC = () => {
       />
       <Box className="login-box">
         <Typography component="h1" variant="h4" className="login-title">
-          Login to your account
+          Log in to your account
         </Typography>
         <Box
           component="form"
@@ -251,7 +251,7 @@ const LoginPage: React.FC = () => {
 
           {/* Login button */}
           <Button
-            style={{ backgroundColor: "#001f3f" }}
+            style={{ backgroundColor: "#001f3f", marginTop: "8px" }}
             type="submit"
             fullWidth
             variant="contained"
@@ -265,7 +265,7 @@ const LoginPage: React.FC = () => {
             <Typography
               variant="body1"
               className="register-link-text"
-              style={{ fontSize: 18 }}
+              style={{ fontSize: 18, marginTop: "8px" }}
             >
               Dont have an account?{" "}
               <Link style={{ fontSize: 18, color: "white" }} to="/register">

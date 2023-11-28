@@ -73,7 +73,7 @@ const AddToLibraryButton = ({
       showAlertWithTimer("Movie added to favorites");
       await invalidateIsMovieInFavorites(userID, imdbID, queryClient);
     } catch (error) {
-      showAlertWithTimer("Movie has already been added to favorites");
+      showAlertWithTimer("Movie has already been added to Favorites");
       const key = createCompoundKey("favorites", imdbID);
       setAddStatus(new Map(addStatus.set(key, "error")));
     }

@@ -28,7 +28,9 @@ const NewsLetterBox = () => {
       <div className="footerOuterContainer">
         <div className="join-us-container">
           <div className="text-wrapper">Join Us Today!</div>
-          <div className="text-wrapper-2">Description here</div>
+          <div className="text-wrapper-2">
+            Sign up here to receive the world renowned Møvi-newsletter
+          </div>
           <button
             className="join-now-button"
             onClick={() => setDialogForm(true)}
