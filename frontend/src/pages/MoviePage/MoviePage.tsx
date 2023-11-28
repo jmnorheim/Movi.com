@@ -104,7 +104,11 @@ const MoviePage: React.FC = () => {
       ) : (
         <>
           <div className="movie-card">
-            <img className="background-image" src={moviepage_background} />
+            <img
+              className="background-image"
+              src={moviepage_background}
+              alt="Movie page background image"
+            />
             <div className="overlap-group">
               <div className="div">
                 <div className="div-2">
@@ -141,7 +145,7 @@ const MoviePage: React.FC = () => {
                   </div>
                   <div className="div-5">
                     <div className="div-6">
-                      <img className="img" alt="Image" src={imdb_logo} />
+                      <img className="img" alt="IMDB icon" src={imdb_logo} />
                       <div className="text-wrapper-5">
                         {movie.averageRating}/10
                       </div>

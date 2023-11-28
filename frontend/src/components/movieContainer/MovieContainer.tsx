@@ -14,7 +14,11 @@ const MovieContainer = ({ movie }: MovieContainerProps) => {
 
   return (
     <div className="movie-container">
-      <img className="rectangle" alt="Rectangle" src={posterSrc} />
+      <img
+        className="rectangle"
+        alt={movie.primaryTitle + " poster"}
+        src={posterSrc}
+      />
       {posterIsEmpty && (
         <div className="no-poster-text">No poster available</div>
       )}

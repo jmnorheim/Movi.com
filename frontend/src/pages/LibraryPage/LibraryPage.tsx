@@ -134,7 +134,11 @@ const LibraryPage: React.FC = () => {
         {/* Display list of movies */}
         {!libraryMovies || libraryMovies.length === 0 ? (
           <div className="empty-library-container">
-            <img className="image" alt="Image" src={empty_library} />
+            <img
+              className="image"
+              alt="Empty library image"
+              src={empty_library}
+            />
             <p className="no-movies-found">No Movies Found In This Library</p>
             <button className="div-wrapper" onClick={() => navigate("../../")}>
               <div className="text-wrapper">Add Movies</div>

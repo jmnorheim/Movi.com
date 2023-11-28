@@ -36,7 +36,7 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ genres }) => {
   return (
     <div className="overlap-group">
       <div className="ellipse" />
-      <img className="IMG" alt="Img" src={headerImage} />
+      <img className="IMG" alt="Header image" src={headerImage} />
       <div className="div">
         <div className="text-wrapper">Welcome to the Møvi database</div>
         <div className="text-wrapper-2">Browse over 260 000 movies!</div>

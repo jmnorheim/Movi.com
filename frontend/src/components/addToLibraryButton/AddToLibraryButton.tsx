@@ -153,7 +153,7 @@ const AddToLibraryButton = ({
                 {status && (
                   <img
                     src={status === "success" ? checkmark : red_cross}
-                    alt="icon"
+                    alt="Icon for shoving success or failure for adding to library"
                     className="dropdown-item-icon"
                   />
                 )}
