@@ -1,7 +1,7 @@
 /**
  * Cypress tests for the RegisterPage.
  */
-describe("RegisterPage and delete user functionality ProfilePage", () => {
+describe("RegisterPage", () => {
   /**
    * Before each test, navigate to the registration page.
    */
@@ -21,7 +21,7 @@ describe("RegisterPage and delete user functionality ProfilePage", () => {
   /**
    * Test successful register process and delete user.
    */
-  it("registers a new user", () => {
+  it("registers a new user and delete the registred user", () => {
     // Fill out theinput fields.
     cy.get("input[name=username]").type("newuserRegisterTest");
     cy.get("input[name=email]").type("newuserRegisterTest@example.com");

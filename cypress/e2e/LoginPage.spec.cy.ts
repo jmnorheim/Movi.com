@@ -1,7 +1,7 @@
 /**
  * Cypress tests for the LoginPage.
  */
-describe("LoginPage and log out functionality ProfilePage", () => {
+describe("LoginPage", () => {
   /**
    * Before each test, visit the login page.
    */
