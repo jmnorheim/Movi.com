@@ -384,44 +384,6 @@ describe("userResolver", () => {
     });
 
     /**
-     * Mutation: addLibrary - Should remove a library based on libraryID.
-     */
-    it("Mutation: addLibrary - Should remove a library based on libraryID", async () => {
-      const userID = "1";
-      const libraryID = "lib1";
-      const mockUser = {
-        userID,
-        username: "User1",
-        email: "user1@example.com",
-      };
-
-      mockContext.prisma.library.delete.mockResolvedValue({ libraryID });
-      mockContext.prisma.user.findUnique.mockResolvedValue(mockUser);
-
-      mockContext.prisma.library.findMany.mockResolvedValue([]);
-      mockContext.prisma.libraryMovie.findMany.mockResolvedValue([]);
-      mockContext.prisma.userFavorites.findMany.mockResolvedValue([]);
-
-      const result = await userResolver.Mutation.removeLibrary(
-        null,
-        { userID, libraryID },
-        mockContext as unknown as Context
-      );
-
-      expect(mockContext.prisma.library.delete).toHaveBeenCalledWith({
-        where: { libraryID },
-      });
-      expect(result).toEqual(
-        expect.objectContaining({
-          userID,
-          email: "user1@example.com",
-          library: [],
-          favorites: [],
-        })
-      );
-    });
-
-    /**
      * Mutation: removeLibrary - Should remove a library based on libraryID.
      */
     it("Mutation: removeLibrary - Should remove a library based on libraryID", async () => {
@@ -483,6 +445,7 @@ const setupMockContext = () => {
       },
       libraryMovie: {
         findMany: vi.fn(),
+        deleteMany: vi.fn(),
       },
       userFavorites: {
         findMany: vi.fn(),

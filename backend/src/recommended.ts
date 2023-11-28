@@ -9,7 +9,7 @@ import { Movie } from "../generated/resolvers-types";
  * @param {Movie} movie2 - The second movie to compare.
  * @returns {number} A number representing the similarity between the two movies (ranging from 0 to 1).
  */
-const calculateSimilarity = (movie1: Movie, movie2: Movie): number => {
+export const calculateSimilarity = (movie1: Movie, movie2: Movie): number => {
   let genres = Array.from(new Set([...movie1.genres, ...movie2.genres]));
 
   let vector1: number[] = genres.map((genre) =>
