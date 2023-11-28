@@ -32,11 +32,6 @@ function render(ui: React.ReactElement) {
   );
 }
 
-// Mock the addMovieToLibrary function
-vi.mock("../../../src/services/addMovieToLibrary.ts", () => ({
-  addMovieToLibrary: vi.fn(),
-}));
-
 /**
  * Test AddToLibraryButton.
  */
@@ -47,9 +42,6 @@ describe("AddToLibraryButton", () => {
   it("test adding a movie to a favorites.", async () => {
     // Mock data.
     const imdbID = "some_imdb_id";
-
-    // Mock success response for addMovieToLibrary.
-    addMovieToLibrary.mockResolvedValueOnce();
 
     // Render the component.
     render(
