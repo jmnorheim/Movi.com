@@ -1,8 +1,8 @@
 import React from "react";
-import { render as rtlRender, screen, waitFor } from "@testing-library/react";
+import { render as rtlRender } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { describe, it, vi, expect } from "vitest";
+import { describe, it, vi, expect, test } from "vitest";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import HomePage from "../../../src/pages/HomePage/HomePage";
 
@@ -40,12 +40,12 @@ describe("HomePage Component", () => {
   it("renders HomePage", async () => {
     render(<HomePage />);
   });
+});
 
-  /**
-   * Snapshot test.
-   */
-  it("should match the snapshot", () => {
-    const { asFragment } = render(<HomePage />);
-    expect(asFragment()).toMatchSnapshot();
-  });
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<HomePage />);
+  await expect(asFragment()).toMatchSnapshot();
 });

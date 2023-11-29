@@ -7,15 +7,12 @@ import {
   waitFor,
   cleanup,
 } from "@testing-library/react";
-import { describe, it, vi, expect, afterEach, beforeEach } from "vitest";
+import { describe, it, vi, expect, afterEach, beforeEach, test } from "vitest";
 import LoginPage from "../../../src/pages/LoginPage/LoginPage";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import * as getUser from "../../../src/services/getUser";
-import { User } from "../../../src/interfaces";
-import RegisterPage from "../../../src/pages/RegisterPage/RegisterPage";
-import { createUser } from "../../../src/services/createUser";
 
 /**
  * @vitest-environment jsdom
@@ -160,12 +157,12 @@ describe("Tests LoginPage", () => {
     // Check for error message.
     expect(screen.getByText("Please enter a valid email")).toBeDefined();
   });
+});
 
-  /**
-   * Snapshot test.
-   */
-  it("Snapshot test", () => {
-    const { asFragment } = render(<LoginPage />);
-    expect(asFragment()).toMatchSnapshot();
-  });
+/**
+ * Snapshot test.
+ */
+test("Snapshot test", async () => {
+  const { asFragment } = render(<LoginPage />);
+  await expect(asFragment()).toMatchSnapshot();
 });

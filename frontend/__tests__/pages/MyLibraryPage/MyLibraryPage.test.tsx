@@ -1,5 +1,5 @@
 import React from "react";
-import { describe, it, vi, expect, afterEach, beforeEach } from "vitest";
+import { describe, it, vi, expect, afterEach, beforeEach, test } from "vitest";
 import {
   render as rtlRender,
   screen,
@@ -136,12 +136,12 @@ describe("MyLibraryPage Component", () => {
     // Check if the popup is closed.
     expect(screen.getByText("My Libraries")).toBeDefined();
   });
+});
 
-  /**
-   * Snapshot test.
-   */
-  it("should match the snapshot", () => {
-    const { asFragment } = render(<MyLibraryPage />);
-    expect(asFragment()).toMatchSnapshot();
-  });
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<MyLibraryPage />);
+  await expect(asFragment()).toMatchSnapshot();
 });

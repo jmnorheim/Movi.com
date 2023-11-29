@@ -2,7 +2,7 @@ import React from "react";
 import { render as rtlRender, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { describe, it, vi, expect } from "vitest";
+import { describe, it, vi, expect, test } from "vitest";
 import LibraryPage from "../../../src/pages/LibraryPage/LibraryPage";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import Module from "module";
@@ -106,12 +106,12 @@ describe("LibraryPage Component", () => {
       expect(movieTitle).toBeDefined();
     });
   });
+});
 
-  /**
-   * Snapshot test.
-   */
-  it("should match the snapshot", () => {
-    const { asFragment } = render(<LibraryPage />);
-    expect(asFragment()).toMatchSnapshot();
-  });
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<LibraryPage />);
+  await expect(asFragment()).toMatchSnapshot();
 });

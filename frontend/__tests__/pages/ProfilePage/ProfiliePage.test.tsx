@@ -1,5 +1,5 @@
 import React from "react";
-import { describe, it, vi, expect, afterEach, beforeEach } from "vitest";
+import { describe, it, vi, expect, afterEach, beforeEach, test } from "vitest";
 import {
   render as rtlRender,
   screen,
@@ -116,12 +116,12 @@ describe("Tests ProfilePage", () => {
     // Assert that Log Out button navigate to /login when clicked.
     await waitFor(() => expect(navigate).toHaveBeenCalledWith("/login"));
   });
+});
 
-  /**
-   * Snapshot test.
-   */
-  it("should match the snapshot", () => {
-    const { asFragment } = render(<ProfilePage />);
-    expect(asFragment()).toMatchSnapshot();
-  });
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<ProfilePage />);
+  await expect(asFragment()).toMatchSnapshot();
 });
