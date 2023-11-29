@@ -29,25 +29,33 @@ function render(ui: React.ReactElement) {
   );
 }
 
-// Mock for useIsMovieInFavorites
+/**
+ * Mock for useIsMovieInFavorites.
+ */
 vi.mock("../../../src/services/isMovieInFavorite", () => ({
   useIsMovieInFavorites: vi.fn().mockImplementation(() => ({ data: false })),
   invalidateIsMovieInFavorites: vi.fn(), // Mock the invalidateIsMovieInFavorites function
 }));
 
-// Mock for addMovieToFavorite
+/**
+ * Mock for addMovieToFavorite.
+ */
 vi.mock("../../../src/services/addMovieToFavorites", () => ({
   addMovieToFavorite: vi.fn(),
 }));
 
-// Mock for useRemoveMovieFromFavorites
+/**
+ * Mock for useRemoveMovieFromFavorites.
+ */
 vi.mock("../../../src/services/removeMovieFromFavorites", () => ({
   useRemoveMovieFromFavorites: vi
     .fn()
     .mockImplementation(() => ({ mutate: vi.fn() })),
 }));
 
-// Mock for useQueryClient
+/**
+ * Mock for useQueryClient
+ */
 vi.mock("@tanstack/react-query", async () => {
   const actual = await vi.importActual("@tanstack/react-query");
   return {

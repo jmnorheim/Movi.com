@@ -60,27 +60,9 @@ describe("Test Moviecontainergrid + Moviecontainer", () => {
     render(
       <MovieContainerGrid
         movies={mockMovies}
-        // onToggleFavorite={mockToggleFavorite}
       />
     );
     const element = await screen.findByText(/Test Movie 1/);
     expect(element).toBeDefined();
-  });
-
-  /**
-   * Test that MovieContainerGrid triggers onToggleFavorite when star is clicked.
-   */
-  it("triggers onToggleFavorite when star is clicked", () => {
-    render(
-      <MovieContainerGrid
-        movies={mockMovies}
-        // onToggleFavorite={mockToggleFavorite}
-      />
-    );
-    // const starElements = screen.getAllByText("★");
-    // const starElement = starElements[0];
-    // starElement.click();
-    // expect(mockToggleFavorite).toHaveBeenCalledWith(mockMovies[0].imdbID);
-    expect(true);
   });
 });

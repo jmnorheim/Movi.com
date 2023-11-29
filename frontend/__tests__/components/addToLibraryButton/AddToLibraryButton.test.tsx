@@ -7,9 +7,8 @@ import {
 import { describe, it, expect, vi } from "vitest";
 import AddToLibraryButton from "../../../src/components/addToLibraryButton/AddToLibraryButton";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, MemoryRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
-import { addMovieToLibrary } from "../../../src/services/addMovieToLibrary.ts";
 
 /**
  * @vitest-environment jsdom

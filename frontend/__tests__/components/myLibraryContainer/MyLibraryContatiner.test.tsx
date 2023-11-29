@@ -77,6 +77,6 @@ describe("MyLibraryContainer", () => {
 
     // Assert that movie posters are displayed
     const posters = getAllByAltText(/^Movie Poster/);
-    expect(posters).toHaveLength(4);c
+    expect(posters).toHaveLength(4);
   });
 });
