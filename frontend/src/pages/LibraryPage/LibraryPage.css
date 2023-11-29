@@ -108,6 +108,9 @@
   letter-spacing: 0;
   line-height: 96px;
   white-space: nowrap;
+  max-width: 60vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .library-title .delete-library-button {
@@ -331,6 +334,6 @@
   }
 
   .library-title .text-wrapper {
-    font-size: 48px;
+    font-size: 30px;
   }
 }
