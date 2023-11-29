@@ -220,6 +220,8 @@ const AddToLibraryButton = ({
             zIndex: 10000,
             transform: showAlert ? "translateY(0)" : "translateY(100%)",
             transition: "transform 0.5s ease-in-out",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {alertMessage}

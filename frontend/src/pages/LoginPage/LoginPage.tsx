@@ -26,7 +26,9 @@ const emailRegex = /\S+@\S+\.\S+/;
 /**
  * LoginPage Component
  *
- * This component provides a login form for users, including fields for email and password. It includes validation for inputs and displays error messages for invalid input or login failure. Upon successful login, the user is redirected to their profile page.
+ * This component provides a login form for users, including fields for email and password.
+ * It includes validation for inputs and displays error messages for invalid input or login failure.
+ * Upon successful login, the user is redirected to their profile page.
  *
  * Features:
  * - Text fields for email and password input with validation.
@@ -57,7 +59,7 @@ const LoginPage: React.FC = () => {
   });
 
   /**
-   * Validates the user input fields for login.
+   * Validates the users input for login.
    */
   const validateFields = () => {
     const errors = {
@@ -87,7 +89,7 @@ const LoginPage: React.FC = () => {
     }
 
     /**
-     * Try to login. Catch error if not possible.
+     * Try to log in, catch error if unsuccessful.
      */
     try {
       const { userID } = await getUserByEmail(inputEmail);
@@ -262,22 +264,17 @@ const LoginPage: React.FC = () => {
 
           {/* Login button */}
           <Button
-            style={{ backgroundColor: "#001f3f", marginTop: "8px" }}
+            className="login-btn"
             type="submit"
             fullWidth
             variant="contained"
-            className="login-btn"
           >
             Login
           </Button>
 
           {/* Link to register page */}
           <Box className="register-link-box">
-            <Typography
-              variant="body1"
-              className="register-link-text"
-              style={{ fontSize: 18, marginTop: "8px" }}
-            >
+            <Typography variant="body1" className="register-link-text">
               Dont have an account?{" "}
               <Link style={{ fontSize: 18, color: "white" }} to="/register">
                 Register

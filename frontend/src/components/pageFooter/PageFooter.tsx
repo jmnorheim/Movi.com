@@ -20,6 +20,15 @@ import { useNavigate } from "react-router-dom";
  */
 const PageFooter = () => {
   const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    navigate("../");
+  };
+
   return (
     <div className="bottomFooter">
       <div className="content">
@@ -28,7 +37,7 @@ const PageFooter = () => {
             className="logo"
             alt="Logo"
             src={logo}
-            onClick={() => navigate("../")}
+            onClick={handleLogoClick}
           />
         </div>
         <div className="social-links">
@@ -82,7 +91,7 @@ const PageFooter = () => {
               <div className="text-wrapper">Terms of Service</div>
             </a>
             <a
-              href="https://www.vg.no/rabattkode/cookie-policy"
+              href="https://orteil.dashnet.org/cookieclicker/"
               target="Cookies Settings"
               rel="noopener noreferrer"
             >
