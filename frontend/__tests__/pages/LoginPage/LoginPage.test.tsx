@@ -164,8 +164,8 @@ describe("Tests LoginPage", () => {
   /**
    * Snapshot test.
    */
-  /*it("Snapshot test", () => {
+  it("Snapshot test", () => {
     const { asFragment } = render(<LoginPage />);
     expect(asFragment()).toMatchSnapshot();
-  });*/
+  });
 });

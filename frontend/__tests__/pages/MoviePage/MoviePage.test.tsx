@@ -76,4 +76,12 @@ describe("MoviePage Component", () => {
     render(<MoviePage />, { route: "/movies/tt0111161" });
     expect(screen.getByText("Add To Library")).toBeDefined();
   });
+
+  /**
+   * Snapshot test.
+   */
+  it("should match the snapshot", () => {
+    const { asFragment } = render(<MoviePage />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

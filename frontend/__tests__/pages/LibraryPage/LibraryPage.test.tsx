@@ -106,4 +106,12 @@ describe("LibraryPage Component", () => {
       expect(movieTitle).toBeDefined();
     });
   });
+
+  /**
+   * Snapshot test.
+   */
+  it("should match the snapshot", () => {
+    const { asFragment } = render(<LibraryPage />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

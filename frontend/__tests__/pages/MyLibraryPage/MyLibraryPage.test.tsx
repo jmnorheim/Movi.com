@@ -136,4 +136,12 @@ describe("MyLibraryPage Component", () => {
     // Check if the popup is closed.
     expect(screen.getByText("My Libraries")).toBeDefined();
   });
+
+  /**
+   * Snapshot test.
+   */
+  it("should match the snapshot", () => {
+    const { asFragment } = render(<MyLibraryPage />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

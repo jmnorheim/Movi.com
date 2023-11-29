@@ -44,4 +44,12 @@ describe("HomePage Component", () => {
   it("renders HomePage", async () => {
     render(<HomePage />);
   });
+
+  /**
+   * Snapshot test.
+   */
+  it("should match the snapshot", () => {
+    const { asFragment } = render(<HomePage />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
