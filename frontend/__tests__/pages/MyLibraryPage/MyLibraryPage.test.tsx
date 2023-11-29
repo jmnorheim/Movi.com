@@ -11,6 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import MyLibraryPage from "../../../src/pages/MyLibraryPage/MyLibraryPage";
+import Module from "module";
 
 /**
  * @vitest-environment jsdom
@@ -20,12 +21,12 @@ import MyLibraryPage from "../../../src/pages/MyLibraryPage/MyLibraryPage";
 window.alert = vi.fn();
 
 /**
- * Mock AuthContext.
+ * Mocks useAuth to simulate an authenticated user context.
  */
-vi.mock("../../../src/services/auth/AuthContext", async () => {
-  const actual = (await vi.importActual(
-    "../../../src/services/auth/AuthContext"
-  )) as any;
+vi.mock("../../../src/services/auth/AuthContext.tsx", async () => {
+  const actual: Module = await vi.importActual(
+    "../../../src/services/auth/AuthContext.tsx"
+  );
   return {
     ...actual,
     useAuth: () => ({
@@ -34,7 +35,9 @@ vi.mock("../../../src/services/auth/AuthContext", async () => {
   };
 });
 
-// Mock useUsersLibrariesQuery
+/**
+ * Mock useUsersLibrariesQuery to provide the users libraries.
+ */
 vi.mock("../../../src/services/getUserLibraries.ts", () => ({
   useUsersLibrariesQuery: () => ({
     data: {
@@ -47,7 +50,7 @@ vi.mock("../../../src/services/getUserLibraries.ts", () => ({
 }));
 
 /**
- * Mocks useCreateLibrary.
+ * Mocks useCreateLibrary to create library.
  */
 const mockMutate = vi.fn();
 vi.mock("../../../src/services/mutateLibrary", () => ({
