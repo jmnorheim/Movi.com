@@ -36,7 +36,7 @@ The backend server is run by our virtual machine, and is ready at http://it2810-
 
    - Run backend-tests: `npm run test:backend`
    - Run frontend-tests: `npm run test:frontend`
-   - Run Cypress: `npx cypress open`
+   - Run Cypress: `npx cypress open`, then chose E2E testing, then chose Electron
 
 5. **Code formatting**:
 
