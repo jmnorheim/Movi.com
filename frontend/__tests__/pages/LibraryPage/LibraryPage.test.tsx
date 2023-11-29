@@ -2,7 +2,7 @@ import React from "react";
 import { render as rtlRender, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { describe, it, vi, expect } from "vitest";
+import { describe, it, vi, expect, test } from "vitest";
 import LibraryPage from "../../../src/pages/LibraryPage/LibraryPage";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import Module from "module";
@@ -27,14 +27,14 @@ vi.mock("react-router-dom", async () => {
 });
 
 /**
- * getMovies.ts`: Mocks `useMoviesInByLibraryIDQuery` to provide predefined movie data.
+ * Mocks `useMoviesInByLibraryIDQuery` to provide predefined movie data.
  */
 vi.mock("../../../src/services/getMovies.ts", () => ({
   useMoviesInByLibraryIDQuery: () => ({ data: mockMovies, isLoading: false }),
 }));
 
 /**
- * AuthContext.tsx`: Mocks `useAuth` to simulate an authenticated user context.
+ * Mocks `useAuth` to simulate an authenticated user context.
  */
 vi.mock("../../../src/services/auth/AuthContext.tsx", async () => {
   const actual: Module = await vi.importActual(
@@ -47,7 +47,7 @@ vi.mock("../../../src/services/auth/AuthContext.tsx", async () => {
 });
 
 /**
- * removeMovieFromLibrary.ts`: Mocks `useRemoveMovieFromLibrary` with a spy function for `mutate`.
+ * Mocks `useRemoveMovieFromLibrary` with a spy function for `mutate`.
  */
 vi.mock("../../../src/services/removeMovieFromLibrary.ts", () => ({
   useRemoveMovieFromLibrary: () => ({
@@ -56,7 +56,7 @@ vi.mock("../../../src/services/removeMovieFromLibrary.ts", () => ({
 }));
 
 /**
- * removeLibrary.ts`: Mocks `useRemoveLibrary` with a spy function for `mutate`.
+ * Mocks `useRemoveLibrary` with a spy function for `mutate`.
  */
 vi.mock("../../../src/services/removeLibrary.ts", () => ({
   useRemoveLibrary: () => ({
@@ -106,4 +106,12 @@ describe("LibraryPage Component", () => {
       expect(movieTitle).toBeDefined();
     });
   });
+});
+
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<LibraryPage />);
+  await expect(asFragment()).toMatchSnapshot();
 });

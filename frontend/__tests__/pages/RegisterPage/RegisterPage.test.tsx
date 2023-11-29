@@ -5,7 +5,7 @@ import {
   waitFor,
   cleanup,
 } from "@testing-library/react";
-import { describe, it, vi, expect, afterEach, beforeEach } from "vitest";
+import { describe, it, vi, expect, afterEach, beforeEach, test } from "vitest";
 import RegisterPage from "../../../src/pages/RegisterPage/RegisterPage";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -273,12 +273,12 @@ describe("Tests RegisterPage", () => {
     // Check for error message.
     expect(screen.getByText("Please enter a valid email")).toBeDefined();
   });
+});
 
-  /**
-   * Snapshot test.
-   */
-  /*it("should match the snapshot", () => {
-    const { asFragment } = render(<RegisterPage />);
-    expect(asFragment()).toMatchSnapshot();
-  });*/
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<RegisterPage />);
+  await expect(asFragment()).toMatchSnapshot();
 });

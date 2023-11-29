@@ -24,8 +24,21 @@ import { verifyPassword } from "../../services/utilities/hashFunction";
 const emailRegex = /\S+@\S+\.\S+/;
 
 /**
- * Render the LoginPage component.
- * @returns {React.FC}
+ * LoginPage Component
+ *
+ * This component provides a login form for users, including fields for email and password.
+ * It includes validation for inputs and displays error messages for invalid input or login failure.
+ * Upon successful login, the user is redirected to their profile page.
+ *
+ * Features:
+ * - Text fields for email and password input with validation.
+ * - Real-time validation feedback for email format and required fields.
+ * - Error handling for incorrect login details with visual feedback using Material-UI `Alert`.
+ * - Redirects to the profile page upon successful login.
+ * - Link to the registration page for new users.
+ * - Custom styles and theme to maintain consistency with the overall application design.
+ * - Uses `useAuth` from `../../services/auth/AuthContext` for authentication logic.
+ * - Background image and theme settings are managed using Material-UI components and CSS.
  */
 const LoginPage: React.FC = () => {
   // State for user inputs
@@ -46,7 +59,7 @@ const LoginPage: React.FC = () => {
   });
 
   /**
-   * Validates the user input fields for login.
+   * Validates the users input for login.
    */
   const validateFields = () => {
     const errors = {
@@ -76,7 +89,7 @@ const LoginPage: React.FC = () => {
     }
 
     /**
-     * Try to login. Catch error if not possible.
+     * Try to log in, catch error if unsuccessful.
      */
     try {
       const { userID } = await getUserByEmail(inputEmail);
@@ -117,7 +130,7 @@ const LoginPage: React.FC = () => {
       />
       <Box className="login-box">
         <Typography component="h1" variant="h4" className="login-title">
-          Login to your account
+          Log in to your account
         </Typography>
         <Box
           component="form"
@@ -251,22 +264,17 @@ const LoginPage: React.FC = () => {
 
           {/* Login button */}
           <Button
-            style={{ backgroundColor: "#001f3f" }}
+            className="login-btn"
             type="submit"
             fullWidth
             variant="contained"
-            className="login-btn"
           >
             Login
           </Button>
 
           {/* Link to register page */}
           <Box className="register-link-box">
-            <Typography
-              variant="body1"
-              className="register-link-text"
-              style={{ fontSize: 18 }}
-            >
+            <Typography variant="body1" className="register-link-text">
               Dont have an account?{" "}
               <Link style={{ fontSize: 18, color: "white" }} to="/register">
                 Register

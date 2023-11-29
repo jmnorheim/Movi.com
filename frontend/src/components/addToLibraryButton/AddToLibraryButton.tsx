@@ -8,7 +8,6 @@ import { invalidateIsMovieInFavorites } from "../../services/isMovieInFavorite.t
 import { useQueryClient } from "@tanstack/react-query";
 import { Alert } from "@navikt/ds-react";
 import "@navikt/ds-css";
-import plus from "../../assets/icons/plus.svg";
 import checkmark from "../../assets/icons/checkmark.svg";
 import red_cross from "../../assets/icons/red_cross.svg";
 import "./AddToLibraryButton.css";
@@ -23,6 +22,26 @@ interface AddToLibraryButtonProps {
   dropDownItemMaxWidth?: string;
 }
 
+/**
+ * Component for adding a movie to a library or favorites.
+ *
+ * This component provides a dropdown button that allows users to add a movie to their favorite list or any of their libraries.
+ * It handles the addition of the movie and displays alerts based on the success or failure of these actions.
+ *
+ * Props:
+ * @param {string} imdbID - The IMDB ID of the movie to be added.
+ * @param {string} width - The width of the button.
+ * @param {string} height - The height of the button.
+ * @param {string} fontSize - The font size of the button text.
+ * @param {{ top: string; left: string }} [dropdownPosition] - The position of the dropdown menu.
+ * @param {string} [dropDownItemMaxWidth='100%'] - The maximum width of the dropdown items.
+ *
+ * Features:
+ * - Dropdown menu to select between adding to favorites or a specific library.
+ * - Visual feedback (checkmark or cross) indicating the success or failure of adding the movie.
+ * - Alert messages for providing more detailed feedback to the user.
+ * - Uses custom hooks from the services for querying and mutating data.
+ */
 const AddToLibraryButton = ({
   imdbID,
   width,
@@ -45,27 +64,37 @@ const AddToLibraryButton = ({
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const createCompoundKey = (libraryID: string, movieID: string) => {
+    return `${libraryID}-${movieID}`;
+  };
+
   const handleAddMovieLibrary = async (library: Library, imdbID: string) => {
     try {
       await addMovieToLibrary(library.libraryID, imdbID);
-      setAddStatus(new Map(addStatus.set(library.libraryID, "success")));
+      const key = createCompoundKey(library.libraryID, imdbID);
+      setAddStatus(new Map(addStatus.set(key, "success")));
+      showAlertWithTimer("Movie added to library", library.name);
     } catch (error) {
       showAlertWithTimer(
         "Movie has already been added to library",
         library.name
       );
-      setAddStatus(new Map(addStatus.set(library.libraryID, "error")));
+      const key = createCompoundKey(library.libraryID, imdbID);
+      setAddStatus(new Map(addStatus.set(key, "error")));
     }
   };
 
   const handleAddMovieFavorites = async (userID: string, imdbID: string) => {
     try {
       await addMovieToFavorite(userID, imdbID);
-      setAddStatus(new Map(addStatus.set("favorites", "success")));
+      const key = createCompoundKey("favorites", imdbID);
+      setAddStatus(new Map(addStatus.set(key, "success")));
+      showAlertWithTimer("Movie added to favorites");
       await invalidateIsMovieInFavorites(userID, imdbID, queryClient);
     } catch (error) {
-      showAlertWithTimer("Movie has already been added to favorites");
-      setAddStatus(new Map(addStatus.set("favorites", "error")));
+      showAlertWithTimer("Movie has already been added to Favorites");
+      const key = createCompoundKey("favorites", imdbID);
+      setAddStatus(new Map(addStatus.set(key, "error")));
     }
   };
 
@@ -86,9 +115,10 @@ const AddToLibraryButton = ({
   }, []);
 
   const showAlertWithTimer = (message: string, libraryName?: string) => {
-    // Clear existing timer
+    // Clear existing timer and alert
     if (alertTimer) {
       clearTimeout(alertTimer);
+      setShowAlert(false);
     }
 
     if (libraryName) {
@@ -127,53 +157,61 @@ const AddToLibraryButton = ({
           className="dropdown-menu-library"
           style={{ ...dropdownPosition, width }}
         >
-          <div
-            className="dropdown-item"
-            onClick={() => {
-              void handleAddMovieFavorites(userID, imdbID);
-            }}
-          >
-            <div className="favorites-text">Favorites</div>
-            {addStatus.get("favorites") && (
-              <img
-                src={
-                  addStatus.get("favorites") === "success"
-                    ? checkmark
-                    : red_cross
-                }
-                alt="icon"
-                className="dropdown-item-icon"
-              />
-            )}
-          </div>
-          {libraries?.map((library) => (
-            <div
-              key={library.libraryID}
-              className="dropdown-item"
-              onClick={() => {
-                void handleAddMovieLibrary(library, imdbID);
-              }}
-              style={{ width: dropDownItemMaxWidth }}
-            >
-              <div className="library-name">{library.name}</div>
-              {addStatus.get(library.libraryID) && (
-                <img
-                  src={
-                    addStatus.get(library.libraryID) === "success"
-                      ? checkmark
-                      : red_cross
-                  }
-                  alt="icon"
-                  className="dropdown-item-icon"
-                />
-              )}
-            </div>
-          ))}
+          {(() => {
+            const favoritesKey = createCompoundKey("favorites", imdbID);
+            const status = addStatus.get(favoritesKey);
+
+            return (
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  void handleAddMovieFavorites(userID, imdbID);
+                }}
+              >
+                <div className="favorites-text">Favorites</div>
+                {status && (
+                  <img
+                    src={status === "success" ? checkmark : red_cross}
+                    alt="Icon for shoving success or failure for adding to library"
+                    className="dropdown-item-icon"
+                  />
+                )}
+              </div>
+            );
+          })()}
+          {libraries?.map((library) => {
+            const key = createCompoundKey(library.libraryID, imdbID);
+            return (
+              <div
+                key={library.libraryID}
+                className="dropdown-item"
+                onClick={() => {
+                  void handleAddMovieLibrary(library, imdbID);
+                }}
+                style={{ width: dropDownItemMaxWidth }}
+              >
+                <div className="library-name">{library.name}</div>
+                {addStatus.get(key) && (
+                  <img
+                    src={
+                      addStatus.get(key) === "success" ? checkmark : red_cross
+                    }
+                    alt="icon"
+                    className="dropdown-item-icon"
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
       {showAlert && (
         <Alert
-          variant="error"
+          variant={
+            alertMessage.startsWith("Movie has already been added")
+              ? "error"
+              : "success"
+          }
           style={{
             position: "fixed",
             bottom: "10px",
@@ -182,6 +220,8 @@ const AddToLibraryButton = ({
             zIndex: 10000,
             transform: showAlert ? "translateY(0)" : "translateY(100%)",
             transition: "transform 0.5s ease-in-out",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {alertMessage}

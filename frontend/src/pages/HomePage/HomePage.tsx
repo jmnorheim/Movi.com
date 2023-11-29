@@ -4,7 +4,6 @@ import { MovieContent } from "../../interfaces";
 
 import MovieContainerGrid from "../../components/movieContainerGrid/MovieContainerGrid";
 import "./HomePage.css";
-import { useAuth } from "../../services/auth/AuthContext";
 
 import SortMenu from "../../components/sortMenu/SortMenu";
 import HomePageHeader from "../../components/homePageHeader/HomePageHeader";
@@ -15,7 +14,7 @@ import NewsLetterBox from "../../components/newsletterBox/NewsLetterBox";
 import { effect, signal } from "@preact/signals-react";
 import { navbarColor } from "../../App";
 import { handlePreFetch, useMovies } from "../../services/getMovies";
-import { TablePagination } from "@mui/material";
+import { CircularProgress, TablePagination } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface FilterSettings {
@@ -47,8 +46,22 @@ export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
 /**
- * Render the HomePage component.
- * @returns {React.FC}
+ * HomePage Component
+ *
+ * This component serves as the main page of the application, displaying a grid of movies that can be filtered and sorted according to various criteria. It includes a header with a search bar and genre filtering, pagination for navigating through movie pages, and options for sorting movies by different attributes.
+ *
+ * Features:
+ * - Dynamic rendering of movies based on filters, search query, and sort type.
+ * - Pagination to navigate through movie pages with adjustable number of movies per page.
+ * - Custom header component (`HomePageHeader`) with a search bar and genre filtering options.
+ * - Sorting functionality through the `SortMenu` component.
+ * - Utilizes `useMovies` hook to fetch movies data based on current search, filter, and sort settings.
+ * - Automatic scrolling to top of the movie grid on search.
+ * - Pre-fetching movies data when hovering over pagination controls for smoother user experience.
+ * - Responsive design to accommodate various screen sizes.
+ * - Incorporates `NewsLetterBox` for subscribing to the newsletter and `PageFooter` for additional navigation.
+ * - Navbar color is dynamically set to white using `navbarColor` signal.
+ * - Uses Material-UI components like `CircularProgress` and `TablePagination` for consistent UI elements.
  */
 const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<MovieContent[] | null>(null);
@@ -178,7 +191,13 @@ const HomePage: React.FC = () => {
 
   // JSX====================================================================================================================
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="Loader">
+        <CircularProgress></CircularProgress>
+        <h3 style={{ marginLeft: "10px" }}>Loading...</h3>
+      </div>
+    );
 
   return (
     <div className="homePageContainer">
@@ -192,7 +211,20 @@ const HomePage: React.FC = () => {
             <div className="paginationContainer">
               {data && (
                 <TablePagination
-                  sx={{ size: "large" }}
+                  sx={{
+                    ".MuiTablePagination-toolbar": {
+                      minHeight: "56px", // Adjust the height
+                      ".MuiTypography-root": {
+                        fontSize: "3rem", // Adjust font size
+                      },
+                      ".MuiSelect-root": {
+                        fontSize: "3rem", // Adjust font size for the select dropdown
+                      },
+                      ".MuiIconButton-root": {
+                        padding: "10px", // Adjust padding for the buttons
+                      },
+                    },
+                  }}
                   className="pagination custom-pagination"
                   component="div"
                   count={data.count}
@@ -200,6 +232,7 @@ const HomePage: React.FC = () => {
                   onPageChange={handleChangePage}
                   rowsPerPage={rowsPerPage.value}
                   onRowsPerPageChange={handleChangeRowsPerPage}
+                  labelRowsPerPage="Movies per page:"
                 />
               )}
             </div>
@@ -216,6 +249,21 @@ const HomePage: React.FC = () => {
               <MovieContainerGrid movies={movies} />
             ) : (
               <h2 className="noMatchesText">No matches found</h2>
+            )}
+          </div>
+          <div className="paginationContainer">
+            {data && (
+              <TablePagination
+                sx={{ size: "large" }}
+                className="pagination custom-pagination"
+                component="div"
+                count={data.count}
+                page={page.value}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage.value}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="Movies per page:"
+              />
             )}
           </div>
           <div className="footerContainer">

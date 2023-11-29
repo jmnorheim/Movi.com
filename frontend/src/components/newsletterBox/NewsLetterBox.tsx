@@ -15,6 +15,19 @@ const NewsLetterBox = () => {
   const [dialogForm, setDialogForm] = useState(false);
   const [email, setEmail] = useState("");
 
+  /**
+   * Asynchronously sends an email to the provided email address.
+   *
+   * This function invokes the `sendEmail` service, passing the current state's email address.
+   * If the email sending process fails, it throws an error.
+   *
+   * @remarks
+   * - This function is triggered when the user clicks the 'Join' button in the newsletter dialog.
+   * - It uses the `sendEmail` service from `../../services/utilities/mailHandler`.
+   * - Error handling is implemented to catch and throw errors during the email sending process.
+   *
+   * @throws {Error} Throws an error with the message "Error sending email" if the email sending process fails.
+   */
   const handleSendEmail = async () => {
     try {
       await sendEmail(email);
@@ -28,7 +41,9 @@ const NewsLetterBox = () => {
       <div className="footerOuterContainer">
         <div className="join-us-container">
           <div className="text-wrapper">Join Us Today!</div>
-          <div className="text-wrapper-2">Description here</div>
+          <div className="text-wrapper-2">
+            Subscribe to receive Møvi`s top movie picks for this christmas!
+          </div>
           <button
             className="join-now-button"
             onClick={() => setDialogForm(true)}

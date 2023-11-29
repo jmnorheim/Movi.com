@@ -24,9 +24,9 @@
   margin-top: 10px;
 }
 
-.login-btn {
+.login-container .login-btn {
   margin-bottom: 16px;
-  margin-top: 24px;
+  margin-top: 16px;
   background-color: #001f3f;
   transition: background-color 0.3s ease-in-out;
 }
@@ -35,20 +35,15 @@
   background-color: #001022;
 }
 
-.login-link-box {
-  margin-top: 30px;
+.login-container .register-link-box {
   text-align: center;
 }
 
-.login-link-text {
+.login-container .register-link-text {
+  font-size: 18px;
   color: white;
 }
 
-.register-link-text {
-  color: white;
-}
-
-.login-error {
+.error-login {
   width: 100%;
-  text-align: center;
 }

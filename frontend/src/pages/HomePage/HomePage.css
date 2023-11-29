@@ -1,22 +1,27 @@
 body,
 html {
-  /* background-color: #d1e8e2; */
-  margin: 0; /* Removes default margins */
-  height: 100%; /* Ensures that html and body cover the full viewport height */
-  width: 100%; /* Ensures that html and body cover the full viewport width */
+  margin: 0;
+  height: 100%;
+  width: 100%;
   max-width: 100vw;
+}
+
+.Loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .homePageContainer {
   display: flex;
   flex-direction: column;
   align-items: space-around;
-  /* background-color: #d1e8e2; */
   min-height: 100%;
-  /* min-width: 100%; */
-}
-
-.headerContainer {
 }
 
 .footerContainer {
@@ -25,24 +30,19 @@ html {
   flex-direction: column;
   padding-top: 50px;
   max-width: 100vw;
-  /* background-color: red; */
 }
 
 .pageContainer {
   display: flex;
   flex-direction: column;
   align-items: space-around;
-  /* background-color: red; */
   min-height: 100%;
-  /* min-width: 100%; */
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-top: 5px; */
-  /* background-color: red; */
 }
 
 .paginationContainer {
@@ -67,22 +67,18 @@ html {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  /* padding-top: 30px; */
   padding-right: 8%;
   margin-left: auto;
-  /* background-color: red; */
 }
 
 .contentContainer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* background-color: green; */
 }
 
 .gridContainer {
   padding-top: 10px;
-  /* background-color: blue; */
 }
 
 .noMatchesText {
@@ -94,7 +90,6 @@ html {
   font-weight: bold;
   color: #3d405b;
   text-align: center;
-  /* background-color: red; */
 }
 
 @media screen and (max-width: 768px) {
@@ -102,7 +97,6 @@ html {
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    /* justify-content: center; */
   }
 
   .sortMenuContainer {

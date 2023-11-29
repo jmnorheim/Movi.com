@@ -2,8 +2,7 @@ import React from "react";
 import { render as rtlRender, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { describe, it, vi, expect } from "vitest";
-import LibraryPage from "../../../src/pages/LibraryPage/LibraryPage";
+import { describe, it, vi, expect, test } from "vitest";
 import { AuthProvider } from "../../../src/services/auth/AuthContext";
 import MoviePage from "../../../src/pages/MoviePage/MoviePage";
 import Module from "module";
@@ -16,14 +15,14 @@ import Module from "module";
 window.alert = vi.fn();
 
 /**
- * getMovies.ts`: Mocks `useMoviesInByLibraryIDQuery` to provide predefined movie data.
+ * Mocks `useMoviesInByLibraryIDQuery` to provide predefined movie data.
  */
 vi.mock("../../../src/services/getMovies.ts", () => ({
   useMovie: () => ({ data: mockMovie }),
 }));
 
 /**
- * AuthContext.tsx`: Mocks `useAuth` to simulate an authenticated user context.
+ * Mocks `useAuth` to simulate an authenticated user context.
  */
 vi.mock("../../../src/services/auth/AuthContext.tsx", async () => {
   const actual: Module = await vi.importActual(
@@ -73,7 +72,15 @@ describe("MoviePage Component", () => {
    * Tests rendering of movies.
    */
   it("renders 'Add To Library' on MoviePage", async () => {
-    render(<MoviePage />, { route: "/movies/tt0111161" }); // Pass the test route
+    render(<MoviePage />, { route: "/movies/tt0111161" });
     expect(screen.getByText("Add To Library")).toBeDefined();
   });
+});
+
+/**
+ * Snapshot test.
+ */
+test("should match the snapshot", async () => {
+  const { asFragment } = render(<MoviePage />);
+  await expect(asFragment()).toMatchSnapshot();
 });
