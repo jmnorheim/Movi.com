@@ -1,10 +1,10 @@
 # Project 2 IT2810
 
+## Link to the project hosted by our virtual machine (must be on NTNU network)
 
-## We would like you to test the following:
-- Register, Login and Log out
-- Navigate between different pages
-- Test filtering, sorting, and search
+http://it2810-29.idi.ntnu.no/project2/
+
+The backend server is run by our virtual machine, and is ready at http://it2810-29.idi.ntnu.no:4000/
 
 ## Students
 
@@ -34,7 +34,9 @@
 
 4. **Testing**:
 
-   - Run the tests: `npm run test`
+   - Run backend-tests: `npm run test:backend`
+   - Run frontend-tests: `npm run test:frontend`
+   - Run Cypress: `npx cypress open`
 
 5. **Code formatting**:
 

@@ -6,6 +6,22 @@ interface MovieContainerProps {
   movie: MovieContent;
 }
 
+/**
+ * MovieContainer Component
+ *
+ * This component is responsible for displaying individual movie details within a container.
+ * It shows the movie's poster, title, and release year. If a movie poster is not available,
+ * a default placeholder image or text is displayed.
+ *
+ * Props:
+ * @param {MovieContent} movie - The movie object containing information like the title, poster, and release year.
+ *
+ * Features:
+ * - Displays the movie's poster image. If the poster URL is not valid, a default placeholder image is shown.
+ * - Shows the primary title of the movie.
+ * - Displays the release year of the movie.
+ * - The component has a check for movies without posters and appropriately handles the display of a fallback message or image.
+ */
 const MovieContainer = ({ movie }: MovieContainerProps) => {
   const posterSrc = movie.poster.startsWith("data")
     ? empty_poster_pic

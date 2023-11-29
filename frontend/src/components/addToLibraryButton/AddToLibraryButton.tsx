@@ -23,6 +23,26 @@ interface AddToLibraryButtonProps {
   dropDownItemMaxWidth?: string;
 }
 
+/**
+ * Component for adding a movie to a library or favorites.
+ *
+ * This component provides a dropdown button that allows users to add a movie to their favorite list or any of their libraries.
+ * It handles the addition of the movie and displays alerts based on the success or failure of these actions.
+ *
+ * Props:
+ * @param {string} imdbID - The IMDB ID of the movie to be added.
+ * @param {string} width - The width of the button.
+ * @param {string} height - The height of the button.
+ * @param {string} fontSize - The font size of the button text.
+ * @param {{ top: string; left: string }} [dropdownPosition] - The position of the dropdown menu.
+ * @param {string} [dropDownItemMaxWidth='100%'] - The maximum width of the dropdown items.
+ *
+ * Features:
+ * - Dropdown menu to select between adding to favorites or a specific library.
+ * - Visual feedback (checkmark or cross) indicating the success or failure of adding the movie.
+ * - Alert messages for providing more detailed feedback to the user.
+ * - Uses custom hooks from the services for querying and mutating data.
+ */
 const AddToLibraryButton = ({
   imdbID,
   width,

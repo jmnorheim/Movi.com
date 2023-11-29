@@ -15,6 +15,25 @@ interface FilterSideBarProps {
   genres: string[] | [];
 }
 
+/**
+ * FilterSideBar Component
+ *
+ * This component renders a sidebar for filtering movies based on various criteria such as release year, runtime, rating, total votes, age limit, and genres.
+ * It provides a user interface with sliders and checkboxes to set the filter parameters. The component fetches initial filter settings from the `HomePage` state or session storage.
+ * Changes in filter settings are debounced to optimize performance and reduce unnecessary re-rendering or data fetching.
+ *
+ * Props:
+ * @param {boolean} open - Determines if the sidebar is open or closed.
+ * @param {string[] | []} genres - An array of genres to include in the filter options.
+ *
+ * Features:
+ * - Sliders for adjusting ranges of year, runtime, rating, and total votes.
+ * - Checkbox for filtering adult content.
+ * - Checkboxes for selecting genres.
+ * - Debounced input handling for efficient state updates.
+ * - Uses `useMovieStats` hook to fetch initial min and max values for sliders.
+ * - Uses `filterSignals` and `page` from `HomePage` for global state management and pagination control.
+ */
 const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const [isInitialSetupComplete, setIsInitialSetupComplete] = useState(false);
