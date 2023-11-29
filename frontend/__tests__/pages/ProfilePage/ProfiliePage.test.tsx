@@ -120,8 +120,8 @@ describe("Tests ProfilePage", () => {
   /**
    * Snapshot test.
    */
-  /*it("should match the snapshot", () => {
+  it("should match the snapshot", () => {
     const { asFragment } = render(<ProfilePage />);
     expect(asFragment()).toMatchSnapshot();
-  });*/
+  });
 });

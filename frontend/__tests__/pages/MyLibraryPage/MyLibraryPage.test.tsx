@@ -140,8 +140,8 @@ describe("MyLibraryPage Component", () => {
   /**
    * Snapshot test.
    */
-  /*it("should match the snapshot", () => {
+  it("should match the snapshot", () => {
     const { asFragment } = render(<MyLibraryPage />);
     expect(asFragment()).toMatchSnapshot();
-  });*/
+  });
 });

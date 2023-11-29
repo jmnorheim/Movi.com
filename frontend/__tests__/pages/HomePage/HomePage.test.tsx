@@ -44,8 +44,8 @@ describe("HomePage Component", () => {
   /**
    * Snapshot test.
    */
-  /*it("should match the snapshot", () => {
+  it("should match the snapshot", () => {
     const { asFragment } = render(<HomePage />);
     expect(asFragment()).toMatchSnapshot();
-  });*/
+  });
 });
