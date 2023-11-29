@@ -27,9 +27,7 @@ The backend server is run by our virtual machine, and is ready at http://it2810-
    - Navigate to the project directory: `cd .\prosjekt-2\`
    - Install dependencies: `npm run setup`
 
-All following commands should be run from the outer folder (not inside frontend or backend)
-
-3. **Starting the Project**: 
+3. **Starting the Project**:
 
    - Run server: `npm run server`
    - Run client: `npm run dev`
@@ -49,4 +47,4 @@ Note: If you want to test the project on mobile while running it locally, you ne
 
 ### Detailed documentation:
 
-[Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/Documentation-Overview)
+[Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/home)
