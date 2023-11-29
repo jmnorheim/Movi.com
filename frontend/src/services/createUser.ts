@@ -3,7 +3,7 @@ import { graphql } from "../generated";
 import { SERVER_URL, User } from "../interfaces";
 
 /**
- * GraphQL query to authenticate a user.
+ * GraphQL query to create a user.
  */
 const CREATE_USER = graphql(`
   mutation createUser($username: String!, $email: String!, $password: String!) {
@@ -26,11 +26,12 @@ const CREATE_USER = graphql(`
 /**
  * Creates a new user account and adds it to the database.
  *
- * This function sends a GraphQL mutation to create a new user with a specified username, email, and password. The password is hashed at the backend for security. The function returns the newly created user data.
+ * This function sends a GraphQL mutation to create a new user with a specified username, email, and password.
+ * The password is hashed at the backend for security. The function returns the newly created user data.
  *
  * @param {string} username - The desired username for the new user.
  * @param {string} email - The email address associated with the new user account.
- * @param {string} password - The password for the new user account. It will be hashed at the backend.
+ * @param {string} password - The password for the new user account. It will be hashed in the backend.
  * @returns {Promise<User>} A promise that resolves to an object containing the newly created user's information.
  *
  * @throws {Error} Throws an error if the GraphQL request fails or if there's an issue with user creation on the server.

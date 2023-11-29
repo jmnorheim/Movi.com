@@ -21,10 +21,10 @@ const USER_FAVORITES = graphql(`
 `);
 
 /**
- * Fetches the list of favorite movies for a given user.
+ * Fetches all the favorite movies of a user.
  *
  * @param {string} userID - The unique identifier of the user.
- * @returns {Promise<MovieContent[]>} A promise that resolves to an array of favorite movies (represented by their IMDb IDs).
+ * @returns {Promise<MovieContent[]>} A promise that resolves to an array of favorite movies (represented by their IMDb-IDs).
  */
 const getUserFavorites = async (userID: string): Promise<MovieContent[]> => {
   const { favorites } = await request(SERVER_URL, USER_FAVORITES, {

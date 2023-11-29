@@ -24,7 +24,9 @@ import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 /**
  * MoviePage Component
  *
- * This component displays detailed information about a specific movie. It includes the movie's title, release year, genres, duration, IMDB rating, and a poster image. The page also provides functionality to add the movie to a library or favorites, and displays recommended movies.
+ * This component displays detailed information about a specific movie.
+ * It includes the movie's title, release year, genres, duration, IMDB rating, and a poster image.
+ * The page also provides functionality to add the movie to a library or favorites, and displays recommended movies.
  *
  * Features:
  * - Retrieves and displays detailed information about a specific movie based on the movie ID from URL parameters.
@@ -34,7 +36,7 @@ import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
  * - Displays a set of recommended movies based on the current movie.
  * - Utilizes `useMovie` and `useRecommendedMovies` services to fetch movie details and recommendations.
  * - Uses `useAuth` for authentication logic and `useNavigate` for navigation.
- * - Includes the `PageFooter` component to display the page footer.
+ * - Includes the `PageFooter` component to maintain styling consistency across pages.
  * - Applies dynamic navbar color setting using `navbarColor` signal.
  */
 const MoviePage: React.FC = () => {
@@ -81,7 +83,7 @@ const MoviePage: React.FC = () => {
 
   const printGenresNicely = (genres: string[] | undefined) => {
     if (!Array.isArray(genres)) {
-      return ""; // or a default string
+      return "";
     }
     let genresString = "";
     genres.forEach((genre: string) => {

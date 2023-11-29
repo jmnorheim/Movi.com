@@ -3,7 +3,7 @@ import { graphql } from "../generated";
 import { SERVER_URL } from "../interfaces";
 
 /**
- * GraphQL query to authenticate a user.
+ * GraphQL query to add a movie to a user's list of favorites.
  */
 const ADD_MOVIE_TO_FAVORITES = graphql(`
   mutation AddMovieToFavorite($userId: ID!, $imdbId: ID!) {

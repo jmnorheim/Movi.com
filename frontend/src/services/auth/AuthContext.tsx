@@ -42,7 +42,7 @@ type AuthProviderProps = {
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    localStorage.getItem("isLoggedIn") === "true" // Initialize state based on local storage
+    localStorage.getItem("isLoggedIn") === "true" // Initialize state based on localStorage
   );
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const login = (email: string, userID: string) => {
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("email", email); // Store email in local storage
+    localStorage.setItem("email", email); // Store email in localStorage
     localStorage.setItem("userID", userID);
     setUserID(userID);
     setIsLoggedIn(true);
@@ -71,7 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("email"); // Remove email from local storage
+    localStorage.removeItem("email"); // Remove email from localStorage
     localStorage.removeItem("userID");
     setIsLoggedIn(false);
     setEmail("");
@@ -79,7 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   /**
-   * Check the local storage for persisted login state and email.
+   * Check the localStorage for persisted login state and email.
    * Updates the local state.
    */
   useEffect(() => {

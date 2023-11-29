@@ -3,7 +3,7 @@ import { graphql } from "../generated";
 import { SERVER_URL } from "../interfaces";
 
 /**
- * GraphQL query to authenticate a user.
+ * GraphQL query to delete a user.
  */
 const DELETE_USER = graphql(`
   mutation DeleteUser($userId: ID!) {

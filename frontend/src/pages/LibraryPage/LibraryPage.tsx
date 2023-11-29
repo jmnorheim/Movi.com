@@ -26,16 +26,18 @@ import { MovieContent } from "../../interfaces.ts";
 /**
  * LibraryPage Component
  *
- * This component displays the content of a specific library identified by library ID. It lists all movies in the library, provides options to delete individual movies or the entire library, and features navigation back to the previous page.
+ * This component displays the content of a specific library identified by a library ID.
+ * It lists all movies in the library, and provides options to both to delete individual movies as well as the entire library,
+ * and features navigation back to the previous page through a back-button in the top left corner.
  *
  * Features:
  * - Displays a list of movies from a specific library, each with title, rating, runtime, and a delete option.
  * - Implements a dialog for confirming the deletion of the entire library.
- * - Offers a back navigation button to return to the previous page.
+ * - Offers a back-button to return to the previous page.
  * - Provides an option to navigate to the main page to add more movies if the library is empty.
  * - Utilizes `useMoviesInByLibraryIDQuery`, `useRemoveMovieFromFavorites`, and `useRemoveMovieFromLibrary` hooks for fetching and modifying library content.
  * - Uses `useAuth` for user authentication and `useNavigate` for navigation.
- * - Includes the `PageFooter` component for consistent page layout.
+ * - Includes the `PageFooter` component for consistent page layout across pages.
  * - Navbar color is dynamically set to black using `navbarColor` signal.
  * - Renders a `ClearIcon` from Material-UI for each movie for the deletion option.
  * - Utilizes Material-UI components for dialog, buttons, and layout.
@@ -86,7 +88,7 @@ const LibraryPage: React.FC = () => {
     return number < 10 ? `0${number}` : number.toString();
   };
 
-  // Delete entire library====================================================================================
+  // Form dialog that makes sure that user wants to delete entire library
   const openDeleteDialog = () => {
     setIsDeleteDialogOpen(true);
   };
@@ -161,7 +163,6 @@ const LibraryPage: React.FC = () => {
           <div style={{ margin: "auto" }}>
             {/* Movie list headers */}
             <div className="column-info">
-              {/* <div className="invisible">01</div> */}
               <div className="group">
                 <div className="text-wrapper">Title</div>
                 <div className="div">Rating</div>
@@ -205,7 +206,6 @@ const LibraryPage: React.FC = () => {
                       />
                     </div>
                   </Link>
-                  {/* Clear icon as delete button */}
                 </div>
               ))}
           </div>

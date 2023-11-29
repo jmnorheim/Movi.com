@@ -20,7 +20,6 @@ interface MovieContainerProps {
  * - Displays the movie's poster image. If the poster URL is not valid, a default placeholder image is shown.
  * - Shows the primary title of the movie.
  * - Displays the release year of the movie.
- * - The component has a check for movies without posters and appropriately handles the display of a fallback message or image.
  */
 const MovieContainer = ({ movie }: MovieContainerProps) => {
   const posterSrc = movie.poster.startsWith("data")
