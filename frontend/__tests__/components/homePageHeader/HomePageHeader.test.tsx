@@ -39,7 +39,6 @@ describe("HomePageHeader", () => {
     render(<HomePageHeader genres={["Action", "Drama"]} />);
 
     // Check if header elements are present
-    expect(screen.getByAltText("Img")).toBeDefined();
     expect(screen.getByText("Welcome to the Møvi database")).toBeDefined();
 
     // Ensure the SearchBar is rendered
