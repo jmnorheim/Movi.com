@@ -57,11 +57,7 @@ describe("Test Moviecontainergrid + Moviecontainer", () => {
    * Test that MovieContainerGrid renders movies correctly.
    */
   it("renders MovieContainerGrid with movies", async () => {
-    render(
-      <MovieContainerGrid
-        movies={mockMovies}
-      />
-    );
+    render(<MovieContainerGrid movies={mockMovies} />);
     const element = await screen.findByText(/Test Movie 1/);
     expect(element).toBeDefined();
   });

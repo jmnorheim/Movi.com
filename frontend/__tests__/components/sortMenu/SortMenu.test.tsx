@@ -76,4 +76,3 @@ describe("SortMenu Component", () => {
 });
 
 export {};
-
