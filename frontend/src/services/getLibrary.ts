@@ -3,6 +3,9 @@ import request from "graphql-request";
 import { Library, SERVER_URL } from "../interfaces";
 import { useQuery } from "@tanstack/react-query";
 
+/**
+ * GraphQL query to get a library by its unique identifier.
+ */
 const GET_LIBRARY = graphql(`
   query getLibrary($libraryId: ID!) {
     libraryByID(libraryID: $libraryId) {

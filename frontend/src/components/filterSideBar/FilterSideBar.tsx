@@ -19,7 +19,8 @@ interface FilterSideBarProps {
  * FilterSideBar Component
  *
  * This component renders a sidebar for filtering movies based on various criteria such as release year, runtime, rating, total votes, age limit, and genres.
- * It provides a user interface with sliders and checkboxes to set the filter parameters. The component fetches initial filter settings from the `HomePage` state or session storage.
+ * It provides a user interface with sliders and checkboxes to set the filter parameters.
+ * The component fetches initial filter settings from the `HomePage` state or session storage.
  * Changes in filter settings are debounced to optimize performance and reduce unnecessary re-rendering or data fetching.
  *
  * Props:

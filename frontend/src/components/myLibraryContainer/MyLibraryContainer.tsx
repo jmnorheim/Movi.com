@@ -12,7 +12,8 @@ interface MyLibraryProps {
 /**
  * MyLibraryContainer Component
  *
- * This component renders an individual library container showing a preview of movies in the library. It displays up to four movie posters or a placeholder image and a message if the library is empty.
+ * This component renders an individual library container showing a preview of movies in the library.
+ * It displays up to four movie posters or a placeholder image and a message if the library is empty.
  *
  * Props:
  * @param {Library} library - The library object containing details like the library's ID and name.

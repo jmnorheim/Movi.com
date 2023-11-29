@@ -23,18 +23,19 @@ interface HomePageHeaderProps {
 /**
  * HomePageHeader Component
  *
- * This component renders the header section of the home page. It includes a dynamic background image, a welcoming text, and a search bar. Additionally, it features a button to toggle the visibility of the filter sidebar for movie filtering based on genres.
+ * This component renders the header section of the home page. It includes a dynamic background image, a welcoming text, and a search bar.
+ * Additionally, it features a button to toggle the visibility of the filter sidebar for movie filtering.
  *
  * Props:
  * @param {string[] | []} genres - An array of movie genres to be used in the filter sidebar.
  *
  * Features:
- * - Dynamically changing background images from a predefined list, switching every 5 minutes.
+ * - Dynamically changing background images from a predefined list, switching every 5 seconds.
  * - A welcoming text highlighting the Møvi database and the available number of movies.
- * - A search bar component (`SearchBar`) for searching movies.
+ * - A search bar component (`SearchBar`) for searching through movies.
  * - A button to toggle the filter sidebar (`FilterSideBar`) for advanced movie filtering.
  * - The `useRandomHomeImage` hook is used for cycling through the background images.
- * - Implements a click-outside listener to close the filter sidebar when clicking outside of it.
+ * - Implements a click-outside listener to close the filter sidebar when a click is detected outside of it.
  */
 const HomePageHeader: FC<HomePageHeaderProps> = ({ genres }) => {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);

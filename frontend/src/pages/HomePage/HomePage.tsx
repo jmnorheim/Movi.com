@@ -36,27 +36,30 @@ export const filterSignals = signal<FilterSettings>({
   isAdult: false,
 });
 
+//Signal that contains the current search-term
 export const currentSearch = signal<string>(
   sessionStorage.getItem("search") || ""
 );
 
 //Signals that contain the current page number and the number of rows per page - stored externally from the page component
-//Initialvalue of page is either the value stored in sessionStorage or 0
+//Initial value of page is either the value stored in sessionStorage or 0
 export const page = signal<number>(0);
 const rowsPerPage = signal<number>(10);
 
 /**
  * HomePage Component
  *
- * This component serves as the main page of the application, displaying a grid of movies that can be filtered and sorted according to various criteria. It includes a header with a search bar and genre filtering, pagination for navigating through movie pages, and options for sorting movies by different attributes.
+ * This component serves as the main page of the application, displaying a grid of movies that can be filtered and sorted according to various criteria.
+ * It includes a header with a search bar and access to a filter-sidebar,
+ * pagination for navigating through pages of movies, and options for sorting movies by different attributes.
  *
  * Features:
  * - Dynamic rendering of movies based on filters, search query, and sort type.
- * - Pagination to navigate through movie pages with adjustable number of movies per page.
- * - Custom header component (`HomePageHeader`) with a search bar and genre filtering options.
+ * - Pagination to navigate through movie pages with adjustable number of movies per page (10, 25, 50, 100).
+ * - Custom header component (`HomePageHeader`) with a search bar and a filtering-button that opens a filtering-sidebar.
  * - Sorting functionality through the `SortMenu` component.
  * - Utilizes `useMovies` hook to fetch movies data based on current search, filter, and sort settings.
- * - Automatic scrolling to top of the movie grid on search.
+ * - Automatic scrolling down to top of the movie grid on search.
  * - Pre-fetching movies data when hovering over pagination controls for smoother user experience.
  * - Responsive design to accommodate various screen sizes.
  * - Incorporates `NewsLetterBox` for subscribing to the newsletter and `PageFooter` for additional navigation.
@@ -189,7 +192,7 @@ const HomePage: React.FC = () => {
     };
   }, [movies]);
 
-  // JSX====================================================================================================================
+  // TSX====================================================================================================================
 
   if (isLoading)
     return (

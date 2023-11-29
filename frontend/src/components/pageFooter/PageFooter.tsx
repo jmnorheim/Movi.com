@@ -9,14 +9,15 @@ import { useNavigate } from "react-router-dom";
 /**
  * PageFooter Component
  *
- * This component renders the footer section of the application. It includes the application's logo, links to social media profiles, and legal information such as privacy policy, terms of service, and cookies settings.
+ * This component renders the footer section of the application.
+ * It includes the application's logo, links to social media profiles, and legal information such as privacy policy,
+ * terms of service, and cookies settings.
  *
  * Features:
- * - Displays the application's logo which, when clicked, navigates to the home page.
+ * - Displays the application's logo which, when clicked, navigates to the home page and scrolls to the top of the page.
  * - Provides social media links (Facebook, Instagram, Twitter, LinkedIn) that open in a new tab.
  * - Contains links to legal information like the Privacy Policy, Terms of Service, and Cookies Settings.
  * - Uses `useNavigate` from `react-router-dom` for navigation functionality.
- * - The footer is styled with a clean and modern design, complementing the overall look and feel of the application.
  */
 const PageFooter = () => {
   const navigate = useNavigate();

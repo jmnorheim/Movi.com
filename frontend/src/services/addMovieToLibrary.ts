@@ -3,7 +3,7 @@ import { graphql } from "../generated";
 import { SERVER_URL } from "../interfaces";
 
 /**
- * GraphQL query to authenticate a user.
+ * GraphQL query to add a movie to a library.
  */
 const ADD_MOVIE_TO_LIBRARY = graphql(`
   mutation AddMovieToLibrary($libraryId: ID!, $movieId: String!) {
@@ -16,7 +16,8 @@ const ADD_MOVIE_TO_LIBRARY = graphql(`
 /**
  * Adds a movie to a specific library.
  *
- * This function sends a GraphQL mutation request to add a specified movie to a given library. It is used to update the user's library with new movie selections.
+ * This function sends a GraphQL mutation request to add a specified movie to a given library.
+ * It is used to update the user's library with new movie selections.
  *
  * @param {string} libraryID - The unique identifier of the library where the movie will be added.
  * @param {string} movieID - The identifier of the movie to be added to the library.

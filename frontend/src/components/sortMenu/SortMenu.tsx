@@ -20,14 +20,16 @@ interface SortMenuProps {
 /**
  * SortMenu Component
  *
- * This component provides a dropdown menu for sorting movies based on different criteria such as duration, rating, title, and year. It allows users to select a sorting order, which is then applied to the movie list.
+ * This component provides a dropdown menu for sorting movies based on different criteria such as duration, rating, title, and release year.
+ * It allows users to select a sorting order, which is then applied to the movie list.
  *
  * Props:
- * @param {(sortType: SortType | null) => void} onSort - A callback function that is called when a sort option is selected. It receives the selected `SortType` as a parameter.
+ * @param {(sortType: SortType | null) => void} onSort - A callback function that is called when a sort option is selected.
+ * It receives the selected `SortType` as a parameter.
  *
  * Features:
  * - Dropdown menu to select the sorting order of movies.
- * - Supports various sorting types defined in `SortType` (e.g., duration high to low, rating low to high).
+ * - Supports various sorting types defined in `SortType` (e.g., duration high to low, rating low to high etc.).
  * - Selected sort type is displayed on the button, and it defaults to "Sort By" if no sort is selected.
  * - The selected sorting type is stored in session storage for persistence.
  * - Includes a reset option to clear the sorting selection.

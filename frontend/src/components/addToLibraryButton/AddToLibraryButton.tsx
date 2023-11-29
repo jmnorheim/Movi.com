@@ -38,9 +38,9 @@ interface AddToLibraryButtonProps {
  *
  * Features:
  * - Dropdown menu to select between adding to favorites or a specific library.
- * - Visual feedback (checkmark or cross) indicating the success or failure of adding the movie.
+ * - Visual feedback (green checkmark or red cross) indicating the success or failure of adding the movie.
  * - Alert messages for providing more detailed feedback to the user.
- * - Uses custom hooks from the services for querying and mutating data.
+ * - Uses custom hooks from the services-folder for querying and mutating data.
  */
 const AddToLibraryButton = ({
   imdbID,
@@ -127,7 +127,7 @@ const AddToLibraryButton = ({
     setAlertMessage(message);
     setShowAlert(true);
 
-    // Set new timer and store it in AlertTimer-state
+    // Set new timer and store it in the AlertTimer-state
     const newTimer = setTimeout(() => {
       setShowAlert(false);
     }, 3000); // hides the alert after 3 seconds

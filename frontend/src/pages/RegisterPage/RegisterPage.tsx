@@ -27,7 +27,8 @@ const containsSpecialCharRegex = /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]+/;
  * RegisterPage Component
  *
  * This component provides a registration form for new users. It includes fields for username, email, password, and confirm password.
- *  The component also handles input validation and displays appropriate error messages. Successful registration redirects the user to the profile page.
+ * The component also handles input validation and displays appropriate error messages.
+ * Successful registration redirects the user to the profile page.
  *
  * Features:
  * - Text fields for username, email, password, and confirm password with input validation.
@@ -186,6 +187,7 @@ const RegisterPage: React.FC = () => {
   };
 
   // Return =============================================================
+
   return (
     <Container component="main" maxWidth="xs" className="register-container">
       <img
@@ -197,7 +199,7 @@ const RegisterPage: React.FC = () => {
           height: "100%",
           top: "0",
           left: "0",
-          zIndex: "-1", // Ensures the image stays behind other content
+          zIndex: "-1",
         }}
       />
       <Box className="register-box">
