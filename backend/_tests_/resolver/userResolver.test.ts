@@ -361,10 +361,10 @@ describe("userResolver", () => {
       mockContext.prisma.libraryMovie.findMany.mockResolvedValue([]);
       mockContext.prisma.userFavorites.findMany.mockResolvedValue([]);
 
-      const result = await userResolver.Mutation.addLibrary(
+      const result = await (userResolver.Mutation?.addLibrary as Function)(
         null,
         { userID, libraryName },
-        mockContext as unknown as Context
+        mockContext as Context
       );
 
       expect(result).toEqual(
