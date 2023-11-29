@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Button,
   Dialog,
@@ -8,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import MyLibrariesGrid from "../../components/myLibrariesGrid/MyLibrariesGrid";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../services/auth/AuthContext";
 import "./MyLibraryPage.css";
 import { DocumentIcon } from "../../assets/icons/DocumentIcon.tsx";
@@ -17,11 +18,15 @@ import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
 import { useCreateLibrary } from "../../services/mutateLibrary.ts";
 import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
+import { Alert } from "@navikt/ds-react";
+import "@navikt/ds-css";
+import { Library } from "../../interfaces.ts";
 
 /**
  * MyLibraryPage Component
  *
- * This component renders the user's personal library page. It includes a section displaying all of the user's libraries using `MyLibrariesGrid`, and provides functionality to create a new library through a dialog form.
+ * This component renders the user's personal library page. It includes a section displaying all of the user's libraries using `MyLibrariesGrid`,
+ * and provides functionality to create a new library through a dialog form.
  *
  * Features:
  * - Displays the user's libraries in a grid format using `MyLibrariesGrid`.
@@ -36,6 +41,9 @@ import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
 const MyLibraryPage: React.FC = () => {
   const [dialogForm, setDialogForm] = useState(false);
   const [nameOfLibrary, setNameOfLibrary] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const previousLibrariesRef = useRef<Library[]>();
 
   // Hooks for user authentication and data fetching
   const { userID } = useAuth();
@@ -49,6 +57,19 @@ const MyLibraryPage: React.FC = () => {
   const addLibrary = (libraryName: string) => {
     mutate(libraryName);
   };
+
+  useEffect(() => {
+    if (
+      previousLibrariesRef.current &&
+      libraries &&
+      libraries?.length < previousLibrariesRef.current.length
+    ) {
+      setAlertMessage("Library successfully deleted.");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+    }
+    previousLibrariesRef.current = libraries;
+  }, [libraries]);
 
   // JSX=======================================================================================================
 
@@ -126,6 +147,22 @@ const MyLibraryPage: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {showAlert && (
+        <Alert
+          variant="success"
+          style={{
+            position: "fixed",
+            bottom: "10px",
+            left: "10px",
+            maxWidth: "90vw",
+            zIndex: 10000,
+            transform: showAlert ? "translateY(0)" : "translateY(100%)",
+            transition: "transform 0.5s ease-in-out",
+          }}
+        >
+          {alertMessage}
+        </Alert>
+      )}
     </>
   );
 };

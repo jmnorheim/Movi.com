@@ -8,7 +8,6 @@ import { invalidateIsMovieInFavorites } from "../../services/isMovieInFavorite.t
 import { useQueryClient } from "@tanstack/react-query";
 import { Alert } from "@navikt/ds-react";
 import "@navikt/ds-css";
-import plus from "../../assets/icons/plus.svg";
 import checkmark from "../../assets/icons/checkmark.svg";
 import red_cross from "../../assets/icons/red_cross.svg";
 import "./AddToLibraryButton.css";

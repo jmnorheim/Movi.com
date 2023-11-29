@@ -90,7 +90,7 @@ function ProfilePage() {
     return (
       <div className="Loader">
         <CircularProgress></CircularProgress>
-        <h3>Loading...</h3>
+        <h3 style={{ marginLeft: "10px" }}>Loading...</h3>
       </div>
     );
 

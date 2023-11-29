@@ -43,6 +43,8 @@ The backend server is run by our virtual machine, and is ready at http://it2810-
    - Run both linting (ESLint) and Prettier: `npm run lint:fix`
    - Run only linting: `npm run lint`
 
+Note: If you want to test the project on mobile while running it locally, you need to navigate into interfaces.ts and modify the SERVER_URL to http:// and then add the IP-address displayed after the "Network:"-text in the terminal plus ":4000". Example:
+
 ### Detailed documentation:
 
 [Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/home)
