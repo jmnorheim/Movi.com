@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  render as rtlRender,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { render as rtlRender, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, it, vi, expect } from "vitest";
@@ -44,4 +40,12 @@ describe("HomePage Component", () => {
   it("renders HomePage", async () => {
     render(<HomePage />);
   });
+
+  /**
+   * Snapshot test.
+   */
+  /*it("should match the snapshot", () => {
+    const { asFragment } = render(<HomePage />);
+    expect(asFragment()).toMatchSnapshot();
+  });*/
 });

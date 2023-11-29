@@ -7,6 +7,9 @@ frontend/__tests__/pages/HomePage/__snapshots__/
 frontend/__tests__/pages/RegisterPage/__snapshots__/
 frontend/__tests__/pages/LoginPage/__snapshots__/
 frontend/__tests__/pages/ProfilePage/__snapshots__/
+frontend/__tests__/pages/LibraryPage/__snapshots__/
+frontend/__tests__/pages/MyLibraryPage/__snapshots__/
+frontend/__tests__/pages/MoviePage/__snapshots__/
 users.json
 backend/node_modules/
 
