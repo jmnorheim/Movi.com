@@ -35,7 +35,7 @@ describe("RegisterPage", () => {
     cy.url().should("include", "/profile");
 
     // Test delete user
-    cy.get(".button").contains("Delete User").click();
+    cy.get(".button").contains("Delete Account").click();
     cy.get(".MuiButtonBase-root").contains("Delete").click();
   });
 });

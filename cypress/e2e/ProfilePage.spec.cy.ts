@@ -24,7 +24,7 @@ describe("ProfilePage Tests", () => {
    * Test clicking "Cancel" in the delete user popup.
    */
   it("allows the user to initiate and cancel user deletion", () => {
-    cy.get(".button").contains("Delete User").click();
+    cy.get(".button").contains("Delete Account").click();
     cy.get(".MuiButtonBase-root").contains("Cancel").click();
   });
 });
