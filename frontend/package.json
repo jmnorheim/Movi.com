@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.cjs,.ts,.tsx .",
     "lint:fix": "eslint --ext .js,.cjs,.ts,.tsx . --fix",
     "preview": "vite preview",
-    "test": "vitest --coverage",
+    "test": "vitest --coverage --update",
     "codegen": "graphql-codegen"
   },
   "dependencies": {
