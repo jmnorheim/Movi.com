@@ -124,7 +124,7 @@ function ProfilePage() {
               style={{ backgroundColor: "red" }}
               onClick={openDeleteDialog}
             >
-              <div className="text-wrapper-5">Delete User</div>
+              <div className="text-wrapper-5">Delete Account</div>
             </button>
 
             {/* Confirmation Dialog for Deleting User */}

@@ -211,7 +211,20 @@ const HomePage: React.FC = () => {
             <div className="paginationContainer">
               {data && (
                 <TablePagination
-                  sx={{ size: "large" }}
+                  sx={{
+                    ".MuiTablePagination-toolbar": {
+                      minHeight: "56px", // Adjust the height
+                      ".MuiTypography-root": {
+                        fontSize: "3rem", // Adjust font size
+                      },
+                      ".MuiSelect-root": {
+                        fontSize: "3rem", // Adjust font size for the select dropdown
+                      },
+                      ".MuiIconButton-root": {
+                        padding: "10px", // Adjust padding for the buttons
+                      },
+                    },
+                  }}
                   className="pagination custom-pagination"
                   component="div"
                   count={data.count}

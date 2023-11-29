@@ -202,7 +202,7 @@ const RegisterPage: React.FC = () => {
       />
       <Box className="register-box">
         <Typography component="h1" variant="h4" className="register-title">
-          Create your account
+          Create an account
         </Typography>
 
         <Box
