@@ -3,23 +3,34 @@ import MovieContainer from "../../components/movieContainer/MovieContainer";
 import { MovieContent } from "../../interfaces";
 import "./MovieContainerGrid.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { page } from "../../pages/HomePage/HomePage";
 
 // Icons
-import { ArrowDownIcon } from "../../assets/icons/ArrowDownIcon";
 import AddToLibraryButton from "../addToLibraryButton/AddToLibraryButton";
 
 interface MovieContainerGridProps {
   movies: MovieContent[];
 }
 
+/**
+ * MovieContainerGrid Component
+ *
+ * This component arranges and displays a grid of movies using `MovieContainer` components.
+ * Each movie in the grid is wrapped in a link to its detailed page and, if the user is logged in,
+ * includes an `AddToLibraryButton` for adding the movie to a user's library or favorites.
+ *
+ * Props:
+ * @param {MovieContent[]} movies - An array of movie objects to be displayed in the grid.
+ *
+ * Features:
+ * - Renders a grid layout of movies where each movie is presented in a `MovieContainer`.
+ * - Provides a link for each movie that navigates to the movie's detailed page.
+ * - Incorporates `AddToLibraryButton` for each movie to enable adding the movie to libraries or favorites, visible only to logged-in users.
+ * - Utilizes `useAuth` from `../../services/auth/AuthContext` to check the user's authentication status.
+ * - Stores the current page number in session storage for persistence across navigation.
+ */
 const MovieContainerGrid = ({ movies }: MovieContainerGridProps) => {
-  const { isLoggedIn, email } = useAuth();
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [addedToLibraries, setAddedToLibraries] = useState<
-    Record<string, Record<string, boolean>>
-  >({});
+  const { isLoggedIn } = useAuth();
 
   const storePageValue = () => {
     sessionStorage.setItem("pageNumber", page.value.toString());

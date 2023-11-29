@@ -2,7 +2,6 @@ import { graphql } from "../generated";
 import request from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
 import { MovieContent, SERVER_URL } from "../interfaces";
-import { as } from "vitest/dist/reporters-5f784f42.js";
 
 const USER_FAVORITES = graphql(`
   query getFavorites($userId: ID!) {

@@ -9,6 +9,21 @@ interface MyLibraryProps {
   library: Library;
 }
 
+/**
+ * MyLibraryContainer Component
+ *
+ * This component renders an individual library container showing a preview of movies in the library. It displays up to four movie posters or a placeholder image and a message if the library is empty.
+ *
+ * Props:
+ * @param {Library} library - The library object containing details like the library's ID and name.
+ *
+ * Features:
+ * - Displays the name of the library and a preview of up to four movies in the library using their posters.
+ * - Shows a placeholder image and a message indicating that the library is empty if there are no movies in the library.
+ * - Utilizes the `useMoviesInByLibraryIDQuery` hook to fetch the movies in the library.
+ * - Dynamically updates the poster previews based on the movies in the library.
+ * - Handles both populated and empty states of the library, providing appropriate UI for each case.
+ */
 const MyLibaryContainer = ({ library }: MyLibraryProps) => {
   const [posterImages, setPosterImages] = useState<string[] | null>(null);
   const { userID } = useAuth();

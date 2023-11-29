@@ -24,8 +24,19 @@ import { verifyPassword } from "../../services/utilities/hashFunction";
 const emailRegex = /\S+@\S+\.\S+/;
 
 /**
- * Render the LoginPage component.
- * @returns {React.FC}
+ * LoginPage Component
+ *
+ * This component provides a login form for users, including fields for email and password. It includes validation for inputs and displays error messages for invalid input or login failure. Upon successful login, the user is redirected to their profile page.
+ *
+ * Features:
+ * - Text fields for email and password input with validation.
+ * - Real-time validation feedback for email format and required fields.
+ * - Error handling for incorrect login details with visual feedback using Material-UI `Alert`.
+ * - Redirects to the profile page upon successful login.
+ * - Link to the registration page for new users.
+ * - Custom styles and theme to maintain consistency with the overall application design.
+ * - Uses `useAuth` from `../../services/auth/AuthContext` for authentication logic.
+ * - Background image and theme settings are managed using Material-UI components and CSS.
  */
 const LoginPage: React.FC = () => {
   // State for user inputs

@@ -24,8 +24,21 @@ const containsNumberRegex = /\d/;
 const containsSpecialCharRegex = /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]+/;
 
 /**
- * Render the RegisterPage component.
- * @returns {React.FC}
+ * RegisterPage Component
+ *
+ * This component provides a registration form for new users. It includes fields for username, email, password, and confirm password.
+ *  The component also handles input validation and displays appropriate error messages. Successful registration redirects the user to the profile page.
+ *
+ * Features:
+ * - Text fields for username, email, password, and confirm password with input validation.
+ * - Real-time validation feedback for each field, including email format, password requirements, and password match checking.
+ * - Debounced registration request to optimize performance.
+ * - Error handling with visual feedback using `Alert` from Material-UI.
+ * - Redirects to the profile page upon successful registration.
+ * - Link to the login page for existing users.
+ * - Custom styles and theme to maintain consistency with the overall application design.
+ * - Uses `useAuth` from `../../services/auth/AuthContext` for authentication logic.
+ * - Background image and theme settings are managed using Material-UI components and CSS.
  */
 const RegisterPage: React.FC = () => {
   // State for user inputs
