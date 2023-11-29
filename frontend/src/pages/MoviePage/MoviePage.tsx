@@ -22,8 +22,20 @@ import HeartButton from "../../components/heartButton/HeartButton.tsx";
 import empty_poster_pic from "../../assets/images/empty_poster_pic.png";
 
 /**
- * Render the MoviePage component.
- * @returns {React.Component}
+ * MoviePage Component
+ *
+ * This component displays detailed information about a specific movie. It includes the movie's title, release year, genres, duration, IMDB rating, and a poster image. The page also provides functionality to add the movie to a library or favorites, and displays recommended movies.
+ *
+ * Features:
+ * - Retrieves and displays detailed information about a specific movie based on the movie ID from URL parameters.
+ * - Shows the movie's title, original title, release year, age rating, genres, runtime, and IMDB rating.
+ * - Includes an 'Add to Library' button and a 'Heart' button for logged-in users to add the movie to their library or favorites.
+ * - Provides a back navigation button to return to the previous page.
+ * - Displays a set of recommended movies based on the current movie.
+ * - Utilizes `useMovie` and `useRecommendedMovies` services to fetch movie details and recommendations.
+ * - Uses `useAuth` for authentication logic and `useNavigate` for navigation.
+ * - Includes the `PageFooter` component to display the page footer.
+ * - Applies dynamic navbar color setting using `navbarColor` signal.
  */
 const MoviePage: React.FC = () => {
   const { movieId } = useParams();
@@ -104,7 +116,11 @@ const MoviePage: React.FC = () => {
       ) : (
         <>
           <div className="movie-card">
-            <img className="background-image" src={moviepage_background} />
+            <img
+              className="background-image"
+              src={moviepage_background}
+              alt="Movie page background image"
+            />
             <div className="overlap-group">
               <div className="div">
                 <div className="div-2">
@@ -141,7 +157,7 @@ const MoviePage: React.FC = () => {
                   </div>
                   <div className="div-5">
                     <div className="div-6">
-                      <img className="img" alt="Image" src={imdb_logo} />
+                      <img className="img" alt="IMDB icon" src={imdb_logo} />
                       <div className="text-wrapper-5">
                         {movie.averageRating}/10
                       </div>

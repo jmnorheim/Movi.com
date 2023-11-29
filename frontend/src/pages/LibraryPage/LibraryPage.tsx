@@ -24,8 +24,21 @@ import { useUserFavoritesQuery } from "../../services/getUserFavorites.ts";
 import { MovieContent } from "../../interfaces.ts";
 
 /**
- * Render the RegisterPage component.
- * @returns {React.FC}
+ * LibraryPage Component
+ *
+ * This component displays the content of a specific library identified by library ID. It lists all movies in the library, provides options to delete individual movies or the entire library, and features navigation back to the previous page.
+ *
+ * Features:
+ * - Displays a list of movies from a specific library, each with title, rating, runtime, and a delete option.
+ * - Implements a dialog for confirming the deletion of the entire library.
+ * - Offers a back navigation button to return to the previous page.
+ * - Provides an option to navigate to the main page to add more movies if the library is empty.
+ * - Utilizes `useMoviesInByLibraryIDQuery`, `useRemoveMovieFromFavorites`, and `useRemoveMovieFromLibrary` hooks for fetching and modifying library content.
+ * - Uses `useAuth` for user authentication and `useNavigate` for navigation.
+ * - Includes the `PageFooter` component for consistent page layout.
+ * - Navbar color is dynamically set to black using `navbarColor` signal.
+ * - Renders a `ClearIcon` from Material-UI for each movie for the deletion option.
+ * - Utilizes Material-UI components for dialog, buttons, and layout.
  */
 const LibraryPage: React.FC = () => {
   // State definitions
@@ -134,7 +147,11 @@ const LibraryPage: React.FC = () => {
         {/* Display list of movies */}
         {!libraryMovies || libraryMovies.length === 0 ? (
           <div className="empty-library-container">
-            <img className="image" alt="Image" src={empty_library} />
+            <img
+              className="image"
+              alt="Empty library image"
+              src={empty_library}
+            />
             <p className="no-movies-found">No Movies Found In This Library</p>
             <button className="div-wrapper" onClick={() => navigate("../../")}>
               <div className="text-wrapper">Add Movies</div>

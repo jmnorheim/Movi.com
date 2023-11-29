@@ -8,6 +8,19 @@ import "./SearchBar.css";
 import debounce from "lodash/debounce";
 import { currentSearch, page } from "../../pages/HomePage/HomePage.tsx";
 
+/**
+ * TypeSearch Component
+ *
+ * This component provides a search bar for users to type in and search for movies. It features a debounced search functionality, which means the search query is processed after the user stops typing for a specified duration. The component also includes a clear button to reset the search field.
+ *
+ * Features:
+ * - A text field allowing users to input their search query.
+ * - Debounced search functionality to optimize performance and reduce unnecessary queries.
+ * - The search query is stored in session storage for persistence and managed using `currentSearch` and `page` signals from `HomePage`.
+ * - 'Clear' button to reset the search field and the stored search query.
+ * - The component handles 'Enter' key events to immediately process the search query.
+ * - Styled using Material-UI components and custom CSS for a user-friendly interface.
+ */
 const TypeSearch = () => {
   const [searchValue, setSearchValue] = useState(
     currentSearch.value ? currentSearch.value : ""

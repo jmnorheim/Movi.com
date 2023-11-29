@@ -40,6 +40,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 .populated-library-image {
@@ -166,7 +167,15 @@
   margin-top: -1px;
   bottom: 140px;
   position: absolute;
-  width: fit-content;
+  width: 300px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .empty-mylibrary-container .empty-library-image {

@@ -83,6 +83,11 @@ export const userResolver: Resolvers = {
   Query: {
     /**
      * Fetch a list of users with optional pagination.
+     *
+     * @param {number} limit - The maximum number of users to return.
+     * @param {number} offset - The number of users to skip before starting to return results.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User[]>} - A promise that resolves to an array of user objects.
      */
     users: async (_, { limit, offset }, context: Context) => {
       const users = await context.prisma.user.findMany({
@@ -97,6 +102,10 @@ export const userResolver: Resolvers = {
 
     /**
      * Fetch a user by their unique ID.
+     *
+     * @param {string} userID - The unique ID of the user.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User | null>} - A promise that resolves to a user object or null if not found.
      */
     userByID: async (_, { userID }, context: Context) => {
       const user = await context.prisma.user.findUnique({
@@ -107,6 +116,10 @@ export const userResolver: Resolvers = {
 
     /**
      * Fetch a user by their email address.
+     *
+     * @param {string} email - The email address of the user.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User | null>} - A promise that resolves to a user object or null if not found.
      */
     userByEmail: async (_, { email }, context: Context) => {
       const user = await context.prisma.user.findUnique({
@@ -116,7 +129,12 @@ export const userResolver: Resolvers = {
     },
 
     /**
-     * Check if movie is in the user's favorite list by userID.
+     * Check if a movie is in the user's favorite list by userID.
+     *
+     * @param {string} userID - The user's ID.
+     * @param {string} imdbID - The movie's IMDB ID.
+     * @param {Context} context - The Prisma context.
+     * @returns {Promise<boolean>} - True if the movie is in the user's favorites, otherwise false.
      */
     movieInFavoriteByUserID: async (
       _,
@@ -127,7 +145,12 @@ export const userResolver: Resolvers = {
     },
 
     /**
-     * Check if movie is in the users favorite list by email.
+     * Check if a movie is in the user's favorite list by email.
+     *
+     * @param {string} email - The user's email address.
+     * @param {string} imdbID - The movie's IMDB ID.
+     * @param {Context} context - The Prisma context.
+     * @returns {Promise<boolean>} - True if the movie is in the user's favorites, otherwise false.
      */
     movieInFavoriteByUserEmail: async (
       _,
@@ -139,8 +162,13 @@ export const userResolver: Resolvers = {
       });
       return isMovieInFavorites(user.userID, imdbID, context);
     },
+
     /**
      * Check if the password is correct for a given email.
+     *
+     * @param {string} email - The user's email address.
+     * @param {string} password - The password to verify.
+     * @param {Context} context - The Prisma context.
      * @returns {Promise<boolean>} - True if the password is correct, otherwise false.
      * @throws {Error} - If the user does not exist.
      */
@@ -150,8 +178,13 @@ export const userResolver: Resolvers = {
       });
       return verifyPassword(password, user.password);
     },
+
     /**
      * Fetch the user's favorites.
+     *
+     * @param {string} userID - The unique ID of the user.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<Movie[]>} - A promise that resolves to an array of the user's favorite movies.
      */
     favorites: async (_, { userID }, context: Context) => {
       const userFavoritesWithMoviesAndGenres =
@@ -187,6 +220,12 @@ export const userResolver: Resolvers = {
   Mutation: {
     /**
      * Create a new user.
+     *
+     * @param {string} username - The username of the new user.
+     * @param {string} email - The email address of the new user.
+     * @param {string} password - The password for the new user.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the newly created user object.
      */
     createUser: async (_, { username, email, password }, context: Context) => {
       // Hash the password before storing it
@@ -204,6 +243,13 @@ export const userResolver: Resolvers = {
 
     /**
      * Update a user based on userID.
+     *
+     * @param {string} userID - The unique ID of the user to update.
+     * @param {string} username - The new username for the user.
+     * @param {string} email - The new email address for the user.
+     * @param {string} password - The new password for the user.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the updated user object.
      */
     updateUser: async (
       _,
@@ -223,7 +269,12 @@ export const userResolver: Resolvers = {
 
     /**
      * Delete a user based on userID.
+     *
+     * @param {string} userID - The unique ID of the user to delete.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the deleted user object.
      */
+
     deleteUser: async (_, { userID }, context: Context) => {
       const userToDelete = await context.prisma.user.findUnique({
         where: { userID: userID },
@@ -234,8 +285,14 @@ export const userResolver: Resolvers = {
     },
 
     /**
-     * Adds a movie to a users favorites.
+     * Adds a movie to a user's favorites.
+     *
+     * @param {string} userID - The user's ID.
+     * @param {string} imdbID - The movie's IMDB ID.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the user object after updating their favorites.
      */
+
     addMovieToFavorite: async (_, { userID, imdbID }, context: Context) => {
       await context.prisma.userFavorites.create({
         data: {
@@ -250,8 +307,14 @@ export const userResolver: Resolvers = {
     },
 
     /**
-     * Removes a movie from a users favorites.
+     * Removes a movie from a user's favorites.
+     *
+     * @param {string} userID - The user's ID.
+     * @param {string} imdbID - The movie's IMDB ID to remove from favorites.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the user object after updating their favorites.
      */
+
     removeMovieFromFavorite: async (
       _,
       { userID, imdbID },
@@ -273,7 +336,13 @@ export const userResolver: Resolvers = {
 
     /**
      * Add a new library for the user.
+     *
+     * @param {string} userID - The user's ID.
+     * @param {string} libraryName - The name of the new library.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the user object after adding the new library.
      */
+
     addLibrary: async (_, { userID, libraryName }, context: Context) => {
       await context.prisma.library.create({
         data: {
@@ -289,7 +358,13 @@ export const userResolver: Resolvers = {
 
     /**
      * Removes a library based on libraryID.
+     *
+     * @param {string} userID - The user's ID who owns the library.
+     * @param {string} libraryID - The library ID to be removed.
+     * @param {Context} context - The Prisma context for database access.
+     * @returns {Promise<User>} - A promise that resolves to the user object after removing the library.
      */
+
     removeLibrary: async (_, { userID, libraryID }, context: Context) => {
       // First, delete all LibraryMovie records related to this library
       await context.prisma.libraryMovie.deleteMany({

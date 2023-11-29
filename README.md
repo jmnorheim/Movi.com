@@ -1,10 +1,10 @@
 # Project 2 IT2810
 
+## Link to the project hosted by our virtual machine (must be on NTNU network)
 
-## We would like you to test the following:
-- Register, Login and Log out
-- Navigate between different pages
-- Test filtering, sorting, and search
+http://it2810-29.idi.ntnu.no/project2/
+
+The backend server is run by our virtual machine, and is ready at http://it2810-29.idi.ntnu.no:4000/
 
 ## Students
 
@@ -34,12 +34,16 @@
 
 4. **Testing**:
 
-   - Run the tests: `npm run test`
+   - Run backend-tests: `npm run test:backend`
+   - Run frontend-tests: `npm run test:frontend`
+   - Run Cypress: `npx cypress open`
 
 5. **Code formatting**:
 
    - Run both linting (ESLint) and Prettier: `npm run lint:fix`
    - Run only linting: `npm run lint`
+
+Note: If you want to test the project on mobile while running it locally, you need to navigate into interfaces.ts and modify the SERVER_URL to http:// and then add the IP-address displayed after the "Network:"-text in the terminal plus ":4000". Example:
 
 ### Detailed documentation:
 
