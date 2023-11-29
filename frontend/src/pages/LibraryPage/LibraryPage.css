@@ -1,5 +1,5 @@
 .LibraryPage {
-  position: relative; /* Make sure the .LibraryPage container has relative positioning */
+  position: relative; 
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -23,8 +23,21 @@ import { navbarColor } from "../../App";
 import { effect } from "@preact/signals-react";
 
 /**
- * Render the ProfilePage component.
- * @returns {React.FC}
+ * ProfilePage Component
+ *
+ * This component renders the user's profile page. It displays the user's username and email, and provides options to log out or delete the user's account. The page includes a confirmation dialog for account deletion and uses a background image for visual appeal.
+ *
+ * Features:
+ * - Displays the username and email of the logged-in user.
+ * - Provides a 'Log Out' button to log the user out of the application.
+ * - Includes a 'Delete User' button that opens a confirmation dialog for account deletion.
+ * - Implements a confirmation dialog using Material-UI `Dialog` component for account deletion.
+ * - Uses `useAuth` for authentication logic and `useUserQuery` to fetch user data.
+ * - Utilizes `useNavigate` for redirection after logout or account deletion.
+ * - 'Back' button to navigate to the previous page.
+ * - Incorporates a background image for a visually appealing layout.
+ * - Includes the `PageFooter` component to display the page footer.
+ * - Applies dynamic navbar color setting using `navbarColor` signal from the main app component.
  */
 function ProfilePage() {
   const navigate = useNavigate();

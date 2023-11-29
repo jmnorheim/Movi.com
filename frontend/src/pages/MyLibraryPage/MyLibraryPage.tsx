@@ -19,8 +19,19 @@ import { useCreateLibrary } from "../../services/mutateLibrary.ts";
 import { useUsersLibrariesQuery } from "../../services/getUserLibraries.ts";
 
 /**
- * Render the MyLibaryPage component.
- * @returns {React.Component}
+ * MyLibraryPage Component
+ *
+ * This component renders the user's personal library page. It includes a section displaying all of the user's libraries using `MyLibrariesGrid`, and provides functionality to create a new library through a dialog form.
+ *
+ * Features:
+ * - Displays the user's libraries in a grid format using `MyLibrariesGrid`.
+ * - Provides a button to open a dialog form for creating a new library.
+ * - Uses `useAuth` for authentication logic and `useUsersLibrariesQuery` to fetch user library data.
+ * - Implements `useCreateLibrary` mutation for adding new libraries.
+ * - The 'Create Library' dialog includes a text field to enter the name of the new library and buttons to cancel or confirm the creation.
+ * - Utilizes Material-UI components for dialog, text field, and buttons.
+ * - Includes the `PageFooter` component for consistent page layout.
+ * - Navbar color is dynamically set to black using `navbarColor` signal.
  */
 const MyLibraryPage: React.FC = () => {
   const [dialogForm, setDialogForm] = useState(false);
