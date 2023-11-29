@@ -38,7 +38,7 @@ All following commands should be run from the outer folder (not inside frontend 
 
    - Run backend-tests: `npm run test:backend`
    - Run frontend-tests: `npm run test:frontend`
-   - Run Cypress: `npx cypress open`, then chose E2E testing, then chose Electron
+   - Run Cypress: `npx cypress open`, then chose E2E testing, then chose Electron. You need to be on the NTNU network or VPN to conduct the cypress tests.
 
 5. **Code formatting**:
 
