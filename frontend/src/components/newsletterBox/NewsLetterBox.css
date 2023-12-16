@@ -97,8 +97,12 @@
 
   .join-us-container .text-wrapper-2 {
     text-wrap: wrap;
+    white-space: normal;
     display: flex;
     justify-self: center;
-    margin-left: 5px;
+    text-align: center;
+    margin: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
