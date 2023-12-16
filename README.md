@@ -9,7 +9,7 @@
 2. **Installation**:
 
    - Clone the repo: `git clone https://github.com/Jensern1/Movi.com.git`
-   - Navigate to the project directory: `cd .\prosjekt-2\`
+   - Navigate to the project directory: `cd .\Movi.com\`
    - Install dependencies: `npm run setup`
 
 All following commands should be run from the outer folder (not inside frontend or backend)
