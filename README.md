@@ -8,7 +8,7 @@
 
 2. **Installation**:
 
-   - Clone the repo: `git clone https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2.git`
+   - Clone the repo: `git clone https://github.com/Jensern1/Movi.com.git`
    - Navigate to the project directory: `cd .\prosjekt-2\`
    - Install dependencies: `npm run setup`
 
