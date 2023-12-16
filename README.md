@@ -1,18 +1,3 @@
-# Project 2 IT2810
-
-## Link to the project hosted by our virtual machine (must be on NTNU network)
-
-http://it2810-29.idi.ntnu.no/project2/
-
-The backend server is run by our virtual machine, and is ready at http://it2810-29.idi.ntnu.no:4000/
-
-## Students
-
-| Name                       | Age | Study program          | Email                 |
-| -------------------------- | --- | ---------------------- | --------------------- |
-| Bjørn Eirik Melaaen        | 22  | M.Sc. Computer Science | bjorneme@stud.ntnu.no |
-| Daniel N. Hansen           | 21  | M.Sc. Computer Science | danielnh@stud.ntnu.no |
-| Jens Martin Norheim Berget | 21  | M.Sc. Computer Science | jmberget@stud.ntnu.no |
 
 ### Setup & Startup
 
@@ -47,8 +32,3 @@ All following commands should be run from the outer folder (not inside frontend 
 
 Note: If you want to test the project on mobile while running it locally, you need to navigate into interfaces.ts and modify the SERVER_URL to "http://" followed by the IP-address displayed after the "Network:"-text in the terminal and then append ":4000" at the end. Example: If the terminal contains: "Network: http://192.168.0.105:5173/project2", the SERVER_URL should be "http://192.168.0.105:4000".
 
-
-
-### Detailed documentation:
-
-[Here](https://gitlab.stud.idi.ntnu.no/it2810-h23/Team-29/prosjekt-2/-/wikis/Documentation-Overview)
