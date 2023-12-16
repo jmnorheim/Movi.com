@@ -33,3 +33,17 @@
   height: fit-content;
   margin-top: 10px;
 }
+
+.divider {
+  height: 2px;
+  min-height: 2px;
+  width: 120%;
+  min-width: 100%;
+  background-color: black;
+  margin: 10px -20px;
+  margin-bottom: 0px;
+}
+
+.slider-title {
+  margin-bottom: 10px;
+}

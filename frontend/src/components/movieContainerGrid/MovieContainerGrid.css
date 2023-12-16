@@ -36,26 +36,6 @@ html {
   height: 100%;
 }
 
-.MovieContainerGrid .heart-container {
-  height: 24px !important;
-  position: absolute !important;
-  width: 24px !important;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.MovieContainerGrid .vuesax-linear-heart {
-  left: 24px !important;
-  position: absolute !important;
-  top: 16px !important;
-  z-index: 10000;
-}
-
-.vuesax-linear-heart.filled {
-  fill: red;
-}
-
 .MovieContainerGrid .button {
   all: unset;
   align-items: center;
@@ -70,7 +50,6 @@ html {
   bottom: 0;
   margin-bottom: 10px;
   position: absolute;
-  z-index: 10000;
 }
 
 .MovieContainerGrid .text-wrapper-2 {

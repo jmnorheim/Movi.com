@@ -331,8 +331,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
       {contentVisible && (
         <>
           <div className="title-text">Filter movies</div>
+          <div className="divider"></div>
           <div>
-            <p>Release year</p>
+            <p className="slider-title">Release year</p>
             <Slider
               value={[
                 filterStates?.yearRange[0] ??
@@ -353,7 +354,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
             />
           </div>
           <div>
-            <p>Runtime (minutes)</p>
+            <p className="slider-title">Runtime (minutes)</p>
             <Slider
               value={[
                 filterStates?.runtimeRange[0] ??
@@ -375,7 +376,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
             />
           </div>
           <div>
-            <p>Average rating</p>
+            <p className="slider-title">Average rating (imdb)</p>
             <Slider
               value={[
                 filterStates?.ratingRange[0] ??
@@ -396,7 +397,7 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
             />
           </div>
           <div>
-            <p>Total Votes</p>
+            <p className="slider-title">Total Votes</p>
             <Slider
               value={[
                 filterStates?.totalVotesRange[0] ??
@@ -417,6 +418,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
               max={10001}
             />
           </div>
+          <h3 style={{ marginTop: "10px", marginBottom: "10px" }}>
+            Filter by age
+          </h3>
           <FormGroup>
             <FormControlLabel
               control={
@@ -432,7 +436,9 @@ const FilterSideBar: FC<FilterSideBarProps> = ({ open, genres }) => {
               label="Age-limit 18+"
             />
           </FormGroup>
-          <h3>Filter by genres</h3>
+          <h3 style={{ marginTop: "10px", marginBottom: "10px" }}>
+            Filter by genres
+          </h3>
           <FormGroup>
             {genres.map((genre) => (
               <FormControlLabel
