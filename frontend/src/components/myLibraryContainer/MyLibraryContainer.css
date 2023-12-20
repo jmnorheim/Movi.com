@@ -96,13 +96,13 @@
 .populated-mylibrary-container .div {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  grid-gap: 20px;
+  grid-gap: 10px;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 18px;
   position: absolute;
   top: 35px;
-  left: 49%;
+  left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 60px);
 }
@@ -113,7 +113,6 @@
   position: relative;
   width: 160px;
   border-radius: 8px;
-  border: 1px solid black;
 }
 
 .populated-mylibrary-container .group {

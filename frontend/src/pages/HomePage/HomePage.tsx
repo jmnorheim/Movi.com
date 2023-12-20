@@ -251,11 +251,13 @@ const HomePage: React.FC = () => {
             {movies?.length ? (
               <MovieContainerGrid movies={movies} />
             ) : (
-              <h2 className="noMatchesText">No matches found</h2>
+              <h2 style={{ marginTop: "0px" }} className="noMatchesText">
+                No matches found
+              </h2>
             )}
           </div>
           <div className="paginationContainer">
-            {data && (
+            {data && movies && movies.length > 0 && (
               <TablePagination
                 sx={{ size: "large" }}
                 className="pagination custom-pagination"

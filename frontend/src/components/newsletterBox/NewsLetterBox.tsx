@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import "./NewsLetterBox.css";
 import {
@@ -42,7 +43,7 @@ const NewsLetterBox = () => {
         <div className="join-us-container">
           <div className="text-wrapper">Join Us Today!</div>
           <div className="text-wrapper-2">
-            Subscribe to receive Møvi`s top movie picks for this christmas!
+            Subscribe to receive Møvi's top movie picks for this christmas!
           </div>
           <button
             className="join-now-button"

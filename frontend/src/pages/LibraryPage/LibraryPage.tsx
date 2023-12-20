@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./LibraryPage.css";
 import PageFooter from "../../components/pageFooter/PageFooter";
@@ -154,9 +155,19 @@ const LibraryPage: React.FC = () => {
               alt="Empty library image"
               src={empty_library}
             />
-            <p className="no-movies-found">No Movies Found In This Library</p>
+            {libraryID !== "favorites" ? (
+              <p className="no-movies-found">No Movies Found In This Library</p>
+            ) : (
+              <p className="no-movies-found">
+                You haven't added any favorites yet
+              </p>
+            )}
             <button className="div-wrapper" onClick={() => navigate("../../")}>
-              <div className="text-wrapper">Add Movies</div>
+              {libraryID !== "favorites" ? (
+                <div className="text-wrapper">Add Movies</div>
+              ) : (
+                <div className="text-wrapper">Add favorites</div>
+              )}
             </button>
           </div>
         ) : (
