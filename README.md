@@ -1,5 +1,20 @@
+# Movi.com
 
-### Setup & Startup
+This project was the product of our three contributors for and under the NTNU subject IT2810 (Web Development).
+
+Movi.com is a interactive and responsive website made for almost all devices. The website focuses on being a movie database site with the ability of making an account and making your own Libraries and liking movies. The website has a lot of different features, which can be read more about in our [WIKI](https://github.com/Jensern1/Movi.com/wiki) page. Setup and startup guid is under the website pictures.
+
+## Pictures from the website:
+
+![Home Page](backend/docs/HomePage.png)
+![Movies](backend/docs/Movies.png)
+![Filters](backend/docs/Filters.png)
+![Movie Page](backend/docs/Movie.png)
+![Library Page](backend/docs/Library.png)
+![Classics Page](backend/docs/Classics.png)
+![Profile](backend/docs/Profile.png)
+
+## Setup & Startup
 
 1. **Prerequisites**:
 
@@ -14,7 +29,7 @@
 
 All following commands should be run from the outer folder (not inside frontend or backend)
 
-3. **Starting the Project**: 
+3. **Starting the Project**:
 
    - Run server: `npm run server`
    - Run client: `npm run dev`
