@@ -1,8 +1,9 @@
 # Movi.com
 
-This project was the product of our three contributors for and under the NTNU subject IT2810 (Web Development).
+This project was our product for the NTNU subject IT2810 (Web Development).
 
-Movi.com is a interactive and responsive website made for almost all devices. The website focuses on being a movie database site with the ability of making an account and making your own Libraries and liking movies. The website has a lot of different features, which can be read more about in our [WIKI](https://github.com/Jensern1/Movi.com/wiki) page. Setup and startup guid is under the website pictures.
+Movi.com is a movie-database website where users can browse more than 260 000 movies. Users can create an account, make libraries and add movies to them, and browse movies by searching, sorting or filtering. 
+The complete feature list can be found on our detailed [wiki page](https://github.com/Jensern1/Movi.com/wiki). A guide on how to run the project can be found underneath the pictures of the website. 
 
 ## Pictures from the website:
 
