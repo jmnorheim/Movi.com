@@ -2,7 +2,7 @@
 
 This project was our product for the NTNU subject IT2810 (Web Development).
 
-Movi.com is a movie-database website where users can browse more than 260 000 movies. Users can create an account, make libraries and add movies to them, and browse movies by searching, sorting or filtering. 
+Movi.com is a movie-database website where users can browse more than 260 000 movies. Users can create an account, browse movies by searching, sorting or filtering, make custom libraries and add movies to them. 
 The complete feature list can be found on our detailed [wiki page](https://github.com/Jensern1/Movi.com/wiki). A guide on how to run the project can be found underneath the pictures of the website. 
 
 ## Pictures from the website:
