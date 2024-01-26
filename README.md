@@ -39,7 +39,7 @@ The complete feature list can be found on our detailed [wiki page](https://githu
    - Navigate to the project directory:
 
    ```bash
-     cd Move.com/
+     cd Movi.com/
    ```
 
    - Install dependencies:
