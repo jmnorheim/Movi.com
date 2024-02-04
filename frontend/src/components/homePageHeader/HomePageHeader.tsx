@@ -55,7 +55,7 @@ const HomePageHeader: FC<HomePageHeaderProps> = ({ genres }) => {
     headerImage10,
   ];
 
-  const image = useRandomHomeImage(images, 5000); // 5 minutes 300000
+  const image = useRandomHomeImage(images, 5000); // Switch background image every 5 seconds
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
