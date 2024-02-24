@@ -33,4 +33,6 @@ VOLUME /app/prisma
 EXPOSE 4000 
 EXPOSE 5000
 
+RUN dos2unix startup.sh
+
 CMD ["/bin/bash", "/app/startup.sh"]
