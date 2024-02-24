@@ -26,6 +26,10 @@ RUN npm ci && \
 # Add app
 COPY --chown=node:node . ./
 
+# Create a directory for the SQLite database
+RUN mkdir -p /app/prisma
+VOLUME /app/prisma
+
 EXPOSE 4000 
 EXPOSE 5000
 
