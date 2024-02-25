@@ -27,6 +27,7 @@ The complete feature list can be found on our detailed [wiki page](https://githu
 
    - Install [Node.js](https://nodejs.org/en) v20.5+ and npm v9.8+ (npm comes with Node.js installation ).
    - Ensure Vite 4.4+ is set up (Should come with Node.js also).
+   - Or use [Docker](https://www.docker.com/products/docker-desktop/) v24+ and follow instructions below.
 
 2. **Installation**:
 
@@ -48,6 +49,12 @@ The complete feature list can be found on our detailed [wiki page](https://githu
    npm run setup
    ```
 
+   - Install dependencies (Docker version):
+
+   ```bash
+   docker-compose build
+   ```
+
 All following commands should be run from the outer folder (not inside frontend or backend)
 
 3. **Starting the Project**:
@@ -62,6 +69,12 @@ All following commands should be run from the outer folder (not inside frontend 
 
    ```bash
    npm run dev
+   ```
+
+   - Run server and client with Docker:
+
+   ```bash
+   docker-compose up
    ```
 
 4. **Testing**:
