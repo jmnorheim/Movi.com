@@ -9,7 +9,9 @@ services:
       - "4000:4000"
     volumes:
       - ./backend/prisma:/app/prisma
-
+    networks:
+      backend_bridge:
+        ipv4_address: "10.0.0.4"
     restart: always
 
   frontend:
@@ -18,5 +20,28 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-
+    networks:
+      backend_bridge:
+        ipv4_address: "10.0.0.5"
     restart: always
+
+  # Configuration for the NGINX reverse proxy. This module routes incoming traffic to either the frontend or backend.
+  gateway:
+    container_name: nginx
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      backend_bridge:
+        ipv4_address: "10.0.0.6"
+    restart: always
+
+# The network configuration isolates the modules within a single network and an IP based on the GROUP_ID.
+networks:
+  backend_bridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.0.0.0/18"

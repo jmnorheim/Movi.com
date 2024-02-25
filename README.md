@@ -2,8 +2,8 @@
 
 This project was our product for the NTNU subject IT2810 (Web Development).
 
-Movi.com is a movie-database website where users can browse more than 260 000 movies. Users can create an account, browse movies by searching, sorting or filtering, make custom libraries and add movies to them. 
-The complete feature list can be found on our detailed [wiki page](https://github.com/Jensern1/Movi.com/wiki). A guide on how to run the project can be found underneath the pictures of the website. 
+Movi.com is a movie-database website where users can browse more than 260 000 movies. Users can create an account, browse movies by searching, sorting or filtering, make custom libraries and add movies to them.
+The complete feature list can be found on our detailed [wiki page](https://github.com/Jensern1/Movi.com/wiki). A guide on how to run the project can be found underneath the pictures of the website.
 
 ## Pictures from the website:
 
@@ -100,7 +100,7 @@ All following commands should be run from the outer folder (not inside frontend 
    npm run lint
    ```
 
-Note: If you want to test the project on mobile while running it locally, you need to navigate into interfaces.ts and modify the SERVER_URL to "http://" followed by the IP-address displayed after the "Network:"-text in the terminal and then append ":4000" at the end. Example: If the terminal contains: "Network: http://192.168.0.105:5173/project2", the SERVER_URL should be "http://192.168.0.105:4000".
+Note: If you want to test the project on mobile while running it locally, you need to navigate into interfaces.ts and modify the SERVER_URL to "http://" followed by the IP-address displayed after the "Network:"-text in the terminal and then append ":4000" at the end. Example: If the terminal contains: "Network: http://192.168.0.105:5173/", the SERVER_URL should be "http://192.168.0.105:4000".
 
 ## Contributors
 

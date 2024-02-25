@@ -23,7 +23,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <AuthProvider>
-        <Router basename="/project2">
+        <Router basename="/">
           <NavBar textColor={navbarColor} />
 
           <Routes>
