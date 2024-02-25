@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
  */
 const PageFooter = () => {
   const navigate = useNavigate();
+  const year = new Date().getFullYear();
 
   const handleLogoClick = () => {
     window.scrollTo({
@@ -75,7 +76,7 @@ const PageFooter = () => {
       <div className="credits">
         <div className="divider" />
         <div className="legal-info-outer-container">
-          <p className="text">2023 Møvi Inc. All rights reserved.</p>
+          <p className="text">{year} Møvi Inc. All rights reserved.</p>
           <div className="legal-stuff">
             <a
               href="https://en.wikipedia.org/wiki/Privacy_policy"
