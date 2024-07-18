@@ -97,7 +97,7 @@ All following commands should be run from the outer folder (not inside frontend 
    npx cypress open
    ```
 
-   , then chose E2E testing, then chose Electron. You need to be on the NTNU network or VPN to conduct the cypress tests.
+   ,then choose E2E testing, then choose Electron. You need to be on the NTNU network or connected to it via a VPN (Cisco AnyConnect) to conduct the Cypress tests.
 
 5. **Code formatting**:
 
