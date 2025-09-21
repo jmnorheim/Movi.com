@@ -121,7 +121,7 @@ Note: If you want to test the project on mobile while running it locally, you ne
   <tr>
     <td align="center">
         <a href="https://github.com/danielnhansen">
-            <img src="https://github.com/Spiderpig02.png?size=100" width="100px;" alt="Daniel Neukirch Hansen"/><br />
+            <img src="https://github.com/danielnhansen.png?size=100" width="100px;" alt="Daniel Neukirch Hansen"/><br />
             <sub><b>Daniel Neukirch Hansen</b></sub>
         </a>
     </td>
